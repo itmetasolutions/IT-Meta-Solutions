@@ -234,7 +234,7 @@ function TrustItem({ title, desc }) {
 }
 
 async function submitContact(payload) {
-  const response = await fetch("/api/contact", {
+  const response = await fetch("https://it-meta-solutions.onrender.com/api/contact", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
