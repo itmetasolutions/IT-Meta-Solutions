@@ -532,7 +532,7 @@ export default function PortfolioMainPage() {
         createdAt: new Date().toISOString(),
         source: "home-page",
       };
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://it-meta-solutions.onrender.com/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
