@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body { width: 100%; overflow-x: hidden; }
+  *, *::before, *::after { box-sizing: border-box; }
+  img, video, svg, canvas { max-width: 100%; height: auto; }
+}
+
+/* Global background */
+html, body {
+  margin: 0;
+  background: #000000;
+  background-attachment: fixed;
+  min-height: 100vh;
+  min-width: 320px;
+  width: 100%;
+  overflow-x: hidden;
+  margin-top: 35px;
+}
+
+/* Box sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Media overflow guard */
+img, video, svg, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Custom cursor effect */
+* {
+  cursor: none;
+}
+
+.cursor-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 2px solid #5025d1;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+  box-shadow: 0 0 15px rgba(80, 37, 209, 0.5);
+}
+
+.cursor-effect:hover {
+  transform: scale(1.5);
+}
+
+

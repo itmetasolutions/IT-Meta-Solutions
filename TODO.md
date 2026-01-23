@@ -1,0 +1,6 @@
+- [x] Implement backend for contact form with email configuration
+- [x] Test contact form submission (authentication failed - credentials may be incorrect)
+- [ ] Change gap-2 to gap-3 in pill container on About.jsx
+- [ ] Change gap-2 to gap-3 in pill container on Contact.jsx
+- [ ] Change gap-2 to gap-3 in pill container on Services.jsx
+- [ ] Change gap-2 to gap-3 in pill container on Work.jsx
