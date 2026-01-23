@@ -9,10 +9,22 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors({
-  origin: '*', // later we can lock to Netlify domain
-}));
+app.use(cors());
 app.use(express.json());
+
+/* =========================
+   ADD THESE ROUTES HERE
+   ========================= */
+app.get("/", (req, res) => {
+  res.send("IT Meta Solutions API is running ✅");
+});
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+/* =========================
+   END HERE
+   ========================= */
 
 // Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -25,7 +37,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Contact endpoint
+// Contact form endpoint
 app.post('/api/contact', async (req, res) => {
   const { name, email, phone, services, message } = req.body;
 
@@ -47,8 +59,8 @@ app.post('/api/contact', async (req, res) => {
   try {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ success: true });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false });
   }
 });
