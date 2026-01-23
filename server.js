@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
@@ -8,28 +9,29 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*', // later we can lock to Netlify domain
+}));
 app.use(express.json());
 
-// Nodemailer transporter configuration
+// Nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: 'smtp.hostinger.com',
   port: 465,
-  secure: true, // SSL
+  secure: true,
   auth: {
-  user: process.env.EMAIL_USER,
-  pass: process.env.EMAIL_PASS
-}
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
-// Contact form endpoint
+// Contact endpoint
 app.post('/api/contact', async (req, res) => {
-  console.log('Received contact form submission:', req.body);
   const { name, email, phone, services, message } = req.body;
 
   const mailOptions = {
-    from: 'site@itmetasolutions.com',
-    to: 'enquiry@itmetasolutions.com',
+    from: process.env.EMAIL_USER,
+    to: process.env.TO_EMAIL,
     subject: 'New Contact Form Submission',
     html: `
       <h2>New Contact Form Submission</h2>
@@ -39,17 +41,15 @@ app.post('/api/contact', async (req, res) => {
       <p><strong>Services:</strong> ${Array.isArray(services) ? services.join(', ') : services || 'N/A'}</p>
       <p><strong>Message:</strong></p>
       <p>${message}</p>
-    `
+    `,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully');
-    res.status(200).json({ message: 'Message sent successfully' });
-  } catch (error) {
-    console.error('Error sending email:', error);
-    // For testing, return success even if email fails
-    res.status(200).json({ message: 'Message sent successfully' });
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
   }
 });
 
