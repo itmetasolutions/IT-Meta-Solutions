@@ -560,12 +560,12 @@ export default function UnitedMuslimTravelsCaseStudy() {
   const heroRef = useRef(null);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16">
+    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}
-      <GradientBlob className="left-[-120px] top-[-120px] h-[520px] w-[520px]" />
-      <GradientBlob className="right-[-160px] top-[220px] h-[520px] w-[520px] bg-[radial-gradient(closest-side,rgba(16,185,129,0.55),rgba(16,185,129,0))]" />
+      <GradientBlob className="inset-0 bg-[radial-gradient(closest-side,rgba(99,102,241,0.6),rgba(99,102,241,0))] bg-[length:40vw_40vw] sm:bg-[length:520px_520px] bg-left-top" />
+      <GradientBlob className="inset-0 bg-[radial-gradient(closest-side,rgba(16,185,129,0.55),rgba(16,185,129,0))] bg-[length:40vw_40vw] sm:bg-[length:520px_520px] bg-right-top" />
 
       {/* Hero */}
       <section ref={heroRef} className="relative overflow-hidden">

@@ -16,6 +16,7 @@ import {
   Megaphone,
   MessageSquareText,
   MousePointerClick,
+  ScrollText,
   ShieldCheck,
   ShoppingBag,
   ShoppingCart,
@@ -575,7 +576,7 @@ export default function ESahulatMartCaseStudy() {
   const heroRef = useRef(null);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16">
+    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}

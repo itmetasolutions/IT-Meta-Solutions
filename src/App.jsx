@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import PortfolioMainPage from "./pages/PortfolioMainPage";
 import Services from "./pages/Services";
@@ -34,6 +34,8 @@ function ScrollToTop() {
 }
 
 function App() {
+  const [isMobile, setIsMobile] = useState(false);
+
   const nav = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -45,11 +47,35 @@ function App() {
 
   const year = new Date().getFullYear();
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // TEMP DEBUG: Log elements wider than viewport
+  useEffect(() => {
+    const checkOverflow = () => {
+      const allElements = document.querySelectorAll('*');
+      allElements.forEach(el => {
+        if (el.offsetWidth > window.innerWidth) {
+          console.log('Element wider than viewport:', el, 'Width:', el.offsetWidth, 'Viewport:', window.innerWidth);
+        }
+      });
+    };
+    checkOverflow();
+    window.addEventListener('resize', checkOverflow);
+    return () => window.removeEventListener('resize', checkOverflow);
+  }, []);
+
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div className="min-h-screen w-full overflow-x-hidden relative">
       <BrowserRouter>
         <ScrollToTop />
-        <CursorEffect />
+        {!isMobile && <CursorEffect />}
         <Header nav={nav} AnchorLink={AnchorLink} />
         <Routes>
           <Route path="/" element={<PortfolioMainPage />} />

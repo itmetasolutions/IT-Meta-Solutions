@@ -628,7 +628,7 @@ export default function HikmabioticsCaseStudy() {
   const heroRef = useRef(null);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16">
+    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}

@@ -144,7 +144,7 @@ function SectionTitle({ kicker, title, desc, align = "left" }) {
 function Stat({ icon: Icon, label, value }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-5 h-full flex flex-col justify-center">
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
           <Icon className="h-5 w-5" />
         </div>
@@ -849,12 +849,12 @@ export default function ServicesPage() {
   const heroRef = useRef(null);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16">
+    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}
-      <GradientBlob className="left-[-140px] top-[-140px] h-[560px] w-[560px]" />
-      <GradientBlob className="right-[-180px] top-[240px] h-[560px] w-[560px] bg-[radial-gradient(closest-side,rgba(16,185,129,0.5),rgba(16,185,129,0))]" />
+      <GradientBlob className="bg-[radial-gradient(closest-side,rgba(99,102,241,0.55),rgba(99,102,241,0))] bg-[length:560px_560px] bg-left-top" />
+      <GradientBlob className="bg-[radial-gradient(closest-side,rgba(16,185,129,0.5),rgba(16,185,129,0))] bg-[length:560px_560px] bg-right-top" />
 
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">

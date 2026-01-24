@@ -52,8 +52,7 @@ function GradientBlob({ className }) {
     <div
       aria-hidden
       className={cx(
-        "pointer-events-none absolute -z-10 blur-3xl opacity-40",
-        "bg-[radial-gradient(closest-side,rgba(99,102,241,0.55),rgba(99,102,241,0))]",
+        "pointer-events-none absolute inset-0 -z-10 blur-3xl opacity-40",
         className
       )}
     />
@@ -472,12 +471,12 @@ export default function WorksPage() {
   }, [query, filter]);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16">
+    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}
-      <GradientBlob className="left-[-140px] top-[-140px] h-[560px] w-[560px]" />
-      <GradientBlob className="right-[-180px] top-[240px] h-[560px] w-[560px] bg-[radial-gradient(closest-side,rgba(16,185,129,0.5),rgba(16,185,129,0))]" />
+      <GradientBlob className="bg-[radial-gradient(closest-side,rgba(99,102,241,0.55),rgba(99,102,241,0))] bg-[length:50vw_50vw] sm:bg-[length:560px_560px] bg-left-top" />
+      <GradientBlob className="bg-[radial-gradient(closest-side,rgba(16,185,129,0.5),rgba(16,185,129,0))] bg-[length:50vw_50vw] sm:bg-[length:560px_560px] bg-right-top" />
 
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">

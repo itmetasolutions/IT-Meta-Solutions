@@ -232,7 +232,7 @@ export default function AboutUsPage() {
   const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.88]);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16">
+    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}

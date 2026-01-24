@@ -1,5 +1,6 @@
 import { ArrowRight, BadgeCheck, Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Phone, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
+import logo from "../assets/img/IT Meta Solutions Logo.webp";
 
 export default function Footer({ year, nav, AnchorLink, Container }) {
   return (
@@ -7,14 +8,13 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
         <Container className="py-10">
           <div className="grid gap-8 md:grid-cols-3">
             <div>
-              <div className="flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/5">
-                  <Globe className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-white">IT Meta Solutions</div>
-                  <div className="text-xs text-zinc-300">Web • Social • Marketing</div>
-                </div>
+              <div className="flex flex-col">
+                <img
+                              src={logo}
+                              alt="IT Meta Solutions Logo"
+                              className="h-[50px] w-full max-w-full sm:max-w-[466px] object-contain object-left"
+                            />
+                <div className="text-xs text-zinc-300">Web • Social • Marketing</div>
               </div>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-zinc-300">
                 Modern websites, social media management, and marketing systems designed to look premium and perform.
