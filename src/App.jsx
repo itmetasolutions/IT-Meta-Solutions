@@ -19,10 +19,10 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CursorEffect from "./components/CursorEffect";
 import Container from "./components/Container";
-import codeIcon from "./assets/img/code.svg";
-import rocketIcon from "./assets/img/rocket.svg";
-import sparkleIcon from "./assets/img/sparkle.svg";
-import globeIcon from "./assets/img/globe.svg";
+import codeIcon from "./assets/img/code.png";
+import rocketIcon from "./assets/img/rocket.png";
+import sparkleIcon from "./assets/img/sparkle.png";
+import globeIcon from "./assets/img/globe.png";
 import orbPng from "./assets/img/orb.png";
 
 
