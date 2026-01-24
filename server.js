@@ -29,12 +29,15 @@ app.get("/health", (req, res) => {
 // Nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: 'smtp.hostinger.com',
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  tls: {
+    ciphers: 'SSLv3'
+  }
 });
 
 // Contact form endpoint
@@ -42,8 +45,9 @@ app.post('/api/contact', async (req, res) => {
   const { name, email, phone, services, message } = req.body;
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: `"${name}" <${process.env.EMAIL_USER}>`,
     to: process.env.TO_EMAIL,
+    replyTo: email,
     subject: 'New Contact Form Submission',
     html: `
       <h2>New Contact Form Submission</h2>
@@ -60,7 +64,7 @@ app.post('/api/contact', async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ success: true });
   } catch (error) {
-    console.error(error);
+    console.error('Email send error:', error);
     res.status(500).json({ error: "Failed to send message" });
   }
 });
