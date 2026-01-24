@@ -890,7 +890,7 @@ export default function Home() {
 
       {/* CONTACT */}
       <section id="contact" className="scroll-mt-24">
-        <Container className="pb-20">
+        <Container className="pb-20 px-6 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <div>
@@ -908,18 +908,18 @@ export default function Home() {
                   ].map((c) => (
                     <div
                       key={c.label}
-                      className="flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-5"
+                      className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-3xl border border-white/10 bg-white/[0.04] p-5"
                     >
                       <div className="flex items-center gap-3">
                         <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/5">
                           <c.icon className="h-5 w-5" />
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <div className="text-xs text-zinc-300">{c.label}</div>
-                          <div className="text-sm font-semibold text-white">{c.value}</div>
+                          <div className="text-sm font-semibold text-white break-all">{c.value}</div>
                         </div>
                       </div>
-                      <span className="text-xs text-zinc-400">Quick</span>
+                      <span className="text-xs text-zinc-400 self-start sm:self-center">Quick</span>
                     </div>
                   ))}
                 </div>
@@ -943,7 +943,7 @@ export default function Home() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-4 sm:p-6">
                 <div className="text-sm font-semibold text-white">Request a proposal</div>
                 <p className="mt-2 text-sm text-zinc-300">Front-end UI. Connect to your backend/email service.</p>
 
