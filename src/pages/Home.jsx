@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
-import heroBg from "../assets/img/Hero Section Banner Background ITMS.webp";
+import heroBg from "../assets/img/Hero Section Banner Graphics Background ITMS.webp";
 import aboutImg from "../assets/img/Home About Image ITMS.webp";
 
 /* ------------------ helpers ------------------ */
