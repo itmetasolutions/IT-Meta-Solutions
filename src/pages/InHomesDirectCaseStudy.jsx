@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -208,6 +208,10 @@ function Divider() {
 }
 
 export default function InHomesDirectCaseStudy() {
+  useEffect(() => {
+    document.title = "ITMS | InHomes Direct";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 800], [0, -60]);
