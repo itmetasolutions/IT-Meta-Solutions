@@ -4,7 +4,7 @@ import logo from "../assets/img/IT Meta Solutions Logo.webp";
 
 export default function Footer({ year, nav, AnchorLink, Container }) {
   return (
-      <footer className="border-t border-white/10 bg-gradient-to-r from-black to-[#5025d1]/20">
+      <footer className="border-t border-[#5025d1]/20" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url("/assets/img/ITMS Site BG Global.webp")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
         <Container className="py-10">
           <div className="grid gap-8 md:grid-cols-3">
             <div>

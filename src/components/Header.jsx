@@ -14,7 +14,7 @@ export default function Header({ nav, AnchorLink }) {
   }, [isMenuOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 border-b border-[#5025d1]/20 bg-gradient-to-r from-black to-[#5025d1]/20 backdrop-blur-md" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
+    <header className="fixed top-0 left-0 right-0 z-40 border-b border-[#5025d1]/20" style={{ willChange: 'transform', transform: 'translateZ(0)', backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("/assets/img/ITMS Site BG Global.webp")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
       <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-4">
         <div className="grid grid-cols-[auto,auto] items-center justify-between">
           <div className="flex flex-col">

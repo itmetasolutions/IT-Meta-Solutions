@@ -566,14 +566,7 @@ export default function Home() {
       {/* HERO */}
       <section
         className="overflow-hidden relative min-h-[550px] flex items-center pt-16"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
       >
-        <div className="absolute inset-0 bg-black/70"></div>
         <Container className="py-[30px] relative z-10">
           <motion.div style={{ y: heroY }}>
             <div className="grid gap-10 lg:grid-cols-1 lg:items-center text-center">
