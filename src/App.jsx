@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import PortfolioMainPage from "./pages/PortfolioMainPage";
+import Home from "./pages/Home";
 import Services from "./pages/Services";
 import Work from "./pages/Work";
 import About from "./pages/About";
@@ -78,7 +78,7 @@ function App() {
         {!isMobile && <CursorEffect />}
         <Header nav={nav} AnchorLink={AnchorLink} />
         <Routes>
-          <Route path="/" element={<PortfolioMainPage />} />
+          <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/work" element={<Work />} />
           <Route path="/about" element={<About />} />

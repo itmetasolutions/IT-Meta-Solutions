@@ -551,6 +551,10 @@ function TabPanel({ active }) {
 }
 
 export default function UnitedMuslimTravelsCaseStudy() {
+  useEffect(() => {
+    document.title = "ITMS | United Muslim Travels";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("website");
 

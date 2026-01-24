@@ -619,6 +619,10 @@ function TabPanel({ active }) {
 }
 
 export default function HikmabioticsCaseStudy() {
+  useEffect(() => {
+    document.title = "ITMS | Hikmabiotics";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("website");
 

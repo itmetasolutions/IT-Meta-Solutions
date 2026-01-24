@@ -1,12 +1,16 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
   CheckCircle2,
+  Clock,
   Copy,
+  FileText,
+  Globe,
   Mail,
   MapPin,
+  MessageCircle,
   Phone,
   Send,
   ShieldCheck,
@@ -79,10 +83,10 @@ function Reveal({ children, delay = 0, className }) {
   );
 }
 
-function Pill({ children }) {
+function Pill({ icon: Icon, children }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
-      <Sparkles className="h-3.5 w-3.5 opacity-80" />
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200 mb-3">
+      {Icon ? <Icon className="h-3.5 w-3.5 opacity-80" /> : null}
       {children}
     </span>
   );
@@ -243,6 +247,10 @@ async function submitContact(payload) {
 }
 
 export default function ContactPage() {
+  useEffect(() => {
+    document.title = "ITMS | Contact";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const heroRef = useRef(null);
 
@@ -316,10 +324,10 @@ export default function ContactPage() {
           <motion.div style={{ y: heroY, opacity: heroOpacity }}>
             <Reveal>
               <div className="flex flex-wrap items-center gap-2">
-                <Pill>Fast response</Pill>
-                <Pill>WhatsApp-friendly</Pill>
-                <Pill>Clear proposals</Pill>
-                <Pill>Global markets</Pill>
+                <Pill icon={Clock}>Fast response</Pill>
+                <Pill icon={MessageCircle}>WhatsApp-friendly</Pill>
+                <Pill icon={FileText}>Clear proposals</Pill>
+                <Pill icon={Globe}>Global markets</Pill>
               </div>
             </Reveal>
 

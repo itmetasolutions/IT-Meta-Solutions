@@ -575,6 +575,10 @@ function TabPanel({ active }) {
 }
 
 export default function HallaGullaCaseStudy() {
+  useEffect(() => {
+    document.title = "ITMS | Halla Gulla";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("website");
 

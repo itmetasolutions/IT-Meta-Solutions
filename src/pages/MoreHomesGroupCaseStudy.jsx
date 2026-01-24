@@ -225,6 +225,10 @@ function StickySubnav() {
 }
 
 export default function MoreHomesGroupCaseStudy() {
+  useEffect(() => {
+    document.title = "ITMS | More Homes Group";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 800], [0, -60]);

@@ -12,12 +12,10 @@
 html, body {
   margin: 0;
   background: #000000;
-  background-attachment: fixed;
   min-height: 100vh;
-  min-width: 320px;
   width: 100%;
   overflow-x: hidden;
-  margin-top: 35px;
+  margin-top: 50px;
 }
 
 /* Box sizing */

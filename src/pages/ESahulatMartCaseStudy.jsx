@@ -567,6 +567,10 @@ function TabPanel({ active }) {
 }
 
 export default function ESahulatMartCaseStudy() {
+  useEffect(() => {
+    document.title = "ITMS | E Sahulat Mart";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("website");
 

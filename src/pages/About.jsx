@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -224,6 +224,10 @@ function TeamCard({ name, role, skills, image }) {
 }
 
 export default function AboutUsPage() {
+  useEffect(() => {
+    document.title = "ITMS | About";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const heroRef = useRef(null);
 

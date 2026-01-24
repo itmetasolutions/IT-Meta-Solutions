@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -840,6 +840,10 @@ function TabPanel({ active }) {
 }
 
 export default function ServicesPage() {
+  useEffect(() => {
+    document.title = "ITMS | Services";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("web");
 

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -422,6 +422,10 @@ function FilterPill({ active, onClick, icon: Icon, label }) {
 }
 
 export default function WorksPage() {
+  useEffect(() => {
+    document.title = "ITMS | Work";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const heroRef = useRef(null);
 

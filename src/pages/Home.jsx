@@ -482,7 +482,11 @@ const testimonials = [
 ];
 
 /* ------------------ page ------------------ */
-export default function PortfolioMainPage() {
+export default function Home() {
+  useEffect(() => {
+    document.title = "ITMS | Home";
+  }, []);
+
   const reduced = usePrefersReducedMotion();
   const { scrollY } = useScroll();
 
