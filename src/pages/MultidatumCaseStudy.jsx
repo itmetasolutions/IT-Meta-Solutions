@@ -226,6 +226,10 @@ function StickySubnav() {
 }
 
 export default function MultidatumCaseStudy() {
+  useEffect(() => {
+    document.title = "ITMS | Multidatum";
+  }, []);
+
   const year = useMemo(() => new Date().getFullYear(), []);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 800], [0, -60]);
