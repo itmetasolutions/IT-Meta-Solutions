@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -209,12 +210,12 @@ function ProjectCard({ p }) {
             ))}
           </div>
 
-          <a
-            href={p.href}
+          <Link
+            to={p.href}
             className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-950 hover:opacity-90"
           >
             View full case study <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </div>
