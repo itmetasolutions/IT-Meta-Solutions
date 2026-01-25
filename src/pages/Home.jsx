@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion, useTransform, useScroll } from "framer-motion";
 import {
   ArrowRight,
@@ -114,14 +115,15 @@ function Divider() {
   return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
-function SectionTitle({ kicker, title, desc, align = "left" }) {
+function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
+  const HeadingTag = level;
   return (
     <div className={cx("max-w-2xl", align === "center" && "mx-auto text-center")}>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
         <Zap className="h-3.5 w-3.5" />
         {kicker}
       </div>
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</h2>
+      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</HeadingTag>
       <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
     </div>
   );
@@ -556,8 +558,24 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen w-full text-zinc-100 overflow-x-hidden">
-      <ScrollProgress />
+    <>
+      <Helmet>
+        <title>IT Meta Solutions - High-Converting Websites & Growth Systems</title>
+        <meta name="description" content="We build high-converting websites, on-page SEO, social media, and marketing systems. Premium digital presence for businesses in Pakistan, Canada, UK, and USA." />
+        <meta name="keywords" content="web development, SEO, social media marketing, digital marketing, website design, e-commerce, Meta Ads, Google Ads" />
+        <link rel="canonical" href="https://itmetasolutions.com/" />
+        <meta property="og:title" content="IT Meta Solutions - High-Converting Websites & Growth Systems" />
+        <meta property="og:description" content="We build high-converting websites, on-page SEO, social media, and marketing systems. Premium digital presence for businesses in Pakistan, Canada, UK, and USA." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://itmetasolutions.com/" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="IT Meta Solutions - High-Converting Websites & Growth Systems" />
+        <meta name="twitter:description" content="We build high-converting websites, on-page SEO, social media, and marketing systems. Premium digital presence for businesses in Pakistan, Canada, UK, and USA." />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+      <div className="min-h-screen w-full text-zinc-100 overflow-x-hidden">
+        <ScrollProgress />
 
       {/* blobs */}
       <GradientBlob className="left-[-120px] top-[-120px] h-[520px] w-[520px]" />
@@ -1080,5 +1098,6 @@ export default function Home() {
         </Container>
       </section>
     </div>
+    </>
   );
 }

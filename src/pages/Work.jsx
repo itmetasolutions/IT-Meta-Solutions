@@ -23,6 +23,7 @@ import {
   Leaf,
   MapPin,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 /**
  * WORKS PAGE (Portfolio Listing)
@@ -95,14 +96,15 @@ function Pill({ icon: Icon, children }) {
   );
 }
 
-function SectionTitle({ kicker, title, desc, align = "left" }) {
+function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
+  const HeadingTag = level;
   return (
     <div className={cx("max-w-2xl", align === "center" && "mx-auto text-center")}>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
         <Sparkles className="h-3.5 w-3.5" />
         {kicker}
       </div>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</h1>
+      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</HeadingTag>
       <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
     </div>
   );
@@ -423,10 +425,6 @@ function FilterPill({ active, onClick, icon: Icon, label }) {
 }
 
 export default function WorksPage() {
-  useEffect(() => {
-    document.title = "ITMS | Work";
-  }, []);
-
   const year = useMemo(() => new Date().getFullYear(), []);
   const heroRef = useRef(null);
 
@@ -476,8 +474,25 @@ export default function WorksPage() {
   }, [query, filter]);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
-      <ScrollProgress />
+    <>
+      <Helmet>
+        <title>IT Meta Solutions - Our Work | Portfolio & Case Studies</title>
+        <meta name="description" content="Explore IT Meta Solutions' successful digital projects and case studies. View our portfolio of web development, digital marketing, branding, and SEO campaigns for clients across Pakistan, Canada, UK, and USA." />
+        <meta name="keywords" content="IT Meta Solutions portfolio, digital marketing case studies, web development projects, SEO success stories, brand building examples, social media campaigns, Meta ads case studies" />
+        <meta property="og:title" content="IT Meta Solutions - Our Work | Portfolio & Case Studies" />
+        <meta property="og:description" content="Explore IT Meta Solutions' successful digital projects and case studies. View our portfolio of web development, digital marketing, branding, and SEO campaigns for clients across Pakistan, Canada, UK, and USA." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://itmetasolutions.com/work" />
+        <meta property="og:url" content="https://itmetasolutions.com/work" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="IT Meta Solutions - Our Work | Portfolio & Case Studies" />
+        <meta name="twitter:description" content="Explore IT Meta Solutions' successful digital projects and case studies. View our portfolio of web development, digital marketing, branding, and SEO campaigns for clients across Pakistan, Canada, UK, and USA." />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+
+      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+        <ScrollProgress />
 
       {/* Background accents */}
       <GradientBlob className="bg-[radial-gradient(closest-side,rgba(99,102,241,0.55),rgba(99,102,241,0))] bg-[length:50vw_50vw] sm:bg-[length:560px_560px] bg-left-top" />
@@ -600,5 +615,6 @@ export default function WorksPage() {
         </Container>
       </section>
     </div>
+    </>
   );
 }

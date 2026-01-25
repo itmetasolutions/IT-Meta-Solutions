@@ -22,6 +22,7 @@ import {
   Briefcase,
   Star,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 /**
  * More Homes Group — Case Study Page
@@ -120,14 +121,15 @@ function Pill({ icon: Icon, children }) {
   );
 }
 
-function SectionTitle({ kicker, title, desc, align = "left" }) {
+function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
+  const HeadingTag = level;
   return (
     <div className={cx("max-w-2xl", align === "center" && "mx-auto text-center")}>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
         <Sparkles className="h-3.5 w-3.5" />
         {kicker}
       </div>
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</h2>
+      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</HeadingTag>
       <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
     </div>
   );
@@ -225,10 +227,6 @@ function StickySubnav() {
 }
 
 export default function MoreHomesGroupCaseStudy() {
-  useEffect(() => {
-    document.title = "ITMS | More Homes Group";
-  }, []);
-
   const year = useMemo(() => new Date().getFullYear(), []);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 800], [0, -60]);
@@ -237,8 +235,25 @@ export default function MoreHomesGroupCaseStudy() {
   const heroRef = useRef(null);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16">
-      <ScrollProgress />
+    <>
+      <Helmet>
+        <title>More Homes Group Case Study - Property Lettings Platform | IT Meta Solutions</title>
+        <meta name="description" content="Discover how IT Meta Solutions developed More Homes Group - a comprehensive property lettings platform with advanced search, property management, and customer portal features. View the full case study." />
+        <meta name="keywords" content="More Homes Group, property lettings website, real estate platform, property management system, advanced search, customer portal, IT Meta Solutions" />
+        <meta property="og:title" content="More Homes Group Case Study - Property Lettings Platform | IT Meta Solutions" />
+        <meta property="og:description" content="Discover how IT Meta Solutions developed More Homes Group - a comprehensive property lettings platform with advanced search, property management, and customer portal features. View the full case study." />
+        <meta property="og:type" content="article" />
+        <link rel="canonical" href="https://itmetasolutions.com/case-study/more-homes-group" />
+        <meta property="og:url" content="https://itmetasolutions.com/case-study/more-homes-group" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="More Homes Group Case Study - Property Lettings Platform | IT Meta Solutions" />
+        <meta name="twitter:description" content="Discover how IT Meta Solutions developed More Homes Group - a comprehensive property lettings platform with advanced search, property management, and customer portal features. View the full case study." />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+
+      <div className="min-h-screen text-zinc-100 mb-16">
+        <ScrollProgress />
 
       {/* Background accents */}
       <GradientBlob className="left-[-120px] top-[-120px] h-[520px] w-[520px]" />
@@ -695,5 +710,6 @@ export default function MoreHomesGroupCaseStudy() {
         </Container>
       </section>
     </div>
+    </>
   );
 }

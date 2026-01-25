@@ -1,0 +1,186 @@
+import React, { useMemo } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, Home, Search, Sparkles, AlertTriangle } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+
+const cx = (...c) => c.filter(Boolean).join(" ");
+
+function Container({ children, className }) {
+  return (
+    <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>
+      {children}
+    </div>
+  );
+}
+
+function GradientBlob({ className, color = "rgba(80,37,209,0.55)" }) {
+  return (
+    <div
+      aria-hidden
+      className={cx("pointer-events-none absolute -z-10 blur-3xl opacity-40", className)}
+      style={{ background: `radial-gradient(closest-side, ${color}, rgba(80,37,209,0))` }}
+    />
+  );
+}
+
+function Pill({ children }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-zinc-200">
+      <Sparkles className="h-4 w-4 opacity-70" />
+      {children}
+    </span>
+  );
+}
+
+function Divider() {
+  return <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
+}
+
+export default function NotFoundPage() {
+  const year = useMemo(() => new Date().getFullYear(), []);
+  const location = useLocation();
+
+  return (
+    <>
+      <Helmet>
+        <title>404 - Page Not Found | IT Meta Solutions</title>
+        <meta name="description" content="The page you're looking for doesn't exist. Return to IT Meta Solutions homepage or explore our services, portfolio, and contact information." />
+        <meta name="robots" content="noindex, nofollow" />
+        <meta property="og:title" content="404 - Page Not Found | IT Meta Solutions" />
+        <meta property="og:description" content="The page you're looking for doesn't exist. Return to IT Meta Solutions homepage or explore our services, portfolio, and contact information." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+
+      <div className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
+        {/* Background accents */}
+      <GradientBlob className="left-[-140px] top-[-160px] h-[560px] w-[560px]" />
+      <GradientBlob
+        className="right-[-180px] top-[220px] h-[560px] w-[560px]"
+        color="rgba(16,185,129,0.55)"
+      />
+
+      <Container className="py-20 sm:py-28">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        >
+          <div className="flex flex-wrap items-center gap-3">
+            <Pill>Page not found</Pill>
+            <span className="text-xs text-zinc-400">Error 404</span>
+          </div>
+
+          <div className="mt-8 grid gap-10 lg:grid-cols-[1.2fr,0.8fr] lg:items-start">
+            {/* Left */}
+            <div>
+              <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-6xl">
+                This page doesn’t exist.
+              </h1>
+
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-300 sm:text-base">
+                The link might be broken, or the page may have been moved. If you think this is an error,
+                go back to the homepage or contact us.
+              </p>
+
+              <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+                <div className="flex items-start gap-3">
+                  <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5">
+                    <Search className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-sm font-semibold text-white">Tried URL</div>
+                    <div className="mt-1 break-words text-sm text-zinc-300">
+                      {location?.pathname || "/"}
+                    </div>
+                    <div className="mt-3 text-xs text-zinc-400">
+                      If you pasted this manually, check spelling.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link
+                  to="/"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#5025d1] px-5 py-3 text-sm font-semibold text-white hover:opacity-90"
+                >
+                  Back to home <Home className="h-4 w-4" />
+                </Link>
+
+                <Link
+                  to="/work"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                >
+                  View work <ArrowRight className="h-4 w-4" />
+                </Link>
+
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                >
+                  Contact <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+
+              <Divider />
+
+              <div className="text-xs text-zinc-500">© {year} • IT Meta Solutions</div>
+            </div>
+
+            {/* Right */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+              className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6"
+            >
+              <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-[#5025d1]/20 blur-3xl" />
+              <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-emerald-400/20 blur-3xl" />
+
+              <div className="relative">
+                <div className="flex items-start gap-3">
+                  <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/5">
+                    <AlertTriangle className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-white">Quick links</div>
+                    <div className="mt-1 text-sm text-zinc-300">
+                      Try one of these pages:
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid gap-3">
+                  {[
+                    { to: "/services", label: "Services" },
+                    { to: "/process", label: "Process" },
+                    { to: "/about", label: "About us" },
+                    { to: "/work", label: "Work / Case studies" },
+                    { to: "/contact", label: "Contact" },
+                  ].map((l) => (
+                    <Link
+                      key={l.to}
+                      to={l.to}
+                      className="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-zinc-200 hover:bg-white/10"
+                    >
+                      <span>{l.label}</span>
+                      <ArrowRight className="h-4 w-4 opacity-80 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-xs text-zinc-400">
+                  Tip: If this happened after deployment, check your React Router setup (catch-all route + 404).
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </Container>
+    </div>
+    </>
+  );
+}

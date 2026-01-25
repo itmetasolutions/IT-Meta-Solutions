@@ -31,6 +31,7 @@ import {
   ClipboardCheck,
   Zap,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 /**
  * PROCESS PAGE
@@ -136,14 +137,15 @@ function Divider() {
   return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
-function SectionTitle({ kicker, title, desc, align = "left" }) {
+function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
+  const HeadingTag = level;
   return (
     <div className={cx("max-w-3xl", align === "center" && "mx-auto text-center")}>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
         <Sparkles className="h-3.5 w-3.5" />
         {kicker}
       </div>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</h1>
+      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</HeadingTag>
       <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
     </div>
   );
@@ -413,8 +415,25 @@ export default function ProcessPage() {
   const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.88]);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
-      <ScrollProgress />
+    <>
+      <Helmet>
+        <title>IT Meta Solutions - Our Process | How We Deliver Results</title>
+        <meta name="description" content="Discover IT Meta Solutions' proven process for web development, digital marketing, and branding projects. Clear steps, trust-first execution, and performance-driven results with weekly deliverables." />
+        <meta name="keywords" content="digital agency process, web development workflow, marketing campaign process, project timeline, agency methodology, IT Meta Solutions process" />
+        <meta property="og:title" content="IT Meta Solutions - Our Process | How We Deliver Results" />
+        <meta property="og:description" content="Discover IT Meta Solutions' proven process for web development, digital marketing, and branding projects. Clear steps, trust-first execution, and performance-driven results with weekly deliverables." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://itmetasolutions.com/process" />
+        <meta property="og:url" content="https://itmetasolutions.com/process" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="IT Meta Solutions - Our Process | How We Deliver Results" />
+        <meta name="twitter:description" content="Discover IT Meta Solutions' proven process for web development, digital marketing, and branding projects. Clear steps, trust-first execution, and performance-driven results with weekly deliverables." />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+
+      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+        <ScrollProgress />
 
       {/* Background accents */}
       <GradientBlob className="left-[-140px] top-[-140px] h-[560px] w-[560px]" />
@@ -838,5 +857,6 @@ export default function ProcessPage() {
         </Container>
       </section>
     </div>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -28,6 +28,7 @@ import {
   ScrollText,
   CalendarDays,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 /**
  * United Muslim Travels — Complete Brand Build (Tabbed)
@@ -130,14 +131,15 @@ function Pill({ icon: Icon, children }) {
   );
 }
 
-function SectionTitle({ kicker, title, desc, align = "left" }) {
+function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
+  const HeadingTag = level;
   return (
     <div className={cx("max-w-2xl", align === "center" && "mx-auto text-center")}>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
         <Sparkles className="h-3.5 w-3.5" />
         {kicker}
       </div>
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</h2>
+      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</HeadingTag>
       <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
     </div>
   );
@@ -551,10 +553,6 @@ function TabPanel({ active }) {
 }
 
 export default function UnitedMuslimTravelsCaseStudy() {
-  useEffect(() => {
-    document.title = "ITMS | United Muslim Travels";
-  }, []);
-
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("website");
 
@@ -564,7 +562,24 @@ export default function UnitedMuslimTravelsCaseStudy() {
   const heroRef = useRef(null);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+    <>
+      <Helmet>
+        <title>United Muslim Travels Case Study - Hajj & Umrah Brand Build | IT Meta Solutions</title>
+        <meta name="description" content="Discover United Muslim Travels case study - complete brand build with website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages." />
+        <meta name="keywords" content="United Muslim Travels, Hajj travel, Umrah packages, Islamic travel agency, Meta Ads, website development, social media marketing, IT Meta Solutions" />
+        <meta property="og:title" content="United Muslim Travels Case Study - Hajj & Umrah Brand Build | IT Meta Solutions" />
+        <meta property="og:description" content="Discover United Muslim Travels case study - complete brand build with website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages." />
+        <meta property="og:type" content="article" />
+        <link rel="canonical" href="https://itmetasolutions.com/case-studies/united-muslim-travels-brand-build" />
+        <meta property="og:url" content="https://itmetasolutions.com/case-studies/united-muslim-travels-brand-build" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="United Muslim Travels Case Study - Hajj & Umrah Brand Build | IT Meta Solutions" />
+        <meta name="twitter:description" content="Discover United Muslim Travels case study - complete brand build with website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages." />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+
+      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}
@@ -864,5 +879,6 @@ export default function UnitedMuslimTravelsCaseStudy() {
         </Container>
       </section>
     </div>
+    </>
   );
 }

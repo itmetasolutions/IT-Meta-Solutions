@@ -28,6 +28,7 @@ import {
   TrendingUp,
   BriefcaseBusiness,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 // Import team member images
 import abdullahKhalidImg from "../assets/img/Abdullah Khalid.webp";
@@ -107,14 +108,15 @@ function Pill({ icon: Icon, children }) {
   );
 }
 
-function SectionTitle({ kicker, title, desc, align = "left" }) {
+function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
+  const HeadingTag = level;
   return (
     <div className={cx("max-w-3xl", align === "center" && "mx-auto text-center")}>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
         <Sparkles className="h-3.5 w-3.5" />
         {kicker}
       </div>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</h1>
+      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</HeadingTag>
       <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
     </div>
   );
@@ -236,7 +238,24 @@ export default function AboutUsPage() {
   const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.88]);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+    <>
+      <Helmet>
+        <title>IT Meta Solutions - About Us | Premium Digital Growth Agency</title>
+        <meta name="description" content="Learn about IT Meta Solutions - a premium digital growth agency specializing in web development, SEO, social media marketing, and performance advertising for businesses in Pakistan, Canada, UK, and USA." />
+        <meta name="keywords" content="digital agency, web development company, SEO services, social media marketing, digital marketing agency, IT Meta Solutions" />
+        <meta property="og:title" content="IT Meta Solutions - About Us | Premium Digital Growth Agency" />
+        <meta property="og:description" content="Learn about IT Meta Solutions - a premium digital growth agency specializing in web development, SEO, social media marketing, and performance advertising for businesses in Pakistan, Canada, UK, and USA." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://itmetasolutions.com/about" />
+        <meta property="og:url" content="https://itmetasolutions.com/about" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="IT Meta Solutions - About Us | Premium Digital Growth Agency" />
+        <meta name="twitter:description" content="Learn about IT Meta Solutions - a premium digital growth agency specializing in web development, SEO, social media marketing, and performance advertising for businesses in Pakistan, Canada, UK, and USA." />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+
+      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}
@@ -595,5 +614,6 @@ export default function AboutUsPage() {
         </Container>
       </section>
     </div>
+    </>
   );
 }

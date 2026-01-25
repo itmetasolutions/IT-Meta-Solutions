@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -21,6 +21,7 @@ import {
   PenTool,
   TrendingUp,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 /**
  * Multidatum — Case Study Page
@@ -121,14 +122,15 @@ function Pill({ icon: Icon, children }) {
   );
 }
 
-function SectionTitle({ kicker, title, desc, align = "left" }) {
+function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
+  const HeadingTag = level;
   return (
     <div className={cx("max-w-2xl", align === "center" && "mx-auto text-center")}>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
         <Sparkles className="h-3.5 w-3.5" />
         {kicker}
       </div>
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</h2>
+      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</HeadingTag>
       <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
     </div>
   );
@@ -226,10 +228,6 @@ function StickySubnav() {
 }
 
 export default function MultidatumCaseStudy() {
-  useEffect(() => {
-    document.title = "ITMS | Multidatum";
-  }, []);
-
   const year = useMemo(() => new Date().getFullYear(), []);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 800], [0, -60]);
@@ -238,7 +236,24 @@ export default function MultidatumCaseStudy() {
   const heroRef = useRef(null);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16">
+    <>
+      <Helmet>
+        <title>Multidatum Case Study - Digital Marketing Agency Website | IT Meta Solutions</title>
+        <meta name="description" content="See Multidatum case study - a data-driven digital marketing website with clear service architecture, strong positioning, and lead-focused CTAs designed to convert visitors into consultations." />
+        <meta name="keywords" content="Multidatum, digital marketing agency, social media marketing, website development, brand strategy, lead generation, IT Meta Solutions" />
+        <meta property="og:title" content="Multidatum Case Study - Digital Marketing Agency Website | IT Meta Solutions" />
+        <meta property="og:description" content="See Multidatum case study - a data-driven digital marketing website with clear service architecture, strong positioning, and lead-focused CTAs designed to convert visitors into consultations." />
+        <meta property="og:type" content="article" />
+        <link rel="canonical" href="https://itmetasolutions.com/case-study/multidatum" />
+        <meta property="og:url" content="https://itmetasolutions.com/case-study/multidatum" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Multidatum Case Study - Digital Marketing Agency Website | IT Meta Solutions" />
+        <meta name="twitter:description" content="See Multidatum case study - a data-driven digital marketing website with clear service architecture, strong positioning, and lead-focused CTAs designed to convert visitors into consultations." />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+
+      <div className="min-h-screen text-zinc-100 mb-16">
       <ScrollProgress />
 
       {/* Background accents */}
@@ -721,5 +736,6 @@ export default function MultidatumCaseStudy() {
         </Container>
       </section>
     </div>
+    </>
   );
 }

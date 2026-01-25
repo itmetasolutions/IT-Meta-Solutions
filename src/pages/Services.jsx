@@ -38,6 +38,7 @@ import {
   Store,
   Boxes,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 /**
  * SERVICES PAGE (Tabbed)
@@ -128,14 +129,15 @@ function Divider() {
   return <div className="my-14 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
-function SectionTitle({ kicker, title, desc, align = "left" }) {
+function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
+  const HeadingTag = level;
   return (
     <div className={cx("max-w-3xl", align === "center" && "mx-auto text-center")}>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
         <Sparkles className="h-3.5 w-3.5" />
         {kicker}
       </div>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</h1>
+      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</HeadingTag>
       <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
     </div>
   );
@@ -840,10 +842,6 @@ function TabPanel({ active }) {
 }
 
 export default function ServicesPage() {
-  useEffect(() => {
-    document.title = "ITMS | Services";
-  }, []);
-
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("web");
 
@@ -853,7 +851,24 @@ export default function ServicesPage() {
   const heroRef = useRef(null);
 
   return (
-    <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+    <>
+      <Helmet>
+        <title>IT Meta Solutions - Services | Web Development, Digital Marketing & Branding</title>
+        <meta name="description" content="Explore IT Meta Solutions' comprehensive digital services: custom web development, SEO optimization, social media marketing, Google & Meta ads, graphic design, video editing, and brand building for businesses worldwide." />
+        <meta name="keywords" content="web development services, digital marketing agency, SEO services, social media marketing, Meta ads, Google ads, TikTok marketing, graphic design, video editing, brand building, IT Meta Solutions" />
+        <meta property="og:title" content="IT Meta Solutions - Services | Web Development, Digital Marketing & Branding" />
+        <meta property="og:description" content="Explore IT Meta Solutions' comprehensive digital services: custom web development, SEO optimization, social media marketing, Google & Meta ads, graphic design, video editing, and brand building for businesses worldwide." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://itmetasolutions.com/services" />
+        <meta property="og:url" content="https://itmetasolutions.com/services" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="IT Meta Solutions - Services | Web Development, Digital Marketing & Branding" />
+        <meta name="twitter:description" content="Explore IT Meta Solutions' comprehensive digital services: custom web development, SEO optimization, social media marketing, Google & Meta ads, graphic design, video editing, and brand building for businesses worldwide." />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+      </Helmet>
+
+      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
       <ScrollProgress />
 
       {/* Background accents */}
@@ -938,5 +953,6 @@ export default function ServicesPage() {
         </Container>
       </section>
     </div>
+    </>
   );
 }

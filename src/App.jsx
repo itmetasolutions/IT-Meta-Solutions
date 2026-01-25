@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 
 import Home from "./pages/Home";
 import Services from "./pages/Services";
@@ -14,6 +15,7 @@ import ESahulatMartCaseStudy from "./pages/ESahulatMartCaseStudy";
 import HikmabioticsCaseStudy from "./pages/HikmabioticsCaseStudy";
 import ProcessPage from "./pages/process";
 import Contact from "./pages/Contact";
+import NotFoundPage from "./pages/404";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -104,82 +106,84 @@ function App() {
   }, [isMobile]);
 
   return (
-    <div className="bg-stage min-h-screen w-full overflow-x-hidden relative">
-      {/* Background layers (global) */}
-      <div className="bg-grid" />
-      <div className="bg-scan" />
-      <div className="bg-noise" />
+    <HelmetProvider>
+      <div className="bg-stage min-h-screen w-full overflow-x-hidden relative">
+        {/* Background layers (global) */}
+        <div className="bg-grid" />
+        <div className="bg-scan" />
+        <div className="bg-noise" />
 
-      {/* Floating icons layer (put icons in /public/icons/) */}
-      {/* Floating icons layer */}
-      <div className="floating-icons" aria-hidden="true">
-        <img
-          className="icon small"
-          style={{ top: "12%", left: "10%", animationDelay: "0s" }}
-          src={codeIcon}
-          alt=""
-        />
-        <img
-          className="icon"
-          style={{ top: "22%", left: "78%", animationDelay: "2.5s" }}
-          src={rocketIcon}
-          alt=""
-        />
-        <img
-          className="icon big"
-          style={{ top: "66%", left: "14%", animationDelay: "6s" }}
-          src={sparkleIcon}
-          alt=""
-        />
-        <img
-          className="icon"
-          style={{ top: "78%", left: "82%", animationDelay: "9s" }}
-          src={globeIcon}
-          alt=""
-        />
+        {/* Floating icons layer (put icons in /public/icons/) */}
+        {/* Floating icons layer */}
+        <div className="floating-icons" aria-hidden="true">
+          <img
+            className="icon small"
+            style={{ top: "12%", left: "10%", animationDelay: "0s" }}
+            src={codeIcon}
+            alt=""
+          />
+          <img
+            className="icon"
+            style={{ top: "22%", left: "78%", animationDelay: "2.5s" }}
+            src={rocketIcon}
+            alt=""
+          />
+          <img
+            className="icon big"
+            style={{ top: "66%", left: "14%", animationDelay: "6s" }}
+            src={sparkleIcon}
+            alt=""
+          />
+          <img
+            className="icon"
+            style={{ top: "78%", left: "82%", animationDelay: "9s" }}
+            src={globeIcon}
+            alt=""
+          />
 
-        {/* Optional orb */}
-        <img
-          className="icon big"
-          src={orbPng}
-          alt=""
-          style={{
-            top: "40%",
-            left: "45%",
-            transform: "translate(-50%, -50%)",
-            animationDelay: "4s",
-            opacity: 0.08,
-          }}
-        />
+          {/* Optional orb */}
+          <img
+            className="icon big"
+            src={orbPng}
+            alt=""
+            style={{
+              top: "40%",
+              left: "45%",
+              transform: "translate(-50%, -50%)",
+              animationDelay: "4s",
+              opacity: 0.08,
+            }}
+          />
+        </div>
+
+
+
+        <BrowserRouter>
+          <ScrollToTop />
+          {!isMobile && <CursorEffect />}
+
+          <Header nav={nav} AnchorLink={AnchorLink} />
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/case-study/inhomes-direct" element={<InHomesDirectCaseStudy />} />
+            <Route path="/case-study/more-homes-group" element={<MoreHomesGroupCaseStudy />} />
+            <Route path="/case-study/halla-gulla" element={<HallaGullaCaseStudy />} />
+            <Route path="/case-studies/united-muslim-travels-brand-build" element={<UnitedMuslimTravelsCaseStudy />} />
+            <Route path="/case-study/esahulat-mart" element={<ESahulatMartCaseStudy />} />
+            <Route path="/case-study/hikmabiotics" element={<HikmabioticsCaseStudy />} />
+            <Route path="/case-study/multidatum" element={<MultidatumCaseStudy />} />
+            <Route path="/process" element={<ProcessPage />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+
+          <Footer nav={nav} year={year} AnchorLink={AnchorLink} Container={Container} />
+        </BrowserRouter>
       </div>
-
-
-
-      <BrowserRouter>
-        <ScrollToTop />
-        {!isMobile && <CursorEffect />}
-
-        <Header nav={nav} AnchorLink={AnchorLink} />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/case-study/inhomes-direct" element={<InHomesDirectCaseStudy />} />
-          <Route path="/case-study/more-homes-group" element={<MoreHomesGroupCaseStudy />} />
-          <Route path="/case-study/halla-gulla" element={<HallaGullaCaseStudy />} />
-          <Route path="/case-studies/united-muslim-travels-brand-build" element={<UnitedMuslimTravelsCaseStudy />} />
-          <Route path="/case-study/esahulat-mart" element={<ESahulatMartCaseStudy />} />
-          <Route path="/case-study/hikmabiotics" element={<HikmabioticsCaseStudy />} />
-          <Route path="/case-study/multidatum" element={<MultidatumCaseStudy />} />
-          <Route path="/process" element={<ProcessPage />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-
-        <Footer nav={nav} year={year} AnchorLink={AnchorLink} Container={Container} />
-      </BrowserRouter>
-    </div>
+    </HelmetProvider>
   );
 }
 
