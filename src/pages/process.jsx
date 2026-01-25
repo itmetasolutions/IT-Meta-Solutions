@@ -134,7 +134,7 @@ function Pill({ icon: Icon, children }) {
 }
 
 function Divider() {
-  return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
+  return <div className="my-12 sm:my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
 function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
@@ -224,7 +224,7 @@ function Step({ num, icon: Icon, title, desc, bullets }) {
 function StickySubnav() {
   return (
     <div className="sticky top-16 z-30 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
-      <Container className="pt-6 pb-4">
+      <Container className="py-6">
         <div className="flex items-center justify-between gap-3">
           <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
             <Workflow className="h-4 w-4" />
@@ -441,7 +441,7 @@ export default function ProcessPage() {
 
       {/* Hero */}
       <section ref={heroRef} className="relative overflow-hidden">
-        <Container className="pb-10 pt-16 sm:pb-16 sm:pt-24">
+        <Container className="pb-12 pt-24 sm:pb-16 sm:pt-32">
           <motion.div style={{ y: heroY, opacity: heroOpacity }}>
             <Reveal>
               <div className="flex flex-wrap items-center gap-2">
@@ -457,6 +457,7 @@ export default function ProcessPage() {
                 kicker="Process"
                 title="A simple process that builds trust, speed, and measurable results"
                 desc="From discovery to launch and optimization — our workflow is designed to move fast, keep you in control, and deliver outcomes (leads, sales, growth)."
+                level="h1"
               />
             </Reveal>
 
@@ -518,13 +519,9 @@ export default function ProcessPage() {
       {/* Sticky anchors */}
       <StickySubnav />
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* Overview */}
-      <section id="overview" className="scroll-mt-24">
-        <Container className="pb-16">
+      <section id="overview" className="scroll-mt-24 py-16 sm:py-24">
+        <Container>
           <Reveal>
             <SectionTitle
               kicker="How we work"
@@ -562,13 +559,9 @@ export default function ProcessPage() {
         </Container>
       </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* Steps */}
-      <section id="steps" className="scroll-mt-24">
-        <Container className="pb-16">
+      <section id="steps" className="scroll-mt-24 py-16 sm:py-24">
+        <Container>
           <Reveal>
             <SectionTitle
               kicker="Step-by-step"
@@ -651,13 +644,9 @@ export default function ProcessPage() {
         </Container>
       </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* Engagement Types */}
-      <section id="modes" className="scroll-mt-24">
-        <Container className="pb-16">
+      <section id="modes" className="scroll-mt-24 py-16 sm:py-24">
+        <Container>
           <Reveal>
             <SectionTitle
               kicker="Engagement types"
@@ -703,13 +692,9 @@ export default function ProcessPage() {
         </Container>
       </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* Deliverables */}
-      <section id="deliverables" className="scroll-mt-24">
-        <Container className="pb-16">
+      <section id="deliverables" className="scroll-mt-24 py-16 sm:py-24">
+        <Container>
           <Reveal>
             <SectionTitle
               kicker="What you get"
@@ -805,13 +790,9 @@ export default function ProcessPage() {
         </Container>
       </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* FAQ */}
-      <section id="faq" className="scroll-mt-24">
-        <Container className="pb-16">
+      <section id="faq" className="scroll-mt-24 py-16 sm:py-24">
+        <Container>
           <Reveal>
             <SectionTitle
               kicker="FAQ"

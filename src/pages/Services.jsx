@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -37,6 +38,9 @@ import {
   Captions,
   Store,
   Boxes,
+  Cloud,
+  Database,
+  Settings,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
@@ -62,6 +66,7 @@ const cx = (...c) => c.filter(Boolean).join(" ");
 
 const tabs = [
   { key: "web", label: "Web Development", icon: Code2 },
+  { key: "salesforce", label: "Salesforce Development", icon: Cloud },
   { key: "marketing", label: "Digital Marketing", icon: Megaphone },
   { key: "social", label: "Social Media Management", icon: Share2 },
   { key: "design", label: "Graphic Designing", icon: Palette },
@@ -126,7 +131,7 @@ function Pill({ icon: Icon, children }) {
 }
 
 function Divider() {
-  return <div className="my-14 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
+  return <div className="my-12 sm:my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
 function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
@@ -197,7 +202,7 @@ function Card({ icon: Icon, title, desc, bullets }) {
 function StickyTabs({ active, onChange }) {
   return (
     <div className="sticky top-16 z-30 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
-      <Container className="pt-6 pb-4">
+      <Container className="py-6">
         <div className="flex flex-wrap items-center gap-2">
           {tabs.map((t) => {
             const Icon = t.icon;
@@ -256,6 +261,19 @@ function PanelWeb() {
           title="High-converting websites built for speed, trust, and lead/sales growth"
           desc="We build modern websites and e-commerce stores that look premium, load fast, and convert traffic into real inquiries or purchases — optimized for mobile-first users and ads traffic."
         />
+      </Reveal>
+
+      <Reveal delay={0.05}>
+        <div className="mt-8 flex justify-center">
+          <Link
+            to="/web-development-expertise"
+            className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 to-emerald-400 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+          >
+            <Code2 className="h-5 w-5" />
+            Explore Our Web Development Expertise
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
       </Reveal>
 
       <div className="grid gap-4 lg:grid-cols-3">
@@ -347,6 +365,147 @@ function PanelWeb() {
               <ChevronRight className="h-4 w-4" />
               Design → build → launch
             </div>
+          </div>
+        </div>
+      </Reveal>
+
+      <MiniCTA />
+    </div>
+  );
+}
+
+function PanelSalesforce() {
+  return (
+    <div className="grid gap-6">
+      <Reveal>
+        <SectionTitle
+          kicker="Salesforce Development"
+          title="Custom Salesforce solutions to streamline your business operations"
+          desc="We build, customize, and optimize Salesforce implementations that align with your business processes — from custom apps to automation, integrations, and analytics."
+        />
+      </Reveal>
+
+      <Reveal delay={0.05}>
+        <div className="mt-8 flex justify-center">
+          <Link
+            to="/salesforce-expertise"
+            className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 to-emerald-400 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+          >
+            <Cloud className="h-5 w-5" />
+            Explore Our Salesforce Expertise
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </Reveal>
+
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Reveal delay={0.05}>
+          <Card
+            icon={Cloud}
+            title="Salesforce Implementation"
+            desc="End-to-end Salesforce setup tailored to your business needs."
+            bullets={[
+              "Sales Cloud & Service Cloud setup",
+              "Custom object & field creation",
+              "User roles & permissions",
+              "Data migration & import",
+              "Training & documentation",
+            ]}
+          />
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Card
+            icon={Code2}
+            title="Custom Development"
+            desc="Build custom functionality with Apex, LWC, and Visualforce."
+            bullets={[
+              "Apex classes & triggers",
+              "Lightning Web Components (LWC)",
+              "Visualforce pages",
+              "Custom APIs & integrations",
+              "AppExchange app development",
+            ]}
+          />
+        </Reveal>
+        <Reveal delay={0.15}>
+          <Card
+            icon={Settings}
+            title="Process Automation"
+            desc="Automate workflows to increase efficiency and reduce manual work."
+            bullets={[
+              "Flow Builder automation",
+              "Process Builder & workflows",
+              "Approval processes",
+              "Email alerts & notifications",
+              "Scheduled jobs & batch processes",
+            ]}
+          />
+        </Reveal>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <Reveal delay={0.05}>
+          <Card
+            icon={Webhook}
+            title="Integration Solutions"
+            desc="Connect Salesforce with your existing tools and platforms."
+            bullets={[
+              "REST/SOAP API integrations",
+              "Third-party app connections",
+              "ERP & accounting systems",
+              "Marketing automation tools",
+              "Real-time data synchronization",
+            ]}
+          />
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Card
+            icon={Database}
+            title="Reports & Dashboards"
+            desc="Data-driven insights for better decision making."
+            bullets={[
+              "Custom report types",
+              "Interactive dashboards",
+              "Sales & pipeline analytics",
+              "Service metrics tracking",
+              "Einstein Analytics integration",
+            ]}
+          />
+        </Reveal>
+      </div>
+
+      <Reveal>
+        <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-2xl">
+              <div className="text-sm font-semibold text-white">Deliverables</div>
+              <div className="mt-1 text-sm text-zinc-300">
+                Complete Salesforce configuration, custom development code, integration setup, comprehensive documentation, user training, and ongoing support.
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-200">
+              <ChevronRight className="h-4 w-4" />
+              Analyze → build → deploy
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal>
+        <div className="mt-6 rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-500/10 to-emerald-400/10 p-6">
+          <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+            <div className="max-w-2xl">
+              <div className="text-sm font-semibold text-white">Learn more about our Salesforce expertise</div>
+              <div className="mt-1 text-sm text-zinc-300">
+                Discover our 5+ years of Salesforce development experience, key achievements, and successful project implementations.
+              </div>
+            </div>
+            <Link
+              to="/salesforce-expertise"
+              className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 hover:opacity-90"
+            >
+              View Our Expertise <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </Reveal>
@@ -834,6 +993,7 @@ function PanelBrand() {
 
 function TabPanel({ active }) {
   if (active === "web") return <PanelWeb />;
+  if (active === "salesforce") return <PanelSalesforce />;
   if (active === "marketing") return <PanelMarketing />;
   if (active === "social") return <PanelSocial />;
   if (active === "design") return <PanelDesign />;
@@ -877,12 +1037,13 @@ export default function ServicesPage() {
 
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">
-        <Container className="pb-10 pt-16 sm:pb-14 sm:pt-24">
+        <Container className="pb-12 pt-24 sm:pb-16 sm:pt-32">
           <motion.div style={{ y: heroY, opacity: heroOpacity }}>
             <Reveal>
               <div className="flex flex-wrap items-center gap-3">
                 <Pill icon={ShieldCheck}>Full-service agency</Pill>
                 <Pill icon={LayoutGrid}>Web</Pill>
+                <Pill icon={Cloud}>Salesforce</Pill>
                 <Pill icon={Megaphone}>Ads</Pill>
                 <Pill icon={Palette}>Design</Pill>
                 <Pill icon={Clapperboard}>Video</Pill>
@@ -895,6 +1056,7 @@ export default function ServicesPage() {
                 kicker="Services"
                 title="Everything you need to build a premium brand and grow fast"
                 desc="Choose a service tab to see deliverables, workflow, and what you get. This page is designed for quick understanding and strong conversions."
+                level="h1"
               />
             </Reveal>
 
@@ -941,12 +1103,8 @@ export default function ServicesPage() {
       {/* STICKY TAB NAV */}
       <StickyTabs active={activeTab} onChange={setActiveTab} />
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* TAB CONTENT */}
-      <section className="pb-16">
+      <section className="py-16 sm:py-24">
         <Container>
           <TabPanel active={activeTab} />
 

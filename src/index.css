@@ -13,6 +13,16 @@
   --brand: #5025d1;
   --pink: #ba55d3;
   --bg: #000;
+
+  /* Consistent spacing system */
+  --spacing-section-y: 4rem;      /* 64px - vertical section spacing */
+  --spacing-section-y-sm: 6rem;   /* 96px - larger screens */
+  --spacing-hero-top: 6rem;       /* 96px - hero top padding */
+  --spacing-hero-top-sm: 8rem;    /* 128px - hero top padding larger */
+  --spacing-hero-bottom: 4rem;    /* 64px - hero bottom padding */
+  --spacing-hero-bottom-sm: 6rem; /* 96px - hero bottom larger */
+  --spacing-divider: 3rem;        /* 48px - divider spacing */
+  --spacing-divider-sm: 4rem;     /* 64px - divider spacing larger */
 }
 
 /* ---------------------------
@@ -20,7 +30,7 @@
 ----------------------------*/
 html, body {
   margin: 0;
-  margin-top: 40px;
+  margin-top: 0px;
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;

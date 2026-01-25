@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -22,6 +22,10 @@ import {
   ShoppingCart,
   Leaf,
   MapPin,
+  Cloud,
+  Database,
+  Zap,
+  ExternalLink,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
@@ -111,7 +115,7 @@ function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
 }
 
 function Divider() {
-  return <div className="my-14 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
+  return <div className="my-12 sm:my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
 function Badge({ children }) {
@@ -212,12 +216,23 @@ function ProjectCard({ p }) {
             ))}
           </div>
 
-          <Link
-            to={p.href}
-            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-950 hover:opacity-90"
-          >
-            View full case study <ArrowRight className="h-4 w-4" />
-          </Link>
+          {p.external ? (
+            <a
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-950 hover:opacity-90"
+            >
+              View project <ExternalLink className="h-4 w-4" />
+            </a>
+          ) : (
+            <Link
+              to={p.href}
+              className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-950 hover:opacity-90"
+            >
+              View full case study <ArrowRight className="h-4 w-4" />
+            </Link>
+          )}
         </div>
       </div>
     </div>
@@ -225,6 +240,115 @@ function ProjectCard({ p }) {
 }
 
 const PROJECTS = [
+  {
+    key: "salesforce-erp-integration",
+    title: "Enterprise ERP Integration",
+    icon: Cloud,
+    industry: "Salesforce • ERP Integration",
+    tags: ["Salesforce", "Integration", "Automation"],
+    summary:
+      "Complete Salesforce-ERP integration with real-time data synchronization, automated workflows, and custom business logic to streamline operations across departments.",
+    scope: ["REST/SOAP API integration", "Real-time data sync", "Custom Apex triggers", "Automated workflows", "Error handling & logging"],
+    highlights: [
+      "Zero data loss migration",
+      "Real-time bidirectional sync",
+      "Automated order processing",
+      "Reduced manual entry by 80%",
+    ],
+    stats: [
+      { icon: Database, label: "Records Migrated", value: "100K+" },
+      { icon: Zap, label: "Automation", value: "Real-time sync" },
+      { icon: Target, label: "Accuracy", value: "100%" },
+    ],
+    platforms: [
+      { label: "Sales Cloud", icon: Cloud },
+      { label: "Custom API", icon: Code2 },
+    ],
+    href: "https://www.upwork.com/freelancers/~0159ca8b8e6b8eb63e?p=1920426864212738048",
+    external: true,
+  },
+  {
+    key: "salesforce-payment-gateway",
+    title: "Payment Gateway Integration",
+    icon: Cloud,
+    industry: "Salesforce • E-commerce • Payment Processing",
+    tags: ["Salesforce", "Stripe", "Shopify"],
+    summary:
+      "Multi-platform payment integration connecting Salesforce with Stripe and Shopify for seamless order processing, payment tracking, and customer management.",
+    scope: ["Stripe API integration", "Shopify connector", "Payment tracking", "Customer sync", "Invoice automation"],
+    highlights: [
+      "Unified payment tracking",
+      "Automated invoice generation",
+      "Customer data synchronization",
+      "Revenue reporting dashboard",
+    ],
+    stats: [
+      { icon: ShieldCheck, label: "Security", value: "PCI Compliant" },
+      { icon: Zap, label: "Integration", value: "3 platforms" },
+      { icon: BarChart3, label: "Reporting", value: "Real-time" },
+    ],
+    platforms: [
+      { label: "Salesforce", icon: Cloud },
+      { label: "Stripe", icon: Wallet },
+      { label: "Shopify", icon: ShoppingCart },
+    ],
+    href: "https://www.upwork.com/freelancers/~0159ca8b8e6b8eb63e?p=1920439837014478848",
+    external: true,
+  },
+  {
+    key: "salesforce-lightning-app",
+    title: "Custom Lightning Application",
+    icon: Cloud,
+    industry: "Salesforce • Custom Development",
+    tags: ["Salesforce", "LWC", "Automation"],
+    summary:
+      "Built custom Lightning Web Components application to replace manual processes with automated workflows, improving team productivity and data accuracy.",
+    scope: ["Lightning Web Components", "Apex classes", "Flow automation", "Custom objects", "Permission sets"],
+    highlights: [
+      "Replaced 5 manual processes",
+      "Improved data accuracy by 95%",
+      "Reduced processing time by 70%",
+      "Enhanced user experience",
+    ],
+    stats: [
+      { icon: Zap, label: "Apps Built", value: "4+" },
+      { icon: Target, label: "Efficiency Gain", value: "70%" },
+      { icon: Users, label: "User Adoption", value: "100%" },
+    ],
+    platforms: [
+      { label: "Lightning", icon: Cloud },
+      { label: "Apex", icon: Code2 },
+    ],
+    href: "https://www.upwork.com/freelancers/~0159ca8b8e6b8eb63e?p=1923125235402395648",
+    external: true,
+  },
+  {
+    key: "salesforce-service-cloud",
+    title: "Service Cloud Implementation",
+    icon: Cloud,
+    industry: "Salesforce • Customer Service",
+    tags: ["Salesforce", "Service Cloud", "Portal"],
+    summary:
+      "Complete Service Cloud setup with customer portal, case management, knowledge base, and automated routing to enhance customer support operations.",
+    scope: ["Service Cloud setup", "Experience Cloud portal", "Case automation", "Knowledge base", "Omni-channel routing"],
+    highlights: [
+      "50% faster case resolution",
+      "Self-service portal reducing tickets",
+      "Automated case routing",
+      "Enhanced customer satisfaction",
+    ],
+    stats: [
+      { icon: Users, label: "Portal Users", value: "1000+" },
+      { icon: Target, label: "Resolution Time", value: "-50%" },
+      { icon: ShieldCheck, label: "CSAT", value: "4.8/5" },
+    ],
+    platforms: [
+      { label: "Service Cloud", icon: Cloud },
+      { label: "Experience Cloud", icon: Globe },
+    ],
+    href: "https://www.upwork.com/freelancers/~0159ca8b8e6b8eb63e?p=2011807565210583040",
+    external: true,
+  },
   {
     key: "united-muslim-travels",
     title: "United Muslim Travels",
@@ -427,20 +551,48 @@ function FilterPill({ active, onClick, icon: Icon, label }) {
 export default function WorksPage() {
   const year = useMemo(() => new Date().getFullYear(), []);
   const heroRef = useRef(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 700], [0, -50]);
   const heroOpacity = useTransform(scrollY, [0, 450], [1, 0.9]);
 
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [mainTab, setMainTab] = useState("all");
+  const [subFilter, setSubFilter] = useState("all");
 
-  const filters = [
-    { key: "all", label: "All", icon: LayoutGrid },
-    { key: "travel", label: "Travel", icon: MapPin },
+  // Read URL parameter on mount and set initial filter
+  useEffect(() => {
+    const filterParam = searchParams.get("filter");
+    if (filterParam) {
+      if (filterParam === "salesforce") {
+        setMainTab("salesforce");
+        setSubFilter("all");
+      } else if (filterParam === "web") {
+        setMainTab("web");
+        setSubFilter("all");
+      }
+    }
+  }, [searchParams]);
+
+  const mainTabs = [
+    { key: "all", label: "All Projects", icon: LayoutGrid },
+    { key: "web", label: "Web Development", icon: Code2 },
+    { key: "salesforce", label: "Salesforce", icon: Cloud },
+  ];
+
+  const webSubFilters = [
+    { key: "all", label: "All Web Projects", icon: LayoutGrid },
     { key: "ecommerce", label: "E-commerce", icon: ShoppingCart },
-    { key: "wellness", label: "Wellness", icon: Leaf },
-    { key: "ads", label: "Meta Ads", icon: Megaphone },
+    { key: "business", label: "Business Sites", icon: Building2 },
+    { key: "travel", label: "Travel & Tourism", icon: MapPin },
+  ];
+
+  const salesforceSubFilters = [
+    { key: "all", label: "All Salesforce Projects", icon: Cloud },
+    { key: "integration", label: "Integrations", icon: Database },
+    { key: "custom-dev", label: "Custom Development", icon: Code2 },
+    { key: "automation", label: "Automation", icon: Zap },
   ];
 
   const filtered = useMemo(() => {
@@ -461,17 +613,62 @@ export default function WorksPage() {
       return hay.includes(q);
     };
 
-    const byFilter = (p) => {
-      if (filter === "all") return true;
-      if (filter === "ads") return (p.tags || []).some((t) => t.toLowerCase().includes("ads")) || p.summary.toLowerCase().includes("meta");
-      if (filter === "travel") return p.industry.toLowerCase().includes("travel") || p.industry.toLowerCase().includes("tours");
-      if (filter === "ecommerce") return p.industry.toLowerCase().includes("e-commerce") || p.industry.toLowerCase().includes("ecommerce");
-      if (filter === "wellness") return p.industry.toLowerCase().includes("wellness") || p.industry.toLowerCase().includes("supplements");
+    const byMainTab = (p) => {
+      if (mainTab === "all") return true;
+      if (mainTab === "salesforce") {
+        return p.industry.toLowerCase().includes("salesforce") || (p.tags || []).some((t) => t.toLowerCase().includes("salesforce"));
+      }
+      if (mainTab === "web") {
+        return (p.tags || []).some((t) => t.toLowerCase().includes("website")) ||
+               p.industry.toLowerCase().includes("web") ||
+               p.platforms?.some((pl) => pl.label.toLowerCase().includes("website"));
+      }
       return true;
     };
 
-    return PROJECTS.filter((p) => byQuery(p) && byFilter(p));
-  }, [query, filter]);
+    const bySubFilter = (p) => {
+      if (subFilter === "all") return true;
+
+      // Web sub-filters
+      if (subFilter === "ecommerce") {
+        return p.industry.toLowerCase().includes("e-commerce") ||
+               p.industry.toLowerCase().includes("ecommerce") ||
+               (p.tags || []).some((t) => t.toLowerCase().includes("e-commerce"));
+      }
+      if (subFilter === "business") {
+        return p.industry.toLowerCase().includes("property") ||
+               p.industry.toLowerCase().includes("real estate") ||
+               p.industry.toLowerCase().includes("lettings") ||
+               p.industry.toLowerCase().includes("interiors");
+      }
+      if (subFilter === "travel") {
+        return p.industry.toLowerCase().includes("travel") ||
+               p.industry.toLowerCase().includes("tours") ||
+               p.industry.toLowerCase().includes("tourism");
+      }
+
+      // Salesforce sub-filters
+      if (subFilter === "integration") {
+        return p.title.toLowerCase().includes("integration") ||
+               p.summary.toLowerCase().includes("integration") ||
+               (p.scope || []).some((s) => s.toLowerCase().includes("integration"));
+      }
+      if (subFilter === "custom-dev") {
+        return p.title.toLowerCase().includes("custom") ||
+               p.title.toLowerCase().includes("lightning") ||
+               (p.scope || []).some((s) => s.toLowerCase().includes("lwc") || s.toLowerCase().includes("apex"));
+      }
+      if (subFilter === "automation") {
+        return p.summary.toLowerCase().includes("automation") ||
+               (p.tags || []).some((t) => t.toLowerCase().includes("automation")) ||
+               (p.scope || []).some((s) => s.toLowerCase().includes("automation") || s.toLowerCase().includes("workflow"));
+      }
+
+      return true;
+    };
+
+    return PROJECTS.filter((p) => byQuery(p) && byMainTab(p) && bySubFilter(p));
+  }, [query, mainTab, subFilter]);
 
   return (
     <>
@@ -500,7 +697,7 @@ export default function WorksPage() {
 
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">
-        <Container className="pb-10 pt-16 sm:pb-14 sm:pt-24">
+        <Container className="pb-12 pt-24 sm:pb-16 sm:pt-32">
           <motion.div style={{ y: heroY, opacity: heroOpacity }}>
             <Reveal>
               <div className="flex flex-wrap items-center gap-2">
@@ -516,54 +713,86 @@ export default function WorksPage() {
                 kicker="Works"
                 title="Detailed work pages for every brand build"
                 desc="Browse projects with moderate detail here — open any project for the full case study page (the ones you already made)."
+                level="h1"
               />
             </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="mt-8 grid gap-3 md:grid-cols-2">
-                <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/5">
-                      <Search className="h-5 w-5" />
-                    </div>
-                    <div className="min-w-0 w-full">
-                      <div className="text-xs font-semibold text-white">Search projects</div>
-                      <input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Search: ads, leads, e-commerce, UK, tours..."
-                        className="mt-2 w-full rounded-2xl border border-white/10 bg-zinc-950/40 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-white/20"
-                      />
-                    </div>
+              <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.04] p-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/5">
+                    <Search className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0 w-full">
+                    <div className="text-xs font-semibold text-white">Search projects</div>
+                    <input
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="Search: ads, leads, e-commerce, UK, tours..."
+                      className="mt-2 w-full rounded-2xl border border-white/10 bg-zinc-950/40 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-white/20"
+                    />
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-4">
-                  <div className="text-xs font-semibold text-white">Filter</div>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {filters.map((f) => (
+                <div className="border-t border-white/10 pt-4">
+                  <div className="text-xs font-semibold text-white mb-3">Main Categories</div>
+                  <div className="flex flex-wrap gap-2">
+                    {mainTabs.map((tab) => (
                       <FilterPill
-                        key={f.key}
-                        active={filter === f.key}
-                        onClick={() => setFilter(f.key)}
-                        icon={f.icon}
-                        label={f.label}
+                        key={tab.key}
+                        active={mainTab === tab.key}
+                        onClick={() => {
+                          setMainTab(tab.key);
+                          setSubFilter("all");
+                        }}
+                        icon={tab.icon}
+                        label={tab.label}
                       />
                     ))}
                   </div>
                 </div>
+
+                {mainTab === "web" && (
+                  <div className="border-t border-white/10 pt-4 mt-4">
+                    <div className="text-xs font-semibold text-white mb-3">Web Development Filters</div>
+                    <div className="flex flex-wrap gap-2">
+                      {webSubFilters.map((filter) => (
+                        <FilterPill
+                          key={filter.key}
+                          active={subFilter === filter.key}
+                          onClick={() => setSubFilter(filter.key)}
+                          icon={filter.icon}
+                          label={filter.label}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {mainTab === "salesforce" && (
+                  <div className="border-t border-white/10 pt-4 mt-4">
+                    <div className="text-xs font-semibold text-white mb-3">Salesforce Filters</div>
+                    <div className="flex flex-wrap gap-2">
+                      {salesforceSubFilters.map((filter) => (
+                        <FilterPill
+                          key={filter.key}
+                          active={subFilter === filter.key}
+                          onClick={() => setSubFilter(filter.key)}
+                          icon={filter.icon}
+                          label={filter.label}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </Reveal>
           </motion.div>
         </Container>
       </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* LIST */}
-      <section className="pb-16">
+      <section className="py-16 sm:py-24">
         <Container>
           <div className="grid gap-5 lg:grid-cols-2">
             {filtered.map((p, idx) => (
@@ -583,7 +812,8 @@ export default function WorksPage() {
                   type="button"
                   onClick={() => {
                     setQuery("");
-                    setFilter("all");
+                    setMainTab("all");
+                    setSubFilter("all");
                   }}
                   className="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950"
                 >

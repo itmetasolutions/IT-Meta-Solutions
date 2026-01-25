@@ -1,234 +1,128 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import React, { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight,
-  BadgeCheck,
+  Sparkles,
   CheckCircle2,
-  Clock,
-  Copy,
-  FileText,
-  Globe,
   Mail,
+  Phone,
   MapPin,
   MessageCircle,
-  Phone,
-  Send,
-  ShieldCheck,
-  Sparkles,
-  Globe2,
-  MessageSquareText,
+  Clock,
+  Shield,
   Building2,
+  Copy,
+  Send,
+  Globe,
+  BadgeCheck,
+  Briefcase,
+  Layers,
+  BarChart3,
+  Laptop,
+  Wand2,
+  Handshake,
+  Users,
+  Cloud,
+  ChevronDown,
+  Facebook,
+  Video,
+  Search,
+  Palette,
+  HelpCircle,
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+import Container from "../components/Container";
 
-/**
- * CONTACT PAGE + FORM (client-side)
- * - Dark/glass/gradient theme matching your other pages
- * - Contact info: phone, email, address
- * - Convincing copy + trust cards
- * - Form validation + success UI
- * - "mailto:" + "tel:" quick actions
- *
- * ✅ This form currently simulates submission (no backend).
- * To connect backend:
- * - Replace `submitContact()` with fetch("/api/contact", { method:"POST", body: JSON.stringify(payload) })
- * - Or integrate EmailJS / Formspree / custom Node API
- */
+/* ==================== HELPERS ==================== */
 
-const cx = (...c) => c.filter(Boolean).join(" ");
+const cx = (...classes) => classes.filter(Boolean).join(" ");
 
-function Container({ children, className }) {
-  return (
-    <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>
-      {children}
-    </div>
-  );
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (!m) return;
+    const onChange = () => setReduced(!!m.matches);
+    onChange();
+    m.addEventListener?.("change", onChange);
+    return () => m.removeEventListener?.("change", onChange);
+  }, []);
+  return reduced;
 }
 
-function GradientBlob({ className }) {
-  return (
-    <div
-      aria-hidden
-      className={cx(
-        "pointer-events-none absolute -z-10 blur-3xl opacity-40",
-        "bg-[radial-gradient(closest-side,rgba(99,102,241,0.55),rgba(99,102,241,0))]",
-        className
-      )}
-    />
-  );
-}
+/* ==================== UI: HOME THEME PRIMITIVES ==================== */
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-  const w = useSpring(scrollYProgress, { stiffness: 120, damping: 18, mass: 0.5 });
   return (
     <motion.div
-      aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-indigo-500 via-emerald-400 to-fuchsia-500"
-      style={{ scaleX: w }}
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      style={{ scaleX: scrollYProgress }}
     />
   );
 }
 
-function Reveal({ children, delay = 0, className }) {
+function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: "easeOut", delay }}
-    >
-      {children}
-    </motion.div>
+    <div
+      aria-hidden
+      className={cx("pointer-events-none absolute -z-10 blur-3xl", className)}
+      style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}
+    />
   );
 }
 
-function Pill({ icon: Icon, children }) {
+function Badge({ children, icon: Icon }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200 mb-3">
-      {Icon ? <Icon className="h-3.5 w-3.5 opacity-80" /> : null}
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+      {Icon && <Icon className="h-4 w-4" />}
       {children}
     </span>
   );
 }
 
-function Divider() {
-  return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
-}
-
-function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
-  const HeadingTag = level;
+function GlowCard({ className, children }) {
   return (
-    <div className={cx("max-w-3xl", align === "center" && "mx-auto text-center")}>
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
-        <Sparkles className="h-3.5 w-3.5" />
-        {kicker}
-      </div>
-      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</HeadingTag>
-      <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
+    <div
+      className={cx(
+        "relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm",
+        className
+      )}
+    >
+      <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#5025d1]/18 blur-3xl" />
+      <div className="absolute -left-20 bottom-[-90px] h-72 w-72 rounded-full bg-purple-600/12 blur-3xl" />
+      <div className="relative">{children}</div>
     </div>
   );
 }
 
-function InfoCard({ icon: Icon, label, value, actionLabel, actionHref, copyText }) {
-  const [copied, setCopied] = useState(false);
-
+function SectionHeading({ badge, title, description, centered = false }) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-      <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-indigo-500/10 blur-3xl" />
-      <div className="relative">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-start gap-4">
-            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/5">
-              <Icon className="h-6 w-6" />
-            </div>
-            <div className="min-w-0">
-              <div className="text-xs text-zinc-400">{label}</div>
-              <div className="mt-1 text-sm font-semibold text-white break-words">{value}</div>
-              {actionHref ? (
-                <a
-                  href={actionHref}
-                  className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-950 hover:opacity-90"
-                >
-                  {actionLabel} <ArrowRight className="h-4 w-4" />
-                </a>
-              ) : null}
-            </div>
-          </div>
-
-          {copyText ? (
-            <button
-              type="button"
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(copyText);
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 1200);
-                } catch {
-                  // ignore
-                }
-              }}
-              className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 hover:bg-white/10"
-              aria-label="Copy"
-            >
-              <Copy className="h-4 w-4" />
-              {copied ? "Copied" : "Copy"}
-            </button>
-          ) : null}
+    <div className={cx("mb-10 sm:mb-12", centered && "text-center")}>
+      {badge && (
+        <div className={cx("mb-4", centered && "flex justify-center")}>
+          <Badge icon={Sparkles}>{badge}</Badge>
         </div>
-      </div>
+      )}
+      <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">{title}</h1>
+      {description && (
+        <p className={cx("mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl", centered && "mx-auto")}>
+          {description}
+        </p>
+      )}
     </div>
   );
 }
 
-function Input({ label, value, onChange, placeholder, error, type = "text" }) {
-  return (
-    <label className="block">
-      <div className="mb-2 text-xs font-semibold text-white">{label}</div>
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className={cx(
-          "w-full rounded-2xl border bg-zinc-950/40 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none",
-          error ? "border-red-500/60 focus:border-red-500/70" : "border-white/10 focus:border-white/20"
-        )}
-      />
-      {error ? <div className="mt-2 text-xs text-red-300">{error}</div> : null}
-    </label>
-  );
-}
+/* ==================== UI: NEW CONTACT DESIGN COMPONENTS ==================== */
 
-function Select({ label, value, onChange, options, error }) {
+function IconTile({ icon: Icon, title, desc }) {
   return (
-    <label className="block">
-      <div className="mb-2 text-xs font-semibold text-white">{label}</div>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={cx(
-          "w-full rounded-2xl border bg-zinc-950/40 px-4 py-3 text-sm text-zinc-100 outline-none",
-          error ? "border-red-500/60 focus:border-red-500/70" : "border-white/10 focus:border-white/20"
-        )}
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value} className="bg-zinc-950">
-            {o.label}
-          </option>
-        ))}
-      </select>
-      {error ? <div className="mt-2 text-xs text-red-300">{error}</div> : null}
-    </label>
-  );
-}
-
-function TextArea({ label, value, onChange, placeholder, error }) {
-  return (
-    <label className="block">
-      <div className="mb-2 text-xs font-semibold text-white">{label}</div>
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        rows={6}
-        className={cx(
-          "w-full resize-none rounded-2xl border bg-zinc-950/40 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none",
-          error ? "border-red-500/60 focus:border-red-500/70" : "border-white/10 focus:border-white/20"
-        )}
-      />
-      {error ? <div className="mt-2 text-xs text-red-300">{error}</div> : null}
-    </label>
-  );
-}
-
-function TrustItem({ title, desc }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-      <div className="flex items-start gap-3">
-        <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-          <BadgeCheck className="h-5 w-5" />
+    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-[#5025d1]/50">
+      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+      <div className="relative flex items-start gap-4">
+        <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <Icon className="h-6 w-6 text-white" />
         </div>
         <div className="min-w-0">
           <div className="text-sm font-semibold text-white">{title}</div>
@@ -239,72 +133,226 @@ function TrustItem({ title, desc }) {
   );
 }
 
+function ContactMiniCard({ icon: Icon, label, value, href, copyText }) {
+  const [copied, setCopied] = useState(false);
+
+  return (
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+      <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#5025d1]/18 blur-3xl" />
+      <div className="relative flex items-start justify-between gap-4 min-w-0">
+        <div className="flex items-start gap-4 min-w-0">
+          <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+            <Icon className="h-6 w-6 text-white" />
+          </div>
+          <div className="min-w-0">
+            <div className="text-xs text-zinc-400">{label}</div>
+            <div className="mt-1 text-sm font-semibold text-white break-words [overflow-wrap:anywhere]">{value}</div>
+
+            {href ? (
+              <a
+                href={href}
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#5025d1] transition-all hover:scale-[1.02] sm:w-auto"
+              >
+                {label === "Email" ? "Send email" : label.includes("WhatsApp") ? "Chat on WhatsApp" : "Open"}
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            ) : null}
+          </div>
+        </div>
+
+        {copyText ? (
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(copyText);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 1200);
+              } catch {
+                // ignore
+              }
+            }}
+            className="shrink-0 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white hover:bg-white/10"
+          >
+            <Copy className="h-4 w-4" />
+            {copied ? "Copied" : "Copy"}
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, error, children, optional = false }) {
+  return (
+    <div className="min-w-0">
+      <label className="flex items-center justify-between text-sm font-medium text-white">
+        <span>{label}</span>
+        {optional ? <span className="text-xs font-medium text-zinc-400">(Optional)</span> : null}
+      </label>
+      <div className="mt-2 min-w-0">{children}</div>
+      {error ? <p className="mt-1 text-sm text-red-400">{error}</p> : null}
+    </div>
+  );
+}
+
+function Input({ name, value, onChange, placeholder, type = "text", error }) {
+  return (
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className={cx(
+        "w-full min-w-0 rounded-2xl border bg-white/5 px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2",
+        error ? "border-red-500/60 focus:ring-red-500" : "border-white/10 focus:ring-[#5025d1]"
+      )}
+    />
+  );
+}
+
+function Select({ name, value, onChange, options }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedOption = options.find((o) => o.value === value);
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#5025d1] flex items-center justify-between"
+      >
+        <div className="flex items-center gap-3">
+          {selectedOption?.icon && React.createElement(selectedOption.icon, { className: "h-5 w-5 text-white/80" })}
+          <span>{selectedOption?.label}</span>
+        </div>
+        <ChevronDown className="h-5 w-5 text-white/80" />
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-10 mt-1 w-full rounded-2xl border border-white/10 bg-zinc-950 shadow-lg">
+          {options.map((o) => (
+            <button
+              key={o.value}
+              type="button"
+              onClick={() => {
+                onChange({ target: { name, value: o.value } });
+                setIsOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-3 text-left text-white hover:bg-white/10 first:rounded-t-2xl last:rounded-b-2xl"
+            >
+              {o.icon && React.createElement(o.icon, { className: "h-5 w-5 text-white/80" })}
+              <span>{o.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TextArea({ name, value, onChange, placeholder, rows = 6, error }) {
+  return (
+    <textarea
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      rows={rows}
+      className={cx(
+        "w-full min-w-0 resize-none rounded-2xl border bg-white/5 px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2",
+        error ? "border-red-500/60 focus:ring-red-500" : "border-white/10 focus:ring-[#5025d1]"
+      )}
+    />
+  );
+}
+
 async function submitContact(payload) {
   const response = await fetch("https://it-meta-solutions.onrender.com/api/contact", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
   return response;
 }
 
-export default function ContactPage() {
-  const year = useMemo(() => new Date().getFullYear(), []);
-  const heroRef = useRef(null);
+/* ==================== PAGE ==================== */
 
+export default function Contact() {
+  const reduced = usePrefersReducedMotion();
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 650], [0, -50]);
-  const heroOpacity = useTransform(scrollY, [0, 450], [1, 0.9]);
 
+  // subtle hero parallax
+  const heroY = useTransform(scrollY, [0, 500], [0, reduced ? 0 : 140]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+
+  // ✅ Data from your previous contact page
+  const CONTACT = useMemo(
+    () => ({
+      phoneRaw: "03271804037",
+      phoneTel: "+923271804037",
+      email: "info@itmetasolutions.com",
+      officeShort: "Ameer Chowk, Lahore",
+      officeFull: "26A Office No F1, 1st Floor, PCSIR Society Block A, Ameer Chowk, Lahore",
+      hours: "Monday – Saturday • 06:00 AM – 12:00 AM (PKT)",
+      website: "https://itmetasolutions.com",
+    }),
+    []
+  );
+
+  // form state
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
     service: "meta",
-    budget: "50k",
+    budget: "", // ✅ optional + fillable
     message: "",
   });
 
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const [errorMessage, setErrorMessage] = useState("");
 
-  const validate = () => {
+  const validateForm = () => {
     const e = {};
-    if (!form.name.trim()) e.name = "Please enter your name.";
-    if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Enter a valid email address.";
-    if (!form.phone.trim()) e.phone = "Please enter a phone/WhatsApp number.";
-    if (!form.message.trim() || form.message.trim().length < 20)
-      e.message = "Please describe your requirements (min 20 characters).";
+    if (!form.name.trim()) e.name = "Name is required";
+    if (!form.email.trim()) e.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = "Email is invalid";
+    if (!form.phone.trim()) e.phone = "Phone / WhatsApp is required";
+    if (!form.message.trim() || form.message.trim().length < 20) e.message = "Please add details (min 20 characters)";
     return e;
   };
 
-  const onSubmit = async (ev) => {
+  const handleSubmit = async (ev) => {
     ev.preventDefault();
-    setStatus("idle");
     setErrorMessage("");
-    const e = validate();
+    const e = validateForm();
     setErrors(e);
     if (Object.keys(e).length) return;
 
+    setStatus("sending");
+
     try {
-      setStatus("sending");
       const payload = {
         ...form,
         createdAt: new Date().toISOString(),
         source: "contact-page",
       };
+
       const res = await submitContact(payload);
       if (!res?.ok) {
-        const errorData = await res.json().catch(() => ({ error: "Failed to send message" }));
-        throw new Error(errorData.error || "Failed to send message");
+        const data = await res.json().catch(() => ({ error: "Failed to send message" }));
+        throw new Error(data?.error || "Failed to send message");
       }
-      setStatus("sent");
-      setForm({ name: "", email: "", phone: "", company: "", service: "meta", budget: "50k", message: "" });
-    } catch (error) {
+
+      setStatus("success");
+      setForm({ name: "", email: "", phone: "", company: "", service: "meta", budget: "", message: "" });
+    } catch (err) {
       setStatus("error");
-      setErrorMessage(error.message || "Something went wrong. Please try again or WhatsApp us directly.");
+      setErrorMessage(err?.message || "Something went wrong. Please try again or WhatsApp us directly.");
     }
   };
 
@@ -312,343 +360,411 @@ export default function ContactPage() {
     <>
       <Helmet>
         <title>IT Meta Solutions - Contact Us | Get a Free Consultation</title>
-        <meta name="description" content="Contact IT Meta Solutions for web development, digital marketing, SEO, and branding services. Fast response, clear proposals, and expert solutions for your business. Available on WhatsApp. Serving Pakistan, Canada, UK, and USA." />
-        <meta name="keywords" content="contact IT Meta Solutions, web development consultation, digital marketing inquiry, SEO services contact, free business consultation, IT agency contact" />
-        <meta property="og:title" content="IT Meta Solutions - Contact Us | Get a Free Consultation" />
-        <meta property="og:description" content="Contact IT Meta Solutions for web development, digital marketing, SEO, and branding services. Fast response, clear proposals, and expert solutions for your business. Available on WhatsApp. Serving Pakistan, Canada, UK, and USA." />
-        <meta property="og:type" content="website" />
+        <meta
+          name="description"
+          content="Contact IT Meta Solutions for web development, digital marketing, SEO, and branding services. Fast response, clear proposals, and expert solutions for your business. Available on WhatsApp. Serving Pakistan, Canada, UK, and USA."
+        />
         <link rel="canonical" href="https://itmetasolutions.com/contact" />
-        <meta property="og:url" content="https://itmetasolutions.com/contact" />
-        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="IT Meta Solutions - Contact Us | Get a Free Consultation" />
-        <meta name="twitter:description" content="Contact IT Meta Solutions for web development, digital marketing, SEO, and branding services. Fast response, clear proposals, and expert solutions for your business. Available on WhatsApp. Serving Pakistan, Canada, UK, and USA." />
-        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16">
+      <div className="relative min-h-screen overflow-hidden">
         <ScrollProgress />
 
-      {/* Background accents */}
-      <GradientBlob className="left-[-140px] top-[-140px] h-[560px] w-[560px]" />
-      <GradientBlob className="right-[-180px] top-[240px] h-[560px] w-[560px] bg-[radial-gradient(closest-side,rgba(16,185,129,0.5),rgba(16,185,129,0))]" />
+        {/* Background Elements */}
+        <GradientBlob className="left-[-80px] top-[-80px] h-[560px] w-[560px]" color="rgba(80,37,209,0.22)" />
+        <GradientBlob className="right-[-140px] top-[15%] h-[760px] w-[760px]" color="rgba(186,85,211,0.15)" />
+        <GradientBlob className="bottom-[-120px] left-[25%] h-[720px] w-[720px]" color="rgba(80,37,209,0.18)" />
 
-      {/* HERO */}
-      <section ref={heroRef} className="relative overflow-hidden">
-        <Container className="pb-10 pt-16 sm:pb-16 sm:pt-24">
-          <motion.div style={{ y: heroY, opacity: heroOpacity }}>
-            <Reveal>
-              <div className="flex flex-wrap items-center gap-2">
-                <Pill icon={Clock}>Fast response</Pill>
-                <Pill icon={MessageCircle}>WhatsApp-friendly</Pill>
-                <Pill icon={FileText}>Clear proposals</Pill>
-                <Pill icon={Globe}>Global markets</Pill>
-              </div>
-            </Reveal>
+        {/* ==================== NEW HERO (COMPLETELY DIFFERENT) ==================== */}
+        <section className="relative pt-24 pb-10 sm:pt-32 sm:pb-14">
+          <Container>
+            <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative">
+              {/* Split hero card */}
+              <GlowCard className="p-7 sm:p-10">
+                <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
+                  {/* Left: headline */}
+                  <div className="min-w-0">
+                    <Badge icon={Sparkles}>Free consultation • Quick response</Badge>
 
-            <Reveal delay={0.05}>
-              <SectionTitle
-                kicker="Contact"
-                title="Let’s build your website, brand, and growth system"
-                desc="Share your goals and budget range — we’ll respond with a clear plan and next steps. For urgent work, WhatsApp/call is fastest."
-              />
-            </Reveal>
+                    <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                      Contact the team that
+                      <br />
+                      <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                        builds + scales brands
+                      </span>
+                    </h1>
 
-            <Reveal delay={0.1}>
-              <div className="mt-10 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                      <Phone className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-white">Phone / WhatsApp</div>
-                      <div className="text-sm text-zinc-300">03271804037</div>
-                    </div>
-                  </div>
-                </div>
+                    <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
+                      Tell us what you want to build. We’ll reply with a clear plan, timeline, and next steps — no fluff.
+                    </p>
 
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                      <Mail className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-white">Email</div>
-                      <div className="text-sm text-zinc-300">info@itmetasolutions.com</div>
+                    {/* Feature tiles */}
+                    <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                      <IconTile icon={Clock} title="Fast response" desc="WhatsApp + email replies quickly." />
+                      <IconTile icon={Shield} title="Privacy first" desc="Your data is only used to contact you." />
+                      <IconTile icon={Handshake} title="Clear scope" desc="Deliverables, timeline, and pricing." />
+                      <IconTile icon={Users} title="Trusted approach" desc="Process-driven delivery, not guesswork." />
                     </div>
                   </div>
-                </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                      <MapPin className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-white">Office</div>
-                      <div className="text-sm text-zinc-300">Ameer Chowk, Lahore</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          </motion.div>
-        </Container>
-      </section>
-
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* CONTENT */}
-      <section className="pb-16">
-        <Container>
-          <div className="grid gap-6 lg:grid-cols-2">
-            {/* Left: Contact info + trust */}
-            <div className="grid gap-4">
-              <Reveal delay={0.05}>
-                <InfoCard
-                  icon={Phone}
-                  label="Call / WhatsApp"
-                  value="03271804037"
-                  actionLabel="Call now"
-                  actionHref="tel:03271804037"
-                  copyText="03271804037"
-                />
-              </Reveal>
-
-              <Reveal delay={0.08}>
-                <InfoCard
-                  icon={Mail}
-                  label="Email"
-                  value="info@itmetasolutions.com"
-                  actionLabel="Send email"
-                  actionHref="mailto:info@itmetasolutions.com"
-                  copyText="info@itmetasolutions.com"
-                />
-              </Reveal>
-
-              <Reveal delay={0.11}>
-                <InfoCard
-                  icon={MapPin}
-                  label="Office address"
-                  value="26A Office No F1, 1st Floor, PCSIR Society Block A, Ameer Chowk, Lahore"
-                  actionLabel="Open maps"
-                  actionHref="#"
-                  copyText="26A Office No F1, 1st Floor, PCSIR Society Block A, Ameer Chowk, Lahore"
-                />
-              </Reveal>
-
-              <Reveal delay={0.14}>
-                <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-500/10 to-emerald-400/10 p-6">
-                  <div className="flex items-start gap-3">
-                    <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5">
-                      <ShieldCheck className="h-5 w-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-sm font-semibold text-white">What happens after you submit?</div>
-                      <div className="mt-1 text-sm text-zinc-300">
-                        We review your request and respond with a short plan: recommended service mix, timeline, and a clear next step.
+                  {/* Right: quick contact */}
+                  <div className="min-w-0">
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="text-sm font-semibold text-white">Quick contact</div>
+                          <div className="mt-1 text-sm text-zinc-300">Pick the fastest option</div>
+                        </div>
+                        <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                          <MessageCircle className="h-6 w-6 text-white" />
+                        </div>
                       </div>
 
-                      <div className="mt-4 grid gap-3">
-                        <TrustItem title="Quick reply" desc="We respond fast on WhatsApp and email." />
-                        <TrustItem title="Clear scope" desc="You get deliverables — not vague promises." />
-                        <TrustItem title="Global experience" desc="Pakistan, Canada, UK, USA market experience." />
+                      <div className="mt-6 grid gap-4">
+                        <a
+                          href={`tel:${CONTACT.phoneRaw}`}
+                          className="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+                              <Phone className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-xs text-zinc-400">Call / WhatsApp</div>
+                              <div className="text-sm font-semibold text-white break-words [overflow-wrap:anywhere]">
+                                {CONTACT.phoneRaw}
+                              </div>
+                            </div>
+                          </div>
+                          <ArrowRight className="h-5 w-5 text-white/80 transition-transform group-hover:translate-x-1" />
+                        </a>
+
+                        <a
+                          href={`mailto:${CONTACT.email}`}
+                          className="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+                              <Mail className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-xs text-zinc-400">Email</div>
+                              <div className="text-sm font-semibold text-white break-words [overflow-wrap:anywhere]">
+                                {CONTACT.email}
+                              </div>
+                            </div>
+                          </div>
+                          <ArrowRight className="h-5 w-5 text-white/80 transition-transform group-hover:translate-x-1" />
+                        </a>
+
+                        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+                              <Building2 className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-xs text-zinc-400">Office</div>
+                              <div className="text-sm font-semibold text-white break-words [overflow-wrap:anywhere]">
+                                {CONTACT.officeShort}
+                              </div>
+                              <div className="mt-1 text-xs text-zinc-300">{CONTACT.hours}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                        <a
+                          href={CONTACT.website}
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white hover:bg-white/10"
+                        >
+                          <Globe className="h-4 w-4" />
+                          Website
+                        </a>
+                        <a
+                          href={`tel:${CONTACT.phoneRaw}`}
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-[#5025d1] hover:opacity-95"
+                        >
+                          <Phone className="h-4 w-4" />
+                          Call Now
+                        </a>
                       </div>
                     </div>
                   </div>
                 </div>
-              </Reveal>
+              </GlowCard>
+            </motion.div>
+          </Container>
+        </section>
 
-              <Reveal delay={0.18}>
-                <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                  <div className="flex items-start gap-3">
-                    <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5">
-                      <Globe2 className="h-5 w-5" />
+        {/* ==================== MAIN (NEW LAYOUT) ==================== */}
+        <section className="pb-16 pt-6 sm:pb-24">
+          <Container>
+            <div className="grid gap-10 lg:grid-cols-[0.95fr,1.05fr] lg:gap-14">
+              {/* LEFT: MINI CONTACT CARDS (copy + actions) */}
+              <div className="min-w-0">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-sm font-semibold text-white">Direct contact</div>
+                    <div className="mt-1 text-sm text-zinc-300">Use these for urgent queries</div>
+                  </div>
+                  <Badge icon={BadgeCheck}>Always online</Badge>
+                </div>
+
+                <div className="mt-6 grid gap-5">
+                  <ContactMiniCard
+                    icon={Phone}
+                    label="Call / WhatsApp"
+                    value={CONTACT.phoneRaw}
+                    href={`tel:${CONTACT.phoneRaw}`}
+                    copyText={CONTACT.phoneRaw}
+                  />
+                  <ContactMiniCard
+                    icon={Mail}
+                    label="Email"
+                    value={CONTACT.email}
+                    href={`mailto:${CONTACT.email}`}
+                    copyText={CONTACT.email}
+                  />
+                  <ContactMiniCard
+                    icon={MapPin}
+                    label="Office address"
+                    value={CONTACT.officeFull}
+                    href="#"
+                    copyText={CONTACT.officeFull}
+                  />
+                </div>
+
+                {/* Why share box */}
+                <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                      <Wand2 className="h-6 w-6 text-white" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-sm font-semibold text-white">Preferred details to share</div>
-                      <ul className="mt-3 space-y-2 text-sm text-zinc-200">
+                      <div className="text-lg font-bold text-white">What to include (recommended)</div>
+                      <ul className="mt-4 space-y-3 text-sm text-zinc-200">
                         {[
-                          "Your business/brand name + industry",
+                          "Brand name + industry",
                           "Target city/country and audience",
                           "Goal (leads, sales, website, branding)",
-                          "Budget range (monthly/one-time)",
-                          "Any reference links (competitors, style)",
-                        ].map((x, i) => (
-                          <li key={i} className="flex items-center gap-2">
-                            <BadgeCheck className="h-4 w-4 text-emerald-300" />
-                            <span className="opacity-90">{x}</span>
+                          "Timeline + budget (if you have one)",
+                          "Reference links (competitors, style)",
+                        ].map((x) => (
+                          <li key={x} className="flex items-start gap-3">
+                            <div className="mt-0.5 rounded-xl bg-white/10 p-2">
+                              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                            </div>
+                            <span className="break-words [overflow-wrap:anywhere]">{x}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                   </div>
                 </div>
-              </Reveal>
-            </div>
-
-            {/* Right: Form */}
-            <Reveal delay={0.06}>
-              <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="text-sm font-semibold text-white">Send a message</div>
-                    <div className="mt-1 text-sm text-zinc-300">
-                      Fill the form and we’ll get back with a plan.
-                    </div>
-                  </div>
-                  <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5">
-                    <MessageSquareText className="h-5 w-5" />
-                  </div>
-                </div>
-
-                <form onSubmit={onSubmit} className="mt-6 grid gap-4">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Input
-                      label="Full name"
-                      value={form.name}
-                      onChange={(v) => setForm((s) => ({ ...s, name: v }))}
-                      placeholder="Your name"
-                      error={errors.name}
-                    />
-                    <Input
-                      label="Email"
-                      type="email"
-                      value={form.email}
-                      onChange={(v) => setForm((s) => ({ ...s, email: v }))}
-                      placeholder="you@email.com"
-                      error={errors.email}
-                    />
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Input
-                      label="Phone / WhatsApp"
-                      value={form.phone}
-                      onChange={(v) => setForm((s) => ({ ...s, phone: v }))}
-                      placeholder="+92..."
-                      error={errors.phone}
-                    />
-                    <Input
-                      label="Company (optional)"
-                      value={form.company}
-                      onChange={(v) => setForm((s) => ({ ...s, company: v }))}
-                      placeholder="Business name"
-                    />
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Select
-                      label="Service needed"
-                      value={form.service}
-                      onChange={(v) => setForm((s) => ({ ...s, service: v }))}
-                      error={errors.service}
-                      options={[
-                        { value: "meta", label: "Meta Ads (Leads/Sales)" },
-                        { value: "tiktok", label: "TikTok Ads" },
-                        { value: "google", label: "Google Ads" },
-                        { value: "web", label: "Website / E-commerce" },
-                        { value: "social", label: "Social Media Management" },
-                        { value: "brand", label: "Brand Building" },
-                        { value: "design", label: "Graphic Design" },
-                        { value: "video", label: "Video Editing" },
-                        { value: "other", label: "Other / Not sure" },
-                      ]}
-                    />
-                    <Select
-                      label="Budget range"
-                      value={form.budget}
-                      onChange={(v) => setForm((s) => ({ ...s, budget: v }))}
-                      options={[
-                        { value: "20k", label: "Under 20k PKR" },
-                        { value: "50k", label: "20k – 50k PKR" },
-                        { value: "100k", label: "50k – 100k PKR" },
-                        { value: "200k", label: "100k – 200k PKR" },
-                        { value: "custom", label: "Custom / Discuss" },
-                      ]}
-                    />
-                  </div>
-
-                  <TextArea
-                    label="Project details"
-                    value={form.message}
-                    onChange={(v) => setForm((s) => ({ ...s, message: v }))}
-                    placeholder="Tell us what you want to achieve, any links, and your timeline..."
-                    error={errors.message}
-                  />
-
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="text-xs text-zinc-400 flex items-center gap-2">
-                      <ShieldCheck className="h-4 w-4" />
-                      Your info stays private and is only used to contact you.
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={status === "sending"}
-                      className={cx(
-                        "inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 hover:opacity-90",
-                        status === "sending" && "opacity-60 cursor-not-allowed"
-                      )}
-                    >
-                      {status === "sending" ? (
-                        <>
-                          Sending <Send className="h-4 w-4" />
-                        </>
-                      ) : (
-                        <>
-                          Send message <ArrowRight className="h-4 w-4" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  {status === "sent" ? (
-                    <div className="mt-2 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-200">
-                      <div className="flex items-center gap-2 font-semibold">
-                        <CheckCircle2 className="h-5 w-5" />
-                        Message sent successfully!
-                      </div>
-                      <div className="mt-1 text-emerald-200/90">
-                        We’ll contact you shortly. If urgent, WhatsApp is fastest: <span className="text-white font-semibold">03271804037</span>
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {status === "error" ? (
-                    <div className="mt-2 rounded-2xl border border-red-400/20 bg-red-400/10 p-4 text-sm text-red-200">
-                      {errorMessage}
-                    </div>
-                  ) : null}
-                </form>
-
-                <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                      <Building2 className="h-5 w-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-sm font-semibold text-white">Office hours</div>
-                      <div className="mt-1 text-sm text-zinc-300">
-                        Monday – Saturday • 06:00 AM – 12:00 AM (PKT)
-                      </div>
-                      <div className="mt-3 text-xs text-zinc-400">
-                        (You can change this text anytime.)
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
-            </Reveal>
-          </div>
 
+              {/* RIGHT: FORM (NEW LOOK) */}
+              <div className="min-w-0">
+                <GlowCard className="p-6 sm:p-8">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <h2 className="text-2xl font-bold text-white">Request a proposal</h2>
+                      <p className="mt-2 text-zinc-300">
+                        We’ll reply with a scope + timeline. For urgent work, WhatsApp is fastest.
+                      </p>
+                    </div>
+                    <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                      <Send className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
 
-        </Container>
-      </section>
-    </div>
+                  {/* Service chips (pure UI) */}
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                      <div className="flex items-center gap-3">
+                        <Laptop className="h-5 w-5 text-white/80" />
+                        <div>
+                          <div className="text-sm font-semibold text-white">Web</div>
+                          <div className="text-xs text-zinc-400">Sites & apps</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                      <div className="flex items-center gap-3">
+                        <BarChart3 className="h-5 w-5 text-white/80" />
+                        <div>
+                          <div className="text-sm font-semibold text-white">Marketing</div>
+                          <div className="text-xs text-zinc-400">Leads & sales</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                      <div className="flex items-center gap-3">
+                        <Cloud className="h-5 w-5 text-white/80" />
+                        <div>
+                          <div className="text-sm font-semibold text-white">Salesforce</div>
+                          <div className="text-xs text-zinc-400">Solutions</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="mt-8 space-y-6 min-w-0">
+                    <div className="grid gap-6 sm:grid-cols-2">
+                      <Field label="Full name *" error={errors.name}>
+                        <Input
+                          name="name"
+                          value={form.name}
+                          onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
+                          placeholder="Your name"
+                          error={errors.name}
+                        />
+                      </Field>
+
+                      <Field label="Email *" error={errors.email}>
+                        <Input
+                          type="email"
+                          name="email"
+                          value={form.email}
+                          onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
+                          placeholder="you@email.com"
+                          error={errors.email}
+                        />
+                      </Field>
+                    </div>
+
+                    <div className="grid gap-6 sm:grid-cols-2">
+                      <Field label="Phone / WhatsApp *" error={errors.phone}>
+                        <Input
+                          name="phone"
+                          value={form.phone}
+                          onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
+                          placeholder="+92..."
+                          error={errors.phone}
+                        />
+                      </Field>
+
+                      <Field label="Company" optional>
+                        <Input
+                          name="company"
+                          value={form.company}
+                          onChange={(e) => setForm((s) => ({ ...s, company: e.target.value }))}
+                          placeholder="Business name"
+                        />
+                      </Field>
+                    </div>
+
+                    <div className="grid gap-6 sm:grid-cols-2">
+                      <Field label="Service needed">
+                        <Select
+                          name="service"
+                          value={form.service}
+                          onChange={(e) => setForm((s) => ({ ...s, service: e.target.value }))}
+                          options={[
+                            { value: "meta", label: "Meta Ads", icon: Facebook },
+                            { value: "tiktok", label: "TikTok Ads", icon: Video },
+                            { value: "google", label: "Google Ads", icon: Search },
+                            { value: "web", label: "Website", icon: Laptop },
+                            { value: "social", label: "SMM", icon: Users },
+                            { value: "brand", label: "Brand Building", icon: Layers },
+                            { value: "design", label: "Graphic Design", icon: Palette },
+                            { value: "video", label: "Video Editing", icon: Video },
+                            { value: "salesforce", label: "Salesforce", icon: Cloud },
+                          ]}
+                        />
+                      </Field>
+
+                      {/* ✅ Budget: fillable + optional */}
+                      <Field label="Budget" optional>
+                        <Input
+                          name="budget"
+                          value={form.budget}
+                          onChange={(e) => setForm((s) => ({ ...s, budget: e.target.value }))}
+                          placeholder="e.g., 20k – 100k (optional)"
+                          type="text"
+                        />
+                      </Field>
+                    </div>
+
+                    <Field label="Project details *" error={errors.message}>
+                      <TextArea
+                        name="message"
+                        value={form.message}
+                        onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))}
+                        placeholder="Tell us what you want to achieve, any links, and your timeline..."
+                        rows={6}
+                        error={errors.message}
+                      />
+                    </Field>
+
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="inline-flex items-center gap-2 text-xs text-zinc-400">
+                        <Shield className="h-4 w-4 text-emerald-400" />
+                        Your info stays private and is only used to contact you.
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={status === "sending"}
+                        className={cx(
+                          "w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl",
+                          "bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-4 text-lg font-semibold text-white",
+                          "shadow-lg shadow-[#5025d1]/40 transition-all",
+                          status === "sending"
+                            ? "opacity-50 cursor-not-allowed"
+                            : "hover:shadow-xl hover:shadow-[#5025d1]/50 hover:scale-[1.02]"
+                        )}
+                      >
+                        {status === "sending" ? "Submiting..." : "Submit"}
+                        <ArrowRight className="h-5 w-5" />
+                      </button>
+                    </div>
+
+                    {status === "success" && (
+                      <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-emerald-200">
+                        <div className="flex items-center gap-2 font-semibold">
+                          <CheckCircle2 className="h-5 w-5 text-emerald-300" />
+                          Message sent successfully!
+                        </div>
+                        <p className="mt-1 text-sm text-emerald-200/90">
+                          We’ll contact you shortly. If urgent, WhatsApp is fastest:{" "}
+                          <span className="font-semibold text-white">{CONTACT.phoneRaw}</span>
+                        </p>
+                      </div>
+                    )}
+
+                    {status === "error" && (
+                      <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-red-200">
+                        <p className="font-semibold">
+                          {errorMessage || "Failed to send message. Please try again or contact us directly."}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* bottom micro proof */}
+                    <div className="mt-2 grid gap-3 sm:grid-cols-3">
+                      {[
+                        { icon: Briefcase, text: "Clear proposal" },
+                        { icon: Shield, text: "Privacy-first" },
+                        { icon: BarChart3, text: "Growth-focused" },
+                      ].map((x) => (
+                        <div
+                          key={x.text}
+                          className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white"
+                        >
+                          <x.icon className="h-4 w-4 text-white/80" />
+                          {x.text}
+                        </div>
+                      ))}
+                    </div>
+                  </form>
+                </GlowCard>
+              </div>
+            </div>
+          </Container>
+        </section>
+      </div>
     </>
   );
 }

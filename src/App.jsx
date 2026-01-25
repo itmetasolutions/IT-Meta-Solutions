@@ -16,6 +16,8 @@ import HikmabioticsCaseStudy from "./pages/HikmabioticsCaseStudy";
 import ProcessPage from "./pages/process";
 import Contact from "./pages/Contact";
 import NotFoundPage from "./pages/404";
+import SalesforceExpertise from "./pages/SalesforceExpertise";
+import WebDevelopmentExpertise from "./pages/WebDevelopmentExpertise";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -176,8 +178,11 @@ function App() {
             <Route path="/case-study/esahulat-mart" element={<ESahulatMartCaseStudy />} />
             <Route path="/case-study/hikmabiotics" element={<HikmabioticsCaseStudy />} />
             <Route path="/case-study/multidatum" element={<MultidatumCaseStudy />} />
+            <Route path="/salesforce-expertise" element={<SalesforceExpertise />} />
+            <Route path="/web-development-expertise" element={<WebDevelopmentExpertise />} />
             <Route path="/process" element={<ProcessPage />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
 
           <Footer nav={nav} year={year} AnchorLink={AnchorLink} Container={Container} />

@@ -34,7 +34,7 @@ function Pill({ children }) {
 }
 
 function Divider() {
-  return <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
+  return <div className="my-8 sm:my-12 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
 export default function NotFoundPage() {
@@ -54,15 +54,9 @@ export default function NotFoundPage() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
-        {/* Background accents */}
-      <GradientBlob className="left-[-140px] top-[-160px] h-[560px] w-[560px]" />
-      <GradientBlob
-        className="right-[-180px] top-[220px] h-[560px] w-[560px]"
-        color="rgba(16,185,129,0.55)"
-      />
+      <div className="relative min-h-screen overflow-hidden text-zinc-100">
 
-      <Container className="py-20 sm:py-28">
+      <Container className="py-24 sm:py-32">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -170,10 +164,6 @@ export default function NotFoundPage() {
                       <ArrowRight className="h-4 w-4 opacity-80 transition-transform group-hover:translate-x-0.5" />
                     </Link>
                   ))}
-                </div>
-
-                <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-xs text-zinc-400">
-                  Tip: If this happened after deployment, check your React Router setup (catch-all route + 404).
                 </div>
               </div>
             </motion.div>

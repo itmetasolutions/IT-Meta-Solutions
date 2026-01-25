@@ -123,7 +123,7 @@ function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
 }
 
 function Divider() {
-  return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
+  return <div className="my-12 sm:my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
 function Stat({ icon: Icon, label, value }) {
@@ -264,7 +264,7 @@ export default function AboutUsPage() {
 
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">
-        <Container className="pb-10 pt-16 sm:pb-16 sm:pt-24">
+        <Container className="pb-12 pt-24 sm:pb-16 sm:pt-32">
           <motion.div style={{ y: heroY, opacity: heroOpacity }}>
             <Reveal>
               <div className="flex flex-wrap items-center gap-3">
@@ -280,6 +280,7 @@ export default function AboutUsPage() {
                 kicker="About us"
                 title="IT Meta Solutions — building brands, websites & growth systems that perform"
                 desc="We help businesses in Pakistan, Canada, UK and USA build a premium digital presence and scale with performance marketing — with a strong focus on conversion, trust, and measurable results."
+                level="h1"
               />
             </Reveal>
 
@@ -343,16 +344,8 @@ export default function AboutUsPage() {
         </Container>
       </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
-      <Container>
-        <Divider />
-      </Container>
-
       {/* Vision / Mission */}
-      <section className="pb-16">
+      <section className="py-16 sm:py-24">
         <Container>
           <div className="grid gap-4 lg:grid-cols-2">
             <Reveal delay={0.05}>
@@ -430,12 +423,8 @@ export default function AboutUsPage() {
         </Container>
       </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* What we do (convincing) */}
-      <section className="pb-16">
+      <section className="py-16 sm:py-24">
         <Container>
           <Reveal>
             <SectionTitle
@@ -475,12 +464,8 @@ export default function AboutUsPage() {
         </Container>
       </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
       {/* Team */}
-      <section className="pb-16">
+      <section className="py-16 sm:py-24">
         <Container>
           <Reveal>
             <SectionTitle
