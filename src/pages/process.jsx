@@ -223,7 +223,7 @@ function Step({ num, icon: Icon, title, desc, bullets }) {
 
 function StickySubnav() {
   return (
-    <div className="sticky top-16 z-30 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
+    <div className="sticky top-24 z-50 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
       <Container className="py-6">
         <div className="flex items-center justify-between gap-3">
           <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">

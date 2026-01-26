@@ -6,7 +6,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
   return (
       <footer className="border-t border-[#5025d1]/20" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url("/assets/img/ITMS Site BG Global.webp")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
         <Container className="py-12 sm:py-16">
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div>
               <div className="flex flex-col">
                 <img
@@ -58,7 +58,20 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
             </div>
 
             <div>
-              <div className="text-sm font-semibold text-white">Let’s talk</div>
+              <div className="text-sm font-semibold text-white">Services</div>
+              <div className="mt-3 grid gap-2 text-sm">
+                <Link to="/web-development-expertise" className="text-zinc-300 hover:text-white">Web Development</Link>
+                <Link to="/salesforce-expertise" className="text-zinc-300 hover:text-white">Salesforce</Link>
+                <Link to="/digital-marketing-expertise" className="text-zinc-300 hover:text-white">Digital Marketing</Link>
+                <Link to="/social-media-expertise" className="text-zinc-300 hover:text-white">Social Media</Link>
+                <Link to="/graphic-designing-expertise" className="text-zinc-300 hover:text-white">Graphic Design</Link>
+                <Link to="/video-editing-expertise" className="text-zinc-300 hover:text-white">Video Editing</Link>
+                <Link to="/brand-building-expertise" className="text-zinc-300 hover:text-white">Brand Building</Link>
+              </div>
+            </div>
+
+            <div>
+              <div className="text-sm font-semibold text-white">Let's talk</div>
               <div className="mt-3 space-y-2 text-sm text-zinc-300">
                 <div className="flex items-center gap-2">
                   <Mail className="h-5 w-5" />

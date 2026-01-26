@@ -1,4 +1,5 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -19,34 +20,42 @@ import {
   Users,
   Wallet,
   Instagram,
-  Facebook,
   Target,
   MousePointerClick,
   Images,
   CheckCircle2,
-  Globe,
   ScrollText,
   CalendarDays,
+  Globe,
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
 
 /**
- * United Muslim Travels — Complete Brand Build (Tabbed)
- * Tabs:
- *  - Website & SEO
- *  - Paid Marketing
- *  - Social Media Management
- *
- * Matches your reference theme:
- * - Dark, glass cards, gradients
- * - Scroll progress
- * - Parallax hero
- * - Reveal animations
- * - Sticky section subnav
+ * United Muslim Travels — Complete Brand Build (Tabbed) — UPDATED
+ * ✅ Same theme as your latest pages (dark glass + gradients)
+ * ✅ Primary color: #5025d1 (ITMS purple)
+ * ✅ Smooth tabs + sticky in-page nav
+ * ✅ Equal-height cards everywhere
+ * ✅ Mobile safe (no horizontal scroll)
+ * ✅ "Request a proposal" routes to /contact
  */
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
+/* ==================== REDUCED MOTION ==================== */
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (!m) return;
+    const onChange = () => setReduced(!!m.matches);
+    onChange();
+    m.addEventListener?.("change", onChange);
+    return () => m.removeEventListener?.("change", onChange);
+  }, []);
+  return reduced;
+}
+
+/* ==================== CONFIG ==================== */
 const tabs = [
   { key: "website", label: "Website & SEO", icon: LayoutGrid },
   { key: "paid", label: "Paid Marketing", icon: Megaphone },
@@ -60,10 +69,9 @@ const inPageNav = [
   { label: "Results", href: "#results" },
 ];
 
+/* ==================== UI HELPERS ==================== */
 function Container({ children, className }) {
-  return (
-    <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>
-  );
+  return <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
 }
 
 function AnchorLink({ href, children, className }) {
@@ -83,15 +91,12 @@ function AnchorLink({ href, children, className }) {
   );
 }
 
-function GradientBlob({ className }) {
+function GradientBlob({ className, color = "rgba(80,37,209,0.20)" }) {
   return (
     <div
       aria-hidden
-      className={cx(
-        "pointer-events-none absolute -z-10 blur-3xl opacity-40",
-        "bg-[radial-gradient(closest-side,rgba(99,102,241,0.6),rgba(99,102,241,0))]",
-        className
-      )}
+      className={cx("pointer-events-none absolute -z-10 blur-3xl", className)}
+      style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}
     />
   );
 }
@@ -102,18 +107,19 @@ function ScrollProgress() {
   return (
     <motion.div
       aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-indigo-500 via-emerald-400 to-fuchsia-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
       style={{ scaleX: w }}
     />
   );
 }
 
 function Reveal({ children, delay = 0, className }) {
+  const reduced = usePrefersReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduced ? false : { opacity: 0, y: 18 }}
+      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut", delay }}
     >
@@ -134,8 +140,8 @@ function Pill({ icon: Icon, children }) {
 function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
   const HeadingTag = level;
   return (
-    <div className={cx("max-w-2xl", align === "center" && "mx-auto text-center")}>
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
+    <div className={cx("max-w-3xl", align === "center" && "mx-auto text-center")}>
+      <div className={cx("inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200", align === "center" && "mx-auto")}>
         <Sparkles className="h-3.5 w-3.5" />
         {kicker}
       </div>
@@ -147,10 +153,10 @@ function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
 
 function Stat({ icon: Icon, label, value }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 h-full flex flex-col justify-center">
+    <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-5 h-full flex flex-col justify-center backdrop-blur-sm">
       <div className="flex items-center gap-3">
-        <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-          <Icon className="h-5 w-5" />
+        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <Icon className="h-5 w-5 text-white" />
         </div>
         <div>
           <div className="text-2xl font-semibold text-white">{value}</div>
@@ -161,20 +167,33 @@ function Stat({ icon: Icon, label, value }) {
   );
 }
 
-function Card({ icon: Icon, title, desc, bullets }) {
+function Card({ icon: Icon, title, desc, bullets, delay = 0 }) {
+  const reduced = usePrefersReducedMotion();
   return (
-    <div
-      className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6 pb-8 h-full flex"
+    <motion.div
+      initial={reduced ? false : { opacity: 0, y: 18 }}
+      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.55, ease: "easeOut", delay }}
+      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+      className="
+        group relative overflow-hidden
+        rounded-3xl border border-white/10
+        bg-gradient-to-br from-white/[0.08] to-white/[0.02]
+        p-6 pb-8
+        h-full flex
+        backdrop-blur-sm
+      "
     >
       <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-indigo-500/20 blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-emerald-400/20 blur-3xl" />
+        <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-[#5025d1]/25 blur-3xl" />
+        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-purple-500/20 blur-3xl" />
       </div>
 
       <div className="relative flex h-full flex-col">
         <div className="mb-4 flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5">
-            <Icon className="h-5 w-5" />
+          <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+            <Icon className="h-5 w-5 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-white">{title}</h3>
         </div>
@@ -184,8 +203,8 @@ function Card({ icon: Icon, title, desc, bullets }) {
         {bullets?.length ? (
           <ul className="mt-5 space-y-2 text-sm text-zinc-200">
             {bullets.map((b, i) => (
-              <li key={i} className="flex items-center gap-2">
-                <BadgeCheck className="h-4 w-4 text-emerald-300" />
+              <li key={i} className="flex items-start gap-2">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
                 <span className="opacity-90">{b}</span>
               </li>
             ))}
@@ -194,7 +213,7 @@ function Card({ icon: Icon, title, desc, bullets }) {
 
         <div className="mt-auto pt-4" />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -204,11 +223,11 @@ function Divider() {
 
 function StickySubnav() {
   return (
-    <div className="sticky top-[72px] z-40 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
+    <div className="sticky top-[72px] z-40 border-b border-white/10 bg-black/50 backdrop-blur">
       <Container className="py-3">
         <div className="flex items-center justify-between gap-3">
           <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
-            <Landmark className="h-4 w-4" />
+            <Landmark className="h-4 w-4 text-[#5025d1]" />
             United Muslim Travels — Brand Build
           </div>
 
@@ -259,7 +278,7 @@ function Tabs({ active, onChange }) {
 
 function Shot({ title, size, comment }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+    <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 backdrop-blur-sm">
       <div className="flex items-start gap-3">
         <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/5">
           <Images className="h-5 w-5" />
@@ -268,6 +287,7 @@ function Shot({ title, size, comment }) {
           <div className="text-sm font-semibold text-white">{title}</div>
           <div className="mt-1 text-xs text-zinc-400">{size}</div>
           <div className="mt-2 text-sm text-zinc-300">{comment}</div>
+
           <div className="mt-4 rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-6 text-xs text-zinc-400">
             Screenshot placeholder — drop image here
           </div>
@@ -277,6 +297,7 @@ function Shot({ title, size, comment }) {
   );
 }
 
+/* ==================== TAB PANELS ==================== */
 function TabPanel({ active }) {
   if (active === "website") {
     return (
@@ -289,74 +310,63 @@ function TabPanel({ active }) {
           />
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <Reveal delay={0.05}>
-            <Card
-              icon={LayoutGrid}
-              title="Site architecture"
-              desc="A structure that makes pilgrimage services easy to find and compare."
-              bullets={[
-                "Home (trust messaging + brand)",
-                "Umrah Packages",
-                "Hajj Packages",
-                "Ramadan Packages",
-                "Hotels / accommodation pages",
-                "Visa + Transport",
-                "Contact & inquiry forms",
-              ]}
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <Card
-              icon={Ticket}
-              title="Package detail templates"
-              desc="Dedicated package pages designed for scannability and quick action."
-              bullets={[
-                "Duration",
-                "Inclusions",
-                "Hotel distance from Haram",
-                "Pricing cues",
-                "Call / WhatsApp CTAs",
-              ]}
-            />
-          </Reveal>
+        <div className="grid gap-4 md:grid-cols-2 items-stretch">
+          <Card
+            icon={LayoutGrid}
+            title="Site architecture"
+            desc="A structure that makes pilgrimage services easy to find and compare."
+            bullets={[
+              "Home (trust messaging + brand)",
+              "Umrah Packages",
+              "Hajj Packages",
+              "Ramadan Packages",
+              "Hotels / accommodation pages",
+              "Visa + Transport",
+              "Contact & inquiry forms",
+            ]}
+            delay={0.05}
+          />
+          <Card
+            icon={Ticket}
+            title="Package detail templates"
+            desc="Dedicated package pages designed for scannability and quick action."
+            bullets={["Duration", "Inclusions", "Hotel distance from Haram", "Pricing cues", "Call / WhatsApp CTAs"]}
+            delay={0.1}
+          />
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          <Reveal delay={0.05}>
-            <Card
-              icon={Gauge}
-              title="Mobile-first UX"
-              desc="Most leads arrive via mobile — so layouts are optimized for quick reading and one-tap actions."
-              bullets={["Sticky CTAs", "Readable sections", "Fast navigation", "WhatsApp-first flow"]}
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <Card
-              icon={BedDouble}
-              title="Hotels & amenities"
-              desc="Accommodation pages set expectations and support decision-making for families and elders."
-              bullets={["Amenity lists", "Galleries", "Proximity context", "Linked from packages"]}
-            />
-          </Reveal>
-          <Reveal delay={0.15}>
-            <Card
-              icon={FileSearch}
-              title="SEO structure"
-              desc="Built for intent-based search around packages, seasons, and locations."
-              bullets={["Package hubs", "Long-tail package pages", "Service pages", "Clean internal linking"]}
-            />
-          </Reveal>
+        <div className="grid gap-4 lg:grid-cols-3 items-stretch">
+          <Card
+            icon={Gauge}
+            title="Mobile-first UX"
+            desc="Most leads arrive via mobile — so layouts are optimized for quick reading and one-tap actions."
+            bullets={["Sticky CTAs", "Readable sections", "Fast navigation", "WhatsApp-first flow"]}
+            delay={0.05}
+          />
+          <Card
+            icon={BedDouble}
+            title="Hotels & amenities"
+            desc="Accommodation pages set expectations and support decision-making for families and elders."
+            bullets={["Amenity lists", "Galleries", "Proximity context", "Linked from packages"]}
+            delay={0.1}
+          />
+          <Card
+            icon={FileSearch}
+            title="SEO structure"
+            desc="Built for intent-based search around packages, seasons, and locations."
+            bullets={["Package hubs", "Long-tail package pages", "Service pages", "Clean internal linking"]}
+            delay={0.15}
+          />
         </div>
 
         <Reveal>
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-r from-white/[0.06] to-white/[0.03] p-6">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-6 backdrop-blur-sm">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div className="max-w-2xl">
                 <div className="text-sm font-semibold text-white">Website goals</div>
                 <div className="mt-1 text-sm text-zinc-300">
-                  Act as a trust hub for ads & social traffic, explain Umrah/Hajj/Ramadan packages clearly, and provide fast
-                  inquiry + WhatsApp conversion paths.
+                  Act as a trust hub for ads & social traffic, explain Umrah/Hajj/Ramadan packages clearly, and provide fast inquiry
+                  + WhatsApp conversion paths.
                 </div>
               </div>
               <div className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-200">
@@ -381,70 +391,65 @@ function TabPanel({ active }) {
           />
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <Reveal delay={0.05}>
-            <Card
-              icon={ShieldCheck}
-              title="Meta setup"
-              desc="Professional infrastructure so ads and tracking remain reliable."
-              bullets={[
-                "Meta Business Manager",
-                "Domain verification",
-                "Ad account setup",
-                "Pixel foundations",
-                "WhatsApp + lead form integration",
-              ]}
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <Card
-              icon={Users}
-              title="Audience segmentation"
-              desc="Interest + behavior-based segments optimized for pilgrimage intent."
-              bullets={["Umrah/Hajj interests", "Ramadan seasonal intent", "Engagers retargeting", "Warm audiences"]}
-            />
-          </Reveal>
+        <div className="grid gap-4 md:grid-cols-2 items-stretch">
+          <Card
+            icon={ShieldCheck}
+            title="Meta setup"
+            desc="Professional infrastructure so ads and tracking remain reliable."
+            bullets={[
+              "Meta Business Manager",
+              "Domain verification",
+              "Ad account setup",
+              "Pixel foundations",
+              "WhatsApp + lead form integration",
+            ]}
+            delay={0.05}
+          />
+          <Card
+            icon={Users}
+            title="Audience segmentation"
+            desc="Interest + behavior-based segments optimized for pilgrimage intent."
+            bullets={["Umrah/Hajj interests", "Ramadan seasonal intent", "Engagers retargeting", "Warm audiences"]}
+            delay={0.1}
+          />
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          <Reveal delay={0.05}>
-            <Card
-              icon={Megaphone}
-              title="Awareness campaign"
-              desc="Introduce the brand with respectful Islamic visuals and emotional messaging."
-              bullets={["Image + video creatives", "Umrah calling copy", "Ramadan blessings angle", "Trust messaging"]}
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <Card
-              icon={Target}
-              title="Retargeting"
-              desc="Re-engage warm users who watched videos or interacted with the page."
-              bullets={["Video viewers", "Page engagers", "Profile visitors", "Reminder creatives"]}
-            />
-          </Reveal>
-          <Reveal delay={0.15}>
-            <Card
-              icon={MousePointerClick}
-              title="Lead campaigns"
-              desc="Conversion-focused ads sending users to WhatsApp and instant forms."
-              bullets={["Click-to-WhatsApp", "Instant lead forms", "Clear package messaging", "Direct CTAs"]}
-            />
-          </Reveal>
+        <div className="grid gap-4 lg:grid-cols-3 items-stretch">
+          <Card
+            icon={Megaphone}
+            title="Awareness campaign"
+            desc="Introduce the brand with respectful Islamic visuals and emotional messaging."
+            bullets={["Image + video creatives", "Umrah calling copy", "Ramadan blessings angle", "Trust messaging"]}
+            delay={0.05}
+          />
+          <Card
+            icon={Target}
+            title="Retargeting"
+            desc="Re-engage warm users who watched videos or interacted with the page."
+            bullets={["Video viewers", "Page engagers", "Profile visitors", "Reminder creatives"]}
+            delay={0.1}
+          />
+          <Card
+            icon={MousePointerClick}
+            title="Lead campaigns"
+            desc="Conversion-focused ads sending users to WhatsApp and instant forms."
+            bullets={["Click-to-WhatsApp", "Instant lead forms", "Clear package messaging", "Direct CTAs"]}
+            delay={0.15}
+          />
         </div>
 
         <Reveal>
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-500/10 to-emerald-400/10 p-6">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-emerald-400/10 p-6 backdrop-blur-sm">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div className="max-w-2xl">
                 <div className="text-sm font-semibold text-white">Performance snapshot (test budget)</div>
                 <div className="mt-1 text-sm text-zinc-300">
-                  Total spend: <span className="text-white font-semibold">500</span> (local PKR-based test budget) •
-                  Leads: <span className="text-white font-semibold">200+</span> via WhatsApp chats + instant forms •
-                  Strong relevance due to niche targeting.
+                  Total spend: <span className="text-white font-semibold">500</span> (PKR test budget) • Leads:{" "}
+                  <span className="text-white font-semibold">200+</span> via WhatsApp chats + instant forms • Strong relevance due
+                  to niche targeting.
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#5025d1]">
                 <Wallet className="h-4 w-4" />
                 Low CPL system
               </div>
@@ -452,23 +457,21 @@ function TabPanel({ active }) {
           </div>
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <Reveal delay={0.05}>
-            <Card
-              icon={MessageSquareText}
-              title="Creative & copy strategy"
-              desc="A respectful Islamic tone with Urdu + English mixed copy and urgency-based CTAs."
-              bullets={["Licensed travel trust", "Hotels near Haram", "Complete Umrah support", "Limited seats", "Ramadan specials"]}
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <Card
-              icon={BarChart3}
-              title="Lead handling"
-              desc="Leads routed to WhatsApp and forms for fast responses and better close rates."
-              bullets={["WhatsApp conversations", "Instant form follow-ups", "Package-specific intent", "Scalable for Hajj/Ramadan"]}
-            />
-          </Reveal>
+        <div className="grid gap-4 md:grid-cols-2 items-stretch">
+          <Card
+            icon={MessageSquareText}
+            title="Creative & copy strategy"
+            desc="A respectful Islamic tone with Urdu + English mixed copy and urgency-based CTAs."
+            bullets={["Licensed travel trust", "Hotels near Haram", "Complete Umrah support", "Limited seats", "Ramadan specials"]}
+            delay={0.05}
+          />
+          <Card
+            icon={BarChart3}
+            title="Lead handling"
+            desc="Leads routed to WhatsApp and forms for fast responses and better close rates."
+            bullets={["WhatsApp conversations", "Instant form follow-ups", "Package-specific intent", "Scalable for Hajj/Ramadan"]}
+            delay={0.1}
+          />
         </div>
       </div>
     );
@@ -485,60 +488,54 @@ function TabPanel({ active }) {
         />
       </Reveal>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Reveal delay={0.05}>
-          <Card
-            icon={Instagram}
-            title="Platforms"
-            desc="Brand presence across high-intent social channels."
-            bullets={["Instagram", "Facebook", "WhatsApp-first conversion"]}
-          />
-        </Reveal>
-        <Reveal delay={0.1}>
-          <Card
-            icon={ShieldCheck}
-            title="Brand setup"
-            desc="Profile optimization and visual consistency built for trust."
-            bullets={["Bio + category", "Contact buttons", "Consistent logo/colors", "Islamic theme cues"]}
-          />
-        </Reveal>
+      <div className="grid gap-4 md:grid-cols-2 items-stretch">
+        <Card
+          icon={Instagram}
+          title="Platforms"
+          desc="Brand presence across high-intent social channels."
+          bullets={["Instagram", "Facebook (if used)", "WhatsApp-first conversion"]}
+          delay={0.05}
+        />
+        <Card
+          icon={ShieldCheck}
+          title="Brand setup"
+          desc="Profile optimization and visual consistency built for trust."
+          bullets={["Bio + category", "Contact buttons", "Consistent logo/colors", "Islamic theme cues"]}
+          delay={0.1}
+        />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Reveal delay={0.05}>
-          <Card
-            icon={CalendarDays}
-            title="Content pillars"
-            desc="Content designed to inform, build trust, and convert."
-            bullets={["Package promotions", "Islamic education", "Ziyarat & history", "Testimonials/trust posts"]}
-          />
-        </Reveal>
-        <Reveal delay={0.1}>
-          <Card
-            icon={ScrollText}
-            title="Tone & messaging"
-            desc="Respectful, spiritual, and easy to understand for all age groups."
-            bullets={["Urdu + English mix", "Trust messaging", "Clear CTAs", "Seasonal campaigns"]}
-          />
-        </Reveal>
-        <Reveal delay={0.15}>
-          <Card
-            icon={Ticket}
-            title="Highlights structure"
-            desc="Highlights that answer common pilgrim intents quickly."
-            bullets={["Umrah Packages", "Hajj Packages", "Hotels", "Ziyarat"]}
-          />
-        </Reveal>
+      <div className="grid gap-4 lg:grid-cols-3 items-stretch">
+        <Card
+          icon={CalendarDays}
+          title="Content pillars"
+          desc="Content designed to inform, build trust, and convert."
+          bullets={["Package promotions", "Islamic education", "Ziyarat & history", "Testimonials/trust posts"]}
+          delay={0.05}
+        />
+        <Card
+          icon={ScrollText}
+          title="Tone & messaging"
+          desc="Respectful, spiritual, and easy to understand for all age groups."
+          bullets={["Urdu + English mix", "Trust messaging", "Clear CTAs", "Seasonal campaigns"]}
+          delay={0.1}
+        />
+        <Card
+          icon={Ticket}
+          title="Highlights structure"
+          desc="Highlights that answer common pilgrim intents quickly."
+          bullets={["Umrah Packages", "Hajj Packages", "Hotels", "Ziyarat"]}
+          delay={0.15}
+        />
       </div>
 
       <Reveal>
-        <div className="rounded-3xl border border-white/10 bg-gradient-to-r from-white/[0.06] to-white/[0.03] p-6">
+        <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-6 backdrop-blur-sm">
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <div className="max-w-2xl">
               <div className="text-sm font-semibold text-white">Why this works</div>
               <div className="mt-1 text-sm text-zinc-300">
-                Consistent identity + clear offers + trust messaging makes organic traffic warmer — improving retargeting and
-                lowering ad costs.
+                Consistent identity + clear offers + trust messaging makes organic traffic warmer — improving retargeting and lowering ad costs.
               </div>
             </div>
             <div className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-200">
@@ -552,333 +549,279 @@ function TabPanel({ active }) {
   );
 }
 
+/* ==================== PAGE ==================== */
 export default function UnitedMuslimTravelsCaseStudy() {
+  const reduced = usePrefersReducedMotion();
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("website");
 
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 800], [0, -60]);
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.88]);
+  const heroY = useTransform(scrollY, [0, 800], [0, reduced ? 0 : -60]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.9]);
   const heroRef = useRef(null);
 
   return (
     <>
       <Helmet>
         <title>United Muslim Travels Case Study - Hajj & Umrah Brand Build | IT Meta Solutions</title>
-        <meta name="description" content="Discover United Muslim Travels case study - complete brand build with website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages." />
-        <meta name="keywords" content="United Muslim Travels, Hajj travel, Umrah packages, Islamic travel agency, Meta Ads, website development, social media marketing, IT Meta Solutions" />
+        <meta
+          name="description"
+          content="Discover United Muslim Travels case study - complete brand build with website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages."
+        />
+        <meta
+          name="keywords"
+          content="United Muslim Travels, Hajj travel, Umrah packages, Islamic travel agency, Meta Ads, website development, social media marketing, IT Meta Solutions"
+        />
         <meta property="og:title" content="United Muslim Travels Case Study - Hajj & Umrah Brand Build | IT Meta Solutions" />
-        <meta property="og:description" content="Discover United Muslim Travels case study - complete brand build with website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages." />
+        <meta
+          property="og:description"
+          content="Complete brand build: website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages."
+        />
         <meta property="og:type" content="article" />
         <link rel="canonical" href="https://itmetasolutions.com/case-studies/united-muslim-travels-brand-build" />
         <meta property="og:url" content="https://itmetasolutions.com/case-studies/united-muslim-travels-brand-build" />
         <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="United Muslim Travels Case Study - Hajj & Umrah Brand Build | IT Meta Solutions" />
-        <meta name="twitter:description" content="Discover United Muslim Travels case study - complete brand build with website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages." />
+        <meta
+          name="twitter:description"
+          content="Complete brand build: website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages."
+        />
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
-      <ScrollProgress />
+      <div className="relative min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+        <ScrollProgress />
 
-      {/* Background accents */}
-      <GradientBlob className="inset-0 bg-[radial-gradient(closest-side,rgba(99,102,241,0.6),rgba(99,102,241,0))] bg-[length:40vw_40vw] sm:bg-[length:520px_520px] bg-left-top" />
-      <GradientBlob className="inset-0 bg-[radial-gradient(closest-side,rgba(16,185,129,0.55),rgba(16,185,129,0))] bg-[length:40vw_40vw] sm:bg-[length:520px_520px] bg-right-top" />
+        {/* Background accents */}
+        <GradientBlob className="left-[-140px] top-[-140px] h-[650px] w-[650px]" color="rgba(80,37,209,0.22)" />
+        <GradientBlob className="right-[-190px] top-[220px] h-[700px] w-[700px]" color="rgba(16,185,129,0.16)" />
+        <GradientBlob className="bottom-[-180px] left-[18%] h-[780px] w-[780px]" color="rgba(236,72,153,0.10)" />
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative overflow-hidden">
-        <Container className="pb-10 pt-16 sm:pb-16 sm:pt-24">
-          <motion.div style={{ y: heroY, opacity: heroOpacity }}>
-            <Reveal>
-              <div className="flex flex-wrap items-center gap-2">
-                <Pill icon={Landmark}>Islamic travel brand</Pill>
-                <Pill icon={LayoutGrid}>Website</Pill>
-                <Pill icon={Instagram}>Social</Pill>
-                <Pill icon={Megaphone}>Meta Ads</Pill>
-                <Pill icon={ShieldCheck}>Lead generation</Pill>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.05}>
-              <h1 className="mt-6 max-w-4xl text-4xl font-semibold tracking-tight text-white sm:text-6xl">
-                United Muslim Travels — complete brand build across website, social & Meta Ads
-              </h1>
-            </Reveal>
-
-            <Reveal delay={0.1}>
-              <p className="mt-5 max-w-3xl text-sm leading-relaxed text-zinc-300 sm:text-base">
-                A faith-focused travel brand for Hajj, Umrah, Ramadan, visa, hotels, and transport — built to increase trust,
-                visibility, and consistent inquiries in a competitive religious travel market.
-              </p>
-            </Reveal>
-
-            <div className="mt-10 grid gap-3 sm:grid-cols-3">
-              <Reveal delay={0.1}>
-                <Stat icon={LayoutGrid} label="Foundation" value="Conversion website" />
-              </Reveal>
-              <Reveal delay={0.15}>
-                <Stat icon={Instagram} label="Presence" value="IG + Facebook" />
-              </Reveal>
-              <Reveal delay={0.2}>
-                <Stat icon={Megaphone} label="Growth" value="Meta leads" />
-              </Reveal>
-            </div>
-
-            <Reveal delay={0.15}>
-              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.03] p-6">
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <div className="max-w-2xl">
-                    <div className="text-sm font-semibold text-white">Live website</div>
-                    <div className="mt-1 text-sm text-zinc-300">Use this page as your portfolio “Complete Brand Build” case study.</div>
-                  </div>
-                  <a
-                    href="https://unitedmuslimtravels.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 hover:opacity-90"
-                  >
-                    Visit Website <ArrowRight className="h-4 w-4" />
-                  </a>
+        {/* Hero */}
+        <section ref={heroRef} className="relative overflow-hidden">
+          <Container className="pb-16 pt-24 sm:pb-24 sm:pt-32">
+            <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+              <Reveal>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Pill icon={Landmark}>Islamic travel brand</Pill>
+                  <Pill icon={LayoutGrid}>Website</Pill>
+                  <Pill icon={Instagram}>Social</Pill>
+                  <Pill icon={Megaphone}>Meta Ads</Pill>
+                  <Pill icon={ShieldCheck}>Lead generation</Pill>
                 </div>
+              </Reveal>
 
-                <div className="mt-6 grid gap-4 md:grid-cols-3">
-                  {[
-                    { icon: Ticket, title: "Packages", desc: "Hajj, Umrah, Ramadan with structured detail pages." },
-                    { icon: Phone, title: "WhatsApp paths", desc: "Fast conversion routes for mobile-first leads." },
-                    { icon: BarChart3, title: "Ad funnel", desc: "Awareness → retargeting → leads system." },
-                  ].map((b) => (
-                    <div
-                      key={b.title}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-4 h-full flex flex-col justify-center"
+              <Reveal delay={0.06}>
+                <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                  United Muslim Travels — complete brand build across{" "}
+                  <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    website, social & Meta Ads
+                  </span>
+                </h1>
+              </Reveal>
+
+              <Reveal delay={0.12}>
+                <p className="mt-5 max-w-3xl text-sm leading-relaxed text-zinc-300 sm:text-base">
+                  A faith-focused travel brand for Hajj, Umrah, Ramadan, visa, hotels, and transport — built to increase trust,
+                  visibility, and consistent inquiries in a competitive religious travel market.
+                </p>
+              </Reveal>
+
+              <div className="mt-10 grid gap-4 sm:grid-cols-3 items-stretch">
+                <Stat icon={LayoutGrid} label="Foundation" value="Conversion website" />
+                <Stat icon={Instagram} label="Presence" value="IG + Facebook" />
+                <Stat icon={Megaphone} label="Growth" value="Meta leads" />
+              </div>
+
+              {/* Live website card */}
+              <Reveal delay={0.18}>
+                <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="max-w-2xl">
+                      <div className="text-sm font-semibold text-white">Live website</div>
+                      <div className="mt-1 text-sm text-zinc-300">Use this page as your portfolio “Complete Brand Build” case study.</div>
+                    </div>
+                    <a
+                      href="https://unitedmuslimtravels.com/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/35 transition-all hover:shadow-xl hover:shadow-[#5025d1]/55 hover:scale-[1.02]"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                          <b.icon className="h-5 w-5" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-semibold text-white">{b.title}</div>
-                          <div className="mt-1 text-sm text-zinc-300">{b.desc}</div>
+                      Visit Website <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  </div>
+
+                  <div className="mt-6 grid gap-4 md:grid-cols-3 items-stretch">
+                    {[
+                      { icon: Ticket, title: "Packages", desc: "Hajj, Umrah, Ramadan with structured detail pages." },
+                      { icon: Phone, title: "WhatsApp paths", desc: "Fast conversion routes for mobile-first leads." },
+                      { icon: BarChart3, title: "Ad funnel", desc: "Awareness → retargeting → leads system." },
+                    ].map((b) => (
+                      <div key={b.title} className="rounded-2xl border border-white/10 bg-white/5 p-4 h-full flex flex-col justify-center">
+                        <div className="flex items-center gap-3">
+                          <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
+                            <b.icon className="h-5 w-5" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-semibold text-white">{b.title}</div>
+                            <div className="mt-1 text-sm text-zinc-300">{b.desc}</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          </motion.div>
+              </Reveal>
+            </motion.div>
+          </Container>
+        </section>
+
+        {/* Sticky anchors */}
+        <StickySubnav />
+
+        <Container>
+          <Divider />
         </Container>
-      </section>
 
-      {/* Sticky anchors */}
-      <StickySubnav />
+        {/* Overview */}
+        <section id="overview" className="scroll-mt-24">
+          <Container className="pb-16">
+            <Reveal>
+              <SectionTitle
+                kicker="Brand overview"
+                title="Trust-first Islamic travel brand with full-funnel lead generation"
+                desc="United Muslim Travels offers Hajj, Umrah, Ramadan packages, visa support, hotels, and transport. This build focused on credibility, consistent identity, and a repeatable ads system that generates qualified inquiries on a low budget."
+              />
+            </Reveal>
 
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* Overview */}
-      <section id="overview" className="scroll-mt-24">
-        <Container className="pb-16">
-          <Reveal>
-            <SectionTitle
-              kicker="Brand overview"
-              title="Trust-first Islamic travel brand with full-funnel lead generation"
-              desc="United Muslim Travels offers Hajj, Umrah, Ramadan packages, visa support, hotels, and transport. This build focused on credibility, consistent identity, and a repeatable ads system that generates qualified inquiries on a low budget."
-            />
-          </Reveal>
-
-          <div className="mt-10 grid gap-4 lg:grid-cols-3">
-            <Reveal delay={0.05}>
+            <div className="mt-10 grid gap-4 lg:grid-cols-3 items-stretch">
               <Card
                 icon={Landmark}
                 title="Industry"
                 desc="Hajj • Umrah • Islamic Travel Services"
                 bullets={["Spiritually respectful tone", "Competitive market", "Seasonal demand"]}
+                delay={0.05}
               />
-            </Reveal>
-            <Reveal delay={0.1}>
               <Card
                 icon={LayoutGrid}
                 title="Scope"
                 desc="Website • Social • Meta Ads • Lead Gen"
                 bullets={["Conversion website", "IG/FB brand identity", "Meta setup + funnel", "WhatsApp integration"]}
+                delay={0.1}
               />
-            </Reveal>
-            <Reveal delay={0.15}>
               <Card
                 icon={ShieldCheck}
                 title="Objectives"
                 desc="Visibility + trust + consistent inquiries"
                 bullets={["Credible brand", "Conversion-ready website", "Awareness → Leads funnel", "Low-budget performance"]}
+                delay={0.15}
               />
-            </Reveal>
-          </div>
-        </Container>
-      </section>
-
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* Tabs */}
-      <section id="tabs" className="scroll-mt-24">
-        <Container className="pb-16">
-          <Reveal>
-            <SectionTitle
-              kicker="Brand build sections"
-              title="Everything organized into three deliverables"
-              desc="Switch between Website & SEO, Paid Marketing, and Social Media Management — each tab shows the full structure, features, and outcomes."
-            />
-          </Reveal>
-
-          <div className="mt-8">
-            <Reveal delay={0.05}>
-              <Tabs active={activeTab} onChange={setActiveTab} />
-            </Reveal>
-          </div>
-
-          <div className="mt-8">
-            <TabPanel active={activeTab} />
-          </div>
-        </Container>
-      </section>
-
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* Screenshots */}
-      <section id="screens" className="scroll-mt-24">
-        <Container className="pb-16">
-          <Reveal>
-            <SectionTitle
-              kicker="Screenshot placeholders"
-              title="Drop your evidence here for a high-trust portfolio"
-              desc="These placeholders match your requested sizes so you can swap images in later (desktop, package page, mobile, social, ads manager)."
-            />
-          </Reveal>
-
-          <div className="mt-10 grid gap-4 lg:grid-cols-2">
-            <Reveal delay={0.05}>
-              <Shot
-                title="[WEBSITE HOME PAGE]"
-                size="1920 × 1080 (Desktop)"
-                comment="Hero section, trust messaging, Umrah focus"
-              />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <Shot
-                title="[PACKAGE DETAIL PAGE]"
-                size="1440 × 900"
-                comment="Umrah package with itinerary & inquiry CTA"
-              />
-            </Reveal>
-            <Reveal delay={0.15}>
-              <Shot
-                title="[MOBILE VIEW]"
-                size="390 × 844"
-                comment="Mobile-first layout with WhatsApp CTA"
-              />
-            </Reveal>
-            <Reveal delay={0.2}>
-              <Shot
-                title="[INSTAGRAM PROFILE]"
-                size="1080 × 1080"
-                comment="Bio, highlights, grid preview"
-              />
-            </Reveal>
-            <Reveal delay={0.25}>
-              <Shot
-                title="[CONTENT POSTS GRID]"
-                size="1080 × 1350"
-                comment="Package posts + Islamic informational content"
-              />
-            </Reveal>
-            <Reveal delay={0.3}>
-              <Shot
-                title="[STORY HIGHLIGHTS]"
-                size="1080 × 1920"
-                comment="Umrah, Hajj, Hotels highlights"
-              />
-            </Reveal>
-            <Reveal delay={0.35}>
-              <Shot
-                title="[ADS MANAGER DASHBOARD]"
-                size="1920 × 1080"
-                comment="Campaign overview with spend & results"
-              />
-            </Reveal>
-            <Reveal delay={0.4}>
-              <Shot
-                title="[LEADS REPORT]"
-                size="1440 × 900"
-                comment="200+ leads shown in Ads Manager"
-              />
-            </Reveal>
-            <Reveal delay={0.45}>
-              <Shot
-                title="[WHATSAPP AD PREVIEW]"
-                size="1080 × 1920"
-                comment="Click-to-WhatsApp creative"
-              />
-            </Reveal>
-          </div>
-        </Container>
-      </section>
-
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* Results */}
-      <section id="results" className="scroll-mt-24">
-        <Container>
-          <Reveal>
-            <SectionTitle
-              kicker="Results"
-              title="200+ qualified leads on a minimal test budget"
-              desc="A complete brand presence (website + social + ads) with verified Meta setup, clear package architecture, and a funnel that consistently generates Umrah/Hajj inquiries."
-              align="center"
-            />
-          </Reveal>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            <Reveal delay={0.05}>
-              <Stat icon={Wallet} label="Test ad spend" value="500" />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <Stat icon={Users} label="Potential leads" value="200+" />
-            </Reveal>
-            <Reveal delay={0.15}>
-              <Stat icon={Phone} label="Conversions" value="WhatsApp + forms" />
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.15}>
-            <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-500/10 to-emerald-400/10 p-6">
-              <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-                <div className="max-w-2xl">
-                  <div className="text-sm font-semibold text-white">Scalable next steps</div>
-                  <div className="mt-1 text-sm text-zinc-300">
-                    This system scales into Hajj peak season and Ramadan campaigns by duplicating the funnel and swapping offers,
-                    creatives, and package pages.
-                  </div>
-                </div>
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 hover:opacity-90"
-                >
-                  Request a proposal <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
             </div>
-          </Reveal>
+          </Container>
+        </section>
 
-          <div className="mt-10 text-center text-xs text-zinc-500">© {year} • United Muslim Travels brand build</div>
+        <Container>
+          <Divider />
         </Container>
-      </section>
-    </div>
+
+        {/* Tabs */}
+        <section id="tabs" className="scroll-mt-24">
+          <Container className="pb-16">
+            <Reveal>
+              <SectionTitle
+                kicker="Brand build sections"
+                title="Everything organized into three deliverables"
+                desc="Switch between Website & SEO, Paid Marketing, and Social Media Management — each tab shows the full structure, features, and outcomes."
+              />
+            </Reveal>
+
+            <div className="mt-8">
+              <Reveal delay={0.05}>
+                <Tabs active={activeTab} onChange={setActiveTab} />
+              </Reveal>
+            </div>
+
+            <div className="mt-8">
+              <TabPanel active={activeTab} />
+            </div>
+          </Container>
+        </section>
+
+        <Container>
+          <Divider />
+        </Container>
+
+        {/* Screenshots */}
+        <section id="screens" className="scroll-mt-24">
+          <Container className="pb-16">
+            <Reveal>
+              <SectionTitle
+                kicker="Screenshot placeholders"
+                title="Drop your evidence here for a high-trust portfolio"
+                desc="Placeholders match your requested sizes so you can swap images later (desktop, package page, mobile, social, ads manager)."
+              />
+            </Reveal>
+
+            <div className="mt-10 grid gap-4 lg:grid-cols-2 items-stretch">
+              <Shot title="[WEBSITE HOME PAGE]" size="1920 × 1080 (Desktop)" comment="Hero section, trust messaging, Umrah focus" />
+              <Shot title="[PACKAGE DETAIL PAGE]" size="1440 × 900" comment="Umrah package with itinerary & inquiry CTA" />
+              <Shot title="[MOBILE VIEW]" size="390 × 844" comment="Mobile-first layout with WhatsApp CTA" />
+              <Shot title="[INSTAGRAM PROFILE]" size="1080 × 1080" comment="Bio, highlights, grid preview" />
+              <Shot title="[CONTENT POSTS GRID]" size="1080 × 1350" comment="Package posts + Islamic informational content" />
+              <Shot title="[STORY HIGHLIGHTS]" size="1080 × 1920" comment="Umrah, Hajj, Hotels highlights" />
+              <Shot title="[ADS MANAGER DASHBOARD]" size="1920 × 1080" comment="Campaign overview with spend & results" />
+              <Shot title="[LEADS REPORT]" size="1440 × 900" comment="200+ leads shown in Ads Manager" />
+              <Shot title="[WHATSAPP AD PREVIEW]" size="1080 × 1920" comment="Click-to-WhatsApp creative" />
+            </div>
+          </Container>
+        </section>
+
+        <Container>
+          <Divider />
+        </Container>
+
+        {/* Results */}
+        <section id="results" className="scroll-mt-24">
+          <Container className="pb-10">
+            <Reveal>
+              <SectionTitle
+                kicker="Results"
+                title="200+ qualified leads on a minimal test budget"
+                desc="A complete brand presence (website + social + ads) with verified Meta setup, clear package architecture, and a funnel that consistently generates Umrah/Hajj inquiries."
+                align="center"
+              />
+            </Reveal>
+
+            <div className="mt-10 grid gap-4 md:grid-cols-3 items-stretch">
+              <Stat icon={Wallet} label="Test ad spend" value="500" />
+              <Stat icon={Users} label="Potential leads" value="200+" />
+              <Stat icon={Phone} label="Conversions" value="WhatsApp + forms" />
+            </div>
+
+            <Reveal delay={0.15}>
+              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-emerald-400/10 p-6 backdrop-blur-sm">
+                <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+                  <div className="max-w-2xl">
+                    <div className="text-sm font-semibold text-white">Scalable next steps</div>
+                    <div className="mt-1 text-sm text-zinc-300">
+                      This system scales into Hajj peak season and Ramadan campaigns by duplicating the funnel and swapping offers, creatives, and package pages.
+                    </div>
+                  </div>
+                  <a
+                    href="/contact"
+                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-[1.02]"
+                  >
+                    Request a proposal <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+
+            <div className="mt-10 text-center text-xs text-zinc-500">© {year} • United Muslim Travels brand build</div>
+          </Container>
+        </section>
+      </div>
     </>
   );
 }

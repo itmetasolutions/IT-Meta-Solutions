@@ -207,7 +207,7 @@ function StickyNav({ items }) {
   }, [items]);
 
   return (
-    <div className="sticky top-16 z-30 border-b border-white/10 bg-zinc-950/80 backdrop-blur">
+    <div className="sticky top-24 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur">
       <Container className="py-4">
         <nav className="flex flex-wrap gap-2">
           {items.map((item) => (
@@ -261,7 +261,7 @@ export default function WebDevelopmentExpertisePage() {
 
         {/* HERO */}
         <section ref={heroRef} className="relative overflow-hidden">
-          <Container className="pb-10 pt-16 sm:pb-14 sm:pt-24">
+          <Container className="pb-10 pt-24 sm:pb-14 sm:pt-32">
             <motion.div style={{ y: heroY, opacity: heroOpacity }}>
               <Reveal>
                 <div className="flex flex-wrap items-center gap-2 mb-6">

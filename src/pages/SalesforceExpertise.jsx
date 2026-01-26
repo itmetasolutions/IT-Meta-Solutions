@@ -257,7 +257,7 @@ export default function SalesforceExpertisePage() {
 
         {/* HERO */}
         <section ref={heroRef} className="relative overflow-hidden">
-          <Container className="pb-10 pt-16 sm:pb-14 sm:pt-24">
+          <Container className="pb-10 pt-24 sm:pb-14 sm:pt-32">
             <motion.div style={{ y: heroY, opacity: heroOpacity }}>
               <Reveal>
                 <div className="flex flex-wrap items-center gap-2 mb-6">

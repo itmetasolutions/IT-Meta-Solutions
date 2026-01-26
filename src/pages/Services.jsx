@@ -328,6 +328,17 @@ function PanelMarketing() {
         </p>
       </div>
 
+      <div className="flex justify-center">
+        <Link
+          to="/digital-marketing-expertise"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
+        >
+          <Megaphone className="h-5 w-5" />
+          Explore Our Digital Marketing Expertise
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <ServiceCard
           icon={Megaphone}
@@ -385,6 +396,17 @@ function PanelSocial() {
           Manage your social presence with strategic content that supports ads
           and drives engagement.
         </p>
+      </div>
+
+      <div className="flex justify-center">
+        <Link
+          to="/social-media-expertise"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
+        >
+          <Share2 className="h-5 w-5" />
+          Explore Our Social Media Expertise
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -446,6 +468,17 @@ function PanelDesign() {
         </p>
       </div>
 
+      <div className="flex justify-center">
+        <Link
+          to="/graphic-designing-expertise"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
+        >
+          <Palette className="h-5 w-5" />
+          Explore Our Graphic Design Expertise
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <ServiceCard
           icon={Brush}
@@ -505,6 +538,17 @@ function PanelVideo() {
         </p>
       </div>
 
+      <div className="flex justify-center">
+        <Link
+          to="/video-editing-expertise"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
+        >
+          <Clapperboard className="h-5 w-5" />
+          Explore Our Video Editing Expertise
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <ServiceCard
           icon={Film}
@@ -562,6 +606,17 @@ function PanelBrand() {
           Full brand ecosystems: identity, website, social presence, and ads
           funnels for consistent growth.
         </p>
+      </div>
+
+      <div className="flex justify-center">
+        <Link
+          to="/brand-building-expertise"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
+        >
+          <Wand2 className="h-5 w-5" />
+          Explore Our Brand Building Expertise
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -18,6 +18,11 @@ import Contact from "./pages/Contact";
 import NotFoundPage from "./pages/404";
 import SalesforceExpertise from "./pages/SalesforceExpertise";
 import WebDevelopmentExpertise from "./pages/WebDevelopmentExpertise";
+import DigitalMarketingExpertise from "./pages/DigitalMarketingExpertise";
+import SocialMediaExpertise from "./pages/SocialMediaExpertise";
+import GraphicDesigningExpertise from "./pages/GraphicDesigningExpertise";
+import VideoEditingExpertise from "./pages/VideoEditingExpertise";
+import BrandBuildingExpertise from "./pages/BrandBuildingExpertise";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -49,10 +54,10 @@ function App() {
 
   const nav = [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
     { label: "Services", href: "/services" },
     { label: "Work", href: "/work" },
     { label: "Process", href: "/process" },
+    { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ];
 
@@ -180,6 +185,11 @@ function App() {
             <Route path="/case-study/multidatum" element={<MultidatumCaseStudy />} />
             <Route path="/salesforce-expertise" element={<SalesforceExpertise />} />
             <Route path="/web-development-expertise" element={<WebDevelopmentExpertise />} />
+            <Route path="/digital-marketing-expertise" element={<DigitalMarketingExpertise />} />
+            <Route path="/social-media-expertise" element={<SocialMediaExpertise />} />
+            <Route path="/graphic-designing-expertise" element={<GraphicDesigningExpertise />} />
+            <Route path="/video-editing-expertise" element={<VideoEditingExpertise />} />
+            <Route path="/brand-building-expertise" element={<BrandBuildingExpertise />} />
             <Route path="/process" element={<ProcessPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFoundPage />} />

@@ -1,69 +1,61 @@
-import React, { useMemo, useRef, useState } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
   BarChart3,
+  CalendarDays,
+  CheckCircle2,
   ChevronRight,
   FileSearch,
   Gauge,
-  LayoutGrid,
+  Globe,
+  Images,
+  Instagram,
   Landmark,
+  LayoutGrid,
+  MapPin,
   Megaphone,
   MessageSquareText,
+  MousePointerClick,
+  Phone,
+  ScrollText,
   ShieldCheck,
   Sparkles,
+  Target,
   Users,
   Wallet,
-  Instagram,
-  Target,
-  MousePointerClick,
-  Images,
-  CheckCircle2,
-  Globe,
-  ScrollText,
-  CalendarDays,
-  MapPin,
-  Phone,
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
 
 /**
- * Halla Gulla — Complete Brand Build (Tabbed)
- * Tabs:
- *  - Website (Foundation)
- *  - Meta Ads (Paid Marketing)
- *  - Social Media (IG/FB)
- *
- * Matches your reference theme:
- * - Dark, glass cards, gradients
- * - Scroll progress
- * - Parallax hero
- * - Reveal animations
- * - Sticky section subnav
+ * Halla Gulla — Case Study (REDESIGNED to match your NEW Home style)
+ * - Primary: #5025d1
+ * - Dark glass + gradients + blobs
+ * - Scroll progress same as Home
+ * - Reduced-motion safe
+ * - Equal-height cards in grids
  */
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
-const tabs = [
-  { key: "website", label: "Website (Foundation)", icon: LayoutGrid },
-  { key: "paid", label: "Meta Ads (Lead Gen)", icon: Megaphone },
-  { key: "social", label: "Social Media (IG/FB)", icon: Instagram },
-];
+/* ==================== HOOKS ==================== */
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (!m) return;
+    const onChange = () => setReduced(!!m.matches);
+    onChange();
+    m.addEventListener?.("change", onChange);
+    return () => m.removeEventListener?.("change", onChange);
+  }, []);
+  return reduced;
+}
 
-const inPageNav = [
-  { label: "Overview", href: "#overview" },
-  { label: "Tabs", href: "#tabs" },
-  { label: "Screenshots", href: "#screens" },
-  { label: "Results", href: "#results" },
-];
-
+/* ==================== UI ==================== */
 function Container({ children, className }) {
-  return (
-    <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
 }
 
 function AnchorLink({ href, children, className }) {
@@ -83,15 +75,12 @@ function AnchorLink({ href, children, className }) {
   );
 }
 
-function GradientBlob({ className }) {
+function GradientBlob({ className, color = "rgba(80,37,209,0.22)" }) {
   return (
     <div
       aria-hidden
-      className={cx(
-        "pointer-events-none absolute -z-10 blur-3xl opacity-40",
-        "bg-[radial-gradient(closest-side,rgba(99,102,241,0.6),rgba(99,102,241,0))]",
-        className
-      )}
+      className={cx("pointer-events-none absolute -z-10 blur-3xl", className)}
+      style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}
     />
   );
 }
@@ -102,19 +91,29 @@ function ScrollProgress() {
   return (
     <motion.div
       aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-indigo-500 via-emerald-400 to-fuchsia-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
       style={{ scaleX: w }}
     />
   );
 }
 
+function Badge({ children, icon: Icon }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+      {Icon ? <Icon className="h-4 w-4" /> : null}
+      {children}
+    </span>
+  );
+}
+
 function Reveal({ children, delay = 0, className }) {
+  const reduced = usePrefersReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      initial={reduced ? false : { opacity: 0, y: 18 }}
+      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-90px" }}
       transition={{ duration: 0.6, ease: "easeOut", delay }}
     >
       {children}
@@ -124,55 +123,75 @@ function Reveal({ children, delay = 0, className }) {
 
 function Pill({ icon: Icon, children }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
-      {Icon ? <Icon className="h-3.5 w-3.5 opacity-80" /> : null}
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-zinc-100 backdrop-blur-sm">
+      {Icon ? <Icon className="h-3.5 w-3.5 opacity-90" /> : null}
       {children}
     </span>
   );
 }
 
-function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
-  const HeadingTag = level;
+function SectionHeading({ badge, title, description, centered = false }) {
   return (
-    <div className={cx("max-w-2xl", align === "center" && "mx-auto text-center")}>
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
-        <Sparkles className="h-3.5 w-3.5" />
-        {kicker}
-      </div>
-      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</HeadingTag>
-      <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
+    <div className={cx("mb-12", centered && "text-center")}>
+      {badge ? (
+        <div className={cx("mb-4", centered && "flex justify-center")}>
+          <Badge icon={Sparkles}>{badge}</Badge>
+        </div>
+      ) : null}
+
+      <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">{title}</h2>
+
+      {description ? (
+        <p className={cx("mt-4 text-base text-zinc-300 sm:text-lg max-w-3xl", centered && "mx-auto")}>{description}</p>
+      ) : null}
     </div>
   );
 }
 
-function Stat({ icon: Icon, label, value }) {
+function Divider() {
+  return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
+}
+
+/* ==================== CARDS ==================== */
+function StatCard({ icon: Icon, value, label, delay = 0 }) {
+  const reduced = usePrefersReducedMotion();
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 h-full flex flex-col justify-center">
-      <div className="flex items-center gap-3">
-        <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-          <Icon className="h-5 w-5" />
+    <motion.div
+      initial={reduced ? false : { opacity: 0, y: 20 }}
+      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay }}
+      className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm h-full"
+    >
+      <div className="flex items-start gap-4">
+        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <Icon className="h-6 w-6 text-white" />
         </div>
         <div>
-          <div className="text-2xl font-semibold text-white">{value}</div>
-          <div className="text-sm text-zinc-300">{label}</div>
+          <div className="text-2xl font-bold text-white sm:text-3xl">{value}</div>
+          <div className="mt-1 text-sm text-zinc-400">{label}</div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-function Card({ icon: Icon, title, desc, bullets }) {
+function FeatureCard({ icon: Icon, title, desc, bullets, delay = 0 }) {
+  const reduced = usePrefersReducedMotion();
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6 pb-8 h-full flex">
-      <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-indigo-500/20 blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-emerald-400/20 blur-3xl" />
-      </div>
-
+    <motion.div
+      initial={reduced ? false : { opacity: 0, y: 20 }}
+      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay }}
+      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm"
+    >
+      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
       <div className="relative flex h-full flex-col">
         <div className="mb-4 flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5">
-            <Icon className="h-5 w-5" />
+          <div className="inline-flex rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+            <Icon className="h-5 w-5 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-white">{title}</h3>
         </div>
@@ -182,8 +201,8 @@ function Card({ icon: Icon, title, desc, bullets }) {
         {bullets?.length ? (
           <ul className="mt-5 space-y-2 text-sm text-zinc-200">
             {bullets.map((b, i) => (
-              <li key={i} className="flex items-center gap-2">
-                <BadgeCheck className="h-4 w-4 text-emerald-300" />
+              <li key={i} className="flex items-start gap-2">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
                 <span className="opacity-90">{b}</span>
               </li>
             ))}
@@ -192,21 +211,47 @@ function Card({ icon: Icon, title, desc, bullets }) {
 
         <div className="mt-auto pt-4" />
       </div>
+    </motion.div>
+  );
+}
+
+function Shot({ title, size, comment }) {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-6 backdrop-blur-sm h-full">
+      <div className="flex items-start gap-3">
+        <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5">
+          <Images className="h-5 w-5 text-white/80" />
+        </div>
+        <div className="min-w-0">
+          <div className="text-sm font-semibold text-white">{title}</div>
+          <div className="mt-1 text-xs text-zinc-400">{size}</div>
+          <div className="mt-2 text-sm text-zinc-300">{comment}</div>
+
+          <div className="mt-5 rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 text-center text-xs text-zinc-400">
+            Screenshot placeholder — drop image here
+            <div className="mt-2 text-[11px] text-zinc-500">Keep the same aspect ratio for best look</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-function Divider() {
-  return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
-}
+/* ==================== NAV + TABS ==================== */
+const inPageNav = [
+  { label: "Overview", href: "#overview" },
+  { label: "Tabs", href: "#tabs" },
+  { label: "Screenshots", href: "#screens" },
+  { label: "Results", href: "#results" },
+];
 
 function StickySubnav() {
   return (
-    <div className="sticky top-[72px] z-40 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
+    <div className="sticky top-[72px] z-40 border-b border-white/10 bg-black/50 backdrop-blur">
       <Container className="py-3">
         <div className="flex items-center justify-between gap-3">
           <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
-            <Landmark className="h-4 w-4" />
+            <Landmark className="h-4 w-4 text-[#5025d1]" />
             Halla Gulla — Brand Build
           </div>
 
@@ -227,17 +272,27 @@ function StickySubnav() {
   );
 }
 
+const tabs = [
+  { key: "website", label: "Website (Foundation)", icon: LayoutGrid },
+  { key: "paid", label: "Meta Ads (Lead Gen)", icon: Megaphone },
+  { key: "social", label: "Social Media (IG/FB)", icon: Instagram },
+];
+
 function Tabs({ active, onChange }) {
+  const reduced = usePrefersReducedMotion();
   return (
     <div className="flex flex-wrap gap-2">
-      {tabs.map((t) => {
+      {tabs.map((t, idx) => {
         const Icon = t.icon;
         const isActive = active === t.key;
         return (
-          <button
+          <motion.button
             key={t.key}
             type="button"
             onClick={() => onChange(t.key)}
+            initial={reduced ? false : { opacity: 0, y: 8 }}
+            animate={reduced ? {} : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: idx * 0.05 }}
             className={cx(
               "inline-flex items-center gap-2 rounded-2xl border px-4 py-2 text-sm transition",
               isActive
@@ -248,103 +303,83 @@ function Tabs({ active, onChange }) {
             <Icon className={cx("h-4 w-4", isActive ? "" : "opacity-80")} />
             {t.label}
             {isActive ? <CheckCircle2 className="h-4 w-4" /> : null}
-          </button>
+          </motion.button>
         );
       })}
     </div>
   );
 }
 
-function Shot({ title, size, comment }) {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-      <div className="flex items-start gap-3">
-        <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/5">
-          <Images className="h-5 w-5" />
-        </div>
-        <div className="min-w-0">
-          <div className="text-sm font-semibold text-white">{title}</div>
-          <div className="mt-1 text-xs text-zinc-400">{size}</div>
-          <div className="mt-2 text-sm text-zinc-300">{comment}</div>
-          <div className="mt-4 rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-6 text-xs text-zinc-400">
-            Screenshot placeholder — drop image here
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
+/* ==================== PANELS ==================== */
 function TabPanel({ active }) {
   if (active === "website") {
     return (
       <div className="grid gap-6">
         <Reveal>
-          <SectionTitle
-            kicker="Website (Foundation)"
-            title="A visual travel hub built for excitement + fast inquiries"
-            desc="The website was built as the brand foundation: destinations, tours, gallery, transport, and quick inquiry paths — optimized for mobile-first traffic coming from Instagram, Facebook, and ads."
+          <SectionHeading
+            badge="Website (Foundation)"
+            title={
+              <>
+                A visual travel hub built for{" "}
+                <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                  excitement + fast inquiries
+                </span>
+              </>
+            }
+            description="The website was built as the brand foundation: destinations, tours, gallery, transport, and quick inquiry paths — optimized for mobile-first traffic coming from Instagram, Facebook, and ads."
           />
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <Reveal delay={0.05}>
-            <Card
-              icon={LayoutGrid}
-              title="Site structure"
-              desc="Simple, conversion-friendly navigation for travel browsing."
-              bullets={[
-                "Home (brand vibe + destinations)",
-                "Destinations pages",
-                "Tours & packages",
-                "Gallery",
-                "Transport / cars section",
-                "Contact & inquiry page",
-              ]}
-            />
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <Card
-              icon={MousePointerClick}
-              title="Clear CTAs"
-              desc="Designed to reduce friction and turn interest into inquiry."
-              bullets={["Book Your Trip", "Explore Destinations", "Contact Us", "WhatsApp-friendly inquiry flow"]}
-            />
-          </Reveal>
+        <div className="grid gap-6 md:grid-cols-2">
+          <FeatureCard
+            icon={LayoutGrid}
+            title="Site structure"
+            desc="Simple, conversion-friendly navigation for travel browsing."
+            bullets={[
+              "Home (brand vibe + destinations)",
+              "Destinations pages",
+              "Tours & packages",
+              "Gallery",
+              "Transport / cars section",
+              "Contact & inquiry page",
+            ]}
+            delay={0.05}
+          />
+          <FeatureCard
+            icon={MousePointerClick}
+            title="Clear CTAs"
+            desc="Designed to reduce friction and turn interest into inquiry."
+            bullets={["Book Your Trip", "Explore Destinations", "Contact Us", "WhatsApp-friendly inquiry flow"]}
+            delay={0.1}
+          />
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          <Reveal delay={0.05}>
-            <Card
-              icon={Gauge}
-              title="Mobile-first UX"
-              desc="Most travel audiences browse on mobile — layouts are built for quick scanning and one-tap action."
-              bullets={["Mobile-first layout", "Fast sections", "Clear headings", "Low-friction inquiry paths"]}
-            />
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <Card
-              icon={Images}
-              title="Visual storytelling"
-              desc="Travel sells with visuals — so the website is image-led and vibe-focused."
-              bullets={["Hero destination visuals", "Gallery section", "Destination listings", "Tour highlights"]}
-            />
-          </Reveal>
-
-          <Reveal delay={0.15}>
-            <Card
-              icon={FileSearch}
-              title="Ads-ready pages"
-              desc="Built as a landing hub for paid traffic with minimal distractions."
-              bullets={["Clean layout", "Strong CTAs", "Tour & destination clarity", "Quick contact options"]}
-            />
-          </Reveal>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <FeatureCard
+            icon={Gauge}
+            title="Mobile-first UX"
+            desc="Most travel audiences browse on mobile — built for quick scanning and one-tap action."
+            bullets={["Mobile-first layout", "Fast sections", "Clear headings", "Low-friction inquiry paths"]}
+            delay={0.05}
+          />
+          <FeatureCard
+            icon={Images}
+            title="Visual storytelling"
+            desc="Travel sells with visuals — the experience is image-led and vibe-focused."
+            bullets={["Hero destination visuals", "Gallery section", "Destination listings", "Tour highlights"]}
+            delay={0.1}
+          />
+          <FeatureCard
+            icon={FileSearch}
+            title="Ads-ready pages"
+            desc="Built as a landing hub for paid traffic with minimal distractions."
+            bullets={["Clean layout", "Strong CTAs", "Tour & destination clarity", "Quick contact options"]}
+            delay={0.15}
+          />
         </div>
 
         <Reveal>
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-r from-white/[0.06] to-white/[0.03] p-6">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-6 backdrop-blur-sm">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div className="max-w-2xl">
                 <div className="text-sm font-semibold text-white">Website goals</div>
@@ -368,76 +403,76 @@ function TabPanel({ active }) {
     return (
       <div className="grid gap-6">
         <Reveal>
-          <SectionTitle
-            kicker="Meta Ads (Lead Gen)"
-            title="Awareness → retargeting → leads funnel on a controlled budget"
-            desc="We built a complete Meta Ads setup with travel-interest targeting and lead capture through WhatsApp + instant lead forms — then validated lead volume and cost using a 3-day controlled test."
+          <SectionHeading
+            badge="Meta Ads (Lead Gen)"
+            title={
+              <>
+                Awareness → retargeting →{" "}
+                <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                  leads funnel
+                </span>{" "}
+                on a controlled budget
+              </>
+            }
+            description="A complete Meta Ads setup with travel-interest targeting and lead capture through WhatsApp + instant lead forms — validated lead volume and CPL using a controlled 3-day test."
           />
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <Reveal delay={0.05}>
-            <Card
-              icon={ShieldCheck}
-              title="Meta setup"
-              desc="Performance-ready configuration so tracking and lead capture stays reliable."
-              bullets={[
-                "Meta Business Manager",
-                "Ad account configuration",
-                "Audience targeting (travel interest based)",
-                "WhatsApp integration",
-                "Instant lead form integration",
-                "Campaign tracking & optimization",
-              ]}
-            />
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <Card
-              icon={Target}
-              title="Targeting approach"
-              desc="Built around travel intent for Pakistan tourism."
-              bullets={[
-                "Travel & tourism interests",
-                "Northern areas intent",
-                "Engagers retargeting (IG/FB)",
-                "Video viewers retargeting",
-              ]}
-            />
-          </Reveal>
+        <div className="grid gap-6 md:grid-cols-2">
+          <FeatureCard
+            icon={ShieldCheck}
+            title="Meta setup"
+            desc="Performance-ready configuration so tracking and lead capture stays reliable."
+            bullets={[
+              "Meta Business Manager",
+              "Ad account configuration",
+              "Audience targeting (travel interest based)",
+              "WhatsApp integration",
+              "Instant lead form integration",
+              "Campaign tracking & optimization",
+            ]}
+            delay={0.05}
+          />
+          <FeatureCard
+            icon={Target}
+            title="Targeting approach"
+            desc="Built around travel intent for Pakistan tourism."
+            bullets={[
+              "Travel & tourism interests",
+              "Northern areas intent",
+              "Engagers retargeting (IG/FB)",
+              "Video viewers retargeting",
+            ]}
+            delay={0.1}
+          />
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          <Reveal delay={0.05}>
-            <Card
-              icon={Megaphone}
-              title="Awareness campaign"
-              desc="High-quality destination visuals and short travel reels for fast traction."
-              bullets={["Destination visuals", "Short reels", "Youth hooks", "Brand vibe storytelling"]}
-            />
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <Card
-              icon={Users}
-              title="Engagement retargeting"
-              desc="Warm audiences who interacted with content were retargeted with stronger offers."
-              bullets={["Video viewers", "Instagram engagers", "Facebook engagers", "Profile visitors"]}
-            />
-          </Reveal>
-
-          <Reveal delay={0.15}>
-            <Card
-              icon={MousePointerClick}
-              title="Lead campaigns"
-              desc="Conversion ads optimized for inquiries and booking intent."
-              bullets={["Click-to-WhatsApp", "Instant lead forms", "Clear “Book Your Trip” message", "Offer + urgency hooks"]}
-            />
-          </Reveal>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <FeatureCard
+            icon={Megaphone}
+            title="Awareness campaign"
+            desc="Destination visuals and short reels for fast traction."
+            bullets={["Destination visuals", "Short reels", "Youth hooks", "Brand vibe storytelling"]}
+            delay={0.05}
+          />
+          <FeatureCard
+            icon={Users}
+            title="Engagement retargeting"
+            desc="Warm audiences who interacted were retargeted with stronger offers."
+            bullets={["Video viewers", "Instagram engagers", "Facebook engagers", "Profile visitors"]}
+            delay={0.1}
+          />
+          <FeatureCard
+            icon={MousePointerClick}
+            title="Lead campaigns"
+            desc="Conversion ads optimized for inquiries and booking intent."
+            bullets={["Click-to-WhatsApp", "Instant lead forms", "Clear “Book Your Trip” message", "Offer + urgency hooks"]}
+            delay={0.15}
+          />
         </div>
 
         <Reveal>
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-500/10 to-emerald-400/10 p-6">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-6 backdrop-blur-sm">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div className="max-w-2xl">
                 <div className="text-sm font-semibold text-white">Performance snapshot (3-day test)</div>
@@ -445,9 +480,10 @@ function TabPanel({ active }) {
                   Total spend: <span className="text-white font-semibold">5,500 PKR</span> • Duration:{" "}
                   <span className="text-white font-semibold">3 days</span> • Leads:{" "}
                   <span className="text-white font-semibold">67</span> • Cost per lead:{" "}
-                  <span className="text-white font-semibold">~78 PKR</span> via WhatsApp + instant forms.
+                  <span className="text-white font-semibold">~78 PKR</span>
                 </div>
               </div>
+
               <div className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950">
                 <Wallet className="h-4 w-4" />
                 Low CPL validated
@@ -456,107 +492,98 @@ function TabPanel({ active }) {
           </div>
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <Reveal delay={0.05}>
-            <Card
-              icon={MessageSquareText}
-              title="Creative & copy system"
-              desc="Energetic, youth-focused tone with strong travel hooks and clear value."
-              bullets={[
-                "Affordable trips messaging",
-                "Group & family tours angle",
-                "Scenic destinations highlights",
-                "Urgency CTAs (Limited Seats / Book Now)",
-                "Visual-first storytelling",
-              ]}
-            />
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <Card
-              icon={BarChart3}
-              title="Lead capture & handling"
-              desc="Leads routed to WhatsApp and forms for fast response and better close rates."
-              bullets={[
-                "WhatsApp inquiries",
-                "Instant Meta lead forms",
-                "High-intent routing",
-                "Scalable for seasonal travel campaigns",
-              ]}
-            />
-          </Reveal>
+        <div className="grid gap-6 md:grid-cols-2">
+          <FeatureCard
+            icon={MessageSquareText}
+            title="Creative & copy system"
+            desc="Energetic, youth-focused tone with travel hooks + clear value."
+            bullets={[
+              "Affordable trips messaging",
+              "Group & family tours angle",
+              "Scenic destinations highlights",
+              "Urgency CTAs (Limited Seats / Book Now)",
+              "Visual-first storytelling",
+            ]}
+            delay={0.05}
+          />
+          <FeatureCard
+            icon={BarChart3}
+            title="Lead capture & handling"
+            desc="Leads routed to WhatsApp and forms for fast response and better close rates."
+            bullets={[
+              "WhatsApp inquiries",
+              "Instant Meta lead forms",
+              "High-intent routing",
+              "Scalable for seasonal travel campaigns",
+            ]}
+            delay={0.1}
+          />
         </div>
       </div>
     );
   }
 
-  // social
+  // SOCIAL
   return (
     <div className="grid gap-6">
       <Reveal>
-        <SectionTitle
-          kicker="Social Media (IG/FB)"
-          title="A youthful, energetic travel identity built for consistency"
-          desc="We optimized Instagram and Facebook profiles, built a clear content system, and created highlight categories to support conversion — aligning organic storytelling with paid messaging for stronger recall."
+        <SectionHeading
+          badge="Social Media (IG/FB)"
+          title={
+            <>
+              A youthful, energetic travel identity built for{" "}
+              <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                consistency
+              </span>
+            </>
+          }
+          description="Profiles optimized, content pillars set, and highlight categories created to support conversion — aligning organic storytelling with paid messaging for stronger recall."
         />
       </Reveal>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Reveal delay={0.05}>
-          <Card
-            icon={Instagram}
-            title="Platforms"
-            desc="Brand presence across high-intent channels."
-            bullets={["Instagram", "Facebook", "WhatsApp-first inquiry behavior"]}
-          />
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <Card
-            icon={ShieldCheck}
-            title="Brand setup"
-            desc="Profiles optimized for clarity, trust, and quick action."
-            bullets={["Bio + category", "CTA buttons", "Consistent brand colors", "Travel visual style"]}
-          />
-        </Reveal>
+      <div className="grid gap-6 md:grid-cols-2">
+        <FeatureCard
+          icon={Instagram}
+          title="Platforms"
+          desc="Brand presence across high-intent channels."
+          bullets={["Instagram", "Facebook", "WhatsApp-first inquiry behavior"]}
+          delay={0.05}
+        />
+        <FeatureCard
+          icon={ShieldCheck}
+          title="Brand setup"
+          desc="Profiles optimized for clarity, trust, and quick action."
+          bullets={["Bio + category", "CTA buttons", "Consistent brand colors", "Travel visual style"]}
+          delay={0.1}
+        />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Reveal delay={0.05}>
-          <Card
-            icon={CalendarDays}
-            title="Content pillars"
-            desc="Content designed to inspire, inform, and convert."
-            bullets={[
-              "Destination showcases",
-              "Tour promotions",
-              "Travel reels",
-              "Engagement content (polls/Q&A)",
-            ]}
-          />
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <Card
-            icon={ScrollText}
-            title="Tone & messaging"
-            desc="Youthful hooks + clear value in short, scannable formats."
-            bullets={["Energetic voice", "Visual-first storytelling", "Clear offers", "Strong CTAs"]}
-          />
-        </Reveal>
-
-        <Reveal delay={0.15}>
-          <Card
-            icon={MapPin}
-            title="Highlights structure"
-            desc="Highlights organized around travel intent for fast browsing."
-            bullets={["Tours", "Destinations", "Gallery", "Transport"]}
-          />
-        </Reveal>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <FeatureCard
+          icon={CalendarDays}
+          title="Content pillars"
+          desc="Content designed to inspire, inform, and convert."
+          bullets={["Destination showcases", "Tour promotions", "Travel reels", "Engagement content (polls/Q&A)"]}
+          delay={0.05}
+        />
+        <FeatureCard
+          icon={ScrollText}
+          title="Tone & messaging"
+          desc="Youthful hooks + clear value in short, scannable formats."
+          bullets={["Energetic voice", "Visual-first storytelling", "Clear offers", "Strong CTAs"]}
+          delay={0.1}
+        />
+        <FeatureCard
+          icon={MapPin}
+          title="Highlights structure"
+          desc="Highlights organized around travel intent for fast browsing."
+          bullets={["Tours", "Destinations", "Gallery", "Transport"]}
+          delay={0.15}
+        />
       </div>
 
       <Reveal>
-        <div className="rounded-3xl border border-white/10 bg-gradient-to-r from-white/[0.06] to-white/[0.03] p-6">
+        <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-6 backdrop-blur-sm">
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <div className="max-w-2xl">
               <div className="text-sm font-semibold text-white">Why this works</div>
@@ -576,338 +603,335 @@ function TabPanel({ active }) {
   );
 }
 
+/* ==================== PAGE ==================== */
 export default function HallaGullaCaseStudy() {
+  const reduced = usePrefersReducedMotion();
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("website");
 
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 800], [0, -60]);
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.88]);
+  const heroY = useTransform(scrollY, [0, 800], [0, reduced ? 0 : -70]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.9]);
+
   const heroRef = useRef(null);
 
   return (
     <>
       <Helmet>
         <title>Halla Gulla Case Study - Complete Travel Brand Build | IT Meta Solutions</title>
-        <meta name="description" content="Explore Halla Gulla travel brand case study - a complete digital marketing solution with website development, social media management, and Meta Ads generating 67 leads in 3 days." />
-        <meta name="keywords" content="Halla Gulla, travel brand case study, Pakistan tourism, Meta Ads, social media marketing, website development, travel agency branding, IT Meta Solutions" />
+        <meta
+          name="description"
+          content="Explore Halla Gulla travel brand case study — website, social media, and Meta Ads generating 67 leads in 3 days."
+        />
+        <meta
+          name="keywords"
+          content="Halla Gulla, travel brand case study, Pakistan tourism, Meta Ads, social media marketing, website development, travel agency branding, IT Meta Solutions"
+        />
         <meta property="og:title" content="Halla Gulla Case Study - Complete Travel Brand Build | IT Meta Solutions" />
-        <meta property="og:description" content="Explore Halla Gulla travel brand case study - a complete digital marketing solution with website development, social media management, and Meta Ads generating 67 leads in 3 days." />
+        <meta
+          property="og:description"
+          content="Website development, social media management, and Meta Ads generating 67 leads in 3 days."
+        />
         <meta property="og:type" content="article" />
         <link rel="canonical" href="https://itmetasolutions.com/case-study/halla-gulla" />
         <meta property="og:url" content="https://itmetasolutions.com/case-study/halla-gulla" />
         <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Halla Gulla Case Study - Complete Travel Brand Build | IT Meta Solutions" />
-        <meta name="twitter:description" content="Explore Halla Gulla travel brand case study - a complete digital marketing solution with website development, social media management, and Meta Ads generating 67 leads in 3 days." />
+        <meta
+          name="twitter:description"
+          content="Website development, social media management, and Meta Ads generating 67 leads in 3 days."
+        />
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16">
-      <ScrollProgress />
+      <div className="relative min-h-screen overflow-hidden text-zinc-100">
+        <ScrollProgress />
 
-      {/* Background accents */}
-      <GradientBlob className="left-[-120px] top-[-120px] h-[520px] w-[520px]" />
-      <GradientBlob className="right-[-160px] top-[220px] h-[520px] w-[520px] bg-[radial-gradient(closest-side,rgba(16,185,129,0.55),rgba(16,185,129,0))]" />
+        {/* Background blobs (Home style) */}
+        <GradientBlob className="left-[-140px] top-[-140px] h-[640px] w-[640px]" color="rgba(80,37,209,0.20)" />
+        <GradientBlob className="right-[-180px] top-[180px] h-[740px] w-[740px]" color="rgba(186,85,211,0.14)" />
+        <GradientBlob className="bottom-[-170px] left-[20%] h-[780px] w-[780px]" color="rgba(80,37,209,0.16)" />
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative overflow-hidden">
-        <Container className="pb-10 pt-16 sm:pb-16 sm:pt-24">
-          <motion.div style={{ y: heroY, opacity: heroOpacity }}>
-            <Reveal>
-              <div className="flex flex-wrap items-center gap-2">
-                <Pill icon={Globe}>Pakistan tourism</Pill>
-                <Pill icon={LayoutGrid}>Website</Pill>
-                <Pill icon={Instagram}>Social</Pill>
-                <Pill icon={Megaphone}>Meta Ads</Pill>
-                <Pill icon={ShieldCheck}>Lead generation</Pill>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.05}>
-              <h1 className="mt-6 max-w-4xl text-4xl font-semibold tracking-tight text-white sm:text-6xl">
-                Halla Gulla — complete travel brand build across website, social & Meta Ads
-              </h1>
-            </Reveal>
-
-            <Reveal delay={0.1}>
-              <p className="mt-5 max-w-3xl text-sm leading-relaxed text-zinc-300 sm:text-base">
-                A youthful, energetic tours & travel brand focused on Pakistan tourism — built for digital visibility,
-                strong travel storytelling, and a performance-driven lead system to generate real inquiries at low cost.
-              </p>
-            </Reveal>
-
-            <div className="mt-10 grid gap-3 sm:grid-cols-3">
-              <Reveal delay={0.1}>
-                <Stat icon={LayoutGrid} label="Foundation" value="Modern travel website" />
+        {/* HERO */}
+        <section ref={heroRef} className="relative pt-24 pb-10 sm:pt-32 sm:pb-16">
+          <Container>
+            <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+              <Reveal>
+                <Badge icon={Sparkles}>Complete Brand Build — Pakistan Tourism</Badge>
               </Reveal>
-              <Reveal delay={0.15}>
-                <Stat icon={Instagram} label="Presence" value="IG + Facebook" />
-              </Reveal>
-              <Reveal delay={0.2}>
-                <Stat icon={Megaphone} label="Performance" value="67 leads (3 days)" />
-              </Reveal>
-            </div>
 
-            <Reveal delay={0.15}>
-              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.03] p-6">
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <div className="max-w-2xl">
-                    <div className="text-sm font-semibold text-white">Live website</div>
-                    <div className="mt-1 text-sm text-zinc-300">
-                      Use this page as your portfolio “Complete Brand Build” case study for Halla Gulla.
-                    </div>
-                  </div>
-                  <a
-                    href="https://hallagulla.pk"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 hover:opacity-90"
-                  >
-                    Visit Website <ArrowRight className="h-4 w-4" />
-                  </a>
+              <Reveal delay={0.06}>
+                <h1 className="mt-7 max-w-4xl text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                  Halla Gulla — complete travel brand build across{" "}
+                  <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    website, social & Meta Ads
+                  </span>
+                </h1>
+              </Reveal>
+
+              <Reveal delay={0.12}>
+                <p className="mt-5 max-w-3xl text-sm leading-relaxed text-zinc-300 sm:text-base">
+                  A youthful, energetic tours & travel brand focused on Pakistan tourism — built for digital visibility,
+                  strong travel storytelling, and a performance-driven lead system to generate real inquiries at low cost.
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.16} className="mt-8">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Pill icon={Globe}>Pakistan tourism</Pill>
+                  <Pill icon={LayoutGrid}>Website</Pill>
+                  <Pill icon={Instagram}>Social</Pill>
+                  <Pill icon={Megaphone}>Meta Ads</Pill>
+                  <Pill icon={ShieldCheck}>Lead generation</Pill>
                 </div>
+              </Reveal>
 
-                <div className="mt-6 grid gap-4 md:grid-cols-3">
-                  {[
-                    { icon: MapPin, title: "Destinations", desc: "Northern areas listings + travel vibe layout." },
-                    { icon: Phone, title: "Quick inquiry", desc: "Fast contact + WhatsApp-friendly actions." },
-                    { icon: BarChart3, title: "Ads funnel", desc: "Awareness → retargeting → leads system." },
-                  ].map((b) => (
-                    <div
-                      key={b.title}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-4 h-full flex flex-col justify-center"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                          <b.icon className="h-5 w-5" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-semibold text-white">{b.title}</div>
-                          <div className="mt-1 text-sm text-zinc-300">{b.desc}</div>
-                        </div>
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <StatCard icon={LayoutGrid} label="Foundation" value="Modern travel website" delay={0.05} />
+                <StatCard icon={Instagram} label="Presence" value="IG + Facebook" delay={0.1} />
+                <StatCard icon={Megaphone} label="Performance" value="67 leads (3 days)" delay={0.15} />
+              </div>
+
+              <Reveal delay={0.18}>
+                <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="max-w-2xl">
+                      <div className="text-sm font-semibold text-white">Live website</div>
+                      <div className="mt-1 text-sm text-zinc-300">
+                        Use this page as your portfolio “Complete Brand Build” case study for Halla Gulla.
                       </div>
                     </div>
-                  ))}
+
+                    <a
+                      href="https://hallagulla.pk"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/40 transition-all hover:shadow-xl hover:shadow-[#5025d1]/55 hover:scale-[1.02]"
+                    >
+                      Visit Website
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  </div>
+
+                  <div className="mt-6 grid gap-4 md:grid-cols-3">
+                    {[
+                      { icon: MapPin, title: "Destinations", desc: "Northern areas listings + travel vibe layout." },
+                      { icon: Phone, title: "Quick inquiry", desc: "Fast contact + WhatsApp-friendly actions." },
+                      { icon: BarChart3, title: "Ads funnel", desc: "Awareness → retargeting → leads system." },
+                    ].map((b) => (
+                      <div
+                        key={b.title}
+                        className="rounded-2xl border border-white/10 bg-white/5 p-4 h-full flex flex-col justify-center"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
+                            <b.icon className="h-5 w-5 text-white/85" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-semibold text-white">{b.title}</div>
+                            <div className="mt-1 text-sm text-zinc-300">{b.desc}</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </Reveal>
+            </motion.div>
+          </Container>
+        </section>
+
+        {/* Sticky anchors */}
+        <StickySubnav />
+
+        {/* OVERVIEW */}
+        <section id="overview" className="scroll-mt-24 py-16 sm:py-20">
+          <Container>
+            <Reveal>
+              <SectionHeading
+                badge="Brand overview"
+                title={
+                  <>
+                    Youthful travel brand with a{" "}
+                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                      full-funnel lead engine
+                    </span>
+                  </>
+                }
+                description="Halla Gulla offers northern areas tours, group trips, family tours, and customized travel experiences. This build focused on a conversion-ready website, consistent social identity, and a repeatable Meta Ads funnel that generates qualified inquiries at low cost."
+              />
             </Reveal>
-          </motion.div>
-        </Container>
-      </section>
 
-      {/* Sticky anchors */}
-      <StickySubnav />
-
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* Overview */}
-      <section id="overview" className="scroll-mt-24">
-        <Container className="pb-16">
-          <Reveal>
-            <SectionTitle
-              kicker="Brand overview"
-              title="Youthful travel brand with a full-funnel lead engine"
-              desc="Halla Gulla offers northern areas tours, group trips, family tours, and customized travel experiences. This build focused on creating a recognizable identity, a conversion-ready website, and a repeatable Meta Ads system that generates qualified inquiries at low cost."
-            />
-          </Reveal>
-
-          <div className="mt-10 grid gap-4 lg:grid-cols-3">
-            <Reveal delay={0.05}>
-              <Card
+            <div className="grid gap-6 lg:grid-cols-3">
+              <FeatureCard
                 icon={Globe}
                 title="Industry"
                 desc="Tours • Travel • Pakistan Tourism"
                 bullets={["Youth-focused vibe", "Visual storytelling", "Seasonal & destination-driven demand"]}
+                delay={0.05}
               />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <Card
+              <FeatureCard
                 icon={LayoutGrid}
                 title="Scope"
                 desc="Website • Social • Meta Ads • Lead Gen"
                 bullets={["Modern website structure", "IG/FB brand setup", "Meta funnel build", "WhatsApp + lead forms"]}
+                delay={0.1}
               />
-            </Reveal>
-            <Reveal delay={0.15}>
-              <Card
+              <FeatureCard
                 icon={ShieldCheck}
                 title="Objectives"
                 desc="Visibility + excitement + inquiries"
                 bullets={["Recognizable brand", "Mobile-first website", "Awareness → leads funnel", "Low-budget validation"]}
+                delay={0.15}
+              />
+            </div>
+          </Container>
+        </section>
+
+        <Container>
+          <Divider />
+        </Container>
+
+        {/* TABS */}
+        <section id="tabs" className="scroll-mt-24 py-16 sm:py-20">
+          <Container>
+            <Reveal>
+              <SectionHeading
+                badge="Brand build sections"
+                title={
+                  <>
+                    Everything organized into{" "}
+                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                      three deliverables
+                    </span>
+                  </>
+                }
+                description="Switch between Website, Meta Ads, and Social Media — each tab shows the structure, features, and outcomes."
               />
             </Reveal>
-          </div>
-        </Container>
-      </section>
 
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* Tabs */}
-      <section id="tabs" className="scroll-mt-24">
-        <Container className="pb-16">
-          <Reveal>
-            <SectionTitle
-              kicker="Brand build sections"
-              title="Everything organized into three deliverables"
-              desc="Switch between Website, Meta Ads, and Social Media — each tab shows the structure, features, and outcomes."
-            />
-          </Reveal>
-
-          <div className="mt-8">
-            <Reveal delay={0.05}>
+            <Reveal delay={0.06} className="mt-8">
               <Tabs active={activeTab} onChange={setActiveTab} />
             </Reveal>
-          </div>
 
-          <div className="mt-8">
-            <TabPanel active={activeTab} />
-          </div>
-        </Container>
-      </section>
-
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* Screenshots */}
-      <section id="screens" className="scroll-mt-24">
-        <Container className="pb-16">
-          <Reveal>
-            <SectionTitle
-              kicker="Screenshot placeholders"
-              title="Drop your proof here for a high-trust portfolio"
-              desc="These placeholders match your requested sizes so you can swap images in later (website, mobile, social, and Ads Manager)."
-            />
-          </Reveal>
-
-          <div className="mt-10 grid gap-4 lg:grid-cols-2">
-            <Reveal delay={0.05}>
-              <Shot
-                title="[WEBSITE HOME PAGE]"
-                size="1920 × 1080 (Desktop)"
-                comment="Hero banner, destinations, travel vibe"
-              />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <Shot
-                title="[DESTINATIONS PAGE]"
-                size="1440 × 900"
-                comment="Northern areas tours & travel listings"
-              />
-            </Reveal>
-            <Reveal delay={0.15}>
-              <Shot
-                title="[MOBILE VIEW]"
-                size="390 × 844"
-                comment="Mobile-first travel browsing experience"
-              />
-            </Reveal>
-            <Reveal delay={0.2}>
-              <Shot
-                title="[INSTAGRAM PROFILE]"
-                size="1080 × 1080"
-                comment="Bio, highlights, grid overview"
-              />
-            </Reveal>
-            <Reveal delay={0.25}>
-              <Shot
-                title="[REELS & POSTS]"
-                size="1080 × 1920"
-                comment="Travel reels & destination visuals"
-              />
-            </Reveal>
-            <Reveal delay={0.3}>
-              <Shot
-                title="[STORY HIGHLIGHTS]"
-                size="1080 × 1920"
-                comment="Tours, destinations & transport highlights"
-              />
-            </Reveal>
-            <Reveal delay={0.35}>
-              <Shot
-                title="[ADS MANAGER OVERVIEW]"
-                size="1920 × 1080"
-                comment="Campaign spend, reach & leads"
-              />
-            </Reveal>
-            <Reveal delay={0.4}>
-              <Shot
-                title="[LEADS PERFORMANCE]"
-                size="1440 × 900"
-                comment="67 leads with cost per lead shown"
-              />
-            </Reveal>
-            <Reveal delay={0.45}>
-              <Shot
-                title="[WHATSAPP AD PREVIEW]"
-                size="1080 × 1920"
-                comment="Click-to-WhatsApp travel ad creative"
-              />
-            </Reveal>
-          </div>
-        </Container>
-      </section>
-
-      <Container>
-        <Divider />
-      </Container>
-
-      {/* Results */}
-      <section id="results" className="scroll-mt-24">
-        <Container>
-          <Reveal>
-            <SectionTitle
-              kicker="Results"
-              title="67 potential leads in 3 days on a controlled test budget"
-              desc="A complete brand presence (website + social + ads) with a validated Meta funnel generating travel inquiries via WhatsApp and instant lead forms at a very cost-effective CPL."
-              align="center"
-            />
-          </Reveal>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-4">
-            <Reveal delay={0.05}>
-              <Stat icon={Wallet} label="Total ad spend" value="5,500 PKR" />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <Stat icon={CalendarDays} label="Campaign duration" value="3 days" />
-            </Reveal>
-            <Reveal delay={0.15}>
-              <Stat icon={Users} label="Potential leads" value="67" />
-            </Reveal>
-            <Reveal delay={0.2}>
-              <Stat icon={Target} label="Cost per lead" value="~78 PKR" />
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.15}>
-            <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-500/10 to-emerald-400/10 p-6">
-              <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-                <div className="max-w-2xl">
-                  <div className="text-sm font-semibold text-white">Scalable next steps</div>
-                  <div className="mt-1 text-sm text-zinc-300">
-                    Scale this system seasonally by duplicating the funnel and swapping destination offers, creatives, and
-                    landing page sections for peak travel windows.
-                  </div>
-                </div>
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 hover:opacity-90"
-                >
-                  Request a proposal <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
+            <div className="mt-8">
+              <TabPanel active={activeTab} />
             </div>
-          </Reveal>
+          </Container>
+        </section>
 
-          <div className="mt-10 text-center text-xs text-zinc-500">© {year} • Halla Gulla brand build</div>
+        <Container>
+          <Divider />
         </Container>
-      </section>
-    </div>
+
+        {/* SCREENSHOTS */}
+        <section id="screens" className="scroll-mt-24 py-16 sm:py-20">
+          <Container>
+            <Reveal>
+              <SectionHeading
+                badge="Screenshot placeholders"
+                title={
+                  <>
+                    Drop your proof here for a{" "}
+                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                      high-trust portfolio
+                    </span>
+                  </>
+                }
+                description="These placeholders match recommended sizes so you can swap images later (website, mobile, social, and Ads Manager)."
+              />
+            </Reveal>
+
+            <div className="mt-10 grid gap-6 lg:grid-cols-2">
+              <Reveal delay={0.05}>
+                <Shot title="[WEBSITE HOME PAGE]" size="1920 × 1080 (Desktop)" comment="Hero banner, destinations, travel vibe" />
+              </Reveal>
+              <Reveal delay={0.1}>
+                <Shot title="[DESTINATIONS PAGE]" size="1440 × 900" comment="Northern areas tours & travel listings" />
+              </Reveal>
+              <Reveal delay={0.15}>
+                <Shot title="[MOBILE VIEW]" size="390 × 844" comment="Mobile-first travel browsing experience" />
+              </Reveal>
+              <Reveal delay={0.2}>
+                <Shot title="[INSTAGRAM PROFILE]" size="1080 × 1080" comment="Bio, highlights, grid overview" />
+              </Reveal>
+              <Reveal delay={0.25}>
+                <Shot title="[REELS & POSTS]" size="1080 × 1920" comment="Travel reels & destination visuals" />
+              </Reveal>
+              <Reveal delay={0.3}>
+                <Shot title="[STORY HIGHLIGHTS]" size="1080 × 1920" comment="Tours, destinations & transport highlights" />
+              </Reveal>
+              <Reveal delay={0.35}>
+                <Shot title="[ADS MANAGER OVERVIEW]" size="1920 × 1080" comment="Campaign spend, reach & leads" />
+              </Reveal>
+              <Reveal delay={0.4}>
+                <Shot title="[LEADS PERFORMANCE]" size="1440 × 900" comment="67 leads with cost per lead shown" />
+              </Reveal>
+              <Reveal delay={0.45}>
+                <Shot title="[WHATSAPP AD PREVIEW]" size="1080 × 1920" comment="Click-to-WhatsApp travel ad creative" />
+              </Reveal>
+            </div>
+          </Container>
+        </section>
+
+        <Container>
+          <Divider />
+        </Container>
+
+        {/* RESULTS */}
+        <section id="results" className="scroll-mt-24 py-16 sm:py-20 pb-24">
+          <Container>
+            <Reveal>
+              <SectionHeading
+                badge="Results"
+                title={
+                  <>
+                    67 potential leads in{" "}
+                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                      3 days
+                    </span>{" "}
+                    on a controlled test budget
+                  </>
+                }
+                description="A complete brand presence (website + social + ads) with a validated Meta funnel generating travel inquiries via WhatsApp and instant lead forms at a very cost-effective CPL."
+                centered
+              />
+            </Reveal>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <StatCard icon={Wallet} label="Total ad spend" value="5,500 PKR" delay={0.05} />
+              <StatCard icon={CalendarDays} label="Campaign duration" value="3 days" delay={0.1} />
+              <StatCard icon={Users} label="Potential leads" value="67" delay={0.15} />
+              <StatCard icon={Target} label="Cost per lead" value="~78 PKR" delay={0.2} />
+            </div>
+
+            <Reveal delay={0.16}>
+              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-7 backdrop-blur-sm">
+                <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+                  <div className="max-w-2xl">
+                    <div className="text-sm font-semibold text-white">Scalable next steps</div>
+                    <div className="mt-1 text-sm text-zinc-300">
+                      Scale seasonally by duplicating the funnel and swapping destination offers, creatives, and landing page
+                      sections for peak travel windows.
+                    </div>
+                  </div>
+
+                  <a
+                    href="/contact"
+                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-[1.02]"
+                  >
+                    Request a proposal
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+
+            <div className="mt-10 text-center text-xs text-zinc-500">© {year} • Halla Gulla brand build</div>
+          </Container>
+        </section>
+      </div>
     </>
   );
 }
