@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -26,216 +26,217 @@ import {
   Database,
   Zap,
   ExternalLink,
+  X,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import Container from "../components/Container";
 
-/**
- * WORKS PAGE (Portfolio Listing)
- * - Shows each project with moderate details
- * - Links to full case study pages you already made (one per project)
- * - Same dark/glass/gradient + scroll progress + reveal theme
- *
- * ✅ Replace href routes to match your routing (Next.js / React Router / plain anchors).
- * Example routes:
- *  /work/united-muslim-travels
- *  /work/halla-gulla
- *  /work/esahulat-mart
- *  /work/hikmabiotics
- */
+/* ==================== HELPERS ==================== */
 
-const cx = (...c) => c.filter(Boolean).join(" ");
+const cx = (...classes) => classes.filter(Boolean).join(" ");
 
-function Container({ children, className }) {
-  return (
-    <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>
-      {children}
-    </div>
-  );
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (!m) return;
+    const onChange = () => setReduced(!!m.matches);
+    onChange();
+    m.addEventListener?.("change", onChange);
+    return () => m.removeEventListener?.("change", onChange);
+  }, []);
+  return reduced;
 }
 
-function GradientBlob({ className }) {
-  return (
-    <div
-      aria-hidden
-      className={cx(
-        "pointer-events-none absolute inset-0 -z-10 blur-3xl opacity-40",
-        className
-      )}
-    />
-  );
-}
+/* ==================== COMPONENTS ==================== */
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-  const w = useSpring(scrollYProgress, { stiffness: 120, damping: 18, mass: 0.5 });
   return (
     <motion.div
-      aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-indigo-500 via-emerald-400 to-fuchsia-500"
-      style={{ scaleX: w }}
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      style={{ scaleX: scrollYProgress }}
     />
   );
 }
 
-function Reveal({ children, delay = 0, className }) {
+function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
+  return (
+    <div
+      aria-hidden
+      className={cx("pointer-events-none absolute -z-10 blur-3xl", className)}
+      style={{
+        background: `radial-gradient(circle, ${color}, transparent 70%)`,
+      }}
+    />
+  );
+}
+
+function Badge({ children, icon: Icon }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+      {Icon && <Icon className="h-3.5 w-3.5" />}
+      {children}
+    </span>
+  );
+}
+
+function SectionHeading({ badge, title, description, centered = false }) {
+  return (
+    <div className={cx("mb-12", centered && "text-center")}>
+      {badge && (
+        <div className={cx("mb-4", centered && "flex justify-center")}>
+          <Badge icon={Sparkles}>{badge}</Badge>
+        </div>
+      )}
+      <h2 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+        {title}
+      </h2>
+      {description && (
+        <p className={cx("mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl", centered && "mx-auto")}>
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function StatBadge({ icon: Icon, value, label }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm">
+      <div className="flex items-center gap-2">
+        <div className="rounded-lg bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+          <Icon className="h-4 w-4 text-white" />
+        </div>
+        <div>
+          <div className="text-base font-bold text-white">{value}</div>
+          <div className="text-xs text-zinc-400">{label}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectCard({ project, delay = 0 }) {
+  const reduced = usePrefersReducedMotion();
+  const Icon = project.icon;
+
   return (
     <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: "easeOut", delay }}
+      initial={reduced ? false : { opacity: 0, y: 20 }}
+      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay }}
+      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
     >
-      {children}
-    </motion.div>
-  );
-}
+      {/* Animated background glow */}
+      <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
 
-function Pill({ icon: Icon, children }) {
-  return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200 mb-3">
-      {Icon ? <Icon className="h-3.5 w-3.5 opacity-80" /> : null}
-      {children}
-    </span>
-  );
-}
-
-function SectionTitle({ kicker, title, desc, align = "left", level = "h2" }) {
-  const HeadingTag = level;
-  return (
-    <div className={cx("max-w-2xl", align === "center" && "mx-auto text-center")}>
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200">
-        <Sparkles className="h-3.5 w-3.5" />
-        {kicker}
-      </div>
-      <HeadingTag className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</HeadingTag>
-      <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">{desc}</p>
-    </div>
-  );
-}
-
-function Divider() {
-  return <div className="my-12 sm:my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
-}
-
-function Badge({ children }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-zinc-200">
-      {children}
-    </span>
-  );
-}
-
-function StatRow({ stats }) {
-  return (
-    <div className="mt-5 grid gap-3 sm:grid-cols-3">
-      {stats.map((s) => (
-        <div key={s.label} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <div className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-white/5">
-              <s.icon className="h-4 w-4" />
-            </div>
-            <div className="min-w-0">
-              <div className="text-sm font-semibold text-white">{s.value}</div>
-              <div className="text-xs text-zinc-400">{s.label}</div>
-            </div>
+      <div className="relative p-6">
+        {/* Header */}
+        <div className="flex items-start gap-4">
+          <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+            <Icon className="h-7 w-7 text-white" />
           </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ProjectCard({ p }) {
-  const Icon = p.icon;
-  return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6 h-full">
-      {/* Hover glow */}
-      <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-indigo-500/20 blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-emerald-400/20 blur-3xl" />
-      </div>
-
-      <div className="relative">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5">
-                <Icon className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <div className="truncate text-lg font-semibold text-white">{p.title}</div>
-                <div className="mt-1 text-xs text-zinc-400">{p.industry}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2 justify-end">
-            {p.tags.slice(0, 3).map((t) => (
-              <Badge key={t}>{t}</Badge>
-            ))}
+          <div className="min-w-0 flex-1">
+            <h3 className="text-xl font-bold text-white">{project.title}</h3>
+            <p className="mt-1 text-sm text-zinc-400">{project.industry}</p>
           </div>
         </div>
 
-        <p className="mt-4 text-sm leading-relaxed text-zinc-300">{p.summary}</p>
+        {/* Tags */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {project.tags.map((tag, idx) => (
+            <span
+              key={idx}
+              className="rounded-full bg-[#5025d1]/20 px-3 py-1 text-xs font-medium text-purple-300 border border-[#5025d1]/30"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        {/* Summary */}
+        <p className="mt-4 text-sm leading-relaxed text-zinc-300">{project.summary}</p>
+
+        {/* Scope & Highlights */}
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-            <div className="text-xs font-semibold text-white">Scope</div>
-            <ul className="mt-2 space-y-1 text-xs text-zinc-300">
-              {p.scope.slice(0, 5).map((s, i) => (
-                <li key={i} className="flex items-center gap-2">
-                  <BadgeCheck className="h-4 w-4 text-emerald-300" />
-                  <span className="opacity-90">{s}</span>
+            <div className="mb-3 flex items-center gap-2">
+              <Target className="h-4 w-4 text-[#5025d1]" />
+              <span className="text-xs font-semibold text-white">Scope</span>
+            </div>
+            <ul className="space-y-2">
+              {project.scope.slice(0, 4).map((item, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-xs text-zinc-300">
+                  <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-emerald-400" />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-            <div className="text-xs font-semibold text-white">Highlights</div>
-            <ul className="mt-2 space-y-1 text-xs text-zinc-300">
-              {p.highlights.slice(0, 5).map((s, i) => (
-                <li key={i} className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-                  <span className="opacity-90">{s}</span>
+            <div className="mb-3 flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-purple-400" />
+              <span className="text-xs font-semibold text-white">Highlights</span>
+            </div>
+            <ul className="space-y-2">
+              {project.highlights.slice(0, 4).map((item, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-xs text-zinc-300">
+                  <BadgeCheck className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-purple-400" />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {p.stats?.length ? <StatRow stats={p.stats} /> : null}
-
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-2">
-            {p.platforms?.map((pl) => (
-              <Pill key={pl.label} icon={pl.icon}>
-                {pl.label}
-              </Pill>
+        {/* Stats */}
+        {project.stats?.length > 0 && (
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {project.stats.map((stat, idx) => (
+              <StatBadge key={idx} icon={stat.icon} value={stat.value} label={stat.label} />
             ))}
           </div>
+        )}
 
-          {p.external ? (
+        {/* Platforms */}
+        {project.platforms?.length > 0 && (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {project.platforms.map((platform, idx) => (
+              <Badge key={idx} icon={platform.icon}>
+                {platform.label}
+              </Badge>
+            ))}
+          </div>
+        )}
+
+        {/* CTA */}
+        <div className="mt-6">
+          {project.external ? (
             <a
-              href={p.href}
+              href={project.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-950 hover:opacity-90"
+              className="group/btn inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
             >
-              View project <ExternalLink className="h-4 w-4" />
+              View Project
+              <ExternalLink className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
             </a>
           ) : (
             <Link
-              to={p.href}
-              className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-950 hover:opacity-90"
+              to={project.href}
+              className="group/btn inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
             >
-              View full case study <ArrowRight className="h-4 w-4" />
+              View Case Study
+              <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
             </Link>
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -531,31 +532,37 @@ const PROJECTS = [
   },
 ];
 
-function FilterPill({ active, onClick, icon: Icon, label }) {
+function FilterChip({ active, onClick, icon: Icon, label }) {
+  const reduced = usePrefersReducedMotion();
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
+      whileHover={reduced ? {} : { scale: 1.05 }}
+      whileTap={reduced ? {} : { scale: 0.95 }}
       className={cx(
-        "inline-flex items-center gap-2 rounded-2xl border px-4 py-2 text-sm transition",
-        active ? "border-white/20 bg-white text-zinc-950" : "border-white/10 bg-white/5 text-zinc-200 hover:bg-white/10"
+        "inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-medium transition-all",
+        active
+          ? "border-[#5025d1] bg-gradient-to-r from-[#5025d1] to-purple-600 text-white shadow-lg shadow-[#5025d1]/30"
+          : "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 hover:border-white/20"
       )}
     >
-      {Icon ? <Icon className="h-4 w-4" /> : null}
+      {Icon && <Icon className="h-4 w-4" />}
       {label}
-      {active ? <CheckCircle2 className="h-4 w-4" /> : null}
-    </button>
+      {active && <CheckCircle2 className="h-4 w-4" />}
+    </motion.button>
   );
 }
 
-export default function WorksPage() {
-  const year = useMemo(() => new Date().getFullYear(), []);
-  const heroRef = useRef(null);
-  const [searchParams, setSearchParams] = useSearchParams();
+/* ==================== PAGE ==================== */
 
+export default function WorkPage() {
+  const reduced = usePrefersReducedMotion();
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 700], [0, -50]);
-  const heroOpacity = useTransform(scrollY, [0, 450], [1, 0.9]);
+  const [searchParams] = useSearchParams();
+
+  // Parallax effects
+  const heroY = useTransform(scrollY, [0, 500], [0, reduced ? 0 : 150]);
 
   const [query, setQuery] = useState("");
   const [mainTab, setMainTab] = useState("all");
@@ -600,7 +607,7 @@ export default function WorksPage() {
 
     const byQuery = (p) => {
       if (!q) return true;
-      const hay = [
+      const searchText = [
         p.title,
         p.industry,
         p.summary,
@@ -610,18 +617,23 @@ export default function WorksPage() {
       ]
         .join(" ")
         .toLowerCase();
-      return hay.includes(q);
+      return searchText.includes(q);
     };
 
     const byMainTab = (p) => {
       if (mainTab === "all") return true;
       if (mainTab === "salesforce") {
-        return p.industry.toLowerCase().includes("salesforce") || (p.tags || []).some((t) => t.toLowerCase().includes("salesforce"));
+        return (
+          p.industry.toLowerCase().includes("salesforce") ||
+          (p.tags || []).some((t) => t.toLowerCase().includes("salesforce"))
+        );
       }
       if (mainTab === "web") {
-        return (p.tags || []).some((t) => t.toLowerCase().includes("website")) ||
-               p.industry.toLowerCase().includes("web") ||
-               p.platforms?.some((pl) => pl.label.toLowerCase().includes("website"));
+        return (
+          (p.tags || []).some((t) => t.toLowerCase().includes("website")) ||
+          p.industry.toLowerCase().includes("web") ||
+          p.platforms?.some((pl) => pl.label.toLowerCase().includes("website"))
+        );
       }
       return true;
     };
@@ -631,37 +643,49 @@ export default function WorksPage() {
 
       // Web sub-filters
       if (subFilter === "ecommerce") {
-        return p.industry.toLowerCase().includes("e-commerce") ||
-               p.industry.toLowerCase().includes("ecommerce") ||
-               (p.tags || []).some((t) => t.toLowerCase().includes("e-commerce"));
+        return (
+          p.industry.toLowerCase().includes("e-commerce") ||
+          p.industry.toLowerCase().includes("ecommerce") ||
+          (p.tags || []).some((t) => t.toLowerCase().includes("e-commerce"))
+        );
       }
       if (subFilter === "business") {
-        return p.industry.toLowerCase().includes("property") ||
-               p.industry.toLowerCase().includes("real estate") ||
-               p.industry.toLowerCase().includes("lettings") ||
-               p.industry.toLowerCase().includes("interiors");
+        return (
+          p.industry.toLowerCase().includes("property") ||
+          p.industry.toLowerCase().includes("real estate") ||
+          p.industry.toLowerCase().includes("lettings") ||
+          p.industry.toLowerCase().includes("interiors")
+        );
       }
       if (subFilter === "travel") {
-        return p.industry.toLowerCase().includes("travel") ||
-               p.industry.toLowerCase().includes("tours") ||
-               p.industry.toLowerCase().includes("tourism");
+        return (
+          p.industry.toLowerCase().includes("travel") ||
+          p.industry.toLowerCase().includes("tours") ||
+          p.industry.toLowerCase().includes("tourism")
+        );
       }
 
       // Salesforce sub-filters
       if (subFilter === "integration") {
-        return p.title.toLowerCase().includes("integration") ||
-               p.summary.toLowerCase().includes("integration") ||
-               (p.scope || []).some((s) => s.toLowerCase().includes("integration"));
+        return (
+          p.title.toLowerCase().includes("integration") ||
+          p.summary.toLowerCase().includes("integration") ||
+          (p.scope || []).some((s) => s.toLowerCase().includes("integration"))
+        );
       }
       if (subFilter === "custom-dev") {
-        return p.title.toLowerCase().includes("custom") ||
-               p.title.toLowerCase().includes("lightning") ||
-               (p.scope || []).some((s) => s.toLowerCase().includes("lwc") || s.toLowerCase().includes("apex"));
+        return (
+          p.title.toLowerCase().includes("custom") ||
+          p.title.toLowerCase().includes("lightning") ||
+          (p.scope || []).some((s) => s.toLowerCase().includes("lwc") || s.toLowerCase().includes("apex"))
+        );
       }
       if (subFilter === "automation") {
-        return p.summary.toLowerCase().includes("automation") ||
-               (p.tags || []).some((t) => t.toLowerCase().includes("automation")) ||
-               (p.scope || []).some((s) => s.toLowerCase().includes("automation") || s.toLowerCase().includes("workflow"));
+        return (
+          p.summary.toLowerCase().includes("automation") ||
+          (p.tags || []).some((t) => t.toLowerCase().includes("automation")) ||
+          (p.scope || []).some((s) => s.toLowerCase().includes("automation") || s.toLowerCase().includes("workflow"))
+        );
       }
 
       return true;
@@ -674,177 +698,246 @@ export default function WorksPage() {
     <>
       <Helmet>
         <title>IT Meta Solutions - Our Work | Portfolio & Case Studies</title>
-        <meta name="description" content="Explore IT Meta Solutions' successful digital projects and case studies. View our portfolio of web development, digital marketing, branding, and SEO campaigns for clients across Pakistan, Canada, UK, and USA." />
-        <meta name="keywords" content="IT Meta Solutions portfolio, digital marketing case studies, web development projects, SEO success stories, brand building examples, social media campaigns, Meta ads case studies" />
-        <meta property="og:title" content="IT Meta Solutions - Our Work | Portfolio & Case Studies" />
-        <meta property="og:description" content="Explore IT Meta Solutions' successful digital projects and case studies. View our portfolio of web development, digital marketing, branding, and SEO campaigns for clients across Pakistan, Canada, UK, and USA." />
-        <meta property="og:type" content="website" />
+        <meta
+          name="description"
+          content="Explore IT Meta Solutions' successful digital projects and case studies. View our portfolio of web development, digital marketing, branding, and SEO campaigns for clients worldwide."
+        />
         <link rel="canonical" href="https://itmetasolutions.com/work" />
-        <meta property="og:url" content="https://itmetasolutions.com/work" />
-        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="IT Meta Solutions - Our Work | Portfolio & Case Studies" />
-        <meta name="twitter:description" content="Explore IT Meta Solutions' successful digital projects and case studies. View our portfolio of web development, digital marketing, branding, and SEO campaigns for clients across Pakistan, Canada, UK, and USA." />
-        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+      <div className="relative min-h-screen overflow-hidden">
         <ScrollProgress />
 
-      {/* Background accents */}
-      <GradientBlob className="bg-[radial-gradient(closest-side,rgba(99,102,241,0.55),rgba(99,102,241,0))] bg-[length:50vw_50vw] sm:bg-[length:560px_560px] bg-left-top" />
-      <GradientBlob className="bg-[radial-gradient(closest-side,rgba(16,185,129,0.5),rgba(16,185,129,0))] bg-[length:50vw_50vw] sm:bg-[length:560px_560px] bg-right-top" />
+        {/* Background Elements */}
+        <GradientBlob className="left-0 top-0 h-[600px] w-[600px]" color="rgba(80,37,209,0.2)" />
+        <GradientBlob className="right-0 top-1/4 h-[800px] w-[800px]" color="rgba(186,85,211,0.15)" />
+        <GradientBlob className="bottom-0 left-1/3 h-[700px] w-[700px]" color="rgba(80,37,209,0.18)" />
 
-      {/* HERO */}
-      <section ref={heroRef} className="relative overflow-hidden">
-        <Container className="pb-12 pt-24 sm:pb-16 sm:pt-32">
-          <motion.div style={{ y: heroY, opacity: heroOpacity }}>
-            <Reveal>
-              <div className="flex flex-wrap items-center gap-2">
-                <Pill icon={LayoutGrid}>Case studies</Pill>
-                <Pill icon={Megaphone}>Performance marketing</Pill>
-                <Pill icon={ShieldCheck}>Brand building</Pill>
-                <Pill icon={BarChart3}>Results</Pill>
-              </div>
-            </Reveal>
+        {/* ==================== HERO SECTION ==================== */}
+        <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-24">
+          <Container>
+            <motion.div
+              style={{ y: heroY }}
+              className="mx-auto max-w-5xl text-center"
+            >
+              <motion.div
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <Badge icon={Sparkles}>Our Portfolio</Badge>
+              </motion.div>
 
-            <Reveal delay={0.05}>
-              <SectionTitle
-                kicker="Works"
-                title="Detailed work pages for every brand build"
-                desc="Browse projects with moderate detail here — open any project for the full case study page (the ones you already made)."
-                level="h1"
-              />
-            </Reveal>
+              <motion.h1
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl"
+              >
+                Our Work Speaks
+                <br />
+                <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  For Itself
+                </span>
+              </motion.h1>
 
-            <Reveal delay={0.1}>
-              <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.04] p-4">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/5">
-                    <Search className="h-5 w-5" />
-                  </div>
-                  <div className="min-w-0 w-full">
-                    <div className="text-xs font-semibold text-white">Search projects</div>
+              <motion.p
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-3xl mx-auto"
+              >
+                Real projects, real results. Explore our case studies and see how we've helped businesses grow through strategic web development, digital marketing, and brand building.
+              </motion.p>
+
+              {/* Search and Filters */}
+              <motion.div
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-10"
+              >
+                <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm">
+                  {/* Search Bar */}
+                  <div className="relative">
+                    <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
                     <input
+                      type="text"
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
-                      placeholder="Search: ads, leads, e-commerce, UK, tours..."
-                      className="mt-2 w-full rounded-2xl border border-white/10 bg-zinc-950/40 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-white/20"
+                      placeholder="Search projects by name, industry, or service..."
+                      className="w-full rounded-xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#5025d1]"
                     />
+                    {query && (
+                      <button
+                        onClick={() => setQuery("")}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    )}
                   </div>
-                </div>
 
-                <div className="border-t border-white/10 pt-4">
-                  <div className="text-xs font-semibold text-white mb-3">Main Categories</div>
-                  <div className="flex flex-wrap gap-2">
-                    {mainTabs.map((tab) => (
-                      <FilterPill
-                        key={tab.key}
-                        active={mainTab === tab.key}
-                        onClick={() => {
-                          setMainTab(tab.key);
-                          setSubFilter("all");
-                        }}
-                        icon={tab.icon}
-                        label={tab.label}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {mainTab === "web" && (
-                  <div className="border-t border-white/10 pt-4 mt-4">
-                    <div className="text-xs font-semibold text-white mb-3">Web Development Filters</div>
-                    <div className="flex flex-wrap gap-2">
-                      {webSubFilters.map((filter) => (
-                        <FilterPill
-                          key={filter.key}
-                          active={subFilter === filter.key}
-                          onClick={() => setSubFilter(filter.key)}
-                          icon={filter.icon}
-                          label={filter.label}
+                  {/* Main Category Filters */}
+                  <div className="mt-6">
+                    <div className="mb-3 text-sm font-semibold text-white">Categories</div>
+                    <div className="flex flex-wrap gap-3">
+                      {mainTabs.map((tab) => (
+                        <FilterChip
+                          key={tab.key}
+                          active={mainTab === tab.key}
+                          onClick={() => {
+                            setMainTab(tab.key);
+                            setSubFilter("all");
+                          }}
+                          icon={tab.icon}
+                          label={tab.label}
                         />
                       ))}
                     </div>
                   </div>
-                )}
 
-                {mainTab === "salesforce" && (
-                  <div className="border-t border-white/10 pt-4 mt-4">
-                    <div className="text-xs font-semibold text-white mb-3">Salesforce Filters</div>
-                    <div className="flex flex-wrap gap-2">
-                      {salesforceSubFilters.map((filter) => (
-                        <FilterPill
-                          key={filter.key}
-                          active={subFilter === filter.key}
-                          onClick={() => setSubFilter(filter.key)}
-                          icon={filter.icon}
-                          label={filter.label}
-                        />
-                      ))}
+                  {/* Web Sub-filters */}
+                  {mainTab === "web" && (
+                    <div className="mt-6 border-t border-white/10 pt-6">
+                      <div className="mb-3 text-sm font-semibold text-white">Web Projects</div>
+                      <div className="flex flex-wrap gap-3">
+                        {webSubFilters.map((filter) => (
+                          <FilterChip
+                            key={filter.key}
+                            active={subFilter === filter.key}
+                            onClick={() => setSubFilter(filter.key)}
+                            icon={filter.icon}
+                            label={filter.label}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            </Reveal>
-          </motion.div>
-        </Container>
-      </section>
+                  )}
 
-      {/* LIST */}
-      <section className="py-16 sm:py-24">
-        <Container>
-          <div className="grid gap-5 lg:grid-cols-2">
-            {filtered.map((p, idx) => (
-              <Reveal key={p.key} delay={Math.min(idx * 0.05, 0.25)}>
-                <ProjectCard p={p} />
-              </Reveal>
-            ))}
-          </div>
+                  {/* Salesforce Sub-filters */}
+                  {mainTab === "salesforce" && (
+                    <div className="mt-6 border-t border-white/10 pt-6">
+                      <div className="mb-3 text-sm font-semibold text-white">Salesforce Projects</div>
+                      <div className="flex flex-wrap gap-3">
+                        {salesforceSubFilters.map((filter) => (
+                          <FilterChip
+                            key={filter.key}
+                            active={subFilter === filter.key}
+                            onClick={() => setSubFilter(filter.key)}
+                            icon={filter.icon}
+                            label={filter.label}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </motion.div>
+          </Container>
+        </section>
 
-          {/* Empty state */}
-          {!filtered.length ? (
-            <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.04] p-8 text-center">
-              <div className="text-lg font-semibold text-white">No matching projects</div>
-              <div className="mt-2 text-sm text-zinc-300">Try a different keyword or reset the filter.</div>
-              <div className="mt-5 flex items-center justify-center gap-2">
+        {/* ==================== PROJECTS GRID ==================== */}
+        <section className="relative z-10 pt-24 pb-16 sm:py-24">
+          <Container>
+            {filtered.length > 0 ? (
+              <>
+                <div className="mb-8 flex items-center justify-between">
+                  <p className="text-zinc-400">
+                    Showing <span className="font-semibold text-white">{filtered.length}</span> {filtered.length === 1 ? "project" : "projects"}
+                  </p>
+                  {(mainTab !== "all" || subFilter !== "all" || query) && (
+                    <button
+                      onClick={() => {
+                        setQuery("");
+                        setMainTab("all");
+                        setSubFilter("all");
+                      }}
+                      className="text-sm text-[#5025d1] hover:text-purple-400 transition-colors"
+                    >
+                      Clear filters
+                    </button>
+                  )}
+                </div>
+
+                <div className="grid gap-8 md:grid-cols-2">
+                  {filtered.map((project, index) => (
+                    <ProjectCard key={project.key} project={project} delay={index * 0.1} />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <motion.div
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-12 text-center backdrop-blur-sm"
+              >
+                <Search className="mx-auto h-16 w-16 text-zinc-600" />
+                <h3 className="mt-6 text-2xl font-bold text-white">No projects found</h3>
+                <p className="mt-3 text-zinc-400">
+                  Try adjusting your search or filters to find what you're looking for.
+                </p>
                 <button
-                  type="button"
                   onClick={() => {
                     setQuery("");
                     setMainTab("all");
                     setSubFilter("all");
                   }}
-                  className="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950"
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:scale-105"
                 >
-                  Reset
+                  Clear all filters
+                  <ArrowRight className="h-4 w-4" />
                 </button>
-              </div>
-            </div>
-          ) : null}
+              </motion.div>
+            )}
+          </Container>
+        </section>
 
-          <div className="mt-12 rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-500/10 to-emerald-400/10 p-6">
-            <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-              <div className="max-w-2xl">
-                <div className="text-sm font-semibold text-white">Want this style for more projects?</div>
-                <div className="mt-1 text-sm text-zinc-300">
-                  Add more projects to the <code className="text-zinc-100">PROJECTS</code> array and create a full case-study
-                  route for each.
+        {/* ==================== CTA SECTION ==================== */}
+        <section className="py-16 sm:py-24">
+          <Container>
+            <motion.div
+              initial={reduced ? false : { opacity: 0, y: 20 }}
+              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-12 backdrop-blur-sm sm:p-16"
+            >
+              <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-[#5025d1]/30 blur-3xl" />
+              <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-purple-600/30 blur-3xl" />
+
+              <div className="relative mx-auto max-w-3xl text-center">
+                <h2 className="text-4xl font-bold text-white sm:text-5xl">
+                  Ready to Start Your Project?
+                </h2>
+                <p className="mt-6 text-xl text-zinc-300">
+                  Let's create something amazing together. Get in touch and let's discuss how we can help your business grow.
+                </p>
+
+                <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-105"
+                  >
+                    Get Started Now
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+
+                  <Link
+                    to="/services"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/20 bg-white/5 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10"
+                  >
+                    View Services
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
                 </div>
               </div>
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 hover:opacity-90"
-              >
-                Request a proposal <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
-          </div>
-
-
-        </Container>
-      </section>
-    </div>
+            </motion.div>
+          </Container>
+        </section>
+      </div>
     </>
   );
 }

@@ -282,18 +282,9 @@ async function submitContact(payload) {
 export default function Contact() {
   const reduced = usePrefersReducedMotion();
   const { scrollY } = useScroll();
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   // subtle hero parallax - extended range for better readability
   const heroY = useTransform(scrollY, [0, 800], [0, reduced ? 0 : 100]);
-  const heroOpacity = useTransform(scrollY, [0, 1200], [1, isMobile ? 1 : 0]);
 
   // ✅ Data from your previous contact page
   const CONTACT = useMemo(
@@ -384,9 +375,9 @@ export default function Contact() {
         <GradientBlob className="bottom-[-120px] left-[25%] h-[720px] w-[720px]" color="rgba(80,37,209,0.18)" />
 
         {/* ==================== NEW HERO (COMPLETELY DIFFERENT) ==================== */}
-        <section className="relative pt-24 pb-6 sm:pt-32 sm:pb-10">
+        <section className="relative pt-24 pb-8 sm:pt-32 sm:pb-12">
           <Container>
-            <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative">
+            <motion.div style={{ y: heroY }} className="relative">
               {/* Split hero card */}
               <GlowCard className="p-7 sm:p-10">
                 <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
@@ -506,7 +497,7 @@ export default function Contact() {
         </section>
 
         {/* ==================== MAIN (NEW LAYOUT) ==================== */}
-        <section className="pb-16 pt-2 sm:pb-24 sm:pt-6">
+        <section className="pb-16 pt-4 sm:pb-24 sm:pt-8">
           <Container>
             <div className="grid gap-10 lg:grid-cols-[0.95fr,1.05fr] lg:gap-14">
               {/* LEFT: MINI CONTACT CARDS (copy + actions) */}
