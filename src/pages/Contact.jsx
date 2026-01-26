@@ -283,9 +283,9 @@ export default function Contact() {
   const reduced = usePrefersReducedMotion();
   const { scrollY } = useScroll();
 
-  // subtle hero parallax
-  const heroY = useTransform(scrollY, [0, 500], [0, reduced ? 0 : 140]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  // subtle hero parallax - extended range for better readability
+  const heroY = useTransform(scrollY, [0, 800], [0, reduced ? 0 : 100]);
+  const heroOpacity = useTransform(scrollY, [0, 1200], [1, 0]);
 
   // ✅ Data from your previous contact page
   const CONTACT = useMemo(
@@ -376,7 +376,7 @@ export default function Contact() {
         <GradientBlob className="bottom-[-120px] left-[25%] h-[720px] w-[720px]" color="rgba(80,37,209,0.18)" />
 
         {/* ==================== NEW HERO (COMPLETELY DIFFERENT) ==================== */}
-        <section className="relative pt-24 pb-10 sm:pt-32 sm:pb-14">
+        <section className="relative pt-24 pb-6 sm:pt-32 sm:pb-10">
           <Container>
             <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative">
               {/* Split hero card */}
@@ -498,7 +498,7 @@ export default function Contact() {
         </section>
 
         {/* ==================== MAIN (NEW LAYOUT) ==================== */}
-        <section className="pb-16 pt-6 sm:pb-24">
+        <section className="pb-16 pt-2 sm:pb-24 sm:pt-6">
           <Container>
             <div className="grid gap-10 lg:grid-cols-[0.95fr,1.05fr] lg:gap-14">
               {/* LEFT: MINI CONTACT CARDS (copy + actions) */}
