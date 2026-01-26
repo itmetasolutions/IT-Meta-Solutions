@@ -282,10 +282,18 @@ async function submitContact(payload) {
 export default function Contact() {
   const reduced = usePrefersReducedMotion();
   const { scrollY } = useScroll();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // subtle hero parallax - extended range for better readability
   const heroY = useTransform(scrollY, [0, 800], [0, reduced ? 0 : 100]);
-  const heroOpacity = useTransform(scrollY, [0, 1200], [1, 0]);
+  const heroOpacity = useTransform(scrollY, [0, 1200], [1, isMobile ? 1 : 0]);
 
   // ✅ Data from your previous contact page
   const CONTACT = useMemo(
