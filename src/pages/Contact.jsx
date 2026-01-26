@@ -74,7 +74,7 @@ function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
 
 function Badge({ children, icon: Icon }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white">
       {Icon && <Icon className="h-4 w-4" />}
       {children}
     </span>
@@ -85,12 +85,10 @@ function GlowCard({ className, children }) {
   return (
     <div
       className={cx(
-        "relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm",
+        "relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02]",
         className
       )}
     >
-      <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#5025d1]/18 blur-3xl" />
-      <div className="absolute -left-20 bottom-[-90px] h-72 w-72 rounded-full bg-purple-600/12 blur-3xl" />
       <div className="relative">{children}</div>
     </div>
   );
@@ -118,8 +116,7 @@ function SectionHeading({ badge, title, description, centered = false }) {
 
 function IconTile({ icon: Icon, title, desc }) {
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-[#5025d1]/50">
-      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 transition-all hover:border-[#5025d1]/50">
       <div className="relative flex items-start gap-4">
         <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
           <Icon className="h-6 w-6 text-white" />
@@ -137,8 +134,7 @@ function ContactMiniCard({ icon: Icon, label, value, href, copyText }) {
   const [copied, setCopied] = useState(false);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-      <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#5025d1]/18 blur-3xl" />
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6">
       <div className="relative flex items-start justify-between gap-4 min-w-0">
         <div className="flex items-start gap-4 min-w-0">
           <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
@@ -370,9 +366,6 @@ export default function Contact() {
         <ScrollProgress />
 
         {/* Background Elements */}
-        <GradientBlob className="left-[-80px] top-[-80px] h-[560px] w-[560px]" color="rgba(80,37,209,0.22)" />
-        <GradientBlob className="right-[-140px] top-[15%] h-[760px] w-[760px]" color="rgba(186,85,211,0.15)" />
-        <GradientBlob className="bottom-[-120px] left-[25%] h-[720px] w-[720px]" color="rgba(80,37,209,0.18)" />
 
         {/* ==================== NEW HERO (COMPLETELY DIFFERENT) ==================== */}
         <section className="relative pt-24 pb-8 sm:pt-32 sm:pb-12">
@@ -408,7 +401,7 @@ export default function Contact() {
 
                   {/* Right: quick contact */}
                   <div className="min-w-0">
-                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <div className="text-sm font-semibold text-white">Quick contact</div>
@@ -497,7 +490,7 @@ export default function Contact() {
         </section>
 
         {/* ==================== MAIN (NEW LAYOUT) ==================== */}
-        <section className="pb-16 pt-4 sm:pb-24 sm:pt-8">
+        <section className="pb-16 pt-16 sm:pb-24 sm:pt-24">
           <Container>
             <div className="grid gap-10 lg:grid-cols-[0.95fr,1.05fr] lg:gap-14">
               {/* LEFT: MINI CONTACT CARDS (copy + actions) */}
@@ -535,7 +528,7 @@ export default function Contact() {
                 </div>
 
                 {/* Why share box */}
-                <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+                <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6">
                   <div className="flex items-start gap-4">
                     <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
                       <Wand2 className="h-6 w-6 text-white" />
