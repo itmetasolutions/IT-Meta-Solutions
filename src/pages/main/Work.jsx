@@ -116,7 +116,7 @@ function ProjectCard({ project, delay = 0 }) {
         {/* Animated background glow */}
         <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
 
-        <div className="relative p-6">
+        <div className="relative flex h-full flex-col p-6">
           {/* Header */}
           <div className="flex items-start gap-4">
             <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
@@ -144,13 +144,13 @@ function ProjectCard({ project, delay = 0 }) {
           <p className="mt-4 text-sm leading-relaxed text-zinc-300">{project.summary}</p>
 
           {/* Scope & Highlights */}
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+          <div className="mt-6 flex-1 grid gap-4 sm:grid-cols-2 content-start">
+            <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-4">
               <div className="mb-3 flex items-center gap-2">
                 <Target className="h-4 w-4 text-[#5025d1]" />
                 <span className="text-xs font-semibold text-white">Scope</span>
               </div>
-              <ul className="space-y-2">
+              <ul className="flex-1 space-y-2">
                 {project.scope.slice(0, 4).map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-xs text-zinc-300">
                     <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-emerald-400" />
@@ -160,12 +160,12 @@ function ProjectCard({ project, delay = 0 }) {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+            <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-4">
               <div className="mb-3 flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-purple-400" />
                 <span className="text-xs font-semibold text-white">Highlights</span>
               </div>
-              <ul className="space-y-2">
+              <ul className="flex-1 space-y-2">
                 {project.highlights.slice(0, 4).map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-xs text-zinc-300">
                     <BadgeCheck className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-purple-400" />
