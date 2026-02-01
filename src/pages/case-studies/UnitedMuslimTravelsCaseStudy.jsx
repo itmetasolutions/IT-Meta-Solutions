@@ -65,7 +65,6 @@ const tabs = [
 const inPageNav = [
   { label: "Overview", href: "#overview" },
   { label: "Tabs", href: "#tabs" },
-  { label: "Screenshots", href: "#screens" },
   { label: "Results", href: "#results" },
 ];
 
@@ -748,38 +747,7 @@ export default function UnitedMuslimTravelsCaseStudy() {
           </Container>
         </section>
 
-        <Container>
-          <Divider />
-        </Container>
 
-        {/* Screenshots */}
-        <section id="screens" className="scroll-mt-24">
-          <Container className="pb-16">
-            <Reveal>
-              <SectionTitle
-                kicker="Screenshot placeholders"
-                title="Drop your evidence here for a high-trust portfolio"
-                desc="Placeholders match your requested sizes so you can swap images later (desktop, package page, mobile, social, ads manager)."
-              />
-            </Reveal>
-
-            <div className="mt-10 grid gap-4 lg:grid-cols-2 items-stretch">
-              <Shot title="[WEBSITE HOME PAGE]" size="1920 × 1080 (Desktop)" comment="Hero section, trust messaging, Umrah focus" />
-              <Shot title="[PACKAGE DETAIL PAGE]" size="1440 × 900" comment="Umrah package with itinerary & inquiry CTA" />
-              <Shot title="[MOBILE VIEW]" size="390 × 844" comment="Mobile-first layout with WhatsApp CTA" />
-              <Shot title="[INSTAGRAM PROFILE]" size="1080 × 1080" comment="Bio, highlights, grid preview" />
-              <Shot title="[CONTENT POSTS GRID]" size="1080 × 1350" comment="Package posts + Islamic informational content" />
-              <Shot title="[STORY HIGHLIGHTS]" size="1080 × 1920" comment="Umrah, Hajj, Hotels highlights" />
-              <Shot title="[ADS MANAGER DASHBOARD]" size="1920 × 1080" comment="Campaign overview with spend & results" />
-              <Shot title="[LEADS REPORT]" size="1440 × 900" comment="200+ leads shown in Ads Manager" />
-              <Shot title="[WHATSAPP AD PREVIEW]" size="1080 × 1920" comment="Click-to-WhatsApp creative" />
-            </div>
-          </Container>
-        </section>
-
-        <Container>
-          <Divider />
-        </Container>
 
         {/* Results */}
         <section id="results" className="scroll-mt-24">

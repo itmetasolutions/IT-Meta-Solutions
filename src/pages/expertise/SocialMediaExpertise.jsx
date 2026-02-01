@@ -531,6 +531,31 @@ export default function SocialMediaManagementPage() {
                 </div>
               </div>
             </Reveal>
+
+            <Reveal delay={0.25}>
+              <div className="mt-6 rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/15 to-[#5025d1]/10 p-7">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <div className="max-w-2xl">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-medium text-emerald-300">
+                        <TrendingUp className="h-3 w-3" />
+                        Featured Social Media Build
+                      </span>
+                    </div>
+                    <div className="text-lg font-semibold text-white">Ekommart — Social Presence That Converts</div>
+                    <div className="mt-1 text-sm text-zinc-300">
+                      Built Facebook & Instagram presence from scratch with trust-driven creatives, offer-led messaging, and performance-focused content driving 3,300+ purchases.
+                    </div>
+                  </div>
+                  <a
+                    href="/case-study/ekommart"
+                    className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-600 transition"
+                  >
+                    View Case Study <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </Reveal>
           </section>
 
           <Divider />

@@ -2,27 +2,31 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
-import Home from "./pages/Home";
-import Services from "./pages/Services";
-import Work from "./pages/Work";
-import About from "./pages/About";
-import InHomesDirectCaseStudy from "./pages/InHomesDirectCaseStudy";
-import MoreHomesGroupCaseStudy from "./pages/MoreHomesGroupCaseStudy";
-import HallaGullaCaseStudy from "./pages/HallaGullaCaseStudy";
-import UnitedMuslimTravelsCaseStudy from "./pages/UnitedMuslimTravelsCaseStudy";
-import MultidatumCaseStudy from "./pages/MultidatumCaseStudy";
-import ESahulatMartCaseStudy from "./pages/ESahulatMartCaseStudy";
-import HikmabioticsCaseStudy from "./pages/HikmabioticsCaseStudy";
-import ProcessPage from "./pages/process";
-import Contact from "./pages/Contact";
-import NotFoundPage from "./pages/404";
-import SalesforceExpertise from "./pages/SalesforceExpertise";
-import WebDevelopmentExpertise from "./pages/WebDevelopmentExpertise";
-import DigitalMarketingExpertise from "./pages/DigitalMarketingExpertise";
-import SocialMediaExpertise from "./pages/SocialMediaExpertise";
-import GraphicDesigningExpertise from "./pages/GraphicDesigningExpertise";
-import VideoEditingExpertise from "./pages/VideoEditingExpertise";
-import BrandBuildingExpertise from "./pages/BrandBuildingExpertise";
+import Home from "./pages/main/Home";
+import Services from "./pages/main/Services";
+import Work from "./pages/main/Work";
+import About from "./pages/main/About";
+import InHomesDirectCaseStudy from "./pages/case-studies/InHomesDirectCaseStudy";
+import MoreHomesGroupCaseStudy from "./pages/case-studies/MoreHomesGroupCaseStudy";
+import HallaGullaCaseStudy from "./pages/case-studies/HallaGullaCaseStudy";
+import UnitedMuslimTravelsCaseStudy from "./pages/case-studies/UnitedMuslimTravelsCaseStudy";
+import MultidatumCaseStudy from "./pages/case-studies/MultidatumCaseStudy";
+import ESahulatMartCaseStudy from "./pages/case-studies/ESahulatMartCaseStudy";
+import HikmabioticsCaseStudy from "./pages/case-studies/HikmabioticsCaseStudy";
+import EkommartCaseStudy from "./pages/case-studies/EkommartCaseStudy";
+import SalesforceDuplicateCheckCaseStudy from "./pages/case-studies/SalesforceDuplicateCheckCaseStudy";
+import SalesforceExperienceCloudGovernmentCloud from "./pages/case-studies/SalesforceExperienceCloudGovernmentCloud";
+import SalesforceServiceCloudImplementation from "./pages/case-studies/SalesforceServiceCloudImplementation";
+import ProcessPage from "./pages/main/process";
+import Contact from "./pages/main/Contact";
+import NotFoundPage from "./pages/main/404";
+import SalesforceExpertise from "./pages/expertise/SalesforceExpertise";
+import WebDevelopmentExpertise from "./pages/expertise/WebDevelopmentExpertise";
+import DigitalMarketingExpertise from "./pages/expertise/DigitalMarketingExpertise";
+import SocialMediaExpertise from "./pages/expertise/SocialMediaExpertise";
+import GraphicDesigningExpertise from "./pages/expertise/GraphicDesigningExpertise";
+import VideoEditingExpertise from "./pages/expertise/VideoEditingExpertise";
+import BrandBuildingExpertise from "./pages/expertise/BrandBuildingExpertise";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -182,7 +186,11 @@ function App() {
             <Route path="/case-studies/united-muslim-travels-brand-build" element={<UnitedMuslimTravelsCaseStudy />} />
             <Route path="/case-study/esahulat-mart" element={<ESahulatMartCaseStudy />} />
             <Route path="/case-study/hikmabiotics" element={<HikmabioticsCaseStudy />} />
+            <Route path="/case-study/ekommart" element={<EkommartCaseStudy />} />
             <Route path="/case-study/multidatum" element={<MultidatumCaseStudy />} />
+            <Route path="/case-study/salesforce-duplicate-check" element={<SalesforceDuplicateCheckCaseStudy />} />
+            <Route path="/case-study/salesforce-experience-cloud-government-cloud" element={<SalesforceExperienceCloudGovernmentCloud />} />
+            <Route path="/case-study/salesforce-service-cloud-implementation" element={<SalesforceServiceCloudImplementation />} />
             <Route path="/salesforce-expertise" element={<SalesforceExpertise />} />
             <Route path="/web-development-expertise" element={<WebDevelopmentExpertise />} />
             <Route path="/digital-marketing-expertise" element={<DigitalMarketingExpertise />} />

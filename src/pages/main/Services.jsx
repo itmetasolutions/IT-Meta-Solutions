@@ -27,7 +27,7 @@ import {
   Wand2,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 /* ==================== HELPERS ==================== */
 

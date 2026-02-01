@@ -24,9 +24,13 @@ import {
   PlayCircle,
   ChevronRight,
   Building2,
+  Cloud,
+  Database,
+  ShieldCheck,
+  ShoppingCart,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 /* ==================== HELPERS ==================== */
 
@@ -164,65 +168,148 @@ function ServiceCard({ service, delay = 0 }) {
 
 function ProjectCard({ project, delay = 0 }) {
   const reduced = usePrefersReducedMotion();
+  const Icon = project.icon;
 
   return (
-    <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
-    >
-      {/* Image Placeholder */}
-      <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <Building2 className="mx-auto h-16 w-16 text-white/40" />
-            <p className="mt-3 text-sm text-white/60">Project Screenshot</p>
-            <p className="mt-1 text-xs text-white/40">1200 × 800 recommended</p>
+    <Link to={project.link} className="block">
+      <motion.div
+        initial={reduced ? false : { opacity: 0, y: 20 }}
+        whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay }}
+        whileHover={reduced ? {} : { y: -4, transition: { duration: 0.2 } }}
+        className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
+      >
+        {/* Animated background glow */}
+        <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+
+        <div className="relative flex flex-col sm:flex-row">
+          {/* Left: Icon & Tags */}
+          <div className="flex items-center gap-4 p-5 sm:w-auto sm:flex-shrink-0 sm:border-r sm:border-white/10">
+            <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+              <Icon className="h-6 w-6 text-white" />
+            </div>
+            <div className="sm:hidden">
+              <h3 className="text-lg font-bold text-white">{project.title}</h3>
+              <div className="mt-1 flex flex-wrap gap-1.5">
+                {project.tags?.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="rounded-full bg-[#5025d1]/20 px-2 py-0.5 text-xs font-medium text-purple-300 border border-[#5025d1]/30"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-      </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <div className="mb-3 flex items-center gap-2">
-          {project.tags?.map((tag, idx) => (
-            <span
-              key={idx}
-              className="rounded-full bg-[#5025d1]/20 px-3 py-1 text-xs font-medium text-purple-300"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+          {/* Center: Content */}
+          <div className="flex-1 p-5 pt-0 sm:pt-5">
+            <div className="hidden sm:block">
+              <div className="flex items-center gap-3 flex-wrap">
+                <h3 className="text-lg font-bold text-white">{project.title}</h3>
+                {project.tags?.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="rounded-full bg-[#5025d1]/20 px-2.5 py-0.5 text-xs font-medium text-purple-300 border border-[#5025d1]/30"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <p className="mt-2 text-sm text-zinc-300 line-clamp-2">{project.description}</p>
+          </div>
 
-        <h3 className="text-xl font-bold text-white">{project.title}</h3>
-        <p className="mt-2 text-sm text-zinc-300">{project.description}</p>
-
-        {project.results && (
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            {project.results.map((result, idx) => (
-              <div key={idx} className="rounded-xl bg-white/5 p-3">
+          {/* Right: Results & CTA */}
+          <div className="flex items-center gap-4 border-t border-white/10 p-5 sm:border-l sm:border-t-0 sm:w-auto sm:flex-shrink-0">
+            {project.results?.slice(0, 2).map((result, idx) => (
+              <div key={idx} className="text-center min-w-[70px]">
                 <div className="text-lg font-bold text-white">{result.value}</div>
                 <div className="text-xs text-zinc-400">{result.label}</div>
               </div>
             ))}
+            <div className="flex items-center gap-1 text-[#5025d1] transition-all group-hover:gap-2 ml-auto sm:ml-2">
+              <ArrowRight className="h-5 w-5" />
+            </div>
           </div>
-        )}
+        </div>
+      </motion.div>
+    </Link>
+  );
+}
 
-        {project.link && (
-          <Link
-            to={project.link}
-            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#5025d1] transition-all hover:gap-4"
-          >
-            View case study
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+function SalesforceProjectCard({ project, delay = 0 }) {
+  const reduced = usePrefersReducedMotion();
+  const Icon = project.icon;
+
+  return (
+    <Link to={project.link} className="block h-full">
+      <motion.div
+        initial={reduced ? false : { opacity: 0, y: 20 }}
+        whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay }}
+        whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+        className={cx(
+          "group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all",
+          !project.placeholder && "hover:border-[#5025d1]/50"
         )}
-      </div>
-    </motion.div>
+      >
+        {/* Animated background glow */}
+        <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+
+        {/* Icon Header */}
+        <div className="relative p-6 pb-4">
+          <div className="flex items-center gap-4">
+            <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+              <Icon className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {project.tags?.map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="rounded-full bg-[#5025d1]/20 px-3 py-1 text-xs font-medium text-purple-300 border border-[#5025d1]/30"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <h3 className={cx("mt-4 text-xl font-bold leading-tight", project.placeholder ? "text-zinc-500" : "text-white")}>
+            {project.title}
+          </h3>
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-1 flex-col px-6 pb-6">
+          <p className={cx("text-sm leading-relaxed line-clamp-3", project.placeholder ? "text-zinc-600" : "text-zinc-300")}>
+            {project.description}
+          </p>
+
+          {/* Spacer to push results to bottom */}
+          <div className="flex-1 min-h-4" />
+
+          {project.results && project.results.length > 0 && (
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              {project.results.map((result, idx) => (
+                <div key={idx} className="rounded-xl bg-white/5 p-3 text-center">
+                  <div className="text-lg font-bold text-white">{result.value}</div>
+                  <div className="text-xs text-zinc-400">{result.label}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* View case study link */}
+          <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-[#5025d1] transition-all group-hover:gap-3">
+            <span>View case study</span>
+            <ArrowRight className="h-4 w-4" />
+          </div>
+        </div>
+      </motion.div>
+    </Link>
   );
 }
 
@@ -322,34 +409,95 @@ const services = [
 
 const featuredProjects = [
   {
-    title: "IN HOMES DIRECT",
-    description: "E-commerce platform with custom pricing calculator and real-time inventory management.",
-    tags: ["Shopify", "E-commerce"],
+    title: "Ekommart",
+    description: "Complete e-commerce brand build from scratch — website, social media, and Meta Ads generating 3,300+ purchases in 5 months.",
+    tags: ["Brand Build", "Meta Ads"],
+    icon: Sparkles,
     results: [
-      { value: "300%", label: "Sales Increase" },
-      { value: "2.5s", label: "Load Time" },
+      { value: "3,300+", label: "Purchases" },
+      { value: "164 PKR", label: "Best CPA" },
+    ],
+    link: "/case-study/ekommart",
+  },
+  {
+    title: "E Sahulat Mart",
+    description: "Modern e-commerce platform with product catalog, shopping cart, payment integration, and complete order management system.",
+    tags: ["E-commerce", "Web Dev"],
+    icon: ShoppingCart,
+    results: [
+      { value: "Modern", label: "Storefront" },
+      { value: "Secure", label: "Payments" },
+    ],
+    link: "/case-study/esahulat-mart",
+  },
+  {
+    title: "IN Homes Direct",
+    description: "Logic-driven Shopify storefront with custom calculators for area-to-pack conversion, real-time pricing, and survey-based estimates.",
+    tags: ["Shopify", "Custom Dev"],
+    icon: Code2,
+    results: [
+      { value: "Custom", label: "Calculators" },
+      { value: "Real-time", label: "Pricing" },
     ],
     link: "/case-study/inhomes-direct",
   },
   {
-    title: "Halla Gulla Travel",
-    description: "Complete brand build with website, social media, and Meta Ads generating 67 qualified leads.",
-    tags: ["Branding", "Marketing"],
+    title: "More Homes Group",
+    description: "Comprehensive property management platform with listings, tenant management, maintenance tracking, and financial reporting.",
+    tags: ["Web App", "Platform"],
+    icon: Building2,
     results: [
-      { value: "67", label: "Qualified Leads" },
-      { value: "4.2x", label: "ROAS" },
+      { value: "Streamlined", label: "Operations" },
+      { value: "Automated", label: "Reports" },
     ],
-    link: "/case-study/halla-gulla",
+    link: "/case-study/more-homes-group",
   },
   {
-    title: "E Sahulat Mart",
-    description: "Full e-commerce brand setup with integrated social media and advertising campaigns.",
-    tags: ["E-commerce", "Social"],
+    title: "United Muslim Travels",
+    description: "Complete brand building and digital marketing campaign including brand identity, website development, and performance marketing.",
+    tags: ["Branding", "Marketing"],
+    icon: Megaphone,
     results: [
-      { value: "2L+", label: "PKR Sales" },
-      { value: "150+", label: "Orders" },
+      { value: "Brand", label: "Built" },
+      { value: "Marketing", label: "Executed" },
     ],
-    link: "/case-study/esahulat-mart",
+    link: "/case-studies/united-muslim-travels-brand-build",
+  },
+];
+
+const salesforceProjects = [
+  {
+    title: "Duplicate Check & Data Validation",
+    description: "Salesforce components for duplicate prevention and data validation — keeping CRM data clean and reporting accurate.",
+    tags: ["Salesforce", "Data Quality"],
+    icon: ShieldCheck,
+    results: [
+      { value: "Cleaner", label: "CRM Data" },
+      { value: "Better", label: "Reporting" },
+    ],
+    link: "/case-study/salesforce-duplicate-check",
+  },
+  {
+    title: "Customer Portal for Environmental Issue Reporting",
+    description: "User-friendly portal on Salesforce Experience Cloud for citizens to report environmental concerns, manage properties, process payments, and track requests.",
+    tags: ["Salesforce", "Experience Cloud", "Custom Development"],
+    icon: Globe,
+    results: [
+      { value: "Improved", label: "Transparency" },
+      { value: "Better", label: "Citizen UX" },
+    ],
+    link: "/case-study/salesforce-experience-cloud-government-cloud",
+  },
+  {
+    title: "Service Cloud Case Management + Property Data Automation",
+    description: "Lightning Web Components application integrated with automation engine for real-time property data lead generation, agent dashboards, and role-based access.",
+    tags: ["Salesforce", "Service Cloud", "LWC", "Automation"],
+    icon: Cloud,
+    results: [
+      { value: "Qualified", label: "Leads" },
+      { value: "Real-time", label: "Data" },
+    ],
+    link: "/case-study/salesforce-service-cloud-implementation",
   },
 ];
 
@@ -556,6 +704,184 @@ export default function Home() {
           </Container>
         </section>
 
+        {/* ==================== INTERACTIVE SHOWCASE ==================== */}
+        <section className="py-16 sm:py-24 overflow-hidden">
+          <Container>
+            <div className="text-center mb-12">
+              <motion.h3
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl"
+              >
+                Why Brands{" "}
+                <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  Choose Us
+                </span>
+              </motion.h3>
+              <motion.p
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="mt-4 text-lg text-zinc-400 max-w-2xl mx-auto"
+              >
+                We combine creativity with strategy to deliver exceptional results
+              </motion.p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  icon: Rocket,
+                  title: "Launch Fast",
+                  description: "From idea to live product in weeks, not months. We move at the speed of your ambition.",
+                  gradient: "from-orange-500 to-red-500",
+                  bgGradient: "from-orange-500/20 to-red-500/10",
+                },
+                {
+                  icon: Target,
+                  title: "Results Focused",
+                  description: "Every pixel, every campaign, every line of code is optimized for conversions and growth.",
+                  gradient: "from-[#5025d1] to-purple-600",
+                  bgGradient: "from-[#5025d1]/20 to-purple-600/10",
+                },
+                {
+                  icon: Zap,
+                  title: "Always Innovating",
+                  description: "We stay ahead of trends so you stay ahead of competition. Cutting-edge solutions, always.",
+                  gradient: "from-emerald-500 to-teal-500",
+                  bgGradient: "from-emerald-500/20 to-teal-500/10",
+                },
+              ].map((item, index) => (
+                <Link to="/services" key={index}>
+                  <motion.div
+                    initial={reduced ? false : { opacity: 0, y: 30 }}
+                    whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.15 }}
+                    whileHover={reduced ? {} : { y: -10, scale: 1.02 }}
+                    className={`group relative h-full rounded-3xl border border-white/10 bg-gradient-to-br ${item.bgGradient} p-8 backdrop-blur-sm cursor-pointer transition-all duration-300 hover:border-white/20`}
+                  >
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                    <motion.div
+                      className={`inline-flex rounded-2xl bg-gradient-to-br ${item.gradient} p-4 shadow-lg`}
+                      whileHover={reduced ? {} : { rotate: [0, -10, 10, 0], transition: { duration: 0.5 } }}
+                    >
+                      <item.icon className="h-8 w-8 text-white" />
+                    </motion.div>
+
+                    <h4 className="mt-6 text-2xl font-bold text-white">{item.title}</h4>
+                    <p className="mt-3 text-zinc-300 leading-relaxed">{item.description}</p>
+
+                    <div className="mt-6 flex items-center gap-2 text-white/60 group-hover:text-white/90 transition-colors">
+                      <span className="text-sm font-medium">Explore</span>
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-2" />
+                    </div>
+                  </motion.div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Animated gradient glow background */}
+            <div className="relative mt-16">
+              {/* Subtle pulsing glow orbs */}
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                <motion.div
+                  animate={reduced ? {} : {
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.5, 0.3]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full bg-gradient-to-br from-[#5025d1]/30 to-purple-600/20 blur-3xl"
+                />
+                <motion.div
+                  animate={reduced ? {} : {
+                    scale: [1.2, 1, 1.2],
+                    opacity: [0.2, 0.4, 0.2]
+                  }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full bg-gradient-to-tr from-pink-500/20 to-purple-500/30 blur-3xl"
+                />
+                <motion.div
+                  animate={reduced ? {} : {
+                    scale: [1, 1.15, 1],
+                    opacity: [0.25, 0.45, 0.25]
+                  }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                  className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] rounded-full bg-gradient-to-bl from-emerald-500/15 to-[#5025d1]/25 blur-3xl"
+                />
+              </div>
+
+              <motion.div
+                initial={reduced ? false : { opacity: 0, scale: 0.8 }}
+                whileInView={reduced ? {} : { opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative z-10 text-center py-16"
+              >
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-sm">
+                  <div className="flex -space-x-2">
+                    {[...Array(4)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-8 h-8 rounded-full bg-gradient-to-br from-[#5025d1] to-purple-600 border-2 border-black flex items-center justify-center text-xs font-bold text-white"
+                      >
+                        {["M", "A", "K", "E"][i]}
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-white font-medium">Join 40+ brands growing with us</span>
+                </div>
+
+                <motion.h3
+                  className="mt-8 text-4xl sm:text-5xl font-bold text-white"
+                  initial={reduced ? false : { opacity: 0, y: 20 }}
+                  whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                >
+                  Ready to{" "}
+                  <span className="relative">
+                    <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                      Stand Out
+                    </span>
+                    <motion.span
+                      className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 rounded-full"
+                      initial={{ scaleX: 0 }}
+                      whileInView={{ scaleX: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                    />
+                  </span>
+                  ?
+                </motion.h3>
+
+                <motion.div
+                  className="mt-8 flex flex-wrap justify-center gap-4"
+                  initial={reduced ? false : { opacity: 0, y: 20 }}
+                  whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <Link
+                    to="/contact"
+                    className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                  >
+                    Let's Talk
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                  <Link
+                    to="/work"
+                    className="inline-flex items-center gap-2 rounded-full border-2 border-white/20 bg-white/5 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10"
+                  >
+                    See Our Work
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </div>
+          </Container>
+        </section>
+
         {/* ==================== SERVICES SECTION ==================== */}
         <section className="py-16 sm:py-24">
           <Container>
@@ -610,9 +936,9 @@ export default function Home() {
               centered
             />
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col gap-4">
               {featuredProjects.map((project, index) => (
-                <ProjectCard key={index} project={project} delay={index * 0.1} />
+                <ProjectCard key={index} project={project} delay={index * 0.08} />
               ))}
             </div>
 
@@ -622,6 +948,42 @@ export default function Home() {
                 className="inline-flex items-center gap-2 text-lg font-semibold text-[#5025d1] transition-all hover:gap-4"
               >
                 View All Projects
+                <ChevronRight className="h-5 w-5" />
+              </Link>
+            </div>
+          </Container>
+        </section>
+
+        {/* ==================== SALESFORCE FEATURED PROJECTS ==================== */}
+        <section className="py-16 sm:py-24">
+          <Container>
+            <SectionHeading
+              badge="Salesforce Expertise"
+              title={
+                <>
+                  Salesforce Projects
+                  <br />
+                  <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    That Deliver Results
+                  </span>
+                </>
+              }
+              description="Custom Salesforce solutions that streamline operations, improve data quality, and drive business growth."
+              centered
+            />
+
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {salesforceProjects.map((project, index) => (
+                <SalesforceProjectCard key={index} project={project} delay={index * 0.1} />
+              ))}
+            </div>
+
+            <div className="mt-12 text-center">
+              <Link
+                to="/work?filter=salesforce"
+                className="inline-flex items-center gap-2 text-lg font-semibold text-[#5025d1] transition-all hover:gap-4"
+              >
+                View All Salesforce Projects
                 <ChevronRight className="h-5 w-5" />
               </Link>
             </div>

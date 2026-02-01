@@ -241,7 +241,6 @@ function Shot({ title, size, comment }) {
 const inPageNav = [
   { label: "Overview", href: "#overview" },
   { label: "Tabs", href: "#tabs" },
-  { label: "Screenshots", href: "#screens" },
   { label: "Results", href: "#results" },
 ];
 
@@ -821,63 +820,7 @@ export default function HallaGullaCaseStudy() {
           </Container>
         </section>
 
-        <Container>
-          <Divider />
-        </Container>
 
-        {/* SCREENSHOTS */}
-        <section id="screens" className="scroll-mt-24 py-16 sm:py-20">
-          <Container>
-            <Reveal>
-              <SectionHeading
-                badge="Screenshot placeholders"
-                title={
-                  <>
-                    Drop your proof here for a{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
-                      high-trust portfolio
-                    </span>
-                  </>
-                }
-                description="These placeholders match recommended sizes so you can swap images later (website, mobile, social, and Ads Manager)."
-              />
-            </Reveal>
-
-            <div className="mt-10 grid gap-6 lg:grid-cols-2">
-              <Reveal delay={0.05}>
-                <Shot title="[WEBSITE HOME PAGE]" size="1920 × 1080 (Desktop)" comment="Hero banner, destinations, travel vibe" />
-              </Reveal>
-              <Reveal delay={0.1}>
-                <Shot title="[DESTINATIONS PAGE]" size="1440 × 900" comment="Northern areas tours & travel listings" />
-              </Reveal>
-              <Reveal delay={0.15}>
-                <Shot title="[MOBILE VIEW]" size="390 × 844" comment="Mobile-first travel browsing experience" />
-              </Reveal>
-              <Reveal delay={0.2}>
-                <Shot title="[INSTAGRAM PROFILE]" size="1080 × 1080" comment="Bio, highlights, grid overview" />
-              </Reveal>
-              <Reveal delay={0.25}>
-                <Shot title="[REELS & POSTS]" size="1080 × 1920" comment="Travel reels & destination visuals" />
-              </Reveal>
-              <Reveal delay={0.3}>
-                <Shot title="[STORY HIGHLIGHTS]" size="1080 × 1920" comment="Tours, destinations & transport highlights" />
-              </Reveal>
-              <Reveal delay={0.35}>
-                <Shot title="[ADS MANAGER OVERVIEW]" size="1920 × 1080" comment="Campaign spend, reach & leads" />
-              </Reveal>
-              <Reveal delay={0.4}>
-                <Shot title="[LEADS PERFORMANCE]" size="1440 × 900" comment="67 leads with cost per lead shown" />
-              </Reveal>
-              <Reveal delay={0.45}>
-                <Shot title="[WHATSAPP AD PREVIEW]" size="1080 × 1920" comment="Click-to-WhatsApp travel ad creative" />
-              </Reveal>
-            </div>
-          </Container>
-        </section>
-
-        <Container>
-          <Divider />
-        </Container>
 
         {/* RESULTS */}
         <section id="results" className="scroll-mt-24 py-16 sm:py-20 pb-24">

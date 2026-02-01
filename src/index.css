@@ -71,14 +71,14 @@ html, body {
 }
 
 @keyframes auroraMove{
-  0%   { transform: translate(-2%, -2%) scale(1); }
-  50%  { transform: translate(3%, 2%) scale(1.06); }
-  100% { transform: translate(-2%, -2%) scale(1); }
+  0%   { transform: translate(-1%, -1%) scale(1); opacity: 1; }
+  50%  { transform: translate(2%, 1%) scale(1.03); opacity: 0.85; }
+  100% { transform: translate(-1%, -1%) scale(1); opacity: 1; }
 }
 @keyframes auroraMove2{
-  0%   { transform: translate(2%, 1%) scale(1.02) rotate(0deg); }
-  50%  { transform: translate(-3%, -2%) scale(1.08) rotate(6deg); }
-  100% { transform: translate(2%, 1%) scale(1.02) rotate(0deg); }
+  0%   { transform: translate(1%, 0.5%) scale(1.01); opacity: 0.75; }
+  50%  { transform: translate(-2%, -1%) scale(1.04); opacity: 0.9; }
+  100% { transform: translate(1%, 0.5%) scale(1.01); opacity: 0.75; }
 }
 
 /* Subtle grid overlay */
@@ -104,17 +104,18 @@ html, body {
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(80,37,209,.10),
+    rgba(80,37,209,.08),
     transparent
   );
-  opacity: .22;
+  opacity: .15;
   transform: translateY(-40%);
-  animation: scanMove 10s linear infinite;
+  animation: scanMove 20s ease-in-out infinite;
   mix-blend-mode: screen;
 }
 @keyframes scanMove{
-  0% { transform: translateY(-60%); }
-  100% { transform: translateY(60%); }
+  0% { transform: translateY(-50%); opacity: 0.1; }
+  50% { transform: translateY(50%); opacity: 0.2; }
+  100% { transform: translateY(-50%); opacity: 0.1; }
 }
 
 /* Noise overlay (premium texture) */
@@ -139,18 +140,29 @@ html, body {
   position: absolute;
   width: 56px;
   height: 56px;
-  opacity: .16;
+  opacity: .12;
   filter: drop-shadow(0 0 12px rgba(80,37,209,.28));
-  animation: iconFloat 18s linear infinite;
+  animation: iconFloat 24s ease-in-out infinite;
   transform: translate3d(0,0,0);
 }
-.floating-icons .icon.big{ width: 86px; height: 86px; opacity: .12; }
-.floating-icons .icon.small{ width: 38px; height: 38px; opacity: .18; }
+.floating-icons .icon.big{ width: 86px; height: 86px; opacity: .08; }
+.floating-icons .icon.small{ width: 38px; height: 38px; opacity: .14; }
 
 @keyframes iconFloat{
-  0%   { transform: translateY(30px) rotate(0deg); }
-  50%  { transform: translateY(-30px) rotate(180deg); }
-  100% { transform: translateY(30px) rotate(360deg); }
+  0%   { transform: translateY(0px) scale(1); opacity: 0.12; }
+  50%  { transform: translateY(-20px) scale(1.05); opacity: 0.18; }
+  100% { transform: translateY(0px) scale(1); opacity: 0.12; }
+}
+
+/* Hide floating icons on mobile for better performance */
+@media (max-width: 768px) {
+  .floating-icons {
+    display: none;
+  }
+
+  .bg-scan {
+    display: none;
+  }
 }
 
 /* ---------------------------
@@ -195,4 +207,13 @@ html, body {
   .floating-icons .icon{
     animation: none !important;
   }
+
+  .floating-icons {
+    display: none;
+  }
+}
+
+/* Smooth hover states instead of jarring transitions */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }

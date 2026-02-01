@@ -24,14 +24,15 @@ import {
   Handshake,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 // Import team member images
-import abdullahKhalidImg from "../assets/img/Abdullah Khalid.webp";
-import moeezUlHaqImg from "../assets/img/Moeez Ul Haq.webp";
-import danishAhmadImg from "../assets/img/Danish Ahmad.webp";
-import hussainAliImg from "../assets/img/Hussain Ali.webp";
-import abdullahAbdulRazzaqImg from "../assets/img/Abdullah Abdul Razzaq.webp";
+import abdullahKhalidImg from "../../assets/img/Abdullah Khalid.webp";
+import moeezUlHaqImg from "../../assets/img/Moeez Ul Haq.webp";
+import danishAhmadImg from "../../assets/img/Danish Ahmad.webp";
+import hussainAliImg from "../../assets/img/Hussain Ali.webp";
+import abdullahAbdulRazzaqImg from "../../assets/img/Abdullah Abdul Razzaq.webp";
+import abdulMoeezImg from "../../assets/img/Abdul Moeez.webp";
 
 /* ==================== HELPERS ==================== */
 
@@ -169,9 +170,13 @@ function TeamCard({ name, role, skills, image, delay = 0 }) {
           {/* Info */}
           <div className="min-w-0 flex-1">
             <h3 className="text-lg font-bold text-white">{name}</h3>
-            <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/20 px-3 py-1 text-xs font-medium text-purple-300">
-              <BriefcaseBusiness className="h-3.5 w-3.5" />
-              {role}
+            <div className="mt-2 flex flex-wrap gap-2">
+              {role.split(" • ").map((r, idx) => (
+                <div key={idx} className="inline-flex items-center gap-2 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/20 px-3 py-1 text-xs font-medium text-purple-300">
+                  <BriefcaseBusiness className="h-3.5 w-3.5" />
+                  {r}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -281,6 +286,17 @@ const teamMembers = [
     ],
   },
   {
+    name: "Abdul Moeez",
+    role: "Salesforce Expert",
+    image: abdulMoeezImg,
+    skills: [
+      "Salesforce implementation & customization",
+      "Sales Cloud & Service Cloud",
+      "Lightning Web Components",
+      "Workflow automation & integrations",
+    ],
+  },
+  {
     name: "Danish Ahmad",
     role: "Graphic Designer",
     image: danishAhmadImg,
@@ -304,7 +320,7 @@ const teamMembers = [
   },
   {
     name: "Abdullah Abdul Razzaq",
-    role: "Video Editor, Graphic Designer",
+    role: "Video Editor • Graphic Designer",
     image: abdullahAbdulRazzaqImg,
     skills: [
       "Video editing and production",

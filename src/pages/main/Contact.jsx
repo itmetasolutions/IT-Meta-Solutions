@@ -31,11 +31,18 @@ import {
   Palette,
   HelpCircle,
 } from "lucide-react";
-import Container from "../components/Container";
 
 /* ==================== HELPERS ==================== */
 
 const cx = (...classes) => classes.filter(Boolean).join(" ");
+
+function Container({ children, className }) {
+  return (
+    <div className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className || ''}`}>
+      {children}
+    </div>
+  );
+}
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
