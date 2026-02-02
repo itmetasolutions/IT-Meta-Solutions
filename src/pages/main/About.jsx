@@ -27,12 +27,12 @@ import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
 
 // Import team member images
-import abdullahKhalidImg from "../../assets/img/Abdullah Khalid.webp";
-import moeezUlHaqImg from "../../assets/img/Moeez Ul Haq.webp";
-import danishAhmadImg from "../../assets/img/Danish Ahmad.webp";
-import hussainAliImg from "../../assets/img/Hussain Ali.webp";
-import abdullahAbdulRazzaqImg from "../../assets/img/Abdullah Abdul Razzaq.webp";
-import abdulMoeezImg from "../../assets/img/Abdul Moeez.webp";
+import abdullahKhalidImg from "../../assets/img/Abdullah Khalid ITMS.webp";
+import moeezUlHaqImg from "../../assets/img/Moeez Ul Haq ITMS.webp";
+import danishAhmadImg from "../../assets/img/Danish Ahmad ITMS.webp";
+import hussainAliImg from "../../assets/img/Hussain Ali ITMS.webp";
+import abdullahAbdulRazzaqImg from "../../assets/img/Abdullah Abdul Razzaq ITMS.webp";
+import abdulMoeezImg from "../../assets/img/Abdul Moeez ITMS.webp";
 
 /* ==================== HELPERS ==================== */
 
@@ -63,8 +63,8 @@ function ScrollProgress() {
 
 function Badge({ children, icon: Icon }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-      {Icon && <Icon className="h-3.5 w-3.5" />}
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
+      {Icon && <Icon className="h-4 w-4" />}
       {children}
     </span>
   );
@@ -75,19 +75,19 @@ function StatCard({ icon: Icon, label, value, delay = 0 }) {
 
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm"
+      className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 backdrop-blur-sm"
     >
-      <div className="flex items-center gap-4">
-        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
-          <Icon className="h-6 w-6 text-white" />
+      <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5 sm:p-3">
+          <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </div>
-        <div>
-          <div className="text-2xl font-bold text-white">{value}</div>
-          <div className="text-sm text-zinc-400">{label}</div>
+        <div className="min-w-0">
+          <div className="text-lg sm:text-2xl font-bold text-white">{value}</div>
+          <div className="text-xs sm:text-sm text-zinc-400">{label}</div>
         </div>
       </div>
     </motion.div>
@@ -99,32 +99,32 @@ function FeatureCard({ icon: Icon, title, description, features, delay = 0 }) {
 
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
       className="group h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
     >
-      <div className="p-6">
+      <div className="p-5 sm:p-6">
         {/* Header */}
-        <div className="flex items-start gap-4">
-          <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
-            <Icon className="h-6 w-6 text-white" />
+        <div className="flex items-start gap-3 sm:gap-4">
+          <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5 sm:p-3">
+            <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-xl font-bold text-white">{title}</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-white">{title}</h3>
           </div>
         </div>
 
         {/* Description */}
-        <p className="mt-4 text-sm leading-relaxed text-zinc-300">{description}</p>
+        <p className="mt-3 sm:mt-4 text-sm leading-relaxed text-zinc-300">{description}</p>
 
         {/* Features */}
         {features && features.length > 0 && (
-          <ul className="mt-6 space-y-3">
+          <ul className="mt-5 sm:mt-6 space-y-2.5 sm:space-y-3">
             {features.map((feature, idx) => (
-              <li key={idx} className="flex items-start gap-3">
+              <li key={idx} className="flex items-start gap-2.5">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
                 <span className="text-sm text-zinc-200">{feature}</span>
               </li>
@@ -141,26 +141,26 @@ function TeamCard({ name, role, skills, image, delay = 0 }) {
 
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
       className="group h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
     >
-      <div className="p-6">
-        <div className="flex items-start gap-4">
+      <div className="p-5 sm:p-6">
+        <div className="flex items-start gap-3 sm:gap-4">
           {/* Image */}
           <div className="shrink-0">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-1.5 sm:p-2">
               {image ? (
                 <img
                   src={image}
                   alt={name}
-                  className="h-20 w-20 rounded-xl object-cover"
+                  className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl object-cover"
                 />
               ) : (
-                <div className="h-20 w-20 rounded-xl border border-dashed border-white/20 bg-white/[0.02] grid place-items-center text-[10px] text-zinc-500">
+                <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl border border-dashed border-white/20 bg-white/[0.02] grid place-items-center text-[10px] text-zinc-500">
                   Photo
                 </div>
               )}
@@ -169,11 +169,11 @@ function TeamCard({ name, role, skills, image, delay = 0 }) {
 
           {/* Info */}
           <div className="min-w-0 flex-1">
-            <h3 className="text-lg font-bold text-white">{name}</h3>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <h3 className="text-base sm:text-lg font-bold text-white">{name}</h3>
+            <div className="mt-2 flex flex-wrap gap-1.5 sm:gap-2">
               {role.split(" • ").map((r, idx) => (
-                <div key={idx} className="inline-flex items-center gap-2 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/20 px-3 py-1 text-xs font-medium text-purple-300">
-                  <BriefcaseBusiness className="h-3.5 w-3.5" />
+                <div key={idx} className="inline-flex items-center gap-1.5 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/20 px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-purple-300">
+                  <BriefcaseBusiness className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                   {r}
                 </div>
               ))}
@@ -182,11 +182,11 @@ function TeamCard({ name, role, skills, image, delay = 0 }) {
         </div>
 
         {/* Skills */}
-        <ul className="mt-5 space-y-2">
+        <ul className="mt-4 sm:mt-5 space-y-2">
           {skills.map((skill, idx) => (
             <li key={idx} className="flex items-start gap-2">
               <BadgeCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
-              <span className="text-sm text-zinc-200">{skill}</span>
+              <span className="text-xs sm:text-sm text-zinc-200">{skill}</span>
             </li>
           ))}
         </ul>
@@ -200,8 +200,8 @@ function ContactCard() {
 
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm"
@@ -370,12 +370,12 @@ export default function AboutUsPage() {
         <ScrollProgress />
 
         {/* ==================== HERO SECTION ==================== */}
-        <section className="relative pt-24 pb-8 sm:pt-32 sm:pb-16">
+        <section className="relative pt-28 pb-12 sm:pt-36 sm:pb-16">
           <Container>
             <div className="mx-auto max-w-5xl text-center">
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="flex flex-wrap items-center justify-center gap-3"
               >
@@ -385,8 +385,8 @@ export default function AboutUsPage() {
               </motion.div>
 
               <motion.h1
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl"
               >
@@ -398,8 +398,8 @@ export default function AboutUsPage() {
               </motion.h1>
 
               <motion.p
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-3xl mx-auto"
               >
@@ -410,8 +410,8 @@ export default function AboutUsPage() {
 
               {/* Stats Grid */}
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-10 grid gap-4 sm:grid-cols-3"
               >
@@ -431,11 +431,11 @@ export default function AboutUsPage() {
         </section>
 
         {/* ==================== VISION & MISSION ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
@@ -479,11 +479,11 @@ export default function AboutUsPage() {
         </section>
 
         {/* ==================== WHAT MAKES US DIFFERENT ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
@@ -539,11 +539,11 @@ export default function AboutUsPage() {
         </section>
 
         {/* ==================== WHAT WE DELIVER ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
@@ -598,8 +598,8 @@ export default function AboutUsPage() {
             </div>
 
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
               className="mt-10 flex justify-center"
@@ -616,11 +616,11 @@ export default function AboutUsPage() {
         </section>
 
         {/* ==================== TEAM SECTION ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
@@ -651,11 +651,11 @@ export default function AboutUsPage() {
         </section>
 
         {/* ==================== CTA SECTION ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-12 backdrop-blur-sm sm:p-16"

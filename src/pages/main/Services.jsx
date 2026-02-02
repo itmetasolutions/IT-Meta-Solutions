@@ -72,31 +72,63 @@ function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
 
 function Badge({ children, icon: Icon }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-      {Icon && <Icon className="h-3.5 w-3.5" />}
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
+      {Icon && <Icon className="h-4 w-4" />}
       {children}
     </span>
   );
 }
 
-function ServiceTab({ active, onClick, icon: Icon, label }) {
+function ServiceSelector({ active, onClick, icon: Icon, label, description }) {
   const reduced = usePrefersReducedMotion();
+  const isActive = active;
+
   return (
     <motion.button
       type="button"
       onClick={onClick}
-      whileHover={reduced ? {} : { scale: 1.05 }}
-      whileTap={reduced ? {} : { scale: 0.95 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
+      viewport={{ once: true }}
+      whileHover={reduced ? {} : { y: -4, transition: { duration: 0.2 } }}
+      whileTap={reduced ? {} : { scale: 0.98 }}
       className={cx(
-        "inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-medium transition-all whitespace-nowrap",
-        active
-          ? "border-[#5025d1] bg-gradient-to-r from-[#5025d1] to-purple-600 text-white shadow-lg shadow-[#5025d1]/30"
-          : "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 hover:border-white/20"
+        "group relative flex flex-col items-center text-center p-5 rounded-2xl border transition-all duration-300",
+        isActive
+          ? "border-[#5025d1] bg-gradient-to-br from-[#5025d1]/20 to-purple-600/10 shadow-lg shadow-[#5025d1]/20"
+          : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/20"
       )}
     >
-      {Icon && <Icon className="h-4 w-4" />}
-      {label}
-      {active && <CheckCircle2 className="h-4 w-4" />}
+      {/* Active indicator glow */}
+      {isActive && (
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/10 to-purple-600/5 blur-xl" />
+      )}
+
+      <div className={cx(
+        "relative flex items-center justify-center w-14 h-14 rounded-xl transition-all duration-300",
+        isActive
+          ? "bg-gradient-to-br from-[#5025d1] to-purple-600 shadow-lg shadow-[#5025d1]/40"
+          : "bg-white/10 group-hover:bg-white/15"
+      )}>
+        <Icon className={cx("w-7 h-7 transition-colors", isActive ? "text-white" : "text-zinc-300 group-hover:text-white")} />
+      </div>
+
+      <span className={cx(
+        "relative mt-3 text-sm font-semibold transition-colors",
+        isActive ? "text-white" : "text-zinc-300 group-hover:text-white"
+      )}>
+        {label}
+      </span>
+
+      {description && (
+        <span className="relative mt-1 text-xs text-zinc-500 line-clamp-2">
+          {description}
+        </span>
+      )}
+
+      {isActive && (
+        <div className="absolute -bottom-px left-1/2 -translate-x-1/2 w-12 h-1 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600" />
+      )}
     </motion.button>
   );
 }
@@ -106,22 +138,22 @@ function ServiceCard({ icon: Icon, title, description, features, delay = 0 }) {
 
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
       className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
     >
       <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
 
-      <div className="relative p-6">
+      <div className="relative p-5 sm:p-6">
         <div className="flex items-start gap-4">
-          <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
             <Icon className="h-6 w-6 text-white" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-xl font-bold text-white">{title}</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-white">{title}</h3>
           </div>
         </div>
 
@@ -130,9 +162,9 @@ function ServiceCard({ icon: Icon, title, description, features, delay = 0 }) {
         </p>
 
         {features && features.length > 0 && (
-          <ul className="mt-6 space-y-3">
+          <ul className="mt-5 space-y-2.5">
             {features.map((feature, idx) => (
-              <li key={idx} className="flex items-start gap-3">
+              <li key={idx} className="flex items-start gap-2.5">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
                 <span className="text-sm text-zinc-200">{feature}</span>
               </li>
@@ -146,14 +178,14 @@ function ServiceCard({ icon: Icon, title, description, features, delay = 0 }) {
 
 function StatCard({ icon: Icon, label, value }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-      <div className="flex items-center gap-4">
-        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
-          <Icon className="h-6 w-6 text-white" />
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 backdrop-blur-sm">
+      <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5 sm:p-3">
+          <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </div>
-        <div>
-          <div className="text-2xl font-bold text-white">{value}</div>
-          <div className="text-sm text-zinc-400">{label}</div>
+        <div className="min-w-0">
+          <div className="text-lg sm:text-2xl font-bold text-white truncate">{value}</div>
+          <div className="text-xs sm:text-sm text-zinc-400">{label}</div>
         </div>
       </div>
     </div>
@@ -163,13 +195,13 @@ function StatCard({ icon: Icon, label, value }) {
 /* ==================== DATA ==================== */
 
 const tabs = [
-  { key: "web", label: "Web Development", icon: Code2 },
-  { key: "salesforce", label: "Salesforce", icon: Cloud },
-  { key: "marketing", label: "Digital Marketing", icon: Megaphone },
-  { key: "social", label: "Social Media", icon: Share2 },
-  { key: "design", label: "Graphic Design", icon: Palette },
-  { key: "video", label: "Video Editing", icon: Clapperboard },
-  { key: "brand", label: "Brand Building", icon: Wand2 },
+  { key: "web", label: "Web Development", icon: Code2, description: "Custom websites & e-commerce" },
+  { key: "salesforce", label: "Salesforce", icon: Cloud, description: "CRM solutions & automation" },
+  { key: "marketing", label: "Digital Marketing", icon: Megaphone, description: "Ads that drive results" },
+  { key: "social", label: "Social Media", icon: Share2, description: "Content & engagement" },
+  { key: "design", label: "Graphic Design", icon: Palette, description: "Visuals that convert" },
+  { key: "video", label: "Video Editing", icon: Clapperboard, description: "Reels, TikToks & ads" },
+  { key: "brand", label: "Brand Building", icon: Wand2, description: "Complete brand systems" },
 ];
 
 /* ==================== PANELS ==================== */
@@ -728,20 +760,20 @@ export default function ServicesPage() {
         <ScrollProgress />
 
         {/* ==================== HERO SECTION ==================== */}
-        <section className="relative pt-24 pb-8 sm:pt-32 sm:pb-16">
+        <section className="relative pt-28 pb-12 sm:pt-36 sm:pb-16">
           <Container>
             <div className="mx-auto max-w-5xl text-center">
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 <Badge icon={Sparkles}>Full-Service Digital Agency</Badge>
               </motion.div>
 
               <motion.h1
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl"
               >
@@ -753,8 +785,8 @@ export default function ServicesPage() {
               </motion.h1>
 
               <motion.p
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-3xl mx-auto"
               >
@@ -763,8 +795,8 @@ export default function ServicesPage() {
               </motion.p>
 
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-10 grid gap-6 sm:grid-cols-3"
               >
@@ -776,20 +808,32 @@ export default function ServicesPage() {
           </Container>
         </section>
 
-        {/* ==================== SERVICE TABS (STICKY UNDER HEADER) ==================== */}
-        <section
-          className="sticky z-[39] border-b border-white/10 backdrop-blur-xl"
-          style={{ top: "var(--header-h, 72px)" }}
-        >
-          <Container className="py-4 sm:py-6">
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              {tabs.map((tab) => (
-                <ServiceTab
+        {/* ==================== SERVICE SELECTOR (PROMINENT GRID) ==================== */}
+        <section className="py-12 sm:py-16">
+          <Container>
+            <motion.div
+              initial={reduced ? false : { y: 16 }}
+              animate={reduced ? {} : { y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-8"
+            >
+              <h2 className="text-2xl font-bold text-white sm:text-3xl">
+                Select a Service to Explore
+              </h2>
+              <p className="mt-2 text-zinc-400">
+                Click on any service below to see what we offer
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 sm:gap-4">
+              {tabs.map((tab, index) => (
+                <ServiceSelector
                   key={tab.key}
                   active={activeTab === tab.key}
                   onClick={() => setActiveTab(tab.key)}
                   icon={tab.icon}
                   label={tab.label}
+                  description={tab.description}
                 />
               ))}
             </div>
@@ -797,16 +841,16 @@ export default function ServicesPage() {
         </section>
 
         {/* ==================== SERVICE CONTENT ==================== */}
-        <section className="pt-16 pb-16 sm:pt-20 sm:pb-24">
+        <section className="py-16 sm:py-20">
           <Container>{renderPanel()}</Container>
         </section>
 
         {/* ==================== CTA SECTION ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-12 backdrop-blur-sm sm:p-16"

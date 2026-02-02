@@ -81,7 +81,7 @@ function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
 
 function Badge({ children, icon: Icon }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white">
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-white">
       {Icon && <Icon className="h-4 w-4" />}
       {children}
     </span>
@@ -375,7 +375,7 @@ export default function Contact() {
         {/* Background Elements */}
 
         {/* ==================== NEW HERO (COMPLETELY DIFFERENT) ==================== */}
-        <section className="relative pt-24 pb-8 sm:pt-32 sm:pb-12">
+        <section className="relative pt-28 pb-12 sm:pt-36 sm:pb-16">
           <Container>
             <motion.div style={{ y: heroY }} className="relative">
               {/* Split hero card */}
@@ -497,7 +497,7 @@ export default function Contact() {
         </section>
 
         {/* ==================== MAIN (NEW LAYOUT) ==================== */}
-        <section className="pb-16 pt-16 sm:pb-24 sm:pt-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <div className="grid gap-10 lg:grid-cols-[0.95fr,1.05fr] lg:gap-14">
               {/* LEFT: MINI CONTACT CARDS (copy + actions) */}

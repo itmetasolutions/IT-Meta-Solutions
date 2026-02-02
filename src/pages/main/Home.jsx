@@ -75,7 +75,7 @@ function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
 
 function Badge({ children, icon: Icon }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-white backdrop-blur-sm">
       {Icon && <Icon className="h-4 w-4" />}
       {children}
     </span>
@@ -106,19 +106,19 @@ function StatCard({ icon: Icon, value, label, delay = 0 }) {
   const reduced = usePrefersReducedMotion();
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm"
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+      className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-5 sm:p-6 backdrop-blur-sm"
     >
-      <div className="flex items-start gap-4">
-        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
-          <Icon className="h-6 w-6 text-white" />
+      <div className="flex items-start gap-3 sm:gap-4">
+        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5 sm:p-3">
+          <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </div>
-        <div>
-          <div className="text-3xl font-bold text-white sm:text-4xl">{value}</div>
-          <div className="mt-1 text-sm text-zinc-400">{label}</div>
+        <div className="min-w-0">
+          <div className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">{value}</div>
+          <div className="mt-1 text-xs sm:text-sm text-zinc-400">{label}</div>
         </div>
       </div>
     </motion.div>
@@ -131,35 +131,35 @@ function ServiceCard({ service, delay = 0 }) {
 
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
-      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 backdrop-blur-sm transition-all"
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
+      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 sm:p-8 backdrop-blur-sm transition-all"
     >
       <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
 
       <div className="relative">
-        <div className="inline-flex rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-4">
-          <Icon className="h-8 w-8 text-white" />
+        <div className="inline-flex rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3 sm:p-4">
+          <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
         </div>
 
-        <h3 className="mt-6 text-2xl font-bold text-white">{service.title}</h3>
-        <p className="mt-3 text-zinc-300">{service.description}</p>
+        <h3 className="mt-5 sm:mt-6 text-xl sm:text-2xl font-bold text-white">{service.title}</h3>
+        <p className="mt-2 sm:mt-3 text-sm sm:text-base text-zinc-300">{service.description}</p>
 
-        <ul className="mt-6 space-y-3">
+        <ul className="mt-5 sm:mt-6 space-y-2.5 sm:space-y-3">
           {service.features.map((feature, idx) => (
-            <li key={idx} className="flex items-start gap-3">
-              <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-400" />
+            <li key={idx} className="flex items-start gap-2.5 sm:gap-3">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 text-emerald-400" />
               <span className="text-sm text-zinc-200">{feature}</span>
             </li>
           ))}
         </ul>
 
-        <div className="mt-6 flex items-center gap-2 text-[#5025d1] transition-all group-hover:gap-4">
-          <span className="font-semibold">Learn more</span>
-          <ArrowRight className="h-5 w-5" />
+        <div className="mt-5 sm:mt-6 flex items-center gap-2 text-[#5025d1] transition-all group-hover:gap-3">
+          <span className="font-semibold text-sm sm:text-base">Learn more</span>
+          <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </div>
       </div>
     </motion.div>
@@ -173,8 +173,8 @@ function ProjectCard({ project, delay = 0 }) {
   return (
     <Link to={project.link} className="block">
       <motion.div
-        initial={reduced ? false : { opacity: 0, y: 20 }}
-        whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+        initial={reduced ? false : { y: 16 }}
+        whileInView={reduced ? {} : { y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay }}
         whileHover={reduced ? {} : { y: -4, transition: { duration: 0.2 } }}
@@ -247,8 +247,8 @@ function SalesforceProjectCard({ project, delay = 0 }) {
   return (
     <Link to={project.link} className="block h-full">
       <motion.div
-        initial={reduced ? false : { opacity: 0, y: 20 }}
-        whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+        initial={reduced ? false : { y: 16 }}
+        whileInView={reduced ? {} : { y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay }}
         whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
@@ -318,8 +318,8 @@ function TestimonialCard({ testimonial, delay = 0 }) {
 
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
       className="relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 backdrop-blur-sm"
@@ -611,23 +611,23 @@ export default function Home() {
         <GradientBlob className="bottom-0 left-1/3 h-[700px] w-[700px]" color="rgba(80,37,209,0.18)" />
 
         {/* ==================== HERO SECTION ==================== */}
-        <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-24">
+        <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-20">
           <Container>
             <motion.div
               style={{ y: heroY, opacity: heroOpacity }}
               className="mx-auto max-w-5xl text-center"
             >
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 <Badge icon={Zap}>Trusted by 40+ businesses worldwide</Badge>
               </motion.div>
 
               <motion.h1
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl"
               >
@@ -639,8 +639,8 @@ export default function Home() {
               </motion.h1>
 
               <motion.p
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-3xl mx-auto"
               >
@@ -648,8 +648,8 @@ export default function Home() {
               </motion.p>
 
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center"
               >
@@ -671,8 +671,8 @@ export default function Home() {
               </motion.div>
 
               <motion.div
-                initial={reduced ? false : { opacity: 0 }}
-                animate={reduced ? {} : { opacity: 1 }}
+                initial={reduced ? false : { y: 8 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-400"
               >
@@ -694,7 +694,7 @@ export default function Home() {
         </section>
 
         {/* ==================== STATS SECTION ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {stats.map((stat, index) => (
@@ -705,12 +705,12 @@ export default function Home() {
         </section>
 
         {/* ==================== INTERACTIVE SHOWCASE ==================== */}
-        <section className="py-16 sm:py-24 overflow-hidden">
+        <section className="py-16 sm:py-20 overflow-hidden">
           <Container>
             <div className="text-center mb-12">
               <motion.h3
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                whileInView={reduced ? {} : { y: 0 }}
                 viewport={{ once: true }}
                 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl"
               >
@@ -720,8 +720,8 @@ export default function Home() {
                 </span>
               </motion.h3>
               <motion.p
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                whileInView={reduced ? {} : { y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
                 className="mt-4 text-lg text-zinc-400 max-w-2xl mx-auto"
@@ -756,8 +756,8 @@ export default function Home() {
               ].map((item, index) => (
                 <Link to="/services" key={index}>
                   <motion.div
-                    initial={reduced ? false : { opacity: 0, y: 30 }}
-                    whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                    initial={reduced ? false : { y: 20 }}
+                    whileInView={reduced ? {} : { y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.15 }}
                     whileHover={reduced ? {} : { y: -10, scale: 1.02 }}
@@ -785,7 +785,7 @@ export default function Home() {
             </div>
 
             {/* Animated gradient glow background */}
-            <div className="relative mt-16">
+            <div className="relative mt-10 sm:mt-12">
               {/* Subtle pulsing glow orbs */}
               <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                 <motion.div
@@ -814,12 +814,7 @@ export default function Home() {
                 />
               </div>
 
-              <motion.div
-                initial={reduced ? false : { opacity: 0, scale: 0.8 }}
-                whileInView={reduced ? {} : { opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="relative z-10 text-center py-16"
-              >
+              <div className="relative z-10 text-center py-10 sm:py-12">
                 <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-sm">
                   <div className="flex -space-x-2">
                     {[...Array(4)].map((_, i) => (
@@ -836,8 +831,8 @@ export default function Home() {
 
                 <motion.h3
                   className="mt-8 text-4xl sm:text-5xl font-bold text-white"
-                  initial={reduced ? false : { opacity: 0, y: 20 }}
-                  whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                  initial={reduced ? false : { y: 16 }}
+                  whileInView={reduced ? {} : { y: 0 }}
                   viewport={{ once: true }}
                 >
                   Ready to{" "}
@@ -858,8 +853,8 @@ export default function Home() {
 
                 <motion.div
                   className="mt-8 flex flex-wrap justify-center gap-4"
-                  initial={reduced ? false : { opacity: 0, y: 20 }}
-                  whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                  initial={reduced ? false : { y: 16 }}
+                  whileInView={reduced ? {} : { y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
                 >
@@ -877,13 +872,13 @@ export default function Home() {
                     See Our Work
                   </Link>
                 </motion.div>
-              </motion.div>
+              </div>
             </div>
           </Container>
         </section>
 
         {/* ==================== SERVICES SECTION ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionHeading
               badge="What We Do"
@@ -919,7 +914,7 @@ export default function Home() {
         </section>
 
         {/* ==================== FEATURED PROJECTS ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionHeading
               badge="Our Work"
@@ -955,7 +950,7 @@ export default function Home() {
         </section>
 
         {/* ==================== SALESFORCE FEATURED PROJECTS ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionHeading
               badge="Salesforce Expertise"
@@ -991,7 +986,7 @@ export default function Home() {
         </section>
 
         {/* ==================== TESTIMONIALS ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionHeading
               badge="Testimonials"
@@ -1017,11 +1012,11 @@ export default function Home() {
         </section>
 
         {/* ==================== CTA SECTION ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <Container>
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-12 backdrop-blur-sm sm:p-16"
@@ -1060,7 +1055,7 @@ export default function Home() {
         </section>
 
         {/* ==================== CONTACT FORM ==================== */}
-        <section className="py-16 sm:py-24" id="contact">
+        <section className="py-16 sm:py-20" id="contact">
           <Container>
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
               {/* Left Column - Info */}
@@ -1112,8 +1107,8 @@ export default function Home() {
 
               {/* Right Column - Form */}
               <motion.div
-                initial={reduced ? false : { opacity: 0, x: 20 }}
-                whileInView={reduced ? {} : { opacity: 1, x: 0 }}
+                initial={reduced ? false : { x: 16 }}
+                whileInView={reduced ? {} : { x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
                 className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 backdrop-blur-sm"

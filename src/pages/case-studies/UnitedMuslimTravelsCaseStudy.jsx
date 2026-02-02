@@ -117,8 +117,8 @@ function Reveal({ children, delay = 0, className }) {
   return (
     <motion.div
       className={className}
-      initial={reduced ? false : { opacity: 0, y: 18 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut", delay }}
     >
@@ -170,8 +170,8 @@ function Card({ icon: Icon, title, desc, bullets, delay = 0 }) {
   const reduced = usePrefersReducedMotion();
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 18 }}
-      whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.55, ease: "easeOut", delay }}
       whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}

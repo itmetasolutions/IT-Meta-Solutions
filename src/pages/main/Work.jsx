@@ -76,8 +76,8 @@ function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
 
 function Badge({ children, icon: Icon }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-      {Icon && <Icon className="h-3.5 w-3.5" />}
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
+      {Icon && <Icon className="h-4 w-4" />}
       {children}
     </span>
   );
@@ -85,14 +85,14 @@ function Badge({ children, icon: Icon }) {
 
 function StatBadge({ icon: Icon, value, label }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm">
+    <div className="rounded-xl border border-white/10 bg-white/5 p-2.5 sm:p-3 backdrop-blur-sm">
       <div className="flex items-center gap-2">
-        <div className="rounded-lg bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+        <div className="flex-shrink-0 rounded-lg bg-gradient-to-br from-[#5025d1] to-purple-600 p-1.5 sm:p-2">
           <Icon className="h-4 w-4 text-white" />
         </div>
-        <div>
-          <div className="text-base font-bold text-white">{value}</div>
-          <div className="text-xs text-zinc-400">{label}</div>
+        <div className="min-w-0">
+          <div className="text-sm sm:text-base font-bold text-white truncate">{value}</div>
+          <div className="text-[10px] sm:text-xs text-zinc-400">{label}</div>
         </div>
       </div>
     </div>
@@ -106,25 +106,25 @@ function ProjectCard({ project, delay = 0 }) {
   return (
     <Link to={project.href} className="block h-full">
       <motion.div
-        initial={reduced ? false : { opacity: 0, y: 20 }}
-        whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+        initial={reduced ? false : { y: 16 }}
+        whileInView={reduced ? {} : { y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay }}
-        whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+        whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
         className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
       >
         {/* Animated background glow */}
         <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
 
-        <div className="relative flex h-full flex-col p-6">
+        <div className="relative flex h-full flex-col p-5 sm:p-6">
           {/* Header */}
-          <div className="flex items-start gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
-              <Icon className="h-7 w-7 text-white" />
+          <div className="flex items-start gap-3 sm:gap-4">
+            <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5 sm:p-3">
+              <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="text-xl font-bold text-white">{project.title}</h3>
-              <p className="mt-1 text-sm text-zinc-400">{project.industry}</p>
+              <h3 className="text-lg sm:text-xl font-bold text-white">{project.title}</h3>
+              <p className="mt-1 text-xs sm:text-sm text-zinc-400">{project.industry}</p>
             </div>
           </div>
 
@@ -704,23 +704,23 @@ export default function WorkPage() {
         <GradientBlob className="bottom-0 left-1/3 h-[700px] w-[700px]" color="rgba(80,37,209,0.18)" />
 
         {/* ==================== HERO SECTION ==================== */}
-        <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-24">
+        <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-20">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
             <motion.div
               style={{ y: heroY }}
               className="mx-auto max-w-5xl text-center"
             >
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 <Badge icon={Sparkles}>Our Portfolio</Badge>
               </motion.div>
 
               <motion.h1
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl"
               >
@@ -732,8 +732,8 @@ export default function WorkPage() {
               </motion.h1>
 
               <motion.p
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-3xl mx-auto"
               >
@@ -742,8 +742,8 @@ export default function WorkPage() {
 
               {/* Search and Filters */}
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-10"
               >
@@ -847,7 +847,7 @@ export default function WorkPage() {
         </section>
 
         {/* ==================== PROJECTS GRID ==================== */}
-        <section className="relative z-10 pt-24 pb-16 sm:py-24">
+        <section className="relative z-10 py-16 sm:py-20">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
             {filtered.length > 0 ? (
               <>
@@ -877,8 +877,8 @@ export default function WorkPage() {
               </>
             ) : (
               <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                initial={reduced ? false : { y: 16 }}
+                animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.5 }}
                 className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-12 text-center backdrop-blur-sm"
               >
@@ -904,11 +904,11 @@ export default function WorkPage() {
         </section>
 
         {/* ==================== CTA SECTION ==================== */}
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-20">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
             <motion.div
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-12 backdrop-blur-sm sm:p-16"
