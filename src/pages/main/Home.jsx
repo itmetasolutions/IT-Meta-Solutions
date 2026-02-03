@@ -431,7 +431,7 @@ const services = [
       "Performance optimization & SEO",
     ],
     gradient: "from-blue-500 to-cyan-500",
-    link: "/expertise/web-development",
+    link: "/web-development-expertise",
   },
   {
     icon: Palette,
@@ -444,7 +444,7 @@ const services = [
       "Packaging & merchandise design",
     ],
     gradient: "from-pink-500 to-rose-500",
-    link: "/expertise/graphic-designing",
+    link: "/graphic-designing-expertise",
   },
   {
     icon: Megaphone,
@@ -457,7 +457,7 @@ const services = [
       "Analytics & reporting",
     ],
     gradient: "from-orange-500 to-amber-500",
-    link: "/expertise/digital-marketing",
+    link: "/digital-marketing-expertise",
   },
   {
     icon: Cloud,
@@ -470,7 +470,7 @@ const services = [
       "Integration & automation",
     ],
     gradient: "from-[#5025d1] to-purple-600",
-    link: "/expertise/salesforce",
+    link: "/salesforce-expertise",
   },
 ];
 
