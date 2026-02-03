@@ -1,6 +1,8 @@
 import { ArrowRight, ArrowUpRight, BadgeCheck, Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Phone, Zap, Sparkles, Shield, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/IT Meta Solutions Logo.webp";
+import secpLogo from "../assets/img/SECP Logo ITMS.webp";
+import fbrLogo from "../assets/img/FBR Logo ITMS.webp";
 
 const services = [
   { label: "Web Development", href: "/web-development-expertise" },
@@ -211,35 +213,62 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
           </div>
         </Container>
 
-        {/* Bottom Bar */}
+        {/* Registered Company Section */}
         <div className="border-t border-white/5">
           <Container className="py-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              {/* Copyright */}
-              <div className="text-xs text-zinc-500">
-                © {year} IT Meta Solutions. All rights reserved.
+            <div className="flex flex-col items-center gap-6">
+              {/* Registration Badges with Logos */}
+              <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
+                {/* SECP Registration */}
+                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-sm">
+                  <img src={secpLogo} alt="SECP Registered" className="h-10 w-auto object-contain" />
+                  <div className="text-left">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">SECP Registered</div>
+                    <div className="text-xs font-semibold text-white">No. N0298154</div>
+                  </div>
+                </div>
+
+                {/* FBR Registration */}
+                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-sm">
+                  <img src={fbrLogo} alt="FBR Registered" className="h-10 w-auto object-contain" />
+                  <div className="text-left">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">FBR Tax Registered</div>
+                    <div className="text-xs font-semibold text-white">NTN: G903294</div>
+                  </div>
+                </div>
               </div>
 
-              {/* Trust Badges */}
-              <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-                <span className="inline-flex items-center gap-2 text-xs text-zinc-400">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#5025d1]/10">
-                    <BadgeCheck className="h-3.5 w-3.5 text-[#5025d1]" />
+              {/* Divider */}
+              <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+              {/* Copyright and Trust Badges */}
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between w-full">
+                {/* Copyright */}
+                <div className="text-xs text-zinc-500 text-center sm:text-left">
+                  © {year} IT Meta Solutions (Pvt) Ltd. All rights reserved.
+                </div>
+
+                {/* Trust Badges */}
+                <div className="flex flex-wrap items-center justify-center sm:justify-end gap-4 sm:gap-6">
+                  <span className="inline-flex items-center gap-2 text-xs text-zinc-400">
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#5025d1]/10">
+                      <BadgeCheck className="h-3.5 w-3.5 text-[#5025d1]" />
+                    </span>
+                    Trusted Delivery
                   </span>
-                  Trusted Delivery
-                </span>
-                <span className="inline-flex items-center gap-2 text-xs text-zinc-400">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#ba55d3]/10">
-                    <Zap className="h-3.5 w-3.5 text-[#ba55d3]" />
+                  <span className="inline-flex items-center gap-2 text-xs text-zinc-400">
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#ba55d3]/10">
+                      <Zap className="h-3.5 w-3.5 text-[#ba55d3]" />
+                    </span>
+                    Fast & Modern
                   </span>
-                  Fast & Modern
-                </span>
-                <span className="inline-flex items-center gap-2 text-xs text-zinc-400">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/10">
-                    <Shield className="h-3.5 w-3.5 text-emerald-500" />
+                  <span className="inline-flex items-center gap-2 text-xs text-zinc-400">
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/10">
+                      <Shield className="h-3.5 w-3.5 text-emerald-500" />
+                    </span>
+                    Secure Solutions
                   </span>
-                  Secure Solutions
-                </span>
+                </div>
               </div>
             </div>
           </Container>

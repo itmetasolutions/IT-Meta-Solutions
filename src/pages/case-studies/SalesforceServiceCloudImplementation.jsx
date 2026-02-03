@@ -110,8 +110,8 @@ function Reveal({ children, delay = 0, className }) {
     return (
         <motion.div
             className={className}
-            initial={reduced ? false : { opacity: 0, y: 18 }}
-            whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+            initial={reduced ? false : { y: 16 }}
+            whileInView={reduced ? {} : { y: 0 }}
             viewport={{ once: true, margin: "-90px" }}
             transition={{ duration: 0.6, ease: "easeOut", delay }}
         >
@@ -152,8 +152,8 @@ function StatCard({ icon: Icon, value, label, delay = 0 }) {
     const reduced = usePrefersReducedMotion();
     return (
         <motion.div
-            initial={reduced ? false : { opacity: 0, y: 20 }}
-            whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+            initial={reduced ? false : { y: 16 }}
+            whileInView={reduced ? {} : { y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay }}
             className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm h-full"
@@ -175,8 +175,8 @@ function FeatureCard({ icon: Icon, title, desc, bullets, delay = 0 }) {
     const reduced = usePrefersReducedMotion();
     return (
         <motion.div
-            initial={reduced ? false : { opacity: 0, y: 20 }}
-            whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+            initial={reduced ? false : { y: 16 }}
+            whileInView={reduced ? {} : { y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay }}
             whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}

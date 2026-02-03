@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useScroll } from "framer-motion";
 import {
   ArrowRight,
+  Award,
   BadgeCheck,
   CalendarDays,
   CheckCircle2,
@@ -33,6 +34,12 @@ import danishAhmadImg from "../../assets/img/Danish Ahmad ITMS.webp";
 import hussainAliImg from "../../assets/img/Hussain Ali ITMS.webp";
 import abdullahAbdulRazzaqImg from "../../assets/img/Abdullah Abdul Razzaq ITMS.webp";
 import abdulMoeezImg from "../../assets/img/Abdul Moeez ITMS.webp";
+
+// Import certificates and registration logos
+import secpCertificate from "../../assets/img/SECP Certificate ITMS.png";
+import fbrCertificate from "../../assets/img/FBR Certificate ITMS.png";
+import secpLogo from "../../assets/img/SECP Logo ITMS.webp";
+import fbrLogo from "../../assets/img/FBR Logo ITMS.webp";
 
 /* ==================== HELPERS ==================== */
 
@@ -141,52 +148,67 @@ function TeamCard({ name, role, skills, image, delay = 0 }) {
 
   return (
     <motion.div
-      initial={reduced ? false : { y: 16 }}
-      whileInView={reduced ? {} : { y: 0 }}
+      initial={reduced ? false : { y: 16, opacity: 0 }}
+      whileInView={reduced ? {} : { y: 0, opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
-      className="group h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
+      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.25 } }}
+      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.08] via-white/[0.04] to-transparent backdrop-blur-md transition-all duration-300 hover:border-[#5025d1]/60 hover:shadow-2xl hover:shadow-[#5025d1]/20"
     >
-      <div className="p-5 sm:p-6">
-        <div className="flex items-start gap-3 sm:gap-4">
-          {/* Image */}
-          <div className="shrink-0">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-1.5 sm:p-2">
+      {/* Gradient Glow Effect */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#5025d1]/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+      <div className="relative p-6 sm:p-8">
+        {/* Centered Image */}
+        <div className="flex justify-center">
+          <div className="relative">
+            {/* Decorative Ring */}
+            <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#5025d1] via-purple-500 to-pink-500 opacity-60 blur-sm transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative rounded-full border-2 border-white/20 bg-zinc-900 p-1">
               {image ? (
                 <img
                   src={image}
                   alt={name}
-                  className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl object-cover"
+                  className="h-28 w-28 sm:h-32 sm:w-32 rounded-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               ) : (
-                <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl border border-dashed border-white/20 bg-white/[0.02] grid place-items-center text-[10px] text-zinc-500">
+                <div className="h-28 w-28 sm:h-32 sm:w-32 rounded-full border border-dashed border-white/20 bg-white/[0.02] grid place-items-center text-xs text-zinc-500">
                   Photo
                 </div>
               )}
             </div>
           </div>
-
-          {/* Info */}
-          <div className="min-w-0 flex-1">
-            <h3 className="text-base sm:text-lg font-bold text-white">{name}</h3>
-            <div className="mt-2 flex flex-wrap gap-1.5 sm:gap-2">
-              {role.split(" • ").map((r, idx) => (
-                <div key={idx} className="inline-flex items-center gap-1.5 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/20 px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-purple-300">
-                  <BriefcaseBusiness className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                  {r}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
+        {/* Name */}
+        <h3 className="mt-5 text-center text-xl sm:text-2xl font-bold text-white tracking-tight">
+          {name}
+        </h3>
+
+        {/* Role Badges */}
+        <div className="mt-3 flex flex-wrap justify-center gap-2">
+          {role.split(" • ").map((r, idx) => (
+            <div
+              key={idx}
+              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#5025d1]/30 to-purple-600/30 px-3 py-1.5 text-xs font-semibold text-purple-200 ring-1 ring-inset ring-[#5025d1]/40"
+            >
+              <BriefcaseBusiness className="h-3.5 w-3.5" />
+              {r}
+            </div>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="my-5 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
         {/* Skills */}
-        <ul className="mt-4 sm:mt-5 space-y-2">
+        <ul className="space-y-2.5">
           {skills.map((skill, idx) => (
-            <li key={idx} className="flex items-start gap-2">
-              <BadgeCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
-              <span className="text-xs sm:text-sm text-zinc-200">{skill}</span>
+            <li key={idx} className="flex items-start gap-2.5">
+              <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/20">
+                <BadgeCheck className="h-3.5 w-3.5 text-emerald-400" />
+              </div>
+              <span className="text-sm text-zinc-300 leading-relaxed">{skill}</span>
             </li>
           ))}
         </ul>
@@ -647,6 +669,153 @@ export default function AboutUsPage() {
                 />
               ))}
             </div>
+          </Container>
+        </section>
+
+        {/* ==================== CERTIFICATIONS SECTION ==================== */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <motion.div
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <Badge icon={Award}>Verified & Trusted</Badge>
+              <h2 className="mt-4 text-4xl font-bold text-white sm:text-5xl">
+                Registered & Certified
+              </h2>
+              <p className="mt-4 text-lg text-zinc-300 max-w-3xl mx-auto">
+                IT Meta Solutions is a legally registered company with the Government of Pakistan,
+                ensuring complete transparency and trust in our business operations.
+              </p>
+            </motion.div>
+
+            {/* Registration Info Cards */}
+            <div className="grid gap-6 md:grid-cols-2 mb-12">
+              {/* SECP Registration */}
+              <motion.div
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 sm:p-8 backdrop-blur-sm"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <img src={secpLogo} alt="SECP Logo" className="h-14 w-auto object-contain" />
+                  <div>
+                    <h3 className="text-xl font-bold text-white">SECP Registered</h3>
+                    <p className="text-sm text-zinc-400">Securities and Exchange Commission of Pakistan</p>
+                  </div>
+                </div>
+                <div className="rounded-xl bg-white/5 border border-white/10 p-4">
+                  <div className="text-xs font-medium uppercase tracking-wider text-zinc-500 mb-1">Company Registration Number</div>
+                  <div className="text-2xl font-bold text-white tracking-wide">N0298154</div>
+                </div>
+              </motion.div>
+
+              {/* FBR Registration */}
+              <motion.div
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 sm:p-8 backdrop-blur-sm"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <img src={fbrLogo} alt="FBR Logo" className="h-14 w-auto object-contain" />
+                  <div>
+                    <h3 className="text-xl font-bold text-white">FBR Tax Registered</h3>
+                    <p className="text-sm text-zinc-400">Federal Board of Revenue, Pakistan</p>
+                  </div>
+                </div>
+                <div className="rounded-xl bg-white/5 border border-white/10 p-4">
+                  <div className="text-xs font-medium uppercase tracking-wider text-zinc-500 mb-1">National Tax Number (NTN)</div>
+                  <div className="text-2xl font-bold text-white tracking-wide">G903294</div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Certificates Display */}
+            <motion.div
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center mb-8"
+            >
+              <h3 className="text-2xl font-bold text-white mb-2">Official Certificates</h3>
+              <p className="text-zinc-400">View our registration certificates for complete transparency</p>
+            </motion.div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {/* SECP Certificate */}
+              <motion.div
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm overflow-hidden transition-all hover:border-[#5025d1]/50"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-[#5025d1]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="relative">
+                  <div className="text-center mb-4">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#5025d1]/20 px-3 py-1.5 text-xs font-semibold text-purple-200">
+                      <ShieldCheck className="h-3.5 w-3.5" />
+                      SECP Certificate
+                    </span>
+                  </div>
+                  <div className="rounded-2xl overflow-hidden border border-white/10 bg-white">
+                    <img
+                      src={secpCertificate}
+                      alt="SECP Registration Certificate - IT Meta Solutions"
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* FBR Certificate */}
+              <motion.div
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm overflow-hidden transition-all hover:border-[#5025d1]/50"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-[#5025d1]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="relative">
+                  <div className="text-center mb-4">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold text-emerald-200">
+                      <ShieldCheck className="h-3.5 w-3.5" />
+                      FBR Certificate
+                    </span>
+                  </div>
+                  <div className="rounded-2xl overflow-hidden border border-white/10 bg-white">
+                    <img
+                      src={fbrCertificate}
+                      alt="FBR Tax Registration Certificate - IT Meta Solutions"
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Trust Note */}
+            <motion.div
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="mt-10 text-center"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
+                <CheckCircle2 className="h-4 w-4" />
+                Verified legal entity operating under Pakistan's corporate laws
+              </div>
+            </motion.div>
           </Container>
         </section>
 

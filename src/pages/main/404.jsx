@@ -58,8 +58,8 @@ export default function NotFoundPage() {
 
       <Container className="py-24 sm:py-32">
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 14 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.55, ease: "easeOut" }}
         >
           <div className="flex flex-wrap items-center gap-3">
@@ -126,8 +126,8 @@ export default function NotFoundPage() {
 
             {/* Right */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ scale: 0.98 }}
+              animate={{ scale: 1 }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
               className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6"
             >

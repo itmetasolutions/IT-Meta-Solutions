@@ -32,6 +32,56 @@ import {
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
 
+/* ==================== IMAGE PLACEHOLDERS ====================
+ * Add your image imports here. Replace placeholder paths with actual image URLs.
+ *
+ * SUGGESTED IMAGE SIZES:
+ * - heroShowcaseImage: 1200x800px (main showcase/featured image)
+ * - trustedByLogos: 180x60px each (client/partner logos, transparent PNG preferred)
+ * - teamImage: 800x600px (team or office photo)
+ * - featuredWorkImage: 1000x600px (portfolio highlight image)
+ * - clientSliderLogos: 200x80px each (auto-scrolling brand slider logos, transparent PNG)
+ *
+ * Example usage:
+ * const heroShowcaseImage = "/images/hero-showcase.jpg";
+ * const trustedByLogos = [
+ *   "/images/logos/client1.png",
+ *   "/images/logos/client2.png",
+ * ];
+ */
+
+// TODO: Add your image imports below this line
+// const heroShowcaseImage = ""; // Suggested size: 1200x800px
+// const trustedByLogos = []; // Suggested size: 180x60px each
+
+// FEATURED BANNER BACKGROUND IMAGE
+// Suggested size: 1920x600px (wide banner), high quality JPG or WebP
+import showcaseBannerImage from "../../assets/img/Crafting Digital Excellence Since Day One BG Image.webp";
+
+// CLIENT SLIDER LOGOS
+import ekommartLogo from "../../assets/img/Ekommart Logo ITMS.webp";
+import eSahulatMartLogo from "../../assets/img/E Sahulat Mart Logo ITMS.webp";
+import inHomesDirectLogo from "../../assets/img/INHomes Direct Logo ITMS.webp";
+import moreHomesGroupLogo from "../../assets/img/More Homes Group Logo ITMS.webp";
+import unitedMuslimTravelsLogo from "../../assets/img/United Muslim Travels Logo ITMS.webp";
+import hallaGullaLogo from "../../assets/img/Halla Gulla Logo ITMS.webp";
+import hikmabioticsLogo from "../../assets/img/Hikmabiotics Logo ITMS.webp";
+import heavenlyPurchaseLogo from "../../assets/img/Heavenly Purchase Logo ITMS.webp";
+import theRoyalPeaksLogo from "../../assets/img/The Royal Peaks Logo ITMS.webp";
+
+// Client slider data
+const clientSliderData = [
+  { name: "Ekommart", logo: ekommartLogo },
+  { name: "E Sahulat Mart", logo: eSahulatMartLogo },
+  { name: "IN Homes Direct", logo: inHomesDirectLogo },
+  { name: "More Homes Group", logo: moreHomesGroupLogo },
+  { name: "United Muslim Travels", logo: unitedMuslimTravelsLogo },
+  { name: "Halla Gulla", logo: hallaGullaLogo },
+  { name: "Hikmabiotics", logo: hikmabioticsLogo },
+  { name: "Heavenly Purchase", logo: heavenlyPurchaseLogo },
+  { name: "The Royal Peaks", logo: theRoyalPeaksLogo },
+];
+
 /* ==================== HELPERS ==================== */
 
 const cx = (...classes) => classes.filter(Boolean).join(" ");
@@ -128,41 +178,50 @@ function StatCard({ icon: Icon, value, label, delay = 0 }) {
 function ServiceCard({ service, delay = 0 }) {
   const reduced = usePrefersReducedMotion();
   const Icon = service.icon;
+  const gradient = service.gradient || "from-[#5025d1] to-purple-600";
 
   return (
-    <motion.div
-      initial={reduced ? false : { y: 16 }}
-      whileInView={reduced ? {} : { y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.4, delay, ease: "easeOut" }}
-      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
-      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 sm:p-8 backdrop-blur-sm transition-all"
-    >
-      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+    <Link to={service.link || "/services"} className="block h-full">
+      <motion.div
+        initial={reduced ? false : { y: 16 }}
+        whileInView={reduced ? {} : { y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.4, delay, ease: "easeOut" }}
+        whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+        className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-white/20"
+      >
+        {/* Animated gradient background on hover */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-[0.08] transition-opacity duration-500`} />
 
-      <div className="relative">
-        <div className="inline-flex rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3 sm:p-4">
-          <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+        {/* Glow effect */}
+        <div className={`absolute -right-20 -top-20 h-40 w-40 rounded-full bg-gradient-to-br ${gradient} opacity-20 blur-3xl transition-all duration-500 group-hover:scale-150 group-hover:opacity-30`} />
+
+        <div className="relative p-6 sm:p-8">
+          {/* Icon with gradient background */}
+          <div className="flex items-start justify-between">
+            <div className={`inline-flex rounded-2xl bg-gradient-to-br ${gradient} p-4 shadow-lg`}>
+              <Icon className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
+            </div>
+            <ArrowRight className="h-5 w-5 text-white/30 transition-all duration-300 group-hover:text-white group-hover:translate-x-1" />
+          </div>
+
+          <h3 className="mt-6 text-xl sm:text-2xl font-bold text-white">{service.title}</h3>
+          <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed">{service.description}</p>
+
+          <ul className="mt-6 space-y-3">
+            {service.features.map((feature, idx) => (
+              <li key={idx} className="flex items-start gap-3">
+                <div className={`mt-1 h-1.5 w-1.5 rounded-full bg-gradient-to-r ${gradient} flex-shrink-0`} />
+                <span className="text-sm text-zinc-300">{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Bottom gradient line */}
+          <div className={`mt-6 h-1 w-0 rounded-full bg-gradient-to-r ${gradient} transition-all duration-500 group-hover:w-full`} />
         </div>
-
-        <h3 className="mt-5 sm:mt-6 text-xl sm:text-2xl font-bold text-white">{service.title}</h3>
-        <p className="mt-2 sm:mt-3 text-sm sm:text-base text-zinc-300">{service.description}</p>
-
-        <ul className="mt-5 sm:mt-6 space-y-2.5 sm:space-y-3">
-          {service.features.map((feature, idx) => (
-            <li key={idx} className="flex items-start gap-2.5 sm:gap-3">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 text-emerald-400" />
-              <span className="text-sm text-zinc-200">{feature}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-5 sm:mt-6 flex items-center gap-2 text-[#5025d1] transition-all group-hover:gap-3">
-          <span className="font-semibold text-sm sm:text-base">Learn more</span>
-          <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
-        </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 }
 
@@ -371,17 +430,21 @@ const services = [
       "Web applications & dashboards",
       "Performance optimization & SEO",
     ],
+    gradient: "from-blue-500 to-cyan-500",
+    link: "/expertise/web-development",
   },
   {
     icon: Palette,
-    title: "UI/UX Design",
-    description: "Beautiful, user-centered designs that create memorable experiences and drive engagement.",
+    title: "Graphic Designing",
+    description: "Stunning visuals that capture attention, communicate your message, and elevate your brand identity.",
     features: [
-      "Modern interface design",
-      "Brand identity & guidelines",
-      "Prototyping & wireframing",
-      "User research & testing",
+      "Logo & brand identity design",
+      "Marketing materials & print design",
+      "Social media graphics",
+      "Packaging & merchandise design",
     ],
+    gradient: "from-pink-500 to-rose-500",
+    link: "/expertise/graphic-designing",
   },
   {
     icon: Megaphone,
@@ -393,17 +456,21 @@ const services = [
       "Content marketing & SEO",
       "Analytics & reporting",
     ],
+    gradient: "from-orange-500 to-amber-500",
+    link: "/expertise/digital-marketing",
   },
   {
-    icon: Target,
-    title: "Brand Strategy",
-    description: "Complete brand building from concept to execution, creating a lasting market presence.",
+    icon: Cloud,
+    title: "Salesforce",
+    description: "Expert Salesforce solutions to streamline your CRM, automate workflows, and drive business growth.",
     features: [
-      "Brand positioning & messaging",
-      "Market research & analysis",
-      "Complete brand systems",
-      "Growth & scaling strategies",
+      "Salesforce implementation & customization",
+      "Lightning Web Components (LWC)",
+      "Experience Cloud portals",
+      "Integration & automation",
     ],
+    gradient: "from-[#5025d1] to-purple-600",
+    link: "/expertise/salesforce",
   },
 ];
 
@@ -704,6 +771,148 @@ export default function Home() {
           </Container>
         </section>
 
+        {/* ==================== BRANDS WE'VE WORKED WITH - AUTO SLIDER ==================== */}
+        <section className="py-16 sm:py-24 overflow-hidden relative">
+          {/* Background gradient effects */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#5025d1]/5 to-transparent" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#5025d1]/10 rounded-full blur-[100px]" />
+
+          <Container className="relative z-10">
+            <motion.div
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-purple-300 mb-4">
+                <Star className="h-4 w-4 fill-purple-400 text-purple-400" />
+                Trusted Partners
+              </span>
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+                Brands That{" "}
+                <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  Trust Us
+                </span>
+              </h3>
+              <p className="mt-3 text-zinc-400 max-w-lg mx-auto">
+                We've partnered with amazing brands to deliver exceptional digital experiences
+              </p>
+            </motion.div>
+          </Container>
+
+          {/* Double row infinite scrolling slider */}
+          <div className="space-y-6">
+            {/* First row - scrolling left */}
+            <div
+              className="overflow-hidden py-2"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+              }}
+            >
+              <motion.div
+                className="flex gap-6 sm:gap-8"
+                animate={reduced ? {} : {
+                  x: ["0%", "-50%"],
+                }}
+                transition={{
+                  x: {
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 35,
+                    ease: "linear",
+                  },
+                }}
+              >
+                {[...clientSliderData, ...clientSliderData].map((client, i) => (
+                  <motion.div
+                    key={`row1-${i}`}
+                    className="group flex-shrink-0"
+                    whileHover={reduced ? {} : { scale: 1.05, y: -4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="relative h-24 w-52 sm:h-28 sm:w-60 rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm p-4 flex items-center justify-center transition-all duration-300 group-hover:border-[#5025d1]/40 group-hover:bg-white/[0.12] group-hover:shadow-lg group-hover:shadow-[#5025d1]/20">
+                      {/* Glow effect on hover */}
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/0 to-purple-600/0 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+
+                      {client.logo ? (
+                        <img
+                          src={client.logo}
+                          alt={`${client.name} logo`}
+                          className="h-full w-full object-contain brightness-100 contrast-100 transition-all duration-300 group-hover:brightness-110"
+                        />
+                      ) : (
+                        <span className="text-base font-semibold text-zinc-300 group-hover:text-white transition-colors">
+                          {client.name}
+                        </span>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Second row - scrolling right (opposite direction) */}
+            <div
+              className="overflow-hidden py-2"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+              }}
+            >
+              <motion.div
+                className="flex gap-6 sm:gap-8"
+                animate={reduced ? {} : {
+                  x: ["-50%", "0%"],
+                }}
+                transition={{
+                  x: {
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 40,
+                    ease: "linear",
+                  },
+                }}
+              >
+                {[...clientSliderData.slice().reverse(), ...clientSliderData.slice().reverse()].map((client, i) => (
+                  <motion.div
+                    key={`row2-${i}`}
+                    className="group flex-shrink-0"
+                    whileHover={reduced ? {} : { scale: 1.05, y: -4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="relative h-24 w-52 sm:h-28 sm:w-60 rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm p-4 flex items-center justify-center transition-all duration-300 group-hover:border-[#5025d1]/40 group-hover:bg-white/[0.12] group-hover:shadow-lg group-hover:shadow-[#5025d1]/20">
+                      {/* Glow effect on hover */}
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/0 to-purple-600/0 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+
+                      {client.logo ? (
+                        <img
+                          src={client.logo}
+                          alt={`${client.name} logo`}
+                          className="h-full w-full object-contain brightness-100 contrast-100 transition-all duration-300 group-hover:brightness-110"
+                        />
+                      ) : (
+                        <span className="text-base font-semibold text-zinc-300 group-hover:text-white transition-colors">
+                          {client.name}
+                        </span>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Bottom decorative line */}
+          <Container className="relative z-10">
+            <div className="mt-12 flex items-center justify-center gap-4">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <span className="text-sm text-zinc-500 whitespace-nowrap">And many more...</span>
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            </div>
+          </Container>
+        </section>
+
         {/* ==================== INTERACTIVE SHOWCASE ==================== */}
         <section className="py-16 sm:py-20 overflow-hidden">
           <Container>
@@ -814,7 +1023,7 @@ export default function Home() {
                 />
               </div>
 
-              <div className="relative z-10 text-center py-10 sm:py-12">
+              <div className="relative z-10 text-center py-6 sm:py-8 pb-4 sm:pb-6">
                 <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-sm">
                   <div className="flex -space-x-2">
                     {[...Array(4)].map((_, i) => (
@@ -878,37 +1087,136 @@ export default function Home() {
         </section>
 
         {/* ==================== SERVICES SECTION ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionHeading
-              badge="What We Do"
-              title={
-                <>
-                  Services That Drive
-                  <br />
-                  <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
-                    Real Results
-                  </span>
-                </>
-              }
-              description="From concept to execution, we deliver complete digital solutions tailored to your business goals."
-              centered
-            />
+        <section className="py-16 sm:py-24 relative overflow-hidden">
+          {/* Background decorations */}
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px]" />
 
-            <div className="grid gap-8 md:grid-cols-2">
+          <Container className="relative z-10">
+            <motion.div
+              initial={reduced ? false : { y: 20 }}
+              whileInView={reduced ? {} : { y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-purple-300 mb-6">
+                <Zap className="h-4 w-4" />
+                What We Do Best
+              </span>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white">
+                Services That{" "}
+                <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  Transform
+                </span>
+              </h2>
+              <p className="mt-6 text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto">
+                From concept to execution, we deliver complete digital solutions tailored to your business goals
+              </p>
+            </motion.div>
+
+            <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
               {services.map((service, index) => (
                 <ServiceCard key={index} service={service} delay={index * 0.1} />
               ))}
             </div>
 
-            <div className="mt-12 text-center">
+            <motion.div
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
+              viewport={{ once: true }}
+              className="mt-16 text-center"
+            >
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 text-lg font-semibold text-[#5025d1] transition-all hover:gap-4"
+                className="group inline-flex items-center gap-3 rounded-full border-2 border-[#5025d1]/50 bg-[#5025d1]/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all hover:bg-[#5025d1]/20 hover:border-[#5025d1]"
               >
                 Explore All Services
-                <ChevronRight className="h-5 w-5" />
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
+            </motion.div>
+          </Container>
+        </section>
+
+        {/* ==================== HOW WE WORK / PROCESS ==================== */}
+        <section className="py-16 sm:py-20 overflow-hidden">
+          <Container>
+            <SectionHeading
+              badge="Our Process"
+              title={
+                <>
+                  How We Bring Your
+                  <br />
+                  <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    Vision to Life
+                  </span>
+                </>
+              }
+              description="A proven 4-step process that delivers results every time."
+              centered
+            />
+
+            <div className="relative mt-12">
+              {/* Connecting line */}
+              <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-[#5025d1]/50 via-purple-500/30 to-transparent lg:block" />
+
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                {[
+                  {
+                    step: "01",
+                    title: "Discovery",
+                    description: "We dive deep into your business, goals, and target audience to understand what success looks like for you.",
+                    icon: Target,
+                  },
+                  {
+                    step: "02",
+                    title: "Strategy",
+                    description: "Based on our findings, we craft a tailored strategy and roadmap to achieve your objectives.",
+                    icon: Sparkles,
+                  },
+                  {
+                    step: "03",
+                    title: "Create",
+                    description: "Our team brings the strategy to life with stunning designs and flawless execution.",
+                    icon: Palette,
+                  },
+                  {
+                    step: "04",
+                    title: "Launch & Grow",
+                    description: "We launch your project and continuously optimize for maximum performance and growth.",
+                    icon: Rocket,
+                  },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={reduced ? false : { y: 20 }}
+                    whileInView={reduced ? {} : { y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.15 }}
+                    className="group relative"
+                  >
+                    {/* Step number badge */}
+                    <div className="absolute -top-4 left-6 z-10 flex h-8 w-14 items-center justify-center rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 text-sm font-bold text-white shadow-lg shadow-[#5025d1]/30">
+                      {item.step}
+                    </div>
+
+                    <div className="h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 pt-10 backdrop-blur-sm transition-all hover:border-[#5025d1]/30 group-hover:shadow-lg group-hover:shadow-[#5025d1]/10">
+                      {/* Large icon display */}
+                      <div className="mb-6 flex justify-center">
+                        <div className="relative">
+                          {/* Glow effect behind icon */}
+                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/30 to-purple-600/20 blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          <div className="relative rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-5 shadow-lg shadow-[#5025d1]/30">
+                            <item.icon className="h-10 w-10 sm:h-12 sm:w-12 text-white" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <h4 className="text-xl font-bold text-white text-center">{item.title}</h4>
+                      <p className="mt-3 text-sm text-zinc-400 leading-relaxed text-center">{item.description}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </Container>
         </section>
@@ -1008,6 +1316,101 @@ export default function Home() {
                 <TestimonialCard key={index} testimonial={testimonial} delay={index * 0.1} />
               ))}
             </div>
+          </Container>
+        </section>
+
+        {/* ==================== FEATURED SHOWCASE / BANNER ==================== */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <motion.div
+              initial={reduced ? false : { y: 16 }}
+              whileInView={reduced ? {} : { y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative overflow-hidden rounded-3xl"
+            >
+              {/* Background image with overlay */}
+              {/* Suggested size: 1920x600px (wide banner image) */}
+              <div className="absolute inset-0">
+                {showcaseBannerImage ? (
+                  <img
+                    src={showcaseBannerImage}
+                    alt="Showcase background"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  /* Placeholder gradient when no image */
+                  <div className="h-full w-full bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900" />
+                )}
+              </div>
+
+              {/* Dark overlay for text readability - adjust opacity as needed */}
+              <div className="absolute inset-0 bg-black/60 z-[5]" />
+
+              {/* Gradient color overlay on top */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#5025d1]/70 via-purple-600/50 to-pink-500/40 z-10" />
+
+              {/* Content container with min-height */}
+              <div className="relative z-20 h-[400px] sm:h-[500px] flex items-center">
+                <Container>
+                  <div className="max-w-2xl">
+                    <motion.div
+                      initial={reduced ? false : { y: 20 }}
+                      whileInView={reduced ? {} : { y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+                        <Award className="h-4 w-4" />
+                        Award-Winning Agency
+                      </span>
+                    </motion.div>
+
+                    <motion.h3
+                      initial={reduced ? false : { y: 20 }}
+                      whileInView={reduced ? {} : { y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 }}
+                      className="mt-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl drop-shadow-lg"
+                    >
+                      Crafting Digital
+                      <br />
+                      Excellence Since Day One
+                    </motion.h3>
+
+                    <motion.p
+                      initial={reduced ? false : { y: 20 }}
+                      whileInView={reduced ? {} : { y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4 }}
+                      className="mt-6 text-lg text-white/90 drop-shadow-md"
+                    >
+                      We've helped 40+ businesses transform their digital presence with
+                      custom solutions that drive real results.
+                    </motion.p>
+
+                    <motion.div
+                      initial={reduced ? false : { y: 20 }}
+                      whileInView={reduced ? {} : { y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 }}
+                      className="mt-8 flex flex-wrap gap-6"
+                    >
+                      {[
+                        { value: "50+", label: "Projects" },
+                        { value: "40+", label: "Clients" },
+                        { value: "100%", label: "Satisfaction" },
+                      ].map((stat, i) => (
+                        <div key={i} className="text-center">
+                          <div className="text-3xl font-bold text-white drop-shadow-lg">{stat.value}</div>
+                          <div className="text-sm text-white/70">{stat.label}</div>
+                        </div>
+                      ))}
+                    </motion.div>
+                  </div>
+                </Container>
+              </div>
+            </motion.div>
           </Container>
         </section>
 
