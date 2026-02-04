@@ -47,12 +47,16 @@ app.get("/api/contact", (req, res) => {
 // Nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: 'mail.privateemail.com',
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  requireTLS: true,
+  connectionTimeout: 15000,
+  greetingTimeout: 15000,
+  socketTimeout: 20000,
 });
 
 // Contact form endpoint
