@@ -30,14 +30,11 @@ app.get("/health", (req, res) => {
 const transporter = nodemailer.createTransport({
   host: 'mail.privateemail.com',
   port: 465,
-  secure: false,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  tls: {
-    ciphers: 'SSLv3'
-  }
 });
 
 // Contact form endpoint
