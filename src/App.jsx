@@ -28,6 +28,7 @@ import SocialMediaExpertise from "./pages/expertise/SocialMediaExpertise";
 import GraphicDesigningExpertise from "./pages/expertise/GraphicDesigningExpertise";
 import VideoEditingExpertise from "./pages/expertise/VideoEditingExpertise";
 import BrandBuildingExpertise from "./pages/expertise/BrandBuildingExpertise";
+import SeoExpertise from "./pages/expertise/SeoExpertise";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -227,6 +228,7 @@ function App() {
             <Route path="/graphic-designing-expertise" element={<GraphicDesigningExpertise />} />
             <Route path="/video-editing-expertise" element={<VideoEditingExpertise />} />
             <Route path="/brand-building-expertise" element={<BrandBuildingExpertise />} />
+            <Route path="/seo-expertise" element={<SeoExpertise />} />
             <Route path="/process" element={<ProcessPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFoundPage />} />

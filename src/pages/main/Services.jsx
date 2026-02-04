@@ -25,6 +25,8 @@ import {
   PenTool,
   Layers,
   Wand2,
+  FileSearch,
+  MapPin,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
@@ -199,6 +201,7 @@ const tabs = [
   { key: "web", label: "Web Development", icon: Code2, description: "Custom websites & e-commerce" },
   { key: "salesforce", label: "Salesforce", icon: Cloud, description: "CRM solutions & automation" },
   { key: "marketing", label: "Digital Marketing", icon: Megaphone, description: "Ads that drive results" },
+  { key: "seo", label: "SEO", icon: Search, description: "Rank & convert" },
   { key: "social", label: "Social Media", icon: Share2, description: "Content & engagement" },
   { key: "design", label: "Graphic Design", icon: Palette, description: "Visuals that convert" },
   { key: "video", label: "Video Editing", icon: Clapperboard, description: "Reels, TikToks & ads" },
@@ -445,6 +448,76 @@ function PanelMarketing() {
             "Shopping feed optimization",
             "Conversion tracking setup",
             "Keyword & landing optimization",
+          ]}
+          delay={0.3}
+        />
+      </div>
+    </div>
+  );
+}
+
+function PanelSEO() {
+  return (
+    <div className="space-y-12">
+      <div className="text-center">
+        <Badge icon={Search}>SEO Services</Badge>
+        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+          SEO That Compounds Over Time
+        </h2>
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+          Technical fixes, on-page structure, and content strategy that grow organic visibility
+          and qualified leads.
+        </p>
+      </div>
+
+      <div className="flex justify-center">
+        <Link
+          to="/seo-expertise"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
+        >
+          <Search className="h-5 w-5" />
+          Explore Our SEO Expertise
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ServiceCard
+          icon={FileSearch}
+          title="Technical SEO"
+          description="Fix crawlability, speed, and Core Web Vitals to unlock rankings."
+          features={[
+            "Site audits and fixes",
+            "Schema and structured data",
+            "Indexing and crawl control",
+            "Core Web Vitals improvements",
+            "Redirects and canonicals",
+          ]}
+          delay={0.1}
+        />
+        <ServiceCard
+          icon={Search}
+          title="On-Page + Content"
+          description="Intent-based pages and content that convert visitors into leads."
+          features={[
+            "Keyword intent mapping",
+            "Title and meta optimization",
+            "Content hierarchy and headings",
+            "Internal linking structure",
+            "Service and blog page planning",
+          ]}
+          delay={0.2}
+        />
+        <ServiceCard
+          icon={MapPin}
+          title="Local SEO"
+          description="Rank for local intent and build trust with nearby customers."
+          features={[
+            "Google Business Profile setup",
+            "Location and service pages",
+            "Citations and NAP consistency",
+            "Review strategy guidance",
+            "Local reporting",
           ]}
           delay={0.3}
         />
@@ -769,6 +842,8 @@ export default function ServicesPage() {
         return <PanelSalesforce />;
       case "marketing":
         return <PanelMarketing />;
+      case "seo":
+        return <PanelSEO />;
       case "social":
         return <PanelSocial />;
       case "design":
@@ -862,7 +937,7 @@ export default function ServicesPage() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-8 gap-3 sm:gap-4">
               {tabs.map((tab, index) => (
                 <ServiceSelector
                   key={tab.key}

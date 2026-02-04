@@ -7,6 +7,7 @@ const serviceSubMenu = [
   { label: "Web Development", href: "/web-development-expertise" },
   { label: "Salesforce", href: "/salesforce-expertise" },
   { label: "Digital Marketing", href: "/digital-marketing-expertise" },
+  { label: "SEO", href: "/seo-expertise" },
   { label: "Social Media", href: "/social-media-expertise" },
   { label: "Graphic Design", href: "/graphic-designing-expertise" },
   { label: "Video Editing", href: "/video-editing-expertise" },

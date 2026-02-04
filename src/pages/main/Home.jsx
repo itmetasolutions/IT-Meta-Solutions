@@ -28,6 +28,7 @@ import {
   Database,
   ShieldCheck,
   ShoppingCart,
+  Search,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
@@ -515,6 +516,19 @@ const services = [
     ],
     gradient: "from-orange-500 to-amber-500",
     link: "/digital-marketing-expertise",
+  },
+  {
+    icon: Search,
+    title: "SEO",
+    description: "Technical SEO, on-page structure, and content strategy to grow organic traffic and leads.",
+    features: [
+      "Technical audits and fixes",
+      "Keyword intent mapping",
+      "On-page optimization",
+      "Local SEO and GBP setup",
+    ],
+    gradient: "from-emerald-500 to-teal-500",
+    link: "/seo-expertise",
   },
   {
     icon: Cloud,

@@ -637,6 +637,15 @@ export default function Contact() {
                     </div>
                     <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
                       <div className="flex items-center gap-3">
+                        <Search className="h-5 w-5 text-white/80" />
+                        <div>
+                          <div className="text-sm font-semibold text-white">SEO</div>
+                          <div className="text-xs text-zinc-400">Visibility</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                      <div className="flex items-center gap-3">
                         <Cloud className="h-5 w-5 text-white/80" />
                         <div>
                           <div className="text-sm font-semibold text-white">Salesforce</div>
@@ -701,6 +710,7 @@ export default function Contact() {
                             { value: "meta", label: "Meta Ads", icon: Facebook },
                             { value: "tiktok", label: "TikTok Ads", icon: Video },
                             { value: "google", label: "Google Ads", icon: Search },
+                            { value: "seo", label: "SEO", icon: Search },
                             { value: "web", label: "Website", icon: Laptop },
                             { value: "social", label: "SMM", icon: Users },
                             { value: "brand", label: "Brand Building", icon: Layers },

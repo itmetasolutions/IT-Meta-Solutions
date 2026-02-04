@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
+  Search,
   Users,
   Wand2,
   BriefcaseBusiness,
@@ -643,6 +644,18 @@ export default function AboutUsPage() {
                 delay={0.2}
               />
               <FeatureCard
+                icon={Search}
+                title="SEO & Content"
+                description="Search optimization that drives qualified traffic and long-term visibility."
+                features={[
+                  "Technical SEO fixes",
+                  "On-page optimization",
+                  "Content strategy",
+                  "Local SEO structure",
+                ]}
+                delay={0.3}
+              />
+              <FeatureCard
                 icon={Palette}
                 title="Design & Video"
                 description="Modern creatives that make your brand look premium and improve ad performance."
@@ -652,7 +665,7 @@ export default function AboutUsPage() {
                   "Reels editing",
                   "Social templates",
                 ]}
-                delay={0.3}
+                delay={0.4}
               />
             </div>
 
