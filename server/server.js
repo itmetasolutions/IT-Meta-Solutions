@@ -9,7 +9,20 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+const allowedOrigins = [
+  "https://itmetasolutions.com",
+  "https://www.itmetasolutions.com",
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Not allowed by CORS"));
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+  })
+);
 app.use(express.json());
 
 /* =========================
@@ -20,6 +33,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+// Simple ping for contact endpoint
+app.get("/api/contact", (req, res) => {
   res.json({ status: "ok" });
 });
 /* =========================
