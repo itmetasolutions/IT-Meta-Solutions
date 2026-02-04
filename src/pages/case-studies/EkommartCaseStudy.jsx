@@ -104,6 +104,32 @@ export default function EkommartCaseStudy() {
     <>
       <Helmet>
         <title>Ekommart — Brand Build & Marketing Case Study | IT Meta Solutions</title>
+        <meta
+          name="description"
+          content="Case study: IT Meta Solutions built Ekommart's e-commerce brand, website, and performance marketing, generating 3,300+ purchases in 5 months."
+        />
+        <meta
+          property="og:title"
+          content="Ekommart — Brand Build & Marketing Case Study | IT Meta Solutions"
+        />
+        <meta
+          property="og:description"
+          content="Built Ekommart's e-commerce brand with a new website and performance marketing, generating 3,300+ purchases in 5 months."
+        />
+        <meta property="og:type" content="article" />
+        <link rel="canonical" href="https://itmetasolutions.com/case-study/ekommart" />
+        <meta property="og:url" content="https://itmetasolutions.com/case-study/ekommart" />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Ekommart — Brand Build & Marketing Case Study | IT Meta Solutions"
+        />
+        <meta
+          name="twitter:description"
+          content="Built Ekommart's e-commerce brand with a new website and performance marketing, generating 3,300+ purchases in 5 months."
+        />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
       <div className="min-h-screen text-zinc-100 overflow-x-hidden">

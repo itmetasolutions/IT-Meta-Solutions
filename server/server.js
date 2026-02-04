@@ -28,8 +28,8 @@ app.get("/health", (req, res) => {
 
 // Nodemailer transporter
 const transporter = nodemailer.createTransport({
-  host: 'smtp.hostinger.com',
-  port: 587,
+  host: 'mail.privateemail.com',
+  port: 465,
   secure: false,
   auth: {
     user: process.env.EMAIL_USER,

@@ -295,7 +295,22 @@ export default function SalesforceServiceCloudCaseManagementCaseStudy() {
                     content="LWC application integrated with an automation engine to generate qualified leads from real-time property data, with dashboards, role-based access, and external listing integration."
                 />
                 <meta property="og:type" content="article" />
-                <link rel="canonical" href="https://itmetasolutions.com/case-study/salesforce-service-cloud-case-management" />
+                <link rel="canonical" href="https://itmetasolutions.com/case-study/salesforce-service-cloud-implementation" />
+                <meta
+                    property="og:url"
+                    content="https://itmetasolutions.com/case-study/salesforce-service-cloud-implementation"
+                />
+                <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:title"
+                    content="Salesforce Service Cloud Implementation — Case Management | Case Study"
+                />
+                <meta
+                    name="twitter:description"
+                    content="LWC application integrated with an automation engine to generate qualified leads from real-time property data, with dashboards, role-based access, and external listing integration."
+                />
+                <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
             </Helmet>
 
             <div className="relative min-h-screen overflow-hidden text-zinc-100">

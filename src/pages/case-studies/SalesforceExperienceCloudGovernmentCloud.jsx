@@ -303,7 +303,22 @@ export default function SalesforceGovPortalCaseStudy() {
           content="A user-friendly government customer portal to report environmental issues, track requests, manage properties, and process service payments."
         />
         <meta property="og:type" content="article" />
-        <link rel="canonical" href="https://itmetasolutions.com/case-study/salesforce-gov-portal" />
+        <link rel="canonical" href="https://itmetasolutions.com/case-study/salesforce-experience-cloud-government-cloud" />
+        <meta
+          property="og:url"
+          content="https://itmetasolutions.com/case-study/salesforce-experience-cloud-government-cloud"
+        />
+        <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Salesforce Experience Cloud & Government Cloud — Customer Portal | Case Study"
+        />
+        <meta
+          name="twitter:description"
+          content="A user-friendly government customer portal to report environmental issues, track requests, manage properties, and process service payments."
+        />
+        <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
       <div className="relative min-h-screen overflow-hidden text-zinc-100">

@@ -410,6 +410,66 @@ function TestimonialCard({ testimonial, delay = 0 }) {
   );
 }
 
+function IndustryCard({ industry, delay = 0 }) {
+  const reduced = usePrefersReducedMotion();
+  const Icon = industry.icon;
+  const gradient = industry.gradient || "from-[#5025d1] to-purple-600";
+
+  return (
+    <motion.div
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, delay }}
+      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
+      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm transition-all hover:border-white/20"
+    >
+      <div className={`absolute -right-24 -top-24 h-40 w-40 rounded-full bg-gradient-to-br ${gradient} opacity-20 blur-3xl transition-all duration-500 group-hover:scale-125`} />
+
+      <div className="relative">
+        <div className={`inline-flex rounded-2xl bg-gradient-to-br ${gradient} p-3 shadow-lg`}>
+          <Icon className="h-6 w-6 text-white" />
+        </div>
+        <h3 className="mt-5 text-xl font-bold text-white">{industry.title}</h3>
+        <p className="mt-2 text-sm text-zinc-300 leading-relaxed">{industry.description}</p>
+
+        <ul className="mt-5 space-y-2">
+          {industry.highlights.map((item, idx) => (
+            <li key={idx} className="flex items-start gap-2 text-sm text-zinc-300">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-400" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </motion.div>
+  );
+}
+
+function FaqItem({ item, delay = 0 }) {
+  const reduced = usePrefersReducedMotion();
+
+  return (
+    <motion.div
+      initial={reduced ? false : { y: 16 }}
+      whileInView={reduced ? {} : { y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, delay }}
+      className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm"
+    >
+      <div className="flex items-start gap-3">
+        <div className="mt-1 h-7 w-7 rounded-full bg-[#5025d1]/20 flex items-center justify-center">
+          <span className="text-sm font-bold text-purple-300">Q</span>
+        </div>
+        <div>
+          <h4 className="text-lg font-semibold text-white">{item.question}</h4>
+          <p className="mt-2 text-sm text-zinc-300 leading-relaxed">{item.answer}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 /* ==================== DATA ==================== */
 
 const stats = [
@@ -586,6 +646,78 @@ const testimonials = [
     role: "Business Owner",
     rating: 5,
     quote: "Professional, responsive, and results-driven. They built our complete brand from scratch and the results speak for themselves.",
+  },
+];
+
+const industries = [
+  {
+    title: "E-commerce",
+    description: "High-converting storefronts that drive revenue and repeat customers.",
+    highlights: ["Product discovery and UX", "Conversion rate optimization", "Performance ads and tracking"],
+    icon: ShoppingCart,
+    gradient: "from-pink-500 to-rose-500",
+  },
+  {
+    title: "Real Estate",
+    description: "Property platforms that simplify listings, lead capture, and client journeys.",
+    highlights: ["Custom listing systems", "Lead routing and CRM sync", "Automation for follow-ups"],
+    icon: Building2,
+    gradient: "from-emerald-500 to-teal-500",
+  },
+  {
+    title: "SaaS and Platforms",
+    description: "Scalable products built for performance, retention, and growth.",
+    highlights: ["Product UX and onboarding", "Usage analytics and insights", "Reliable architecture"],
+    icon: Database,
+    gradient: "from-blue-500 to-cyan-500",
+  },
+  {
+    title: "Travel and Hospitality",
+    description: "Experiences that build trust and turn visitors into bookings.",
+    highlights: ["Booking journeys", "Multi-channel marketing", "Reputation and review growth"],
+    icon: Globe,
+    gradient: "from-orange-500 to-amber-500",
+  },
+  {
+    title: "Healthcare and Wellness",
+    description: "Clear messaging and conversions for services that need credibility.",
+    highlights: ["Patient-first UX", "Secure forms and workflows", "Local SEO and visibility"],
+    icon: ShieldCheck,
+    gradient: "from-indigo-500 to-purple-500",
+  },
+  {
+    title: "Professional Services",
+    description: "Brand systems that position expertise and generate qualified leads.",
+    highlights: ["Lead capture funnels", "Authority content", "Reputation building"],
+    icon: Target,
+    gradient: "from-[#5025d1] to-purple-600",
+  },
+];
+
+const faqs = [
+  {
+    question: "How long does a typical project take?",
+    answer: "Most websites launch in 3 to 6 weeks, while larger platforms can take 8 to 12 weeks. We confirm timelines after discovery.",
+  },
+  {
+    question: "Do you handle content and design as well as development?",
+    answer: "Yes. We can handle strategy, copy, UI design, development, and launch as a single team to keep everything aligned.",
+  },
+  {
+    question: "Can you improve an existing website instead of rebuilding?",
+    answer: "Absolutely. We can audit performance, UX, and SEO, then prioritize fixes and enhancements based on business impact.",
+  },
+  {
+    question: "What happens after the project launches?",
+    answer: "We offer growth retainers for optimization, analytics, ad management, and feature updates so you keep improving.",
+  },
+  {
+    question: "Do you work with international clients?",
+    answer: "Yes. We work across time zones with clear communication, weekly updates, and shared project dashboards.",
+  },
+  {
+    question: "How do we get started?",
+    answer: "Book a discovery call, share your goals, and we will prepare a roadmap with scope, timeline, and pricing.",
   },
 ];
 
@@ -1221,6 +1353,42 @@ export default function Home() {
           </Container>
         </section>
 
+        {/* ==================== INDUSTRIES SECTION ==================== */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <SectionHeading
+              badge="Industries"
+              title={
+                <>
+                  Built for the
+                  <br />
+                  <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    Way You Work
+                  </span>
+                </>
+              }
+              description="From high-growth startups to established enterprises, we tailor solutions that fit your market, customers, and goals."
+              centered
+            />
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {industries.map((industry, index) => (
+                <IndustryCard key={index} industry={industry} delay={index * 0.08} />
+              ))}
+            </div>
+
+            <div className="mt-12 text-center">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30"
+              >
+                Discuss Your Industry
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+            </div>
+          </Container>
+        </section>
+
         {/* ==================== FEATURED PROJECTS ==================== */}
         <section className="py-16 sm:py-20">
           <Container>
@@ -1315,6 +1483,42 @@ export default function Home() {
               {testimonials.map((testimonial, index) => (
                 <TestimonialCard key={index} testimonial={testimonial} delay={index * 0.1} />
               ))}
+            </div>
+          </Container>
+        </section>
+
+        {/* ==================== FAQ ==================== */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <SectionHeading
+              badge="FAQ"
+              title={
+                <>
+                  Answers to
+                  <br />
+                  <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    Common Questions
+                  </span>
+                </>
+              }
+              description="Everything you need to know before starting a project with us."
+              centered
+            />
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {faqs.map((item, index) => (
+                <FaqItem key={index} item={item} delay={index * 0.06} />
+              ))}
+            </div>
+
+            <div className="mt-10 text-center">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 text-lg font-semibold text-[#5025d1] transition-all hover:gap-4"
+              >
+                Still have questions? Talk to us
+                <ChevronRight className="h-5 w-5" />
+              </Link>
             </div>
           </Container>
         </section>
