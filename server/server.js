@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -44,27 +44,14 @@ app.get("/api/contact", (req, res) => {
    END HERE
    ========================= */
 
-// Nodemailer transporter
-const transporter = nodemailer.createTransport({
-  host: 'mail.privateemail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  requireTLS: true,
-  connectionTimeout: 15000,
-  greetingTimeout: 15000,
-  socketTimeout: 20000,
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Contact form endpoint
 app.post('/api/contact', async (req, res) => {
   const { name, email, phone, services, message } = req.body;
 
   const mailOptions = {
-    from: `"${name}" <${process.env.EMAIL_USER}>`,
+    from: process.env.RESEND_FROM,
     to: process.env.TO_EMAIL,
     replyTo: email,
     subject: 'New Contact Form Submission',
@@ -80,7 +67,7 @@ app.post('/api/contact', async (req, res) => {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await resend.emails.send(mailOptions);
     res.status(200).json({ success: true });
   } catch (error) {
     console.error('Email send error:', error);
