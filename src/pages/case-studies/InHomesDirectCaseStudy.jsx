@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -264,6 +265,38 @@ function StickySubnav() {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Custom Calculators for Ecommerce Conversion",
+  subtitle:
+    "InHomes Direct uses custom product calculators and real-time pricing to improve ordering confidence.",
+  paragraphs: [
+    "We built a performance-optimized store with logic-driven calculators and clear UX for complex product ordering.",
+    "The system improved conversion clarity while reducing reliance on paid apps.",
+  ],
+  bullets: [
+    "Custom product calculators for ecommerce",
+    "Real-time pricing engine development",
+    "High-converting ecommerce website design",
+    "Performance-optimized Shopify store builds",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What makes this ecommerce build unique?",
+    a: "Custom calculators and logic-driven ordering for flooring and interiors.",
+  },
+  {
+    q: "Did this reduce app dependencies?",
+    a: "Yes. The custom build reduced reliance on paid Shopify apps.",
+  },
+  {
+    q: "Can you build similar calculators?",
+    a: "Yes. We build custom pricing and conversion tools for ecommerce stores.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function InHomesDirectCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -279,7 +312,7 @@ export default function InHomesDirectCaseStudy() {
         <title>InHomes Direct Case Study - E-commerce with Custom Calculators | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Explore how IT Meta Solutions built InHomes Direct - a high-performance e-commerce store with custom flooring calculators, real-time pricing, and advanced SEO optimization."
+          content="InHomes Direct case study: ecommerce store with custom calculators, real-time pricing, and conversion UX."
         />
         <meta
           name="keywords"
@@ -786,7 +819,10 @@ export default function InHomesDirectCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • InHomes Direct case study</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

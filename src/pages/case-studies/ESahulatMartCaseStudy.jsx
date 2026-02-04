@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
   ArrowRight,
@@ -597,6 +598,38 @@ function TabPanel({ active }) {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Ecommerce Brand Build and Meta Ads Performance",
+  subtitle:
+    "E Sahulat Mart grew sales with a conversion-focused store, social content, and performance marketing.",
+  paragraphs: [
+    "We combined storefront optimization, clear product positioning, and Meta Ads testing to grow revenue with controlled spend.",
+    "The result is a repeatable ecommerce growth system focused on ROAS and conversion rate improvements.",
+  ],
+  bullets: [
+    "Meta Ads agency for ecommerce growth",
+    "High-converting ecommerce website design",
+    "Creative testing and offer optimization",
+    "Conversion tracking and ROAS optimization",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What was the primary outcome?",
+    a: "The brand achieved 2+ lac PKR in sales with controlled daily ad spend.",
+  },
+  {
+    q: "Which channels drove growth?",
+    a: "Meta Ads and conversion-optimized ecommerce pages drove most results.",
+  },
+  {
+    q: "Can this system scale for other stores?",
+    a: "Yes. We tailor the funnel and creative strategy to product and market.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function ESahulatMartCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -615,7 +648,7 @@ export default function ESahulatMartCaseStudy() {
         <title>E Sahulat Mart Case Study - E-commerce Sales Growth | IT Meta Solutions</title>
         <meta
           name="description"
-          content="E Sahulat Mart case study — complete e-commerce brand build with website, social media, and Meta Ads generating 2+ lac PKR in sales with controlled daily spend."
+          content="E Sahulat Mart case study: ecommerce brand build with Meta Ads delivering 2+ lac PKR sales and controlled spend."
         />
         <meta
           name="keywords"
@@ -923,7 +956,10 @@ export default function ESahulatMartCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • E Sahulat Mart brand build</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

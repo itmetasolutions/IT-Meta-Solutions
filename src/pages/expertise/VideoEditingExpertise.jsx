@@ -40,6 +40,7 @@ import {
   MessageSquareText,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /**
  * Video Editing Service / Expertise Page — IT Meta Solutions
@@ -60,6 +61,42 @@ const nav = [
   { label: "Workflow", href: "#workflow" },
   { label: "Skills", href: "#skills" },
   { label: "Industries", href: "#industries" },
+];
+
+const seoContent = {
+  kicker: "Video Editing",
+  title: "Video Editing for Ads, Reels, and Conversion",
+  subtitle:
+    "We create high-retention edits for reels, TikTok, YouTube, and performance marketing.",
+  paragraphs: [
+    "Our video editing workflow blends fast-paced storytelling, subtitles, and motion graphics that improve watch time and conversions.",
+    "We support ecommerce, real estate, and service brands with ad-ready edits and consistent content systems.",
+  ],
+  bullets: [
+    "Short-form reels and ads for Meta campaigns",
+    "YouTube long-form edits with retention pacing",
+    "Captioning, motion graphics, and sound design",
+    "UGC and testimonial edits for ecommerce",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Do you edit reels and TikTok videos?",
+    a: "Yes. We deliver high-retention edits for reels, TikTok, and shorts.",
+  },
+  {
+    q: "Can you edit ad creatives for Meta Ads?",
+    a: "Yes. We edit ad creatives with hooks, subtitles, and CTA-ready pacing.",
+  },
+  {
+    q: "Do you handle long-form YouTube edits?",
+    a: "Yes. We edit YouTube content with structured pacing, b-roll, and captions.",
+  },
+  {
+    q: "Can you build a monthly content system?",
+    a: "Yes. We help plan and deliver consistent video output each month.",
+  },
 ];
 
 function Container({ children, className }) {
@@ -255,7 +292,7 @@ export default function VideoEditingExpertise() {
         <title>Video Editing - IT Meta Solutions</title>
         <meta
           name="description"
-          content="IT Meta Solutions - 5+ years of video editing expertise. Short-form reels/shorts, YouTube long-form, ad creatives, subtitles, motion graphics, and conversion-focused edits for brands."
+          content="Video editing for reels, ads, and YouTube with high-retention hooks, subtitles, and conversion-focused pacing."
         />
         <meta
           name="keywords"
@@ -646,6 +683,8 @@ export default function VideoEditingExpertise() {
           </section>
 
           <Divider />
+
+          <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
           {/* CTA */}
           <section>

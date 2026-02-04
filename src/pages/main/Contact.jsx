@@ -31,6 +31,7 @@ import {
   Palette,
   HelpCircle,
 } from "lucide-react";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /* ==================== HELPERS ==================== */
 
@@ -118,6 +119,42 @@ function SectionHeading({ badge, title, description, centered = false }) {
     </div>
   );
 }
+
+const seoContent = {
+  kicker: "Contact Us",
+  title: "Talk to Salesforce, E-commerce, and Performance Marketing Experts",
+  subtitle:
+    "Get direct access to a SECP registered IT firm in Lahore for Salesforce implementation, LWC development, and high-converting Shopify and WooCommerce builds.",
+  paragraphs: [
+    "Tell us your goals and we will recommend the fastest path to revenue, whether that is a Salesforce Experience Cloud portal, CRM automation, or a performance-optimized ecommerce store.",
+    "We serve Pakistan and global clients in the UK and US with clear timelines, pricing, and measurable outcomes.",
+  ],
+  bullets: [
+    "Hire Salesforce developers for custom integration and automation",
+    "Performance marketing and Meta Ads strategy for scalable growth",
+    "Custom web app development and ecommerce conversion optimization",
+    "Local Lahore team with global delivery standards",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "How fast can you start a Salesforce implementation?",
+    a: "Most Salesforce discovery and planning starts within 5 to 7 days after kickoff, followed by a clear implementation roadmap.",
+  },
+  {
+    q: "Can I hire Salesforce LWC developers only?",
+    a: "Yes. We offer dedicated LWC development services for custom components, portals, and integrations.",
+  },
+  {
+    q: "Do you build performance-optimized Shopify stores?",
+    a: "Yes. We build fast-loading Shopify and WooCommerce sites with conversion-focused UX and custom calculators.",
+  },
+  {
+    q: "Are you a Lahore-based SECP registered IT firm?",
+    a: "Yes. We are SECP and FBR registered and operate from PCSIR Society, Lahore.",
+  },
+];
 
 /* ==================== UI: NEW CONTACT DESIGN COMPONENTS ==================== */
 
@@ -364,7 +401,7 @@ export default function Contact() {
         <title>IT Meta Solutions - Contact Us | Get a Free Consultation</title>
         <meta
           name="description"
-          content="Contact IT Meta Solutions for web development, digital marketing, SEO, and branding services. Fast response, clear proposals, and expert solutions for your business. Available on WhatsApp. Serving Pakistan, Canada, UK, and USA."
+          content="Contact our Lahore-based Salesforce and ecommerce team for LWC, Experience Cloud, Shopify, and performance marketing."
         />
         <link rel="canonical" href="https://itmetasolutions.com/contact" />
       </Helmet>
@@ -763,6 +800,8 @@ export default function Contact() {
             </div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );

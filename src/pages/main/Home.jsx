@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /* ==================== IMAGE PLACEHOLDERS ====================
  * Add your image imports here. Replace placeholder paths with actual image URLs.
@@ -450,23 +451,19 @@ function FaqItem({ item, delay = 0 }) {
   const reduced = usePrefersReducedMotion();
 
   return (
-    <motion.div
+    <motion.details
       initial={reduced ? false : { y: 16 }}
       whileInView={reduced ? {} : { y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5, delay }}
-      className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm"
+      className="group rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm"
     >
-      <div className="flex items-start gap-3">
-        <div className="mt-1 h-7 w-7 rounded-full bg-[#5025d1]/20 flex items-center justify-center">
-          <span className="text-sm font-bold text-purple-300">Q</span>
-        </div>
-        <div>
-          <h4 className="text-lg font-semibold text-white">{item.question}</h4>
-          <p className="mt-2 text-sm text-zinc-300 leading-relaxed">{item.answer}</p>
-        </div>
-      </div>
-    </motion.div>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
+        <h4 className="text-lg font-semibold text-white">{item.question}</h4>
+        <ChevronRight className="h-5 w-5 flex-shrink-0 text-zinc-300 transition group-open:rotate-90" />
+      </summary>
+      <p className="mt-3 text-sm text-zinc-300 leading-relaxed">{item.answer}</p>
+    </motion.details>
   );
 }
 
@@ -696,30 +693,47 @@ const industries = [
 
 const faqs = [
   {
-    question: "How long does a typical project take?",
-    answer: "Most websites launch in 3 to 6 weeks, while larger platforms can take 8 to 12 weeks. We confirm timelines after discovery.",
+    question: "Are you Salesforce implementation partners?",
+    answer: "Yes. We handle Salesforce implementation, LWC development services, Experience Cloud portal development, and CRM automation.",
   },
   {
-    question: "Do you handle content and design as well as development?",
-    answer: "Yes. We can handle strategy, copy, UI design, development, and launch as a single team to keep everything aligned.",
+    question: "Do you build high-converting e-commerce websites?",
+    answer: "We build performance-optimized Shopify and WooCommerce stores, including custom calculators, real-time pricing, and CRO-focused UX.",
   },
   {
-    question: "Can you improve an existing website instead of rebuilding?",
-    answer: "Absolutely. We can audit performance, UX, and SEO, then prioritize fixes and enhancements based on business impact.",
+    question: "Can you improve ROAS and lower CPA on Meta Ads?",
+    answer: "Yes. Our performance marketing team runs data-driven Meta Ads with testing, creative optimization, and ROAS-focused scaling.",
   },
   {
-    question: "What happens after the project launches?",
-    answer: "We offer growth retainers for optimization, analytics, ad management, and feature updates so you keep improving.",
+    question: "Do you offer Salesforce data cleaning and automation?",
+    answer: "We clean CRM data, resolve duplicates, and automate lead generation using Salesforce Flow, rules, and custom LWC interfaces.",
   },
   {
-    question: "Do you work with international clients?",
-    answer: "Yes. We work across time zones with clear communication, weekly updates, and shared project dashboards.",
+    question: "Are you a SECP registered IT firm in Lahore?",
+    answer: "Yes. We are an SECP and FBR registered IT firm based in PCSIR Society, Lahore, serving Pakistan and global clients.",
   },
   {
     question: "How do we get started?",
-    answer: "Book a discovery call, share your goals, and we will prepare a roadmap with scope, timeline, and pricing.",
+    answer: "Book a discovery call and we will map scope, timeline, and pricing for Salesforce, e-commerce, or performance marketing.",
   },
 ];
+
+const seoContent = {
+  kicker: "Full-Service Agency",
+  title: "Salesforce, E-commerce, and Performance Marketing Under One Roof",
+  subtitle:
+    "IT Meta Solutions is a Salesforce implementation partner and digital agency helping brands scale with LWC development, Experience Cloud portals, and high-converting ecommerce.",
+  paragraphs: [
+    "We build performance-optimized Shopify and WooCommerce stores, custom web apps, and CRM automation that connect sales, marketing, and service teams.",
+    "From Meta Ads ROAS optimization to data-driven lead generation, our team delivers measurable growth for startups and enterprise brands in Pakistan, the UK, and the US.",
+  ],
+  bullets: [
+    "Salesforce LWC development services and Experience Cloud portals",
+    "Shopify custom theme development and conversion-focused UX",
+    "CRM data cleaning, duplicate checks, and automation workflows",
+    "Scalable Meta Ads strategies with ROAS optimization",
+  ],
+};
 
 /* ==================== PAGE ==================== */
 
@@ -796,7 +810,7 @@ export default function Home() {
         <title>IT Meta Solutions - Premium Web Development & Digital Marketing</title>
         <meta
           name="description"
-          content="Transform your business with high-converting websites, strategic digital marketing, and stunning design. Trusted by 40+ businesses worldwide."
+          content="Salesforce implementation partners delivering LWC, Experience Cloud, Shopify, and performance marketing for high-converting growth."
         />
         <link rel="canonical" href="https://itmetasolutions.com/" />
       </Helmet>
@@ -1486,6 +1500,8 @@ export default function Home() {
             </div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} />
 
         {/* ==================== FAQ ==================== */}
         <section className="py-16 sm:py-20">

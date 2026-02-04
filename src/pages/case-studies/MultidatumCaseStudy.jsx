@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -252,6 +253,38 @@ function StickySubnav() {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Lead-Focused Agency Website Architecture",
+  subtitle:
+    "Multidatum launched a digital marketing website with clear services, positioning, and consultation CTAs.",
+  paragraphs: [
+    "We structured the website for clarity and conversion, with lead capture placed where intent is highest.",
+    "The result is a scalable marketing site built to win inbound consultations.",
+  ],
+  bullets: [
+    "Lead-focused website structure and CTAs",
+    "Service architecture and positioning clarity",
+    "Conversion-focused UX for agency sites",
+    "Trust-building proof and messaging",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What was the goal of this website?",
+    a: "Create a clear services architecture and lead-focused consultation flow.",
+  },
+  {
+    q: "Does this improve lead capture?",
+    a: "Yes. CTAs and sections were designed to convert intent into inquiries.",
+  },
+  {
+    q: "Can you build similar agency sites?",
+    a: "Yes. We build positioning-led agency websites for lead generation.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function MultidatumCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -268,7 +301,7 @@ export default function MultidatumCaseStudy() {
         <title>Multidatum Case Study - Digital Marketing Agency Website | IT Meta Solutions</title>
         <meta
           name="description"
-          content="See Multidatum case study - a data-driven digital marketing website with clear service architecture, strong positioning, and lead-focused CTAs designed to convert visitors into consultations."
+          content="Multidatum case study: data-driven agency website with clear services, positioning, and lead-focused CTAs."
         />
         <meta
           name="keywords"
@@ -736,7 +769,10 @@ export default function MultidatumCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • Multidatum case study</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

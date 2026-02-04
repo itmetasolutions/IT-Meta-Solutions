@@ -27,6 +27,7 @@ import {
   Wand2,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import Container from "../../components/Container";
 
 /* ==================== HELPERS ==================== */
@@ -202,6 +203,42 @@ const tabs = [
   { key: "design", label: "Graphic Design", icon: Palette, description: "Visuals that convert" },
   { key: "video", label: "Video Editing", icon: Clapperboard, description: "Reels, TikToks & ads" },
   { key: "brand", label: "Brand Building", icon: Wand2, description: "Complete brand systems" },
+];
+
+const seoContent = {
+  kicker: "Our Services",
+  title: "Revenue-Focused Services for Salesforce, E-commerce, and Growth",
+  subtitle:
+    "We deliver Salesforce implementation, LWC development services, Experience Cloud portals, and high-converting Shopify and WooCommerce builds.",
+  paragraphs: [
+    "Our team combines CRM automation, performance marketing, and conversion-first web development to create end-to-end growth systems.",
+    "From data cleaning in Salesforce to Meta Ads ROAS optimization, we focus on measurable outcomes and scalable results.",
+  ],
+  bullets: [
+    "Salesforce automation experts and Experience Cloud portal development",
+    "Shopify custom theme development with performance optimization",
+    "Custom web app development and pricing engine builds",
+    "Performance marketing for online stores and lead generation",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What Salesforce services do you offer?",
+    a: "We handle implementation, LWC development, Experience Cloud portals, integrations, and CRM automation.",
+  },
+  {
+    q: "Do you build high-converting ecommerce websites?",
+    a: "Yes. We build fast-loading Shopify and WooCommerce stores with CRO, tracking, and conversion-focused UX.",
+  },
+  {
+    q: "Can you improve an existing store or CRM?",
+    a: "Absolutely. We optimize site performance, fix data issues, and automate lead workflows for better results.",
+  },
+  {
+    q: "Do you offer Meta Ads and performance marketing?",
+    a: "Yes. We run scalable Meta Ads strategies, creative testing, and ROAS optimization for growth.",
+  },
 ];
 
 /* ==================== PANELS ==================== */
@@ -751,7 +788,7 @@ export default function ServicesPage() {
         <title>IT Meta Solutions - Services | Web Development, Digital Marketing & Branding</title>
         <meta
           name="description"
-          content="Explore IT Meta Solutions' comprehensive digital services: custom web development, Salesforce solutions, digital marketing, social media management, graphic design, video editing, and complete brand building."
+          content="Salesforce implementation, LWC, Experience Cloud, Shopify, and performance marketing services built for growth."
         />
         <link rel="canonical" href="https://itmetasolutions.com/services" />
       </Helmet>
@@ -844,6 +881,8 @@ export default function ServicesPage() {
         <section className="py-16 sm:py-20">
           <Container>{renderPanel()}</Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
         {/* ==================== CTA SECTION ==================== */}
         <section className="py-16 sm:py-20">

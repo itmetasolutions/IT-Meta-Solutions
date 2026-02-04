@@ -13,6 +13,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 import adsJuly from "../../assets/img/Ekommart Ads SS July.png";
 import adsAugust from "../../assets/img/Ekommart Ads SS August.png";
@@ -97,6 +98,38 @@ function TimelineCard({ month, spend, result, extra, screenshot }) {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Ecommerce Growth via Meta Ads and Conversion Optimization",
+  subtitle:
+    "Ekommart scaled to 3,300+ purchases with performance marketing, brand build, and a conversion-focused ecommerce experience.",
+  paragraphs: [
+    "We built a fast-loading store, refined product presentation, and scaled Meta Ads with ROAS optimization.",
+    "This case study highlights the system behind predictable growth for ecommerce brands.",
+  ],
+  bullets: [
+    "Meta Ads agency for ecommerce growth",
+    "Performance marketing with ROAS optimization",
+    "High-converting ecommerce website design",
+    "Creative testing and scalable acquisition",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "How many purchases were generated?",
+    a: "We achieved 3,300+ purchases within five months of scaling the campaign.",
+  },
+  {
+    q: "What channels drove results?",
+    a: "Meta Ads were the primary driver, supported by optimized landing pages and creative testing.",
+  },
+  {
+    q: "Can you replicate this for other ecommerce brands?",
+    a: "Yes. We tailor the acquisition system based on product, market, and budget.",
+  },
+];
+
 /* ================= PAGE ================= */
 
 export default function EkommartCaseStudy() {
@@ -106,7 +139,7 @@ export default function EkommartCaseStudy() {
         <title>Ekommart — Brand Build & Marketing Case Study | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Case study: IT Meta Solutions built Ekommart's e-commerce brand, website, and performance marketing, generating 3,300+ purchases in 5 months."
+          content="Ekommart case study: 3,300+ purchases via Meta Ads, ecommerce optimization, and performance marketing."
         />
         <meta
           property="og:title"
@@ -373,6 +406,8 @@ export default function EkommartCaseStudy() {
           </Container>
         </section>
 
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
+
         {/* CTA */}
 
         <section className="py-20">
@@ -406,3 +441,4 @@ export default function EkommartCaseStudy() {
     </>
   );
 }
+

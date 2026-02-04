@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -617,6 +618,38 @@ function TabPanel({ active }) {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Dual-Market Ecommerce Brand Launch",
+  subtitle:
+    "Hikmabiotics launched PK and UK brands with localized sites, social, and Meta Ads performance.",
+  paragraphs: [
+    "We built two localized ecommerce experiences and content systems for market-specific positioning.",
+    "The launch used Meta Ads validation to generate early revenue with controlled cost per sale.",
+  ],
+  bullets: [
+    "Localized ecommerce websites for PK and UK",
+    "Meta Ads launch strategy and ROAS optimization",
+    "Brand positioning and product storytelling",
+    "Conversion-focused product pages and creatives",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What markets were launched?",
+    a: "We launched separate PK and UK websites with localized messaging.",
+  },
+  {
+    q: "Did Meta Ads drive early sales?",
+    a: "Yes. Launch Meta Ads generated early revenue with efficient cost per sale.",
+  },
+  {
+    q: "Can you run dual-market brand launches?",
+    a: "Yes. We build localized funnels and content systems for each market.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function HikmabioticsCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -634,7 +667,7 @@ export default function HikmabioticsCaseStudy() {
         <title>Hikmabiotics Case Study - Dual-Market Wellness Brand | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Explore Hikmabiotics case study — dual-market brand build with separate PK and UK websites, localized social media, and Meta Ads delivering ~20,000 PKR revenue on launch with low cost per sale."
+          content="Hikmabiotics case study: dual-market ecommerce launch with PK/UK sites and Meta Ads generating early revenue."
         />
         <meta
           name="keywords"
@@ -968,7 +1001,10 @@ export default function HikmabioticsCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • Hikmabiotics brand build</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

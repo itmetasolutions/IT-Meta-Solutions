@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
   ArrowRight,
@@ -276,6 +277,38 @@ function StickySubnav() {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Experience Cloud Portal for Government Services",
+  subtitle:
+    "We built a Salesforce Experience Cloud portal to streamline reporting, requests, and payments.",
+  paragraphs: [
+    "The portal centralizes complaint management, property records, and service tracking in one secure experience.",
+    "It improves public transparency while reducing internal operational friction.",
+  ],
+  bullets: [
+    "Experience Cloud portal development",
+    "Government Cloud workflows and secure access",
+    "Request tracking and complaint management",
+    "Integrated payments and property management",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What was the core goal of this project?",
+    a: "Create a secure public portal for reporting issues, tracking requests, and processing payments.",
+  },
+  {
+    q: "Does this use Experience Cloud?",
+    a: "Yes. The portal was built on Salesforce Experience Cloud with Government Cloud requirements.",
+  },
+  {
+    q: "Can you build similar portals?",
+    a: "Yes. We design Experience Cloud portals for self-service and operational efficiency.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function SalesforceGovPortalCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -291,7 +324,7 @@ export default function SalesforceGovPortalCaseStudy() {
         <title>Salesforce Experience Cloud & Government Cloud — Customer Portal | Case Study | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Salesforce case study: Experience Cloud + Government Cloud customer portal for reporting and resolving environmental issues with complaint management, payments, property management, and request tracking."
+          content="Salesforce case study: Experience Cloud portal for government requests, complaint management, and secure payments."
         />
         <meta
           name="keywords"
@@ -797,7 +830,10 @@ export default function SalesforceGovPortalCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • Salesforce case study • IT Meta Solutions</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

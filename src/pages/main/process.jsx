@@ -32,6 +32,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /**
  * PROCESS PAGE
@@ -59,6 +60,23 @@ const modes = [
   { key: "web", label: "Web Development", icon: MonitorSmartphone },
   { key: "content", label: "Content & Social", icon: Layers },
 ];
+
+const seoContent = {
+  kicker: "Our Workflow",
+  title: "A Proven Process for Salesforce, Ecommerce, and Performance Growth",
+  subtitle:
+    "Our workflow covers Salesforce implementation, LWC development, Experience Cloud portals, and performance-optimized Shopify and WooCommerce builds.",
+  paragraphs: [
+    "We plan discovery, design, build, and launch in structured sprints so Salesforce automation, CRM data cleaning, and web development stay aligned.",
+    "For performance marketing, we set up tracking, creative testing, and ROAS optimization so Meta Ads scale with confidence.",
+  ],
+  bullets: [
+    "Salesforce automation experts and CRM data cleanup",
+    "Experience Cloud and LWC delivery in staged releases",
+    "Fast-loading ecommerce builds with CRO checkpoints",
+    "Meta Ads launch, testing, and ongoing optimization",
+  ],
+};
 
 function Container({ children, className }) {
   return (
@@ -418,7 +436,7 @@ export default function ProcessPage() {
     <>
       <Helmet>
         <title>IT Meta Solutions - Our Process | How We Deliver Results</title>
-        <meta name="description" content="Discover IT Meta Solutions' proven process for web development, digital marketing, and branding projects. Clear steps, trust-first execution, and performance-driven results with weekly deliverables." />
+        <meta name="description" content="Our process for Salesforce implementation, LWC, Experience Cloud, ecommerce builds, and performance marketing." />
         <meta name="keywords" content="digital agency process, web development workflow, marketing campaign process, project timeline, agency methodology, IT Meta Solutions process" />
         <meta property="og:title" content="IT Meta Solutions - Our Process | How We Deliver Results" />
         <meta property="og:description" content="Discover IT Meta Solutions' proven process for web development, digital marketing, and branding projects. Clear steps, trust-first execution, and performance-driven results with weekly deliverables." />
@@ -790,6 +808,8 @@ export default function ProcessPage() {
         </Container>
       </section>
 
+      <SeoContentFaq content={seoContent} />
+
       {/* FAQ */}
       <section id="faq" className="scroll-mt-24 py-16 sm:py-24">
         <Container>
@@ -805,31 +825,31 @@ export default function ProcessPage() {
             <Reveal delay={0.05}>
               <FAQItem
                 q="How do we start a project?"
-                a="We start with a short discovery call to confirm goals, scope, and timelines. Then we share a plan, required access, and the first deliverables for approval."
+                a="We start with a short discovery call to confirm goals, scope, and timelines. Then we share a plan for Salesforce implementation, ecommerce, or marketing with first deliverables."
               />
             </Reveal>
             <Reveal delay={0.08}>
               <FAQItem
                 q="Do you provide weekly updates?"
-                a="Yes. We keep updates simple: what was done, what’s next, what needs approval, and key performance changes (if ads are running)."
+                a="Yes. Updates cover Salesforce or web progress, what’s next, approvals needed, and ROAS/CPA changes if Meta Ads are running."
               />
             </Reveal>
             <Reveal delay={0.11}>
               <FAQItem
                 q="How fast can you launch ads?"
-                a="If assets and access are ready, we can set up tracking + campaigns within 3–7 days. Creative testing continues weekly to improve CPA/ROAS."
+                a="If assets and access are ready, we can set up Meta Ads tracking and campaigns within 3–7 days, then test creatives weekly to improve CPA/ROAS."
               />
             </Reveal>
             <Reveal delay={0.14}>
               <FAQItem
                 q="What do you need from us?"
-                a="Basic access (Meta BM, ad account/page), your offer details, any product/service info, and brand assets (logo/colors). If you don’t have them, we create them."
+                a="We typically need Salesforce or Shopify access when relevant, Meta BM access for ads, product/service info, and brand assets. We can create missing assets."
               />
             </Reveal>
             <Reveal delay={0.17}>
               <FAQItem
                 q="How do approvals work?"
-                a="We use simple approval checkpoints: strategy direction, creative direction, and launch. After launch, we iterate weekly based on performance."
+                a="We use approval checkpoints for strategy, UI/UX, and build. For LWC or Experience Cloud work, you review staging before launch."
               />
             </Reveal>
           </div>
@@ -841,3 +861,4 @@ export default function ProcessPage() {
     </>
   );
 }
+

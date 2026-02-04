@@ -25,6 +25,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /**
  * Salesforce Expertise Page - IT Meta Solutions
@@ -39,6 +40,42 @@ const nav = [
   { label: "Achievements", href: "#achievements" },
   { label: "Skills", href: "#skills" },
   { label: "Industries", href: "#industries" },
+];
+
+const seoContent = {
+  kicker: "Salesforce Expertise",
+  title: "Salesforce Implementation Partners for LWC and Experience Cloud",
+  subtitle:
+    "We design, build, and optimize Salesforce solutions with LWC development services, Experience Cloud portals, and automation.",
+  paragraphs: [
+    "Our team delivers Salesforce implementations that clean CRM data, automate lead generation, and streamline sales and service workflows.",
+    "From custom Lightning Web Components to secure portals, we help organizations scale with measurable efficiency gains.",
+  ],
+  bullets: [
+    "Salesforce automation experts and workflow optimization",
+    "Experience Cloud portal development for customers and partners",
+    "LWC development services for custom UI and integrations",
+    "CRM data cleaning and duplicate check workflows",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Do you offer Salesforce LWC development services?",
+    a: "Yes. We build custom Lightning Web Components for tailored UI, productivity, and integrations.",
+  },
+  {
+    q: "Can you build Experience Cloud portals?",
+    a: "Yes. We design Experience Cloud portals for self-service, partner access, and customer onboarding.",
+  },
+  {
+    q: "Do you handle CRM data cleaning?",
+    a: "Yes. We clean Salesforce data, resolve duplicates, and improve reporting accuracy.",
+  },
+  {
+    q: "Can I hire Salesforce developers for integration work only?",
+    a: "Yes. We can support dedicated development for integrations and automation.",
+  },
 ];
 
 function Container({ children, className }) {
@@ -240,7 +277,7 @@ export default function SalesforceExpertisePage() {
     <>
       <Helmet>
         <title>Salesforce Development Expertise - IT Meta Solutions</title>
-        <meta name="description" content="IT Meta Solutions - 5+ years of Salesforce expertise. Custom CRM solutions, integrations, and automation across Sales Cloud, Service Cloud, and Experience Cloud." />
+        <meta name="description" content="Salesforce implementation partners for LWC, Experience Cloud portals, automation, and CRM data cleanup." />
         <meta name="keywords" content="Salesforce development, Apex, Lightning Web Components, Salesforce integration, Sales Cloud, Service Cloud, Experience Cloud, IT Meta Solutions" />
         <meta property="og:title" content="Salesforce Development Expertise - IT Meta Solutions" />
         <meta property="og:description" content="IT Meta Solutions - 5+ years of Salesforce expertise. Custom CRM solutions, integrations, and automation across Sales Cloud, Service Cloud, and Experience Cloud." />
@@ -618,6 +655,8 @@ export default function SalesforceExpertisePage() {
           </section>
 
           <Divider />
+
+          <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
           {/* CTA */}
           <section>

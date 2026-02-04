@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -548,6 +549,38 @@ function TabPanel({ active }) {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Hajj & Umrah Leads via Meta Ads and Conversion UX",
+  subtitle:
+    "United Muslim Travels generated 200+ leads with a conversion-focused travel funnel.",
+  paragraphs: [
+    "We built a trust-first brand presence with clear package architecture and WhatsApp-first conversions.",
+    "Meta Ads testing delivered rapid lead volume on a minimal budget.",
+  ],
+  bullets: [
+    "Lead generation services for travel brands",
+    "Meta Ads strategy and conversion tracking",
+    "Package landing pages with clear CTAs",
+    "WhatsApp-first inquiry flows",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "How many leads were generated?",
+    a: "The campaign generated 200+ qualified leads on a small test budget.",
+  },
+  {
+    q: "What made the funnel effective?",
+    a: "Clear package pages, WhatsApp-first CTAs, and Meta Ads targeting.",
+  },
+  {
+    q: "Can this scale for peak seasons?",
+    a: "Yes. The funnel scales by swapping offers, creatives, and campaign timing.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function UnitedMuslimTravelsCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -565,7 +598,7 @@ export default function UnitedMuslimTravelsCaseStudy() {
         <title>United Muslim Travels Case Study - Hajj & Umrah Brand Build | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Discover United Muslim Travels case study - complete brand build with website, social media, and Meta Ads delivering 200+ leads for Hajj, Umrah, and Ramadan travel packages."
+          content="United Muslim Travels case study: brand build with Meta Ads delivering 200+ Hajj and Umrah leads."
         />
         <meta
           name="keywords"
@@ -789,7 +822,10 @@ export default function UnitedMuslimTravelsCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • United Muslim Travels brand build</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

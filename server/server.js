@@ -46,24 +46,58 @@ app.get("/api/contact", (req, res) => {
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const serviceLabelByValue = {
+  meta: "Meta Ads",
+  tiktok: "TikTok Ads",
+  google: "Google Ads",
+  web: "Website",
+  social: "SMM",
+  brand: "Brand Building",
+  design: "Graphic Design",
+  video: "Video Editing",
+  salesforce: "Salesforce",
+};
+
 // Contact form endpoint
 app.post('/api/contact', async (req, res) => {
-  const { name, email, phone, services, message } = req.body;
+  const { name, email, phone, services, service, company, budget, message, source } = req.body;
+
+  const serviceLabel = serviceLabelByValue?.[service] || service || "N/A";
+  const servicesList = Array.isArray(services) && services.length > 0 ? services.join(', ') : "N/A";
+
+  const isContactPage = source === "contact-page";
+  const subject = isContactPage
+    ? "New Contact Page Submission"
+    : "New Home Page Submission";
+
+  const html = isContactPage
+    ? `
+      <h2>New Contact Page Submission</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+      <p><strong>Company:</strong> ${company || 'N/A'}</p>
+      <p><strong>Service Needed:</strong> ${serviceLabel}</p>
+      <p><strong>Budget:</strong> ${budget || 'N/A'}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message}</p>
+    `
+    : `
+      <h2>New Home Page Submission</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+      <p><strong>Services:</strong> ${servicesList}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message}</p>
+    `;
 
   const mailOptions = {
     from: process.env.RESEND_FROM,
     to: process.env.TO_EMAIL,
     replyTo: email,
-    subject: 'New Contact Form Submission',
-    html: `
-      <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
-      <p><strong>Services:</strong> ${Array.isArray(services) ? services.join(', ') : services || 'N/A'}</p>
-      <p><strong>Message:</strong></p>
-      <p>${message}</p>
-    `,
+    subject,
+    html,
   };
 
   try {

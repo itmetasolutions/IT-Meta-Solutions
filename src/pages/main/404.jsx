@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Home, Search, Sparkles, AlertTriangle } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -37,6 +38,37 @@ function Divider() {
   return <div className="my-8 sm:my-12 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
+const seoContent = {
+  kicker: "Page Not Found",
+  title: "Salesforce, Ecommerce, and Performance Marketing",
+  subtitle:
+    "Looking for Salesforce implementation, LWC development, Experience Cloud portals, or performance-optimized Shopify builds?",
+  paragraphs: [
+    "Explore our services and case studies to find the right solution for CRM automation, ecommerce conversion, and Meta Ads growth.",
+  ],
+  bullets: [
+    "Salesforce implementation partners and automation experts",
+    "Experience Cloud portal development and LWC components",
+    "Shopify and WooCommerce conversion optimization",
+    "Meta Ads strategy with ROAS optimization",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Where can I see Salesforce case studies?",
+    a: "Visit our Work page for Salesforce Experience Cloud, Service Cloud, and automation case studies.",
+  },
+  {
+    q: "Do you build high-converting ecommerce stores?",
+    a: "Yes. We build performance-optimized Shopify and WooCommerce stores with CRO and custom functionality.",
+  },
+  {
+    q: "How can I contact your team?",
+    a: "Go to the Contact page to book a consultation or chat on WhatsApp.",
+  },
+];
+
 export default function NotFoundPage() {
   const year = useMemo(() => new Date().getFullYear(), []);
   const location = useLocation();
@@ -45,7 +77,7 @@ export default function NotFoundPage() {
     <>
       <Helmet>
         <title>404 - Page Not Found | IT Meta Solutions</title>
-        <meta name="description" content="The page you're looking for doesn't exist. Return to IT Meta Solutions homepage or explore our services, portfolio, and contact information." />
+        <meta name="description" content="Page not found. Explore Salesforce, ecommerce, and performance marketing services from IT Meta Solutions." />
         <meta name="robots" content="noindex, nofollow" />
         <meta property="og:title" content="404 - Page Not Found | IT Meta Solutions" />
         <meta property="og:description" content="The page you're looking for doesn't exist. Return to IT Meta Solutions homepage or explore our services, portfolio, and contact information." />
@@ -170,7 +202,8 @@ export default function NotFoundPage() {
           </div>
         </motion.div>
       </Container>
-    </div>
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
+      </div>
     </>
   );
 }

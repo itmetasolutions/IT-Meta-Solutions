@@ -29,6 +29,7 @@ import {
   LayoutGrid,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /**
  * Web Development Expertise Page - IT Meta Solutions
@@ -43,6 +44,42 @@ const nav = [
   { label: "Achievements", href: "#achievements" },
   { label: "Skills", href: "#skills" },
   { label: "Industries", href: "#industries" },
+];
+
+const seoContent = {
+  kicker: "Web Development",
+  title: "High-Converting Ecommerce and Custom Web Apps",
+  subtitle:
+    "We build performance-optimized Shopify and WooCommerce stores, custom web apps, and conversion-focused websites.",
+  paragraphs: [
+    "Our web team combines speed, UX, and SEO to deliver fast-loading ecommerce experiences that convert.",
+    "We also create custom calculators, real-time pricing engines, and integration-ready web apps.",
+  ],
+  bullets: [
+    "Shopify custom theme development and CRO improvements",
+    "WooCommerce store setup services with speed optimization",
+    "Custom product calculators and pricing engines",
+    "Performance-optimized ecommerce websites",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Do you build performance-optimized Shopify stores?",
+    a: "Yes. We build fast-loading Shopify stores with conversion-focused UX and clean code.",
+  },
+  {
+    q: "Can you add custom calculators or pricing tools?",
+    a: "Yes. We build custom product calculators, area-to-pack tools, and real-time pricing engines.",
+  },
+  {
+    q: "Do you support WooCommerce store setup?",
+    a: "Yes. We handle WooCommerce setup, migration, optimization, and ongoing improvements.",
+  },
+  {
+    q: "Can you improve an existing ecommerce site?",
+    a: "Absolutely. We optimize speed, UX, and conversion funnels without a full rebuild.",
+  },
 ];
 
 function Container({ children, className }) {
@@ -244,7 +281,7 @@ export default function WebDevelopmentExpertisePage() {
     <>
       <Helmet>
         <title>Web Development Expertise - IT Meta Solutions</title>
-        <meta name="description" content="IT Meta Solutions - 5+ years of web development expertise. Custom websites, e-commerce solutions, and modern web applications built with HTML/CSS, JavaScript, React, Node.js, WordPress, Shopify & Shopware." />
+        <meta name="description" content="Shopify and WooCommerce experts building high-converting ecommerce sites, custom web apps, and fast-loading experiences." />
         <meta name="keywords" content="web development, HTML, CSS, JavaScript, React, Node.js, WordPress, Shopify, Shopware, e-commerce development, custom websites, IT Meta Solutions" />
         <meta property="og:title" content="Web Development Expertise - IT Meta Solutions" />
         <meta property="og:description" content="IT Meta Solutions - 5+ years of web development expertise. Custom websites, e-commerce solutions, and modern web applications built with HTML/CSS, JavaScript, React, Node.js, WordPress, Shopify & Shopware." />
@@ -620,6 +657,8 @@ export default function WebDevelopmentExpertisePage() {
           </section>
 
           <Divider />
+
+          <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
           {/* CTA */}
           <section>

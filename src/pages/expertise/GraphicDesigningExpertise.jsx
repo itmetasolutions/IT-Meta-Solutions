@@ -35,6 +35,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /**
  * Graphic Designing Service / Expertise Page — IT Meta Solutions
@@ -57,6 +58,42 @@ const nav = [
   { label: "Design Systems", href: "#systems" },
   { label: "Skills", href: "#skills" },
   { label: "Industries", href: "#industries" },
+];
+
+const seoContent = {
+  kicker: "Graphic Design",
+  title: "Branding and Creative Systems Built to Convert",
+  subtitle:
+    "We design brand identities, ad creatives, and social visuals that align with performance marketing.",
+  paragraphs: [
+    "Our graphic design team creates conversion-ready assets for ecommerce, real estate, and service brands.",
+    "We build consistent visual systems that improve trust and scale across ads, social, and web.",
+  ],
+  bullets: [
+    "Brand identity systems and logo design",
+    "Ad creative for Meta Ads performance",
+    "Social media templates and product visuals",
+    "Packaging and print-ready design assets",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Do you create ad creatives for Meta Ads?",
+    a: "Yes. We design performance-focused creatives for scaling Meta Ads campaigns.",
+  },
+  {
+    q: "Can you design complete brand identity systems?",
+    a: "Yes. We deliver logo, color, typography, and brand guideline systems.",
+  },
+  {
+    q: "Do you provide social media templates?",
+    a: "Yes. We build reusable templates for reels, stories, and posts.",
+  },
+  {
+    q: "Can you support ecommerce packaging?",
+    a: "Yes. We design packaging and product visuals for ecommerce brands.",
+  },
 ];
 
 function Container({ children, className }) {
@@ -252,7 +289,7 @@ export default function GraphicDesigningPage() {
         <title>Graphic Designing - IT Meta Solutions</title>
         <meta
           name="description"
-          content="IT Meta Solutions - 5+ years of graphic designing expertise. Brand identity, social media creatives, packaging, UI visuals, and marketing design systems built for trust and conversions."
+          content="Graphic design for branding, Meta Ads creatives, social templates, and ecommerce-ready packaging systems."
         />
         <meta
           name="keywords"
@@ -614,6 +651,8 @@ export default function GraphicDesigningPage() {
           </section>
 
           <Divider />
+
+          <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
           {/* CTA */}
           <section>

@@ -32,6 +32,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /* ==================== HELPERS ==================== */
 
@@ -539,6 +540,42 @@ const PROJECTS = [
   },
 ];
 
+const seoContent = {
+  kicker: "Our Work",
+  title: "Case Studies in Salesforce, E-commerce, and Growth Marketing",
+  subtitle:
+    "Explore real outcomes from Salesforce implementation, Experience Cloud portal development, and performance-optimized ecommerce builds.",
+  paragraphs: [
+    "Our portfolio highlights CRM automation, LWC development services, and high-converting Shopify and WooCommerce stores.",
+    "We also showcase performance marketing wins such as Meta Ads ROAS optimization and lead generation for real estate brands.",
+  ],
+  bullets: [
+    "Salesforce automation experts and data cleanup workflows",
+    "Experience Cloud portals and LWC component builds",
+    "Shopify custom theme development and CRO upgrades",
+    "Meta Ads strategies that lower CPA and scale revenue",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Do you have Salesforce Experience Cloud case studies?",
+    a: "Yes. We have Experience Cloud and Service Cloud implementations focused on automation, portals, and data accuracy.",
+  },
+  {
+    q: "Can I see ecommerce performance results?",
+    a: "Yes. Our case studies include fast-loading Shopify builds and Meta Ads performance improvements.",
+  },
+  {
+    q: "Do you share ad performance metrics?",
+    a: "Where allowed, we show ROAS, CPA, and conversion growth with transparent timelines.",
+  },
+  {
+    q: "Can you build a similar solution for my business?",
+    a: "Absolutely. We tailor Salesforce, ecommerce, and marketing strategies to your industry and goals.",
+  },
+];
+
 function FilterChip({ active, onClick, icon: Icon, label }) {
   const reduced = usePrefersReducedMotion();
   return (
@@ -690,7 +727,7 @@ export default function WorkPage() {
         <title>IT Meta Solutions - Our Work | Portfolio & Case Studies</title>
         <meta
           name="description"
-          content="Explore IT Meta Solutions' successful digital projects and case studies. View our portfolio of web development, digital marketing, branding, and SEO campaigns for clients worldwide."
+          content="Portfolio of Salesforce implementation, Experience Cloud, Shopify builds, and performance marketing case studies."
         />
         <link rel="canonical" href="https://itmetasolutions.com/work" />
       </Helmet>
@@ -902,6 +939,8 @@ export default function WorkPage() {
             )}
           </div>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
         {/* ==================== CTA SECTION ==================== */}
         <section className="py-16 sm:py-20">

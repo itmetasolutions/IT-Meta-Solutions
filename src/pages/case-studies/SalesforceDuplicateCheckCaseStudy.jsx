@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
   ArrowRight,
@@ -276,6 +277,38 @@ function StickySubnav() {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Salesforce Duplicate Check and Data Cleaning",
+  subtitle:
+    "We built validation and duplicate prevention to keep Salesforce data clean and reporting accurate.",
+  paragraphs: [
+    "This project reduced CRM errors by enforcing data quality rules across Sales and Service workflows.",
+    "It improved reporting accuracy and automation reliability for day-to-day operations.",
+  ],
+  bullets: [
+    "Salesforce data cleaning and duplicate prevention",
+    "Validation rules and custom components",
+    "Improved reporting accuracy and CRM trust",
+    "Automation-ready Salesforce workflows",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What problem did this solve?",
+    a: "Duplicate and inconsistent CRM records that reduced reporting accuracy and team efficiency.",
+  },
+  {
+    q: "Does this work for Sales and Service Cloud?",
+    a: "Yes. The solution supports data integrity across both clouds.",
+  },
+  {
+    q: "Can you implement similar data cleaning?",
+    a: "Yes. We tailor validation and duplicate rules based on your data model.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function SalesforceDuplicateCheckCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -291,7 +324,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
         <title>Salesforce Duplicate Check & Data Validation — Case Study | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Salesforce case study: duplicate prevention + data validation components to keep CRM clean, reduce operational issues, and improve reporting accuracy."
+          content="Salesforce case study: duplicate check and data validation to keep CRM clean and improve reporting accuracy."
         />
         <meta
           name="keywords"
@@ -739,7 +772,10 @@ export default function SalesforceDuplicateCheckCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • Salesforce case study • IT Meta Solutions</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

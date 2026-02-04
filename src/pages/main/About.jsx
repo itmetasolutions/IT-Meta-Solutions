@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 // Import team member images
 import abdullahKhalidImg from "../../assets/img/Abdullah Khalid ITMS.webp";
@@ -353,6 +354,42 @@ const teamMembers = [
   },
 ];
 
+const seoContent = {
+  kicker: "About Us",
+  title: "A Lahore-Based Salesforce and Ecommerce Growth Team",
+  subtitle:
+    "We are a SECP registered IT firm delivering Salesforce implementation, LWC development, Experience Cloud portals, and high-converting Shopify builds.",
+  paragraphs: [
+    "Our team blends CRM automation, performance marketing, and conversion-focused web development to create measurable growth for local and global clients.",
+    "From data cleaning in Salesforce to Meta Ads ROAS optimization, we focus on clarity, speed, and results.",
+  ],
+  bullets: [
+    "Salesforce automation experts and LWC development services",
+    "Experience Cloud portal development for customer self-service",
+    "Shopify and WooCommerce conversion optimization",
+    "Performance marketing with ROAS and CPA improvements",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Are you a SECP registered IT firm in Lahore?",
+    a: "Yes. We are SECP and FBR registered and operate from PCSIR Society, Lahore.",
+  },
+  {
+    q: "Do you specialize in Salesforce implementation?",
+    a: "Yes. We deliver Salesforce implementation, LWC development, Experience Cloud portals, and CRM automation.",
+  },
+  {
+    q: "Do you build high-converting ecommerce stores?",
+    a: "Yes. We build performance-optimized Shopify and WooCommerce stores with CRO and custom functionality.",
+  },
+  {
+    q: "Do you work with UK and US startups?",
+    a: "Yes. We support international clients with clear timelines, communication, and performance reporting.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 
 export default function AboutUsPage() {
@@ -364,7 +401,7 @@ export default function AboutUsPage() {
         <title>IT Meta Solutions - About Us | Premium Digital Growth Agency</title>
         <meta
           name="description"
-          content="Learn about IT Meta Solutions - a premium digital growth agency specializing in web development, SEO, social media marketing, and performance advertising for businesses in Pakistan, Canada, UK, and USA."
+          content="SECP registered Lahore agency for Salesforce implementation, LWC, Experience Cloud, ecommerce, and performance marketing."
         />
         <meta
           name="keywords"
@@ -818,6 +855,8 @@ export default function AboutUsPage() {
             </motion.div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
         {/* ==================== CTA SECTION ==================== */}
         <section className="py-16 sm:py-20">

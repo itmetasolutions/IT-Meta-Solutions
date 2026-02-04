@@ -37,6 +37,7 @@ import {
   CalendarDays,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /**
  * Digital Marketing Service / Expertise Page — IT Meta Solutions
@@ -61,6 +62,42 @@ const nav = [
   { label: "Achievements", href: "#achievements" },
   { label: "Skills", href: "#skills" },
   { label: "Industries", href: "#industries" },
+];
+
+const seoContent = {
+  kicker: "Digital Marketing",
+  title: "Performance Marketing and Meta Ads for Growth",
+  subtitle:
+    "We build scalable Meta Ads strategies, lower CPA, and improve ROAS for ecommerce and lead generation.",
+  paragraphs: [
+    "Our performance marketing team combines creative testing, audience segmentation, and analytics to drive consistent results.",
+    "We support ecommerce brands, real estate lead gen, and startups looking for data-driven growth.",
+  ],
+  bullets: [
+    "Meta Ads agency for ecommerce and lead generation",
+    "Scalable advertising strategies with ROAS optimization",
+    "Lower CPA through testing and funnel optimization",
+    "Data-driven marketing campaigns across channels",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Do you specialize in Meta Ads for ecommerce?",
+    a: "Yes. We run performance marketing for online stores with ROAS and CPA targets.",
+  },
+  {
+    q: "Can you improve ROAS and lower CPA?",
+    a: "Yes. We test creatives, optimize audiences, and improve landing pages to raise ROAS.",
+  },
+  {
+    q: "Do you handle lead generation campaigns?",
+    a: "Yes. We build lead gen funnels for real estate, services, and SaaS brands.",
+  },
+  {
+    q: "What reporting do you provide?",
+    a: "Weekly and monthly reports covering spend, ROAS, CPA, and conversion growth.",
+  },
 ];
 
 function Container({ children, className }) {
@@ -256,7 +293,7 @@ export default function DigitalMarketingExpertisePage() {
         <title>Digital Marketing Services - IT Meta Solutions</title>
         <meta
           name="description"
-          content="IT Meta Solutions - 5+ years of digital marketing expertise. Data-driven social media growth, Meta Ads funnels, SEO content strategy, creative execution, and lead generation systems built to convert."
+          content="Performance marketing and Meta Ads for ecommerce and lead gen, focused on ROAS optimization and lower CPA."
         />
         <meta
           name="keywords"
@@ -725,6 +762,8 @@ export default function DigitalMarketingExpertisePage() {
           </section>
 
           <Divider />
+
+          <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
           {/* CTA */}
           <section>

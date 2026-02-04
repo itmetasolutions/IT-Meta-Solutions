@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
     ArrowRight,
@@ -268,6 +269,38 @@ function StickySubnav() {
     );
 }
 
+const seoContent = {
+    kicker: "Case Study",
+    title: "Service Cloud Implementation with LWC Automation",
+    subtitle:
+        "We implemented Salesforce Service Cloud with Lightning Web Components and automation for faster case management.",
+    paragraphs: [
+        "The solution streamlined lead intake, improved case routing, and provided clear visibility across the pipeline.",
+        "Automation reduced manual work while keeping teams aligned on SLAs and outcomes.",
+    ],
+    bullets: [
+        "Salesforce Service Cloud implementation",
+        "Lightning Web Components (LWC) development",
+        "Automation for case and lead workflows",
+        "Experience Cloud-ready architecture",
+    ],
+};
+
+const seoFaqs = [
+    {
+        q: "What was implemented in Service Cloud?",
+        a: "Case management workflows, LWC interfaces, and automation for lead routing and visibility.",
+    },
+    {
+        q: "Did this include LWC development?",
+        a: "Yes. We built Lightning Web Components for custom user experiences.",
+    },
+    {
+        q: "Can this approach work for other teams?",
+        a: "Yes. We tailor Service Cloud implementations based on team processes.",
+    },
+];
+
 /* ==================== PAGE ==================== */
 export default function SalesforceServiceCloudCaseManagementCaseStudy() {
     const reduced = usePrefersReducedMotion();
@@ -283,7 +316,7 @@ export default function SalesforceServiceCloudCaseManagementCaseStudy() {
                 <title>Salesforce Service Cloud Implementation — Case Management | Case Study | IT Meta Solutions</title>
                 <meta
                     name="description"
-                    content="Salesforce case study: Service Cloud case management + Lightning Web Components, Experience Cloud, and an automation engine using real-time property data to generate qualified leads and manage opportunities."
+                    content="Salesforce case study: Service Cloud implementation with LWC automation, Experience Cloud, and lead management."
                 />
                 <meta
                     name="keywords"
@@ -769,7 +802,10 @@ export default function SalesforceServiceCloudCaseManagementCaseStudy() {
                         <div className="mt-10 text-center text-xs text-zinc-500">© {year} • Salesforce case study • IT Meta Solutions</div>
                     </Container>
                 </section>
+
+                <SeoContentFaq content={seoContent} faqs={seoFaqs} />
             </div>
         </>
     );
 }
+

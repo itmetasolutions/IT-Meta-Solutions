@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
   ArrowRight,
@@ -602,6 +603,38 @@ function TabPanel({ active }) {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Travel Brand Leads via Meta Ads and Conversion UX",
+  subtitle:
+    "Halla Gulla generated 67 travel leads in 3 days with a conversion-focused funnel and Meta Ads.",
+  paragraphs: [
+    "We built a travel brand system with clear offers, WhatsApp-first flows, and lead-ready landing pages.",
+    "Meta Ads testing delivered fast lead volume with controlled spend.",
+  ],
+  bullets: [
+    "Lead generation services with Meta Ads",
+    "High-converting landing pages for travel",
+    "Offer positioning and urgency CTAs",
+    "WhatsApp-first inquiry flows",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "How many leads were generated?",
+    a: "We generated 67 potential leads within a 3-day campaign.",
+  },
+  {
+    q: "What drove the results?",
+    a: "Meta Ads combined with clear offers and fast WhatsApp inquiry flows.",
+  },
+  {
+    q: "Can this approach work for other travel brands?",
+    a: "Yes. We can replicate the funnel with new offers and seasonal campaigns.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function HallaGullaCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -620,7 +653,7 @@ export default function HallaGullaCaseStudy() {
         <title>Halla Gulla Case Study - Complete Travel Brand Build | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Explore Halla Gulla travel brand case study — website, social media, and Meta Ads generating 67 leads in 3 days."
+          content="Halla Gulla case study: travel brand build with Meta Ads generating 67 leads in 3 days."
         />
         <meta
           name="keywords"
@@ -874,7 +907,10 @@ export default function HallaGullaCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • Halla Gulla brand build</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

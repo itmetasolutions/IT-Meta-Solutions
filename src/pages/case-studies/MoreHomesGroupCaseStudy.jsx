@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -253,6 +254,38 @@ function StickySubnav() {
   );
 }
 
+const seoContent = {
+  kicker: "Case Study",
+  title: "Property Lettings Platform for Lead Generation",
+  subtitle:
+    "More Homes Group launched a real estate platform with clear tenant and landlord journeys.",
+  paragraphs: [
+    "We built advanced search, listing architecture, and service pages to improve discovery and trust.",
+    "The platform supports lead generation and scalable property management workflows.",
+  ],
+  bullets: [
+    "Real estate platform and listings UX",
+    "Lead generation flows for tenants and landlords",
+    "Conversion-focused landing and service pages",
+    "Scalable property management architecture",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What was built for More Homes Group?",
+    a: "A full property lettings platform with search, listings, and service journeys.",
+  },
+  {
+    q: "Does it support lead generation?",
+    a: "Yes. Tenant and landlord flows were designed to convert inquiries.",
+  },
+  {
+    q: "Can you build similar real estate platforms?",
+    a: "Yes. We tailor architecture, UX, and lead capture to your market.",
+  },
+];
+
 /* ==================== PAGE ==================== */
 export default function MoreHomesGroupCaseStudy() {
   const reduced = usePrefersReducedMotion();
@@ -268,7 +301,7 @@ export default function MoreHomesGroupCaseStudy() {
         <title>More Homes Group Case Study - Property Lettings Platform | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Discover how IT Meta Solutions developed More Homes Group - a comprehensive property lettings platform with advanced search, property management, and customer portal features."
+          content="More Homes Group case study: property lettings platform with advanced search, lead capture, and management tools."
         />
         <meta
           name="keywords"
@@ -700,7 +733,10 @@ export default function MoreHomesGroupCaseStudy() {
             <div className="mt-10 text-center text-xs text-zinc-500">© {year} • More Homes Group case study</div>
           </Container>
         </section>
+
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
       </div>
     </>
   );
 }
+

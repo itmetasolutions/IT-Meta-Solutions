@@ -37,6 +37,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /**
  * Social Media Management Service / Expertise Page — IT Meta Solutions
@@ -60,6 +61,42 @@ const nav = [
   { label: "Process", href: "#process" },
   { label: "Skills", href: "#skills" },
   { label: "Industries", href: "#industries" },
+];
+
+const seoContent = {
+  kicker: "Social Media",
+  title: "Social Media Systems that Support Paid Growth",
+  subtitle:
+    "We build social media growth strategies that align with Meta Ads, improve trust, and drive inquiries.",
+  paragraphs: [
+    "Our approach combines content pillars, brand consistency, and conversion paths that support performance marketing.",
+    "We help ecommerce and service brands scale engagement while improving lead quality.",
+  ],
+  bullets: [
+    "Social media growth strategies aligned with Meta Ads",
+    "Content pillars, reels, and story systems that convert",
+    "Brand building for ecommerce startups and local services",
+    "Data-driven content calendars and reporting",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "Do you align organic content with Meta Ads?",
+    a: "Yes. We align content pillars with paid campaigns to improve trust and conversion.",
+  },
+  {
+    q: "Can you manage Instagram and Facebook content?",
+    a: "Yes. We manage IG/FB content calendars, reels, and story systems.",
+  },
+  {
+    q: "Do you provide reporting?",
+    a: "Yes. We share engagement, reach, and conversion insights monthly.",
+  },
+  {
+    q: "Can you support ecommerce brands?",
+    a: "Absolutely. We build product-led content that supports performance marketing.",
+  },
 ];
 
 function Container({ children, className }) {
@@ -255,7 +292,7 @@ export default function SocialMediaManagementPage() {
         <title>Social Media Management - IT Meta Solutions</title>
         <meta
           name="description"
-          content="IT Meta Solutions - 5+ years of social media management expertise. Instagram & Facebook growth, content pillars, brand consistency, and WhatsApp-first conversion paths aligned with paid campaigns."
+          content="Social media growth strategies aligned with Meta Ads, content pillars, and conversion-focused engagement."
         />
         <meta
           name="keywords"
@@ -703,6 +740,8 @@ export default function SocialMediaManagementPage() {
           </section>
 
           <Divider />
+
+          <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
           {/* CTA */}
           <section>

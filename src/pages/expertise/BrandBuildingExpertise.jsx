@@ -34,6 +34,7 @@ import {
   Rocket,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
 
 /**
  * Brand Building Service / Expertise Page — IT Meta Solutions
@@ -56,6 +57,42 @@ const nav = [
   { label: "Process", href: "#process" },
   { label: "Deliverables", href: "#deliverables" },
   { label: "Industries", href: "#industries" },
+];
+
+const seoContent = {
+  kicker: "Brand Building",
+  title: "Brand Building That Supports Ecommerce and Growth",
+  subtitle:
+    "We build brand systems, messaging, and visuals that align with performance marketing and conversion.",
+  paragraphs: [
+    "Our brand building combines positioning, creative systems, and web delivery to create measurable growth.",
+    "We support ecommerce, real estate, and service businesses that need trust, clarity, and scalable marketing.",
+  ],
+  bullets: [
+    "Positioning and brand messaging frameworks",
+    "Conversion-focused website and landing pages",
+    "Creative systems for ads, social, and email",
+    "Trust signals, authority content, and proof assets",
+  ],
+};
+
+const seoFaqs = [
+  {
+    q: "What does a brand build include?",
+    a: "Brand strategy, messaging, visual identity, web design, and conversion-ready assets.",
+  },
+  {
+    q: "Do you build websites with the brand system?",
+    a: "Yes. We deliver the website and marketing assets aligned with the brand.",
+  },
+  {
+    q: "Can you handle ecommerce brand building?",
+    a: "Yes. We build ecommerce brand systems with product storytelling and conversion focus.",
+  },
+  {
+    q: "How long does a brand build take?",
+    a: "Most brand builds take 4 to 8 weeks depending on scope and approvals.",
+  },
 ];
 
 function Container({ children, className }) {
@@ -252,7 +289,7 @@ export default function BrandBuildingExpertise() {
         <title>Brand Building - IT Meta Solutions</title>
         <meta
           name="description"
-          content="IT Meta Solutions - 5+ years of brand building. Brand strategy, identity design, websites, social presence, and growth systems that turn brands into trust and conversions."
+          content="Brand building for ecommerce and growth: positioning, identity, conversion-focused websites, and creative systems."
         />
         <meta
           name="keywords"
@@ -698,6 +735,8 @@ export default function BrandBuildingExpertise() {
           </section>
 
           <Divider />
+
+          <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
           {/* CTA */}
           <section>
