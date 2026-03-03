@@ -360,6 +360,47 @@ const PROJECTS = [
     href: "/case-study/letting-agency-portal",
   },
 
+  {
+    key: "shencoin",
+    title: "ShenCoin — Solana Crypto Platform",
+    icon: Wallet,
+    industry: "Custom Web App • React + Vite • Express.js • Solana",
+    tags: ["React", "Vite", "Express.js", "Prisma", "PostgreSQL", "Solana", "Crypto"],
+    category: CATEGORIES.CUSTOM_WEB_APPS,
+    subCategories: [SUB_CATEGORIES.PORTALS],
+    summary:
+      "Full-stack crypto platform connecting a React + Vite SPA to an Express.js REST API backed by Prisma ORM and Neon Serverless PostgreSQL. Solana wallet payments via Phantom and Solflare deep links — users sign on-chain, submit the TX hash to the API, and admins verify on-chain before crediting wallet balances.",
+    scope: [
+      "React + Vite SPA with wallet detection",
+      "Phantom & Solflare deep link / in-app browser",
+      "On-chain transaction signing (Solana)",
+      "Express.js REST API with JWT admin routes",
+      "Prisma ORM + Neon serverless PostgreSQL",
+      "TX hash verification via Solana RPC",
+      "Admin panel: verify, approve, reject TX",
+      "Wallet balance crediting and audit log",
+    ],
+    highlights: [
+      "React + Vite frontend SPA",
+      "Phantom & Solflare wallet support",
+      "On-chain TX signing & hash submission",
+      "Express.js + Prisma + Neon stack",
+      "Admin on-chain TX verification",
+      "Wallet crediting after confirmation",
+    ],
+    stats: [
+      { icon: Globe, label: "Frontend", value: "React + Vite" },
+      { icon: Database, label: "Database", value: "Neon PG" },
+      { icon: Wallet, label: "Wallets", value: "Phantom + Solflare" },
+    ],
+    platforms: [
+      { label: "React + Vite", icon: Globe },
+      { label: "Express.js", icon: Code2 },
+      { label: "Solana", icon: Wallet },
+    ],
+    href: "/case-study/shencoin",
+  },
+
   // ==================== WEB DEVELOPMENT PROJECTS ====================
   {
     key: "inhomes-direct",

@@ -19,6 +19,7 @@ import SalesforceDuplicateCheckCaseStudy from "./pages/case-studies/SalesforceDu
 import SalesforceExperienceCloudGovernmentCloud from "./pages/case-studies/SalesforceExperienceCloudGovernmentCloud";
 import SalesforceServiceCloudImplementation from "./pages/case-studies/SalesforceServiceCloudImplementation";
 import LettingAgencyPortalCaseStudy from "./pages/case-studies/LettingAgencyPortalCaseStudy";
+import ShenCoinCaseStudy from "./pages/case-studies/ShenCoinCaseStudy";
 import ProcessPage from "./pages/main/process";
 import Contact from "./pages/main/Contact";
 import NotFoundPage from "./pages/main/404";
@@ -224,6 +225,7 @@ function App() {
             <Route path="/case-study/salesforce-experience-cloud-government-cloud" element={<SalesforceExperienceCloudGovernmentCloud />} />
             <Route path="/case-study/salesforce-service-cloud-implementation" element={<SalesforceServiceCloudImplementation />} />
             <Route path="/case-study/letting-agency-portal" element={<LettingAgencyPortalCaseStudy />} />
+            <Route path="/case-study/shencoin" element={<ShenCoinCaseStudy />} />
             <Route path="/salesforce-expertise" element={<SalesforceExpertise />} />
             <Route path="/web-development-expertise" element={<WebDevelopmentExpertise />} />
             <Route path="/digital-marketing-expertise" element={<DigitalMarketingExpertise />} />

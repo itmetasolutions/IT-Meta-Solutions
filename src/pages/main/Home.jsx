@@ -30,6 +30,7 @@ import {
   ShoppingCart,
   Search,
   LayoutGrid,
+  Wallet,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
@@ -378,24 +379,26 @@ function SalesforceProjectCard({ project, delay = 0 }) {
 function CustomWebAppFeatureCard({ project }) {
   const reduced = usePrefersReducedMotion();
   const Icon = project.icon;
+  const gradient = project.gradient || "from-[#5025d1] to-purple-600";
 
   return (
-    <Link to={project.link} className="block">
+    <Link to={project.link} className="block h-full">
       <motion.div
         initial={reduced ? false : { y: 16 }}
         whileInView={reduced ? {} : { y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
         whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
-        className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
+        className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
       >
-        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-gradient-to-br from-[#5025d1]/25 to-purple-600/20 blur-3xl transition-all duration-500 group-hover:scale-125" />
-        <div className="absolute -bottom-20 -left-20 h-56 w-56 rounded-full bg-gradient-to-br from-indigo-500/20 to-violet-600/20 blur-3xl transition-all duration-500 group-hover:scale-125" />
+        <div className={`absolute -right-16 -top-16 h-56 w-56 rounded-full bg-gradient-to-br ${gradient} opacity-20 blur-3xl transition-all duration-500 group-hover:scale-125`} />
+        <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-gradient-to-br from-indigo-500/15 to-violet-600/15 blur-3xl transition-all duration-500 group-hover:scale-125" />
 
-        <div className="relative grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.25fr_0.75fr] lg:p-10">
+        <div className="relative flex h-full flex-col gap-6 p-6 sm:p-8">
+          {/* Header */}
           <div>
             <div className="flex flex-wrap items-center gap-3">
-              <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+              <div className={`rounded-2xl bg-gradient-to-br ${gradient} p-3`}>
                 <Icon className="h-6 w-6 text-white" />
               </div>
               {project.tags?.map((tag, idx) => (
@@ -407,46 +410,47 @@ function CustomWebAppFeatureCard({ project }) {
                 </span>
               ))}
             </div>
-
-            <h3 className="mt-5 text-2xl font-bold leading-tight text-white sm:text-3xl">{project.title}</h3>
-            <p className="mt-4 text-sm leading-relaxed text-zinc-300 sm:text-base">{project.description}</p>
-
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {project.highlights?.map((highlight, idx) => (
-                <div key={idx} className="flex items-start gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#5025d1]" />
-                  <span className="text-sm text-zinc-200">{highlight}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#5025d1] transition-all group-hover:gap-3">
-              <span>View case study</span>
-              <ArrowRight className="h-4 w-4" />
-            </div>
+            <h3 className="mt-5 text-xl font-bold leading-tight text-white sm:text-2xl">{project.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-300">{project.description}</p>
           </div>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-3">
-              {project.results?.map((result, idx) => (
-                <div key={idx} className="rounded-xl border border-white/10 bg-white/5 p-3 text-center">
-                  <div className="text-lg font-bold text-white">{result.value}</div>
-                  <div className="mt-1 text-xs text-zinc-400">{result.label}</div>
-                </div>
-              ))}
-            </div>
+          {/* Results row */}
+          <div className="grid grid-cols-3 gap-3">
+            {project.results?.map((result, idx) => (
+              <div key={idx} className="rounded-xl border border-white/10 bg-white/5 p-3 text-center">
+                <div className="text-base font-bold text-white leading-tight">{result.value}</div>
+                <div className="mt-1 text-[11px] text-zinc-400">{result.label}</div>
+              </div>
+            ))}
+          </div>
 
-            <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.04] p-5">
-              <h4 className="text-sm font-semibold uppercase tracking-wide text-zinc-300">Core Modules</h4>
-              <ul className="mt-3 space-y-2">
-                {project.modules?.map((module, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-sm text-zinc-200">
-                    <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#5025d1]" />
-                    <span>{module}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Highlights */}
+          <div className="grid gap-2 sm:grid-cols-2">
+            {project.highlights?.map((highlight, idx) => (
+              <div key={idx} className="flex items-start gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2">
+                <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#5025d1]" />
+                <span className="text-xs text-zinc-200">{highlight}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Modules */}
+          <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.04] p-4">
+            <h4 className="text-xs font-semibold uppercase tracking-wide text-zinc-300">Core Modules</h4>
+            <ul className="mt-2 space-y-1.5">
+              {project.modules?.map((module, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-xs text-zinc-200">
+                  <span className={`mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gradient-to-r ${gradient}`} />
+                  <span>{module}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[#5025d1] transition-all group-hover:gap-3">
+            <span>View case study</span>
+            <ArrowRight className="h-4 w-4" />
           </div>
         </div>
       </motion.div>
@@ -732,32 +736,62 @@ const salesforceProjects = [
   },
 ];
 
-const customWebAppProject = {
-  title: "MHG Portal - Custom Letting Agency App",
-  description:
-    "Custom internal platform for a letting agency, built with Next.js 14, TypeScript, Prisma, and PostgreSQL. It combines Admin and Agent workspaces, SIP dialer workflows, team chat, OTP login, audit logs, and revenue dashboards in one system.",
-  tags: ["Custom Web App", "Next.js 14", "PostgreSQL", "Role-Based Access"],
-  icon: LayoutGrid,
-  highlights: [
-    "Admin control center for team and process management",
-    "Agent workspace with property pipeline and notes",
-    "Embedded SIP dialer with intercalling and recordings",
-    "OTP login, rate limiting, and full audit trail",
-  ],
-  results: [
-    { value: "5", label: "Core Modules" },
-    { value: "2", label: "User Roles" },
-    { value: "OTP", label: "Secure Auth" },
-  ],
-  modules: [
-    "Admin and team management",
-    "Agent pipeline and follow-up workflow",
-    "Dialpad, call history, labels, and recordings",
-    "Internal chat and handoff communication",
-    "Revenue and performance dashboard",
-  ],
-  link: "/case-study/letting-agency-portal",
-};
+const customWebAppProjects = [
+  {
+    title: "MHG Portal — Custom Letting Agency App",
+    description:
+      "Custom internal platform for a letting agency, built with Next.js 14, TypeScript, Prisma, and PostgreSQL. Combines Admin and Agent workspaces, SIP dialer workflows, team chat, OTP login, audit logs, and revenue dashboards.",
+    tags: ["Next.js 14", "PostgreSQL", "Role-Based"],
+    icon: LayoutGrid,
+    gradient: "from-[#5025d1] to-purple-600",
+    highlights: [
+      "Admin control center for team and process management",
+      "Agent workspace with property pipeline and notes",
+      "Embedded SIP dialer with intercalling and recordings",
+      "OTP login, rate limiting, and full audit trail",
+    ],
+    results: [
+      { value: "5", label: "Modules" },
+      { value: "2", label: "User Roles" },
+      { value: "OTP", label: "Auth" },
+    ],
+    modules: [
+      "Admin and team management",
+      "Agent pipeline and follow-up workflow",
+      "Dialpad, call history, labels, recordings",
+      "Internal chat and handoff communication",
+      "Revenue and performance dashboard",
+    ],
+    link: "/case-study/letting-agency-portal",
+  },
+  {
+    title: "ShenCoin — Solana Crypto Platform",
+    description:
+      "Full-stack crypto platform with a React + Vite SPA, Express.js REST API, Prisma ORM, and Neon Serverless PostgreSQL. Phantom and Solflare wallet payments — users sign on-chain, submit TX hash, admin verifies and credits wallet.",
+    tags: ["React + Vite", "Solana", "Express.js"],
+    icon: Wallet,
+    gradient: "from-indigo-500 to-violet-600",
+    highlights: [
+      "Phantom & Solflare deep link wallet integration",
+      "On-chain transaction signing and TX hash submission",
+      "Express.js API with Prisma ORM and Neon PostgreSQL",
+      "Admin on-chain verification and wallet crediting",
+    ],
+    results: [
+      { value: "Solana", label: "On-chain" },
+      { value: "Neon PG", label: "Database" },
+      { value: "Admin", label: "Verify TX" },
+    ],
+    modules: [
+      "React + Vite SPA with wallet detection",
+      "Express.js REST API + JWT admin routes",
+      "Prisma ORM + Neon serverless PostgreSQL",
+      "Solana RPC on-chain TX verification",
+      "Wallet balance crediting and audit log",
+    ],
+    link: "/case-study/shencoin",
+  },
+];
 
 const testimonials = [
   {
@@ -1609,7 +1643,7 @@ export default function Home() {
           </Container>
         </section>
 
-        {/* ==================== CUSTOM WEB APP FEATURED PROJECT ==================== */}
+        {/* ==================== CUSTOM WEB APPS FEATURED PROJECTS ==================== */}
         <section className="py-16 sm:py-20">
           <Container>
             <SectionHeading
@@ -1619,22 +1653,26 @@ export default function Home() {
                   Custom Web App
                   <br />
                   <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
-                    Featured Project
+                    Featured Projects
                   </span>
                 </>
               }
-              description="A detailed look at our latest custom platform build. We are featuring one large case because this category currently has one flagship project."
+              description="Bespoke web platforms built around complex real-world workflows — from letting agency portals with SIP dialers to full-stack Solana crypto platforms."
               centered
             />
 
-            <CustomWebAppFeatureCard project={customWebAppProject} />
+            <div className="grid gap-8 lg:grid-cols-2">
+              {customWebAppProjects.map((project, index) => (
+                <CustomWebAppFeatureCard key={index} project={project} />
+              ))}
+            </div>
 
             <div className="mt-12 text-center">
               <Link
                 to="/work?filter=custom-web-apps"
                 className="inline-flex items-center gap-2 text-lg font-semibold text-[#5025d1] transition-all hover:gap-4"
               >
-                View Custom Web App Projects
+                View All Custom Web App Projects
                 <ChevronRight className="h-5 w-5" />
               </Link>
             </div>
