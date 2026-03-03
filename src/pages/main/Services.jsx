@@ -199,6 +199,7 @@ function StatCard({ icon: Icon, label, value }) {
 
 const tabs = [
   { key: "web", label: "Web Development", icon: Code2, description: "Custom websites & e-commerce" },
+  { key: "customwebapps", label: "Custom Web Apps", icon: Layers, description: "Portals & business systems" },
   { key: "salesforce", label: "Salesforce", icon: Cloud, description: "CRM solutions & automation" },
   { key: "marketing", label: "Digital Marketing", icon: Megaphone, description: "Ads that drive results" },
   { key: "seo", label: "SEO", icon: Search, description: "Rank & convert" },
@@ -308,6 +309,75 @@ function PanelWeb() {
             "Conversion-focused copy",
             "A/B testing ready layouts",
             "Heatmap & analytics support",
+          ]}
+          delay={0.3}
+        />
+      </div>
+    </div>
+  );
+}
+
+function PanelCustomWebApps() {
+  return (
+    <div className="space-y-12">
+      <div className="text-center">
+        <Badge icon={Layers}>Custom Web Applications</Badge>
+        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+          Bespoke Portals & Business Systems
+        </h2>
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+          Role-based web applications, internal tools, and operations dashboards built around your exact workflows — not generic templates.
+        </p>
+      </div>
+
+      <div className="flex justify-center">
+        <Link
+          to="/custom-web-apps-expertise"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
+        >
+          <Layers className="h-5 w-5" />
+          Explore Our Custom Web Apps Expertise
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ServiceCard
+          icon={LayoutGrid}
+          title="Portals & Dashboards"
+          description="Multi-role web portals with separate admin and user views, tailored to your operational structure."
+          features={[
+            "Role-based access control",
+            "Admin control panels",
+            "Agent / user workspaces",
+            "Real-time data dashboards",
+            "Audit logs & activity tracking",
+          ]}
+          delay={0.1}
+        />
+        <ServiceCard
+          icon={Code2}
+          title="Backend APIs & Data Models"
+          description="Scalable server-side logic built with modern frameworks and a clean, maintainable data architecture."
+          features={[
+            "Next.js 14 + TypeScript",
+            "Prisma ORM & PostgreSQL",
+            "REST API development",
+            "Zod validation & type safety",
+            "Vercel / Docker deployment",
+          ]}
+          delay={0.2}
+        />
+        <ServiceCard
+          icon={Settings}
+          title="Auth, Security & Integrations"
+          description="Secure authentication systems and third-party integrations wired into your platform from day one."
+          features={[
+            "OTP login & rate limiting",
+            "Secure session management",
+            "SIP / VoIP dialer integration",
+            "Embedded chat systems",
+            "Third-party API integrations",
           ]}
           delay={0.3}
         />
@@ -838,6 +908,8 @@ export default function ServicesPage() {
     switch (activeTab) {
       case "web":
         return <PanelWeb />;
+      case "customwebapps":
+        return <PanelCustomWebApps />;
       case "salesforce":
         return <PanelSalesforce />;
       case "marketing":
@@ -937,7 +1009,7 @@ export default function ServicesPage() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-8 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-9 gap-3 sm:gap-4">
               {tabs.map((tab, index) => (
                 <ServiceSelector
                   key={tab.key}
