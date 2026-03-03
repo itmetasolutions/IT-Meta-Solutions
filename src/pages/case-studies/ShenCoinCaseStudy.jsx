@@ -235,8 +235,8 @@ function ArchFlow() {
     <div className="space-y-10">
       {/* Main stack horizontal */}
       <Reveal>
-        <div className="overflow-x-auto">
-          <div className="flex min-w-max items-center gap-3 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
+        <div className="flex justify-center overflow-x-auto">
+          <div className="flex items-center gap-3 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
             {layers.map((layer, i) =>
               layer.arrow ? (
                 <div key={i} className="flex flex-col items-center gap-1 px-2">
