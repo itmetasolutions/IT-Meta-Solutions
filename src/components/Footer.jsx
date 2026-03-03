@@ -18,7 +18,7 @@ const services = [
 const socialLinks = [
   { icon: Linkedin, href: "https://www.linkedin.com/in/mehar-abdullah-khalid-375001331/", label: "LinkedIn" },
   { icon: Instagram, href: "https://www.instagram.com/itmetasolutions.pvt.ltd/", label: "Instagram" },
-  { icon: Facebook, href: "https://www.facebook.com/itmetasolutions", label: "Facebook" },
+  { icon: Facebook, href: "https://web.facebook.com/itmetasolutions", label: "Facebook" },
 ];
 
 const WHATSAPP_NUMBER = "923271804037";
@@ -206,7 +206,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                     <MapPin className="h-4 w-4" />
                   </span>
                   <span className="text-xs leading-relaxed">
-                    26A Office No F1, 1st Floor, PCSIR Society Block A, Ameer Chowk, Lahore
+                    Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700
                   </span>
                 </div>
               </div>

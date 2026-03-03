@@ -256,7 +256,7 @@ function ContactCard() {
               <div className="rounded-lg bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
                 <MapPin className="h-4 w-4 text-white" />
               </div>
-              <span>26A Office No F1, 1st Floor, PCSIR Society Block A, Ameer Chowk, Lahore</span>
+              <span>Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700</span>
             </div>
           </div>
         </div>
@@ -375,7 +375,7 @@ const seoContent = {
 const seoFaqs = [
   {
     q: "Are you a SECP registered IT firm in Lahore?",
-    a: "Yes. We are SECP and FBR registered and operate from PCSIR Society, Lahore.",
+    a: "Yes. We are SECP and FBR registered and operate from City Star Plaza, Township, Lahore.",
   },
   {
     q: "Do you specialize in Salesforce implementation?",

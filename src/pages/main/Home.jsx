@@ -724,7 +724,7 @@ const faqs = [
   },
   {
     question: "Are you a SECP registered IT firm in Lahore?",
-    answer: "Yes. We are an SECP and FBR registered IT firm based in PCSIR Society, Lahore, serving Pakistan and global clients.",
+    answer: "Yes. We are an SECP and FBR registered IT firm based in City Star Plaza, Township, Lahore, serving Pakistan and global clients.",
   },
   {
     question: "How do we get started?",

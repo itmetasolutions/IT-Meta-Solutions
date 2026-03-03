@@ -26,6 +26,8 @@ import {
   Cloud,
   ChevronDown,
   Facebook,
+  Instagram,
+  Linkedin,
   Video,
   Search,
   Palette,
@@ -152,7 +154,7 @@ const seoFaqs = [
   },
   {
     q: "Are you a Lahore-based SECP registered IT firm?",
-    a: "Yes. We are SECP and FBR registered and operate from PCSIR Society, Lahore.",
+    a: "Yes. We are SECP and FBR registered and operate from City Star Plaza, Township, Lahore.",
   },
 ];
 
@@ -332,8 +334,8 @@ export default function Contact() {
       phoneRaw: "03271804037",
       phoneTel: "+923271804037",
       email: "info@itmetasolutions.com",
-      officeShort: "Ameer Chowk, Lahore",
-      officeFull: "26A Office No F1, 1st Floor, PCSIR Society Block A, Ameer Chowk, Lahore",
+      officeShort: "City Star Plaza, Lahore",
+      officeFull: "Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700",
       hours: "Monday – Saturday • 06:00 AM – 12:00 AM (PKT)",
       website: "https://itmetasolutions.com",
     }),
@@ -571,6 +573,29 @@ export default function Contact() {
                   />
                 </div>
 
+                {/* Social links */}
+                <div className="mt-5 rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <div className="mb-4 text-sm font-semibold text-white">Follow Us</div>
+                  <div className="flex gap-3">
+                    {[
+                      { icon: Facebook, href: "https://web.facebook.com/itmetasolutions", label: "Facebook" },
+                      { icon: Instagram, href: "https://www.instagram.com/itmetasolutions.pvt.ltd/", label: "Instagram" },
+                      { icon: Linkedin, href: "https://www.linkedin.com/in/mehar-abdullah-khalid-375001331/", label: "LinkedIn" },
+                    ].map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={s.label}
+                        className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-400 transition-all duration-300 hover:border-[#5025d1]/30 hover:bg-[#5025d1]/20 hover:text-white"
+                      >
+                        <s.icon className="h-4 w-4" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Why share box */}
                 <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6">
                   <div className="flex items-start gap-4">
@@ -806,6 +831,103 @@ export default function Contact() {
                     </div>
                   </form>
                 </GlowCard>
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        {/* ==================== MAP SECTION ==================== */}
+        <section className="py-10 sm:py-14">
+          <Container>
+            <div className="mb-8 text-center">
+              <Badge icon={MapPin}>Visit Our Office</Badge>
+              <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">Find Us in Lahore</h2>
+              <p className="mx-auto mt-3 max-w-2xl text-zinc-300">
+                Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700
+              </p>
+            </div>
+
+            <div className="overflow-hidden rounded-3xl border border-white/10">
+              <div className="grid lg:grid-cols-[1fr,360px]">
+                {/* Map iframe */}
+                <div className="relative min-h-[350px] sm:min-h-[450px]">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.1789751778897!2d74.31494959999999!3d31.4642625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391907f28acfe357%3A0x875d67a6a5a7aa3!2sIT%20Meta%20Solutions!5e0!3m2!1sen!2s!4v1772499535973!5m2!1sen!2s"
+                    style={{ border: 0, position: "absolute", inset: 0, width: "100%", height: "100%" }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="IT Meta Solutions Office Location"
+                  />
+                </div>
+
+                {/* Side info panel */}
+                <div className="flex flex-col gap-6 border-t border-white/10 bg-white/5 p-6 sm:p-8 lg:border-l lg:border-t-0">
+                  <div>
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                        <MapPin className="h-6 w-6 text-white" />
+                      </div>
+                      <div className="text-lg font-bold text-white">Our Office</div>
+                    </div>
+                    <p className="text-sm leading-relaxed text-zinc-300">
+                      Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700
+                    </p>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                      <Clock className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white">Working Hours</div>
+                      <div className="mt-1 text-sm text-zinc-300">Mon – Sat • 06:00 AM – 12:00 AM (PKT)</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                      <Phone className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white">Call / WhatsApp</div>
+                      <div className="mt-1 text-sm text-zinc-300">+92 327 180 4037</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="mb-3 text-sm font-semibold text-white">Follow Us</div>
+                    <div className="flex gap-3">
+                      {[
+                        { icon: Facebook, href: "https://web.facebook.com/itmetasolutions", label: "Facebook" },
+                        { icon: Instagram, href: "https://www.instagram.com/itmetasolutions.pvt.ltd/", label: "Instagram" },
+                        { icon: Linkedin, href: "https://www.linkedin.com/in/mehar-abdullah-khalid-375001331/", label: "LinkedIn" },
+                      ].map((s) => (
+                        <a
+                          key={s.label}
+                          href={s.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={s.label}
+                          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-400 transition-all duration-300 hover:border-[#5025d1]/30 hover:bg-[#5025d1]/20 hover:text-white"
+                        >
+                          <s.icon className="h-4 w-4" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=31.4642625,74.31494959999999"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
+                  >
+                    <MapPin className="h-4 w-4" />
+                    Get Directions
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
               </div>
             </div>
           </Container>
