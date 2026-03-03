@@ -209,6 +209,7 @@ const CATEGORIES = {
   SALESFORCE: "salesforce",
   WEB: "web",
   MARKETING: "marketing",
+  CUSTOM_WEB_APPS: "custom-web-apps",
 };
 
 const SUB_CATEGORIES = {
@@ -219,6 +220,8 @@ const SUB_CATEGORIES = {
   // Web
   ECOMMERCE: "ecommerce",
   PLATFORMS: "platforms",
+  // Custom Web Apps
+  PORTALS: "portals",
   // Marketing
   BRAND_BUILDING: "brand-building",
   DIGITAL_MARKETING: "digital-marketing",
@@ -318,41 +321,41 @@ const PROJECTS = [
 
   {
     key: "letting-agency-portal",
-    title: "Letting Agency Portal — Full CRM & Property Management",
+    title: "MHG Portal — Custom Letting Agency App",
     icon: Building2,
-    industry: "Salesforce • Real Estate • Experience Cloud • LWC",
-    tags: ["Salesforce", "Experience Cloud", "LWC", "Property Management", "CRM"],
-    category: CATEGORIES.SALESFORCE,
-    subCategories: [SUB_CATEGORIES.SALES_CLOUD, SUB_CATEGORIES.SERVICE_CLOUD, SUB_CATEGORIES.EXPERIENCE_CLOUD],
+    industry: "Custom Web App • Next.js 14 • PostgreSQL • Real Estate",
+    tags: ["Custom Web App", "Next.js 14", "PostgreSQL", "Role-Based", "SIP Dialer"],
+    category: CATEGORIES.CUSTOM_WEB_APPS,
+    subCategories: [SUB_CATEGORIES.PORTALS],
     summary:
-      "End-to-end Salesforce letting agency portal covering property records, tenant applications, landlord management, agent pipelines, rent tracking, deposit management, admin settings, and role-based dashboards — built on Sales Cloud, Experience Cloud, custom LWC, and Apex.",
+      "Bespoke letting agency platform for More Homes Group built on Next.js 14, TypeScript, Prisma ORM, and PostgreSQL. Features a two-tier Admin/Agent system, embedded SIP dialer (LINKUS), intercalling, call recordings, team chat, OTP login, audit logs, and a revenue & performance dashboard.",
     scope: [
-      "Property records & listings",
-      "Tenant & application management",
-      "Landlord portal (Experience Cloud)",
-      "Agent pipeline & commissions",
-      "Rent & deposit financial tracking",
-      "Admin settings & user management",
-      "Custom Objects & data model",
-      "Reporting & dashboards",
+      "Admin Control Center & team management",
+      "Agent Workspace with property pipeline",
+      "SIP Dialer Suite (dialpad, history, intercalling, notes, labels, recordings)",
+      "Team Communication (embedded chat)",
+      "Revenue & Performance dashboard",
+      "OTP-protected login & rate limiting",
+      "Platform-wide audit logs",
+      "Next.js 14 + Prisma + PostgreSQL stack",
     ],
     highlights: [
-      "8 custom Salesforce objects",
-      "4-role permission model",
-      "Automated rent reminders",
-      "Experience Cloud multi-audience portal",
-      "Full financial tracking",
-      "Real-time dashboards",
+      "5 fully-featured modules",
+      "Admin + Agent two-tier roles",
+      "SIP.js / LINKUS dialer integration",
+      "OTP auth with audit logging",
+      "Secure session management",
+      "Deployed on Vercel / Docker",
     ],
     stats: [
-      { icon: Home, label: "Properties", value: "Full lifecycle" },
-      { icon: Users, label: "User roles", value: "4 profiles" },
-      { icon: Wallet, label: "Finance", value: "Automated" },
+      { icon: LayoutGrid, label: "Modules", value: "5 built" },
+      { icon: Users, label: "Roles", value: "Admin + Agent" },
+      { icon: ShieldCheck, label: "Security", value: "OTP + Audit" },
     ],
     platforms: [
-      { label: "Sales Cloud", icon: Cloud },
-      { label: "Experience Cloud", icon: Globe },
-      { label: "LWC + Apex", icon: Code2 },
+      { label: "Next.js 14", icon: Code2 },
+      { label: "PostgreSQL", icon: Database },
+      { label: "SIP.js Dialer", icon: Globe },
     ],
     href: "/case-study/letting-agency-portal",
   },
@@ -665,6 +668,9 @@ export default function WorkPage() {
       } else if (filterParam === "web") {
         setMainTab(CATEGORIES.WEB);
         setSubFilter("all");
+      } else if (filterParam === "custom-web-apps" || filterParam === "custom-apps" || filterParam === "portals") {
+        setMainTab(CATEGORIES.CUSTOM_WEB_APPS);
+        setSubFilter("all");
       } else if (filterParam === "marketing" || filterParam === "branding" || filterParam === "brand-build") {
         setMainTab(CATEGORIES.MARKETING);
         setSubFilter("all");
@@ -706,6 +712,7 @@ export default function WorkPage() {
     { key: "all", label: "All Projects", icon: LayoutGrid },
     { key: CATEGORIES.SALESFORCE, label: "Salesforce", icon: Cloud },
     { key: CATEGORIES.WEB, label: "Web Development", icon: Code2 },
+    { key: CATEGORIES.CUSTOM_WEB_APPS, label: "Custom Web Apps", icon: Database },
     { key: CATEGORIES.MARKETING, label: "Marketing & Branding", icon: Megaphone },
   ];
 
@@ -720,6 +727,11 @@ export default function WorkPage() {
     { key: "all", label: "All Web Projects", icon: LayoutGrid },
     { key: SUB_CATEGORIES.ECOMMERCE, label: "E-commerce", icon: ShoppingCart },
     { key: SUB_CATEGORIES.PLATFORMS, label: "Platforms & Apps", icon: Database },
+  ];
+
+  const customWebAppsSubFilters = [
+    { key: "all", label: "All Custom Apps", icon: Database },
+    { key: SUB_CATEGORIES.PORTALS, label: "Portals & Dashboards", icon: LayoutGrid },
   ];
 
   const marketingSubFilters = [
@@ -890,6 +902,24 @@ export default function WorkPage() {
                       <div className="mb-3 text-sm font-semibold text-white">Web Development Types</div>
                       <div className="flex flex-wrap gap-3">
                         {webSubFilters.map((filter) => (
+                          <FilterChip
+                            key={filter.key}
+                            active={subFilter === filter.key}
+                            onClick={() => setSubFilter(filter.key)}
+                            icon={filter.icon}
+                            label={filter.label}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Custom Web Apps Sub-filters */}
+                  {mainTab === CATEGORIES.CUSTOM_WEB_APPS && (
+                    <div className="mt-6 border-t border-white/10 pt-6">
+                      <div className="mb-3 text-sm font-semibold text-white">Custom App Types</div>
+                      <div className="flex flex-wrap gap-3">
+                        {customWebAppsSubFilters.map((filter) => (
                           <FilterChip
                             key={filter.key}
                             active={subFilter === filter.key}

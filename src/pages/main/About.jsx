@@ -23,7 +23,9 @@ import {
   Users,
   Wand2,
   BriefcaseBusiness,
+  Cloud,
   Handshake,
+  Layers,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
@@ -666,6 +668,30 @@ export default function AboutUsPage() {
                   "Social templates",
                 ]}
                 delay={0.4}
+              />
+              <FeatureCard
+                icon={Layers}
+                title="Custom Web Apps"
+                description="Bespoke portals and business systems built around your exact workflows and team structure."
+                features={[
+                  "Role-based admin portals",
+                  "Next.js + PostgreSQL stack",
+                  "OTP auth & audit logs",
+                  "Dialer & API integrations",
+                ]}
+                delay={0.5}
+              />
+              <FeatureCard
+                icon={Cloud}
+                title="Salesforce"
+                description="Custom Salesforce solutions to streamline CRM, automate workflows, and power your sales team."
+                features={[
+                  "LWC development",
+                  "Experience Cloud portals",
+                  "Automation & flows",
+                  "CRM data management",
+                ]}
+                delay={0.6}
               />
             </div>
 

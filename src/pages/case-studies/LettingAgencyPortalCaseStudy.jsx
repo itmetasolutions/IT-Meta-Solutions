@@ -8,7 +8,6 @@ import {
     Building2,
     CheckCircle2,
     ChevronRight,
-    Cloud,
     Cog,
     Database,
     FileText,
@@ -20,7 +19,9 @@ import {
     LayoutGrid,
     LineChart,
     Lock,
+    MessageSquare,
     Network,
+    Phone,
     Search,
     Settings,
     ShieldCheck,
@@ -315,8 +316,8 @@ function StickySubnav() {
             <Container className="py-3">
                 <div className="flex items-center justify-between gap-3">
                     <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
-                        <Cloud className="h-4 w-4 text-[#5025d1]" />
-                        Salesforce • Experience Cloud • LWC • Apex
+                        <Layers className="h-4 w-4 text-[#5025d1]" />
+                        Next.js 14 • PostgreSQL • TypeScript • SIP.js
                     </div>
                     <div className="flex flex-wrap items-center gap-2 justify-end">
                         {inPageNav.map((n) => (
@@ -338,37 +339,42 @@ function StickySubnav() {
 /* ==================== SEO DATA ==================== */
 const seoContent = {
     kicker: "Case Study",
-    title: "Salesforce Letting Agency Portal — Full CRM & Property Management",
+    title: "MHG Portal — Custom Letting Agency Operations Platform",
     subtitle:
-        "Custom Salesforce portal built for a letting agency with property records, tenant management, agent pipelines, admin controls, financial tracking, and role-based access.",
+        "Custom Next.js web application built for More Homes Group — a centralised portal for letting operations with role-based access, OTP login, an integrated dialer suite, and full audit governance.",
     paragraphs: [
-        "We built a complete Salesforce-based letting agency portal covering the full lifecycle of property letting — from landlord onboarding and property listings through tenant applications, tenancy management, rent collection, and agent commission tracking.",
-        "The platform runs on Salesforce Sales Cloud and Experience Cloud with custom LWC components, Apex logic, and a role-based permission model that serves agents, landlords, tenants, and admin staff from a single unified system.",
+        "We designed and delivered a bespoke operations portal for More Homes Group, replacing fragmented tools with a single unified platform covering landlord onboarding, property lifecycle management, sales tracking, tenant records, and an integrated SIP dialer.",
+        "The platform is built on Next.js 14, TypeScript, and PostgreSQL via Prisma ORM, with a two-tier role model (Admin and Agent), OTP-protected login with rate limiting, platform-wide audit logs, and a built-in dialer suite ready for SIP/LINKUS integration.",
     ],
     bullets: [
-        "Salesforce Experience Cloud portal for letting agency workflows",
-        "Custom LWC components for property, tenant, and landlord records",
-        "Financial tracking: rent, deposits, invoices, and commissions",
-        "Role-based access for agents, admins, landlords, and tenants",
+        "Custom Next.js portal replacing disconnected letting agency tools",
+        "Role-based access for Admin and Agent users with OTP-secured login",
+        "Integrated SIP dialer with call history, labels, notes, and intercalling",
+        "Unified data model: landlords, properties, sales, tenants, and users",
+        "Governance through platform-wide audit logs and secure session management",
     ],
 };
 
 const seoFaqs = [
     {
-        q: "What Salesforce products were used for the Letting Agency Portal?",
-        a: "Salesforce Sales Cloud, Experience Cloud, and custom LWC components with Apex backend logic.",
+        q: "What technology was used to build the MHG letting agency portal?",
+        a: "The portal is built on Next.js 14, React 18, and TypeScript with a PostgreSQL database managed through Prisma ORM. The dialer suite integrates via SIP.js and is LINKUS-ready. Deployment is Vercel/Docker-compatible.",
     },
     {
-        q: "Does the portal support multiple user roles?",
-        a: "Yes. The system has distinct permission sets for admin staff, letting agents, landlords, and tenants.",
+        q: "Does the MHG portal support multiple user roles?",
+        a: "Yes. The system has two core roles — Admin and Agent. Admins manage users, commissions, dialer settings, and audit logs. Agents handle day-to-day landlord, property, sales, and tenant workflows.",
     },
     {
-        q: "Can this portal handle financial records like rent and deposits?",
-        a: "Yes. It includes full financial tracking — rent schedules, deposit management, invoice generation, and agent commissions.",
+        q: "How does the login security work?",
+        a: "The portal uses an OTP-protected login flow with rate limiting and secure session management to prevent unauthorised access and ensure auditability.",
     },
     {
-        q: "Can you build a similar Salesforce portal for our agency?",
-        a: "Absolutely. We tailor Salesforce CRM solutions to your letting or estate agency workflows. Contact us for a free consultation.",
+        q: "What does the integrated dialer include?",
+        a: "The dialer suite includes a live-status dialpad, contacts management, call history, internal intercalling (extension-to-extension), labels, favourites, contact and call notes, and recording URL support.",
+    },
+    {
+        q: "Can you build a similar custom letting agency portal for our business?",
+        a: "Absolutely. We build bespoke web applications tailored to letting and estate agency workflows. Contact us to discuss your requirements.",
     },
 ];
 
@@ -384,29 +390,29 @@ export default function LettingAgencyPortalCaseStudy() {
     return (
         <>
             <Helmet>
-                <title>Letting Agency Portal — Salesforce CRM & Property Management | Case Study | IT Meta Solutions</title>
+                <title>MHG Portal — Custom Letting Agency Web Application | Case Study | IT Meta Solutions</title>
                 <meta
                     name="description"
-                    content="Salesforce case study: custom letting agency portal with property records, tenant management, agent pipeline, financial tracking, and role-based admin controls."
+                    content="Custom Next.js letting agency portal for More Homes Group — role-based access, OTP login, integrated SIP dialer, landlord & property management, sales tracking, and full audit logs."
                 />
                 <meta
                     name="keywords"
-                    content="Salesforce letting agency portal, property management CRM, Experience Cloud, LWC, Apex, tenant management, landlord portal, agent pipeline, IT Meta Solutions"
+                    content="letting agency portal, custom web application, Next.js CRM, More Homes Group, SIP dialer, role-based access, OTP login, property management, IT Meta Solutions"
                 />
-                <meta property="og:title" content="Letting Agency Portal — Salesforce CRM & Property Management | Case Study" />
+                <meta property="og:title" content="MHG Portal — Custom Letting Agency Web Application | Case Study" />
                 <meta
                     property="og:description"
-                    content="Full-stack Salesforce portal for letting agencies: property records, tenants, landlords, agents, financials, admin settings, and reporting."
+                    content="Bespoke letting agency operations portal built on Next.js 14 with PostgreSQL, SIP dialer integration, OTP-secured login, admin and agent workspaces, and platform-wide audit governance."
                 />
                 <meta property="og:type" content="article" />
                 <link rel="canonical" href="https://itmetasolutions.com/case-study/letting-agency-portal" />
                 <meta property="og:url" content="https://itmetasolutions.com/case-study/letting-agency-portal" />
                 <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Letting Agency Portal — Salesforce CRM & Property Management | Case Study" />
+                <meta name="twitter:title" content="MHG Portal — Custom Letting Agency Web Application | Case Study" />
                 <meta
                     name="twitter:description"
-                    content="Full-stack Salesforce portal for letting agencies: property records, tenants, landlords, agents, financials, admin settings, and reporting."
+                    content="Bespoke letting agency operations portal built on Next.js 14 with PostgreSQL, SIP dialer integration, OTP-secured login, admin and agent workspaces, and platform-wide audit governance."
                 />
                 <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
             </Helmet>
@@ -424,31 +430,31 @@ export default function LettingAgencyPortalCaseStudy() {
                         <motion.div style={{ y: heroY, opacity: heroOpacity }}>
                             <Reveal>
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <Pill icon={Cloud}>Sales Cloud</Pill>
-                                    <Pill icon={Building2}>Experience Cloud</Pill>
-                                    <Pill icon={Layers}>LWC + Apex</Pill>
-                                    <Pill icon={Home}>Property Records</Pill>
-                                    <Pill icon={Users}>Agent Portal</Pill>
-                                    <Pill icon={Wallet}>Financial Tracking</Pill>
-                                    <Pill icon={KeyRound}>Role-Based Access</Pill>
+                                    <Pill icon={Layers}>Next.js 14</Pill>
+                                    <Pill icon={Database}>PostgreSQL</Pill>
+                                    <Pill icon={FileText}>TypeScript</Pill>
+                                    <Pill icon={Phone}>SIP Dialer</Pill>
+                                    <Pill icon={Users}>Role-Based Access</Pill>
+                                    <Pill icon={KeyRound}>OTP Login</Pill>
                                     <Pill icon={Settings}>Admin Controls</Pill>
+                                    <Pill icon={ShieldCheck}>Audit Logs</Pill>
                                 </div>
                             </Reveal>
 
                             <Reveal delay={0.06}>
                                 <h1 className="mt-7 max-w-5xl text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                                    Letting Agency Portal —{" "}
+                                    MHG Portal —{" "}
                                     <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                                        Full Salesforce CRM
+                                        Custom Letting Agency App
                                     </span>
                                 </h1>
                             </Reveal>
 
                             <Reveal delay={0.12}>
                                 <p className="mt-5 max-w-3xl text-sm leading-relaxed text-zinc-300 sm:text-base">
-                                    A complete Salesforce-based letting agency management portal covering the entire property lifecycle — property listings,
-                                    landlord onboarding, tenant applications, agent pipelines, rent tracking, deposit management, admin settings, and
-                                    role-based dashboards — all built on Sales Cloud and Experience Cloud with custom LWC components and Apex logic.
+                                    A bespoke operations portal built for More Homes Group — replacing disconnected tools with a single platform for
+                                    landlord onboarding, property lifecycle management, sales tracking, tenant records, an integrated SIP dialer suite,
+                                    team chat, and full audit governance. Built on Next.js 14, TypeScript, and PostgreSQL.
                                 </p>
                             </Reveal>
 
@@ -472,10 +478,10 @@ export default function LettingAgencyPortalCaseStudy() {
 
                             {/* KPI cards */}
                             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                                <StatCard icon={Home} label="Core Objects" value="Properties" delay={0.05} />
-                                <StatCard icon={Users} label="User Roles" value="4 Profiles" delay={0.1} />
-                                <StatCard icon={Wallet} label="Finance" value="Full Tracking" delay={0.15} />
-                                <StatCard icon={Settings} label="Admin" value="Full Control" delay={0.2} />
+                                <StatCard icon={Layers} label="Core Modules" value="5 Modules" delay={0.05} />
+                                <StatCard icon={Users} label="User Roles" value="Admin + Agent" delay={0.1} />
+                                <StatCard icon={Phone} label="Dialer" value="SIP Integrated" delay={0.15} />
+                                <StatCard icon={ShieldCheck} label="Security" value="OTP + Audit" delay={0.2} />
                             </div>
 
                             <Reveal delay={0.18}>
@@ -484,8 +490,8 @@ export default function LettingAgencyPortalCaseStudy() {
                                         <div className="max-w-2xl">
                                             <div className="text-sm font-semibold text-white">Project summary</div>
                                             <div className="mt-1 text-sm text-zinc-300">
-                                                End-to-end Salesforce portal replacing manual letting agency processes with a unified CRM — from property
-                                                listing and landlord management to tenant onboarding, agent deal tracking, and automated financial records.
+                                                End-to-end custom web portal for More Homes Group — combining CRM-style letting workflows, an integrated
+                                                dialer suite, team communication, and compliance governance in one secure, role-based platform.
                                             </div>
                                         </div>
                                         <a
@@ -499,9 +505,9 @@ export default function LettingAgencyPortalCaseStudy() {
 
                                     <div className="mt-6 grid gap-4 md:grid-cols-3">
                                         {[
-                                            { icon: Users, title: "Agents & Staff", desc: "Manage their full pipeline — viewings, offers, deals, and commissions from one dashboard." },
-                                            { icon: Home, title: "Landlords & Tenants", desc: "Self-service Experience Cloud portal for landlords to track properties and tenants to view tenancy status." },
-                                            { icon: Settings, title: "Admin & Finance", desc: "Complete control over users, permissions, financial records, rent schedules, and reporting." },
+                                            { icon: Settings, title: "Admin Control Center", desc: "Agent management, commission config, dialer domain setup, audit logs, and full portfolio visibility." },
+                                            { icon: Users, title: "Agent Workspace", desc: "Daily execution for landlord onboarding, property lifecycle tracking, sales closure, and tenant records." },
+                                            { icon: Phone, title: "Dialer Suite", desc: "SIP/LINKUS-ready dialpad with call history, intercalling, contacts, labels, notes, and recording URLs." },
                                         ].map((b) => (
                                             <div key={b.title} className="rounded-2xl border border-white/10 bg-white/5 p-4 flex flex-col justify-center">
                                                 <div className="flex items-center gap-3">
@@ -532,53 +538,53 @@ export default function LettingAgencyPortalCaseStudy() {
                                 badge="Overview"
                                 title={
                                     <>
-                                        Replacing spreadsheets with a{" "}
+                                        One platform to run{" "}
                                         <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
-                                            unified CRM portal
+                                            all letting operations
                                         </span>
                                     </>
                                 }
-                                description="The agency was managing properties, tenants, landlords, and financials across disconnected spreadsheets and emails. We built a single Salesforce portal that covers every aspect of the letting process — from first enquiry to tenancy end."
+                                description="More Homes Group needed a single platform to run day-to-day agency operations without switching between disconnected tools. We built a centralised portal combining business workflows, communication, and compliance in one system."
                             />
                         </Reveal>
 
                         <div className="grid gap-6 lg:grid-cols-3">
                             <FeatureCard
                                 icon={Search}
-                                title="The challenge"
-                                desc="Disconnected tools, manual tracking, and no visibility across the full property lifecycle."
+                                title="The problem"
+                                desc="Fragmented tools, limited visibility, and weak communication flow between teams."
                                 bullets={[
-                                    "Properties, tenants, landlords managed in spreadsheets",
-                                    "No unified agent pipeline or deal tracking",
-                                    "Manual rent reminders and deposit records",
-                                    "No role-based access or permission control",
-                                    "Reporting required manual data export",
+                                    "Landlord, property, sales, and tenant records stored separately",
+                                    "Limited visibility across admin and agent activity",
+                                    "Weak communication flow between teams",
+                                    "No structured dialer workflow for calling operations",
+                                    "Insufficient login security and no audit trail",
                                 ]}
                                 delay={0.05}
                             />
                             <FeatureCard
                                 icon={Target}
-                                title="Primary goals"
-                                desc="Build a Salesforce portal that centralises the entire letting workflow for all user types."
+                                title="The solution"
+                                desc="A centralised Next.js operations portal combining workflows, communication, and compliance."
                                 bullets={[
-                                    "Unified property, tenant & landlord records",
-                                    "Agent pipeline with stages and commissions",
-                                    "Financial tracking: rent, deposits, invoices",
-                                    "Role-based dashboards per user profile",
-                                    "Admin control panel for settings and users",
+                                    "Role-based architecture for Admin and Agent users",
+                                    "OTP-protected login with rate limiting and secure sessions",
+                                    "Unified data model for landlords, properties, sales, tenants",
+                                    "Integrated SIP/LINKUS-ready dialer suite",
+                                    "Platform-wide audit logs for full governance",
                                 ]}
                                 delay={0.1}
                             />
                             <FeatureCard
                                 icon={ShieldCheck}
-                                title="Delivered outcome"
-                                desc="A fully operational Salesforce letting portal serving agents, landlords, tenants, and admin staff."
+                                title="Delivered outcomes"
+                                desc="A fully operational letting portal serving admin and agent users from a single secure system."
                                 bullets={[
-                                    "End-to-end property lifecycle in one system",
-                                    "Automated rent schedules and reminders",
-                                    "Secure multi-role Experience Cloud portal",
-                                    "Real-time dashboards and reports",
-                                    "Clean data model built for scale",
+                                    "Single source of truth for core letting operations",
+                                    "Faster admin oversight with cleaner ownership controls",
+                                    "Stronger security via OTP and role-aware access",
+                                    "Improved agent productivity with integrated dialer + CRM",
+                                    "Compliance readiness through persistent audit trails",
                                 ]}
                                 delay={0.15}
                             />
@@ -602,31 +608,25 @@ export default function LettingAgencyPortalCaseStudy() {
                                         </span>
                                     </>
                                 }
-                                description="The system is organised into eight core modules. Each handles a distinct area of the letting business — from property records to financial reporting and admin configuration."
+                                description="The system is organised into five core modules. Each handles a distinct area of the letting business — from admin oversight and agent workflows through the dialer suite, team communication, and revenue reporting."
                             />
                         </Reveal>
 
                         <div className="flex flex-col gap-6">
                             <ModuleBlock
-                                icon={Home}
+                                icon={Cog}
                                 number="01"
-                                title="Property Records"
-                                desc="The core object of the portal. Every property is stored as a custom Salesforce record with full details, status tracking, media links, and relationship to landlords and tenants. Agents can manage availability, set listing status, log viewings, and link to active tenancies."
+                                title="Admin Control Center"
+                                desc="The admin-only hub for managing the entire platform. Admins control agents, configure commission structures, set dialer domain settings, review audit logs, and maintain full visibility across the portfolio and operations."
                                 fields={[
-                                    "Property ID & reference number",
-                                    "Address & postcode (structured)",
-                                    "Property type (flat, house, HMO, commercial)",
-                                    "Bedrooms, bathrooms, floor area (sqft/sqm)",
-                                    "Listing status (Available / Let / Under Offer / Maintenance)",
-                                    "Monthly rent & service charge",
-                                    "EPC rating & compliance certificates",
-                                    "Key features and description",
-                                    "Photos & virtual tour links",
-                                    "Linked landlord record",
-                                    "Active tenancy relationship",
-                                    "Viewing history log",
-                                    "Maintenance requests linked",
-                                    "Last inspection date & notes",
+                                    "Agent account creation, editing & deactivation",
+                                    "Commission rate configuration per agent / deal type",
+                                    "Dialer domain & SIP extension management",
+                                    "Platform-wide audit log (all user actions & changes)",
+                                    "Full portfolio visibility (landlords, properties, sales, tenants)",
+                                    "Role assignment and permission management",
+                                    "System settings and configuration panel",
+                                    "User session management and security oversight",
                                 ]}
                                 delay={0.05}
                             />
@@ -634,165 +634,71 @@ export default function LettingAgencyPortalCaseStudy() {
                             <ModuleBlock
                                 icon={Users}
                                 number="02"
-                                title="Tenant & Application Management"
-                                desc="Manages the full tenant journey — from initial application through referencing, tenancy agreement, check-in, active tenancy, and checkout. Each tenant has a complete profile with all communication history, payment records, and document storage."
+                                title="Agent Workspace"
+                                desc="The day-to-day operational hub for agents. From a single workspace, agents handle every core letting workflow — onboarding landlords, managing property lifecycles, closing sales, maintaining tenant records, and updating their own profiles."
                                 fields={[
-                                    "Tenant full name, DOB, NI number",
-                                    "Contact details (phone, email, address)",
-                                    "Employment status & employer details",
-                                    "Annual income & guarantor info",
-                                    "Application status (New / Referencing / Approved / Rejected)",
-                                    "Right to Rent check record & expiry",
-                                    "Tenancy start & end date",
-                                    "Monthly rent amount & payment method",
-                                    "Security deposit amount & protection scheme",
-                                    "Check-in inventory condition report",
-                                    "Checkout report & deposit deduction log",
-                                    "Maintenance requests raised",
-                                    "Communication log (emails, calls, notes)",
-                                    "Document vault (tenancy agreement, ID, references)",
+                                    "Landlord onboarding and profile management",
+                                    "Property lifecycle tracking (listing → active → closed)",
+                                    "Sales record creation, progression, and closure",
+                                    "Tenant record management and status tracking",
+                                    "Agent profile and settings management",
+                                    "Assigned portfolio view per agent",
+                                    "Activity log and notes per record",
+                                    "Commission earned and payment status view",
                                 ]}
                                 delay={0.07}
                             />
 
                             <ModuleBlock
-                                icon={Building2}
+                                icon={Phone}
                                 number="03"
-                                title="Landlord Records"
-                                desc="Dedicated landlord profiles with ownership details, property portfolio, financial statements, and communication history. Landlords can access their own Experience Cloud portal view to monitor their properties, tenancy status, and monthly statements in real time."
+                                title="Dialer Suite"
+                                desc="A fully integrated calling workflow built directly into the portal. The dialer suite is SIP/LINKUS-ready and covers the complete calling experience — from live-status dial to post-call notes and recording management."
                                 fields={[
-                                    "Landlord full name / company name",
-                                    "Contact details & correspondence address",
-                                    "Bank account details (encrypted)",
-                                    "Linked property portfolio",
-                                    "Management type (full / rent collect / tenant find)",
-                                    "Management fee % and setup fee",
-                                    "Monthly statement generation",
-                                    "Rent received vs expected dashboard",
-                                    "Property compliance status overview",
-                                    "Preferred communication channel",
-                                    "Notes and activity log",
-                                    "Documents vault (contracts, certificates)",
+                                    "Dialpad with live call status indicator",
+                                    "Contacts management (import, create, organise)",
+                                    "Full call history management (inbound & outbound)",
+                                    "Intercalling — internal extension-to-extension calls",
+                                    "Labels for categorising calls and contacts",
+                                    "Favourites for quick-access contacts",
+                                    "Per-contact and per-call notes",
+                                    "Recording URL support for call review",
                                 ]}
                                 delay={0.09}
                             />
 
                             <ModuleBlock
-                                icon={Target}
+                                icon={MessageSquare}
                                 number="04"
-                                title="Sales & Letting Agent Pipeline"
-                                desc="The agent-facing CRM pipeline tracks every deal from enquiry to completion. Agents manage their allocated properties, log viewings, track offers, and monitor deal stages through a custom LWC dashboard. Commission records are automatically calculated on deal completion."
+                                title="Team Communication"
+                                desc="An embedded chat system built into the portal for fast internal coordination between users. Agents and admins can message each other directly without switching to external tools, keeping communication in context and on record."
                                 fields={[
-                                    "Lead enquiry capture (web form / manual)",
-                                    "Enquiry source tracking (portal, referral, walk-in)",
-                                    "Viewing schedule & confirmation status",
-                                    "Offer submitted / negotiated / accepted stages",
-                                    "Deal pipeline stage (Kanban view available)",
-                                    "Assigned agent per property",
-                                    "Agent activity log (calls, viewings, notes)",
-                                    "Commission rate per deal type",
-                                    "Commission earned & paid records",
-                                    "KPI dashboard (viewings/week, deals/month)",
-                                    "Target vs actual performance tracker",
-                                    "Handoff checklist on deal completion",
+                                    "Direct messaging between portal users",
+                                    "Real-time message delivery",
+                                    "Conversation history and message persistence",
+                                    "User presence and online status",
+                                    "Message notifications and unread indicators",
+                                    "Accessible to both Admin and Agent roles",
                                 ]}
                                 delay={0.11}
                             />
 
                             <ModuleBlock
-                                icon={Wallet}
+                                icon={BarChart3}
                                 number="05"
-                                title="Financial Records & Rent Tracking"
-                                desc="Full financial management module covering rent collection schedules, deposit records, invoice generation, landlord disbursements, and agent commissions. Automated reminders trigger before rent due dates and flag late payments for follow-up."
+                                title="Revenue & Performance"
+                                desc="Sales and commission dashboards give admins and agents clear visibility into financial performance. Operational reporting views cover deal volumes, revenue earned, commission calculations, and overall portfolio activity."
                                 fields={[
-                                    "Rent schedule (monthly/weekly auto-generated)",
-                                    "Payment status per period (Paid / Pending / Late)",
-                                    "Late payment flag & overdue counter",
-                                    "Automated rent reminder notifications",
-                                    "Security deposit amount & scheme reference",
-                                    "Deposit dispute & deduction records",
-                                    "Invoice generation (PDF-ready template)",
-                                    "Agency management fee deduction logic",
-                                    "Landlord disbursement records",
-                                    "Maintenance cost tracking per property",
-                                    "Void period cost recording",
-                                    "Annual financial summary per property",
-                                    "Agent commission invoice & payment log",
-                                    "Financial report export (CSV / PDF)",
+                                    "Sales dashboard with deal volume and status breakdown",
+                                    "Commission dashboard per agent (earned vs paid)",
+                                    "Revenue overview for admin users",
+                                    "Operational reporting views for activity monitoring",
+                                    "Agent performance summaries",
+                                    "Filterable date-range reporting",
+                                    "Portfolio-level financial snapshot",
+                                    "Export-ready reports (proposed next phase)",
                                 ]}
                                 delay={0.13}
-                            />
-
-                            <ModuleBlock
-                                icon={Cog}
-                                number="06"
-                                title="Admin Panel & Settings"
-                                desc="The admin module gives authorised staff complete control over the entire system. From managing user accounts and permission sets to configuring automation rules, email templates, and portal branding — all accessible via a secure admin-only interface."
-                                fields={[
-                                    "User account creation & deactivation",
-                                    "Role & permission set assignment",
-                                    "Profile configuration (agent, admin, landlord, tenant)",
-                                    "Email template management",
-                                    "Automation rule builder (Flow-based)",
-                                    "Notification preferences per user type",
-                                    "Portal branding configuration",
-                                    "Custom field management",
-                                    "Record type and page layout control",
-                                    "Validation rule management",
-                                    "Audit log (user actions & record changes)",
-                                    "Data import / export tool",
-                                    "System health dashboard",
-                                    "Connected apps & API integrations",
-                                ]}
-                                delay={0.15}
-                            />
-
-                            <ModuleBlock
-                                icon={Database}
-                                number="07"
-                                title="Database & Data Model"
-                                desc="Built on Salesforce's native platform with custom objects and standard object relationships. The data model is designed for referential integrity, clean lookups, and scalable reporting across all modules. All sensitive data is field-level encrypted."
-                                fields={[
-                                    "Custom Object: Property__c",
-                                    "Custom Object: Tenancy__c",
-                                    "Custom Object: Application__c",
-                                    "Custom Object: Viewing__c",
-                                    "Custom Object: RentPayment__c",
-                                    "Custom Object: Deposit__c",
-                                    "Custom Object: Commission__c",
-                                    "Custom Object: MaintenanceRequest__c",
-                                    "Standard Object: Account (Landlords)",
-                                    "Standard Object: Contact (Tenants & Agents)",
-                                    "Standard Object: Opportunity (Deals)",
-                                    "Standard Object: Case (Complaints & Issues)",
-                                    "Lookup & Master-Detail relationships",
-                                    "Field-level encryption on sensitive fields",
-                                ]}
-                                delay={0.17}
-                            />
-
-                            <ModuleBlock
-                                icon={BarChart3}
-                                number="08"
-                                title="Reporting & Dashboards"
-                                desc="Custom reports and dashboards give every user type the visibility they need. Agents see their personal pipeline metrics, managers see cross-team performance, landlords see property income summaries, and admins see full operational oversight reports."
-                                fields={[
-                                    "Agent KPI dashboard (viewings, deals, conversions)",
-                                    "Pipeline stage report (all active deals by stage)",
-                                    "Monthly rent collection report",
-                                    "Overdue rent & arrears tracker",
-                                    "Vacancy rate report per month",
-                                    "Portfolio income summary per landlord",
-                                    "Deposit status report",
-                                    "Maintenance open/closed tickets report",
-                                    "New enquiries by source report",
-                                    "Tenancy expiry calendar (30/60/90 days)",
-                                    "Agent commission earned report",
-                                    "Compliance certificate expiry tracker",
-                                    "Custom report builder (admin access)",
-                                    "Scheduled report email delivery",
-                                ]}
-                                delay={0.19}
                             />
                         </div>
                     </Container>
@@ -808,53 +714,53 @@ export default function LettingAgencyPortalCaseStudy() {
                                 badge="Architecture"
                                 title={
                                     <>
-                                        Built on scalable{" "}
+                                        Built on a modern{" "}
                                         <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
-                                            Salesforce foundations
+                                            full-stack foundation
                                         </span>
                                     </>
                                 }
-                                description="The portal uses a multi-cloud Salesforce architecture combining Sales Cloud for CRM data, Experience Cloud for the external-facing portal, LWC for custom interfaces, and Apex for server-side business logic."
+                                description="The portal is built on Next.js 14 with a PostgreSQL database managed through Prisma ORM. SIP.js powers the integrated dialer, Zod handles validation, and the system is deployable on Vercel or Docker."
                             />
                         </Reveal>
 
                         <div className="grid gap-6 lg:grid-cols-3">
                             <FeatureCard
-                                icon={Cloud}
-                                title="Sales Cloud & CRM"
-                                desc="Core CRM layer for managing all contacts, accounts, opportunities, and activity tracking."
+                                icon={Layers}
+                                title="Next.js 14 + React 18"
+                                desc="The frontend and API layer are built on Next.js 14 with React 18 and TypeScript throughout."
                                 bullets={[
-                                    "Accounts for landlord companies",
-                                    "Contacts for tenants and agents",
-                                    "Opportunities for active deals",
-                                    "Activities: calls, emails, tasks, events",
-                                    "Cases for complaints and maintenance",
+                                    "App Router with server and client components",
+                                    "TypeScript for type-safe development",
+                                    "Server Actions for form and mutation handling",
+                                    "Optimised rendering and page performance",
+                                    "Vercel-ready deployment model",
                                 ]}
                                 delay={0.05}
                             />
                             <FeatureCard
-                                icon={Building2}
-                                title="Experience Cloud Portal"
-                                desc="Multi-audience external portal giving landlords and tenants their own secure, branded access."
+                                icon={Database}
+                                title="Prisma ORM + PostgreSQL"
+                                desc="Prisma provides a type-safe ORM layer over PostgreSQL with a clean, structured data model."
                                 bullets={[
-                                    "Landlord self-service dashboard",
-                                    "Tenant tenancy status view",
-                                    "Document download centre",
-                                    "Maintenance request submission",
-                                    "Secure login with profile-based access",
+                                    "Unified schema for landlords, properties, sales, tenants",
+                                    "Relational integrity with typed queries",
+                                    "Migration management with Prisma Migrate",
+                                    "Zod validation on all inputs and API boundaries",
+                                    "Docker-compatible database setup",
                                 ]}
                                 delay={0.1}
                             />
                             <FeatureCard
-                                icon={Layers}
-                                title="LWC + Apex Development"
-                                desc="Custom Lightning Web Components and Apex classes power every non-standard interface and logic."
+                                icon={Phone}
+                                title="SIP.js Dialer Integration"
+                                desc="The dialer suite integrates SIP.js for browser-based calling, ready for LINKUS and SIP server connections."
                                 bullets={[
-                                    "Custom LWC for property listing view",
-                                    "Agent pipeline Kanban component",
-                                    "Financial summary LWC widget",
-                                    "Apex triggers for automation",
-                                    "REST API integration hooks",
+                                    "SIP.js for WebRTC-based call handling",
+                                    "LINKUS-ready architecture for enterprise PBX",
+                                    "Live call status and session management",
+                                    "Extension-to-extension intercalling support",
+                                    "Call recording URL capture and storage",
                                 ]}
                                 delay={0.15}
                             />
@@ -862,30 +768,29 @@ export default function LettingAgencyPortalCaseStudy() {
 
                         <div className="mt-6 grid gap-6 md:grid-cols-2">
                             <FeatureCard
-                                icon={Workflow}
-                                title="Automation & Flows"
-                                desc="Salesforce Flows and Process Builder handle routine tasks without manual intervention."
+                                icon={Lock}
+                                title="Security & Authentication"
+                                desc="OTP-protected login with rate limiting, secure sessions, and a two-tier role model."
                                 bullets={[
-                                    "Rent due reminder (3 days before)",
-                                    "Late payment alert (1 day after due)",
-                                    "Tenancy expiry notification (60/30 days)",
-                                    "Viewing confirmation email auto-send",
-                                    "New application alert to assigned agent",
-                                    "Compliance certificate expiry warning",
+                                    "OTP-based login flow with expiry and rate limiting",
+                                    "Secure session management (server-side)",
+                                    "Two-tier role model: Admin and Agent",
+                                    "Role-aware route protection and UI rendering",
+                                    "Sensitive operations gated behind admin access",
+                                    "Platform-wide audit log for all user actions",
                                 ]}
                                 delay={0.05}
                             />
                             <FeatureCard
-                                icon={Lock}
-                                title="Security & Permissions"
-                                desc="Role hierarchy and permission sets ensure every user only sees and does what they're entitled to."
+                                icon={Workflow}
+                                title="Roadmap — Next Phase"
+                                desc="The proposed next phase adds scheduling, notifications, automation, and advanced reporting."
                                 bullets={[
-                                    "4-tier role hierarchy (Admin → Manager → Agent → Viewer)",
-                                    "Object-level and field-level security",
-                                    "Record sharing rules per portfolio",
-                                    "Experience Cloud guest vs authenticated",
-                                    "Sensitive field encryption (bank details, NI)",
-                                    "Full audit trail on all record changes",
+                                    "Scheduling: callbacks, follow-ups, and call plans",
+                                    "Notification engine: missed calls, due reminders, assignments",
+                                    "Workflow automation: rule-based triggers and escalation logic",
+                                    "Advanced reporting: export-ready, role-specific dashboards",
+                                    "Optional integrations: calendar, telephony analytics, BI tools",
                                 ]}
                                 delay={0.1}
                             />
@@ -897,13 +802,13 @@ export default function LettingAgencyPortalCaseStudy() {
                                     <div className="max-w-2xl">
                                         <div className="text-sm font-semibold text-white">Full tech stack</div>
                                         <div className="mt-1 text-sm text-zinc-300">
-                                            Salesforce Sales Cloud • Experience Cloud • LWC • Apex • Salesforce Flow •
-                                            Custom Objects • Permission Sets • REST API • Reports & Dashboards
+                                            Next.js 14 • React 18 • TypeScript • Prisma ORM • PostgreSQL •
+                                            Zod • SIP.js • Vercel / Docker
                                         </div>
                                     </div>
                                     <div className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-200">
                                         <ShieldCheck className="h-4 w-4" />
-                                        Enterprise-grade security
+                                        OTP + Audit secured
                                     </div>
                                 </div>
                             </div>
@@ -927,7 +832,7 @@ export default function LettingAgencyPortalCaseStudy() {
                                         </span>
                                     </>
                                 }
-                                description="Screenshots of all major modules — property records, agent pipeline, tenant management, financial tracking, admin settings, and reporting dashboards."
+                                description="Screenshots of all major modules — admin control center, agent workspace, dialer suite, team chat, and revenue dashboards."
                             />
                         </Reveal>
 
@@ -935,14 +840,14 @@ export default function LettingAgencyPortalCaseStudy() {
                         <div className="grid gap-6 lg:grid-cols-2">
                             <Reveal delay={0.05}>
                                 <ScreenshotPlaceholder
-                                    label="Property Records Dashboard"
-                                    comment="Main property listing view with status filters, search, and quick-action buttons"
+                                    label="Admin Control Center"
+                                    comment="Agent management, commission config, dialer domain settings, and audit log overview"
                                 />
                             </Reveal>
                             <Reveal delay={0.1}>
                                 <ScreenshotPlaceholder
-                                    label="Agent Pipeline — Kanban View"
-                                    comment="Deal stages from enquiry to completion with drag-and-drop and commission tracking"
+                                    label="Agent Workspace — Property Lifecycle"
+                                    comment="Agent view showing landlord onboarding, property status tracking, and sales records"
                                 />
                             </Reveal>
                         </div>
@@ -951,14 +856,14 @@ export default function LettingAgencyPortalCaseStudy() {
                         <div className="mt-6 grid gap-6 lg:grid-cols-2">
                             <Reveal delay={0.05}>
                                 <ScreenshotPlaceholder
-                                    label="Tenant & Application Management"
-                                    comment="Tenant profile with application status, documents, referencing, and communication log"
+                                    label="Dialer Suite — Dialpad & Call History"
+                                    comment="Live-status dialpad, call history log, contacts list, and intercalling interface"
                                 />
                             </Reveal>
                             <Reveal delay={0.1}>
                                 <ScreenshotPlaceholder
-                                    label="Landlord Portal — Property Overview"
-                                    comment="Landlord self-service Experience Cloud view with portfolio summary and income stats"
+                                    label="Dialer — Labels, Notes & Recordings"
+                                    comment="Call labelling, per-call notes, favourites, and recording URL management"
                                 />
                             </Reveal>
                         </div>
@@ -967,8 +872,8 @@ export default function LettingAgencyPortalCaseStudy() {
                         <div className="mt-6">
                             <Reveal delay={0.05}>
                                 <ScreenshotPlaceholder
-                                    label="Financial Records — Rent Collection & Deposits"
-                                    comment="Monthly rent schedule, payment status, overdue flags, deposit tracking, and invoice list"
+                                    label="Team Communication — Embedded Chat"
+                                    comment="In-portal direct messaging between admin and agent users with conversation history"
                                 />
                             </Reveal>
                         </div>
@@ -977,20 +882,20 @@ export default function LettingAgencyPortalCaseStudy() {
                         <div className="mt-6 grid gap-6 lg:grid-cols-3">
                             <Reveal delay={0.05}>
                                 <ScreenshotPlaceholder
-                                    label="Admin Settings & User Management"
-                                    comment="User roles, permission sets, profile configurations, and system settings panel"
+                                    label="Revenue & Commission Dashboard"
+                                    comment="Sales and commission overview with deal volumes and agent performance summaries"
                                 />
                             </Reveal>
                             <Reveal delay={0.1}>
                                 <ScreenshotPlaceholder
-                                    label="Custom Objects Data Model"
-                                    comment="Salesforce schema overview showing all custom objects and their relationships"
+                                    label="OTP Login & Authentication"
+                                    comment="Secure OTP-protected login flow with rate limiting and session management"
                                 />
                             </Reveal>
                             <Reveal delay={0.15}>
                                 <ScreenshotPlaceholder
-                                    label="Reports & Analytics Dashboard"
-                                    comment="Manager-level performance dashboard with KPIs, pipeline stats, and rent collection chart"
+                                    label="Audit Log — Platform Governance"
+                                    comment="Admin-accessible audit trail showing all user actions and record changes across the portal"
                                 />
                             </Reveal>
                         </div>
@@ -1007,36 +912,36 @@ export default function LettingAgencyPortalCaseStudy() {
                                 badge="Impact"
                                 title={
                                     <>
-                                        One portal, zero spreadsheets,{" "}
+                                        One portal, zero friction,{" "}
                                         <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
-                                            full visibility
+                                            full control
                                         </span>
                                     </>
                                 }
-                                description="The letting agency portal replaced all disconnected manual processes with a single, scalable Salesforce system — delivering faster operations, cleaner data, and better outcomes for agents, landlords, and tenants."
+                                description="The MHG portal replaced fragmented, disconnected tools with a single secure platform — delivering faster operations, stronger security, and better agent productivity across every letting workflow."
                                 centered
                             />
                         </Reveal>
 
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                            <StatCard icon={Home} label="Property Lifecycle" value="Fully tracked" delay={0.05} />
-                            <StatCard icon={Wallet} label="Financials" value="Automated" delay={0.1} />
-                            <StatCard icon={Users} label="User Roles" value="4 profiles" delay={0.15} />
-                            <StatCard icon={BarChart3} label="Reporting" value="Real-time" delay={0.2} />
+                            <StatCard icon={Layers} label="Operations" value="Centralised" delay={0.05} />
+                            <StatCard icon={Phone} label="Dialer" value="Integrated" delay={0.1} />
+                            <StatCard icon={KeyRound} label="Security" value="OTP + Audit" delay={0.15} />
+                            <StatCard icon={BarChart3} label="Revenue" value="Dashboarded" delay={0.2} />
                         </div>
 
                         <div className="mt-8 grid gap-6 md:grid-cols-2">
                             <Reveal delay={0.05}>
                                 <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 h-full">
-                                    <h3 className="text-lg font-bold text-white">Operational improvements</h3>
+                                    <h3 className="text-lg font-bold text-white">Operational outcomes</h3>
                                     <ul className="mt-5 space-y-3 text-sm text-zinc-200">
                                         {[
-                                            "All property, tenant, and landlord records centralised in Salesforce",
-                                            "Rent tracking automated — no more manual chasing spreadsheets",
-                                            "Agents work from a single pipeline dashboard with live deal stages",
-                                            "Landlords access their portfolio statements without contacting the office",
-                                            "Tenants submit maintenance requests directly from their portal",
-                                            "Compliance certificate expiry tracked and alerted automatically",
+                                            "Single source of truth for landlords, properties, sales, and tenants",
+                                            "Faster admin oversight with cleaner ownership and control boundaries",
+                                            "Agents work from a unified workspace without switching tools",
+                                            "Integrated dialer reduces context switching during calling workflows",
+                                            "Embedded team chat keeps communication in-platform and on record",
+                                            "Persistent audit trails support compliance and accountability",
                                         ].map((item, i) => (
                                             <li key={i} className="flex items-start gap-3">
                                                 <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
@@ -1052,12 +957,12 @@ export default function LettingAgencyPortalCaseStudy() {
                                     <h3 className="text-lg font-bold text-white">Technical deliverables</h3>
                                     <ul className="mt-5 space-y-3 text-sm text-zinc-200">
                                         {[
-                                            "8 custom Salesforce objects with full relationship mapping",
-                                            "15+ Lightning Web Components across all portal views",
-                                            "Apex triggers and classes for automation and integration",
-                                            "Experience Cloud portal with 4 distinct profile experiences",
-                                            "Role hierarchy and permission sets for secure access control",
-                                            "14 custom dashboards and 20+ automated reports",
+                                            "Next.js 14 + TypeScript portal with App Router and Server Actions",
+                                            "PostgreSQL database managed via Prisma ORM with typed queries",
+                                            "Zod validation layer across all inputs and API boundaries",
+                                            "SIP.js dialer suite with intercalling and recording URL support",
+                                            "OTP login with rate limiting, secure sessions, and role-aware routing",
+                                            "Platform-wide audit logging for admin governance and compliance",
                                         ].map((item, i) => (
                                             <li key={i} className="flex items-start gap-3">
                                                 <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-purple-400" />
@@ -1075,15 +980,15 @@ export default function LettingAgencyPortalCaseStudy() {
                                     <div className="max-w-2xl">
                                         <div className="text-sm font-semibold text-white">Skills & deliverables</div>
                                         <div className="mt-1 text-sm text-zinc-300">
-                                            Salesforce Sales Cloud • Experience Cloud • LWC • Apex • Custom Objects •
-                                            Flows & Automation • Role-Based Access • Reports & Dashboards
+                                            Next.js 14 • React 18 • TypeScript • Prisma ORM • PostgreSQL •
+                                            Zod • SIP.js • OTP Auth • Audit Logs • Vercel / Docker
                                         </div>
                                     </div>
                                     <a
                                         href="/contact"
                                         className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-[1.02]"
                                     >
-                                        Build Your Salesforce Portal
+                                        Build Your Portal
                                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                     </a>
                                 </div>
@@ -1091,7 +996,7 @@ export default function LettingAgencyPortalCaseStudy() {
                         </Reveal>
 
                         <div className="mt-10 text-center text-xs text-zinc-500">
-                            © {year} • Salesforce case study • IT Meta Solutions
+                            © {year} • MHG Portal case study • IT Meta Solutions
                         </div>
                     </Container>
                 </section>

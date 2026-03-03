@@ -6,6 +6,7 @@ import fbrLogo from "../assets/img/FBR Logo ITMS.webp";
 
 const services = [
   { label: "Web Development", href: "/web-development-expertise" },
+  { label: "Custom Web Apps", href: "/custom-web-apps-expertise" },
   { label: "Salesforce", href: "/salesforce-expertise" },
   { label: "Digital Marketing", href: "/digital-marketing-expertise" },
   { label: "SEO", href: "/seo-expertise" },

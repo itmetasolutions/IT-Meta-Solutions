@@ -29,6 +29,7 @@ import {
   ShieldCheck,
   ShoppingCart,
   Search,
+  LayoutGrid,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
@@ -542,6 +543,19 @@ const services = [
     ],
     gradient: "from-[#5025d1] to-purple-600",
     link: "/salesforce-expertise",
+  },
+  {
+    icon: LayoutGrid,
+    title: "Custom Web Apps",
+    description: "Bespoke web portals, operations dashboards, and business systems built around your exact workflows.",
+    features: [
+      "Role-based portals & admin panels",
+      "Next.js 14 + PostgreSQL stack",
+      "OTP auth & audit logging",
+      "Dialer, chat & API integrations",
+    ],
+    gradient: "from-indigo-500 to-violet-600",
+    link: "/custom-web-apps-expertise",
   },
 ];
 
