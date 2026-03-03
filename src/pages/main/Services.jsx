@@ -82,56 +82,57 @@ function Badge({ children, icon: Icon }) {
   );
 }
 
-function ServiceSelector({ active, onClick, icon: Icon, label, description }) {
+function VerticalTabButton({ active, onClick, icon: Icon, label, description }) {
   const reduced = usePrefersReducedMotion();
-  const isActive = active;
-
   return (
     <motion.button
       type="button"
       onClick={onClick}
-      initial={reduced ? false : { y: 16 }}
-      whileInView={reduced ? {} : { y: 0 }}
-      viewport={{ once: true }}
-      whileHover={reduced ? {} : { y: -4, transition: { duration: 0.2 } }}
+      whileHover={reduced ? {} : { x: active ? 0 : 4, transition: { duration: 0.15 } }}
       whileTap={reduced ? {} : { scale: 0.98 }}
       className={cx(
-        "group relative flex flex-col items-center text-center p-5 rounded-2xl border transition-all duration-300",
-        isActive
-          ? "border-[#5025d1] bg-gradient-to-br from-[#5025d1]/20 to-purple-600/10 shadow-lg shadow-[#5025d1]/20"
-          : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/20"
+        "group relative w-full flex items-center gap-3.5 pl-5 pr-4 py-3 rounded-2xl border text-left transition-all duration-300",
+        active
+          ? "border-[#5025d1]/40 bg-gradient-to-r from-[#5025d1]/20 to-purple-600/5 shadow-md shadow-[#5025d1]/10"
+          : "border-transparent hover:border-white/10 hover:bg-white/[0.04]"
       )}
     >
-      {/* Active indicator glow */}
-      {isActive && (
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/10 to-purple-600/5 blur-xl" />
-      )}
+      {/* Active left indicator bar */}
+      <span className={cx(
+        "absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-full bg-gradient-to-b from-[#5025d1] to-purple-400 transition-all duration-300",
+        active ? "h-8 opacity-100" : "h-0 opacity-0"
+      )} />
 
       <div className={cx(
-        "relative flex items-center justify-center w-14 h-14 rounded-xl transition-all duration-300",
-        isActive
-          ? "bg-gradient-to-br from-[#5025d1] to-purple-600 shadow-lg shadow-[#5025d1]/40"
-          : "bg-white/10 group-hover:bg-white/15"
+        "flex items-center justify-center w-9 h-9 rounded-xl flex-shrink-0 transition-all duration-300",
+        active
+          ? "bg-gradient-to-br from-[#5025d1] to-purple-600 shadow-md shadow-[#5025d1]/40"
+          : "bg-white/8 group-hover:bg-white/12"
       )}>
-        <Icon className={cx("w-7 h-7 transition-colors", isActive ? "text-white" : "text-zinc-300 group-hover:text-white")} />
+        <Icon className={cx("w-[18px] h-[18px] transition-colors", active ? "text-white" : "text-zinc-400 group-hover:text-zinc-200")} />
       </div>
 
-      <span className={cx(
-        "relative mt-3 text-sm font-semibold transition-colors",
-        isActive ? "text-white" : "text-zinc-300 group-hover:text-white"
-      )}>
-        {label}
-      </span>
+      <div className="min-w-0 flex-1">
+        <div className={cx(
+          "text-sm font-semibold leading-tight transition-colors",
+          active ? "text-white" : "text-zinc-400 group-hover:text-zinc-200"
+        )}>
+          {label}
+        </div>
+        {description && (
+          <div className={cx(
+            "text-xs mt-0.5 transition-colors",
+            active ? "text-zinc-400" : "text-zinc-600 group-hover:text-zinc-500"
+          )}>
+            {description}
+          </div>
+        )}
+      </div>
 
-      {description && (
-        <span className="relative mt-1 text-xs text-zinc-500 line-clamp-2">
-          {description}
-        </span>
-      )}
-
-      {isActive && (
-        <div className="absolute -bottom-px left-1/2 -translate-x-1/2 w-12 h-1 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600" />
-      )}
+      <ArrowRight className={cx(
+        "h-3.5 w-3.5 flex-shrink-0 transition-all duration-300",
+        active ? "text-[#5025d1] opacity-100" : "opacity-0 -translate-x-2"
+      )} />
     </motion.button>
   );
 }
@@ -250,18 +251,18 @@ const seoFaqs = [
 function PanelWeb() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Code2}>Web Development</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           High-Converting Websites Built for Growth
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Modern websites and e-commerce stores optimized for speed, conversions,
           and mobile users.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/web-development-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -272,7 +273,7 @@ function PanelWeb() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={LayoutGrid}
           title="Business Websites"
@@ -320,17 +321,17 @@ function PanelWeb() {
 function PanelCustomWebApps() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Layers}>Custom Web Applications</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           Bespoke Portals & Business Systems
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Role-based web applications, internal tools, and operations dashboards built around your exact workflows — not generic templates.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/custom-web-apps-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -341,7 +342,7 @@ function PanelCustomWebApps() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={LayoutGrid}
           title="Portals & Dashboards"
@@ -389,18 +390,18 @@ function PanelCustomWebApps() {
 function PanelSalesforce() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Cloud}>Salesforce Development</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           Custom Salesforce Solutions
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Streamline your business operations with custom Salesforce
           implementations and integrations.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/salesforce-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -411,7 +412,7 @@ function PanelSalesforce() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={Cloud}
           title="Salesforce Implementation"
@@ -459,18 +460,18 @@ function PanelSalesforce() {
 function PanelMarketing() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Megaphone}>Digital Marketing</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           Performance Marketing That Drives Results
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Full-funnel ad systems focused on leads, sales, and maximizing ROAS
           across all platforms.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/digital-marketing-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -481,7 +482,7 @@ function PanelMarketing() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={Megaphone}
           title="Meta Ads"
@@ -529,18 +530,18 @@ function PanelMarketing() {
 function PanelSEO() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Search}>SEO Services</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           SEO That Compounds Over Time
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Technical fixes, on-page structure, and content strategy that grow organic visibility
           and qualified leads.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/seo-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -551,7 +552,7 @@ function PanelSEO() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={FileSearch}
           title="Technical SEO"
@@ -599,18 +600,18 @@ function PanelSEO() {
 function PanelSocial() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Share2}>Social Media Management</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           Consistent Content That Builds Trust
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Manage your social presence with strategic content that supports ads
           and drives engagement.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/social-media-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -621,7 +622,7 @@ function PanelSocial() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={Instagram}
           title="Profile Optimization"
@@ -669,18 +670,18 @@ function PanelSocial() {
 function PanelDesign() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Palette}>Graphic Design</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           High-Impact Visuals That Convert
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Modern creatives for ads, social media, and brand identity that make
           users stop and take action.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/graphic-designing-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -691,7 +692,7 @@ function PanelDesign() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={Brush}
           title="Social Media Creatives"
@@ -739,18 +740,18 @@ function PanelDesign() {
 function PanelVideo() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Clapperboard}>Video Editing</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           Short-Form Edits That Drive Engagement
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Reels, TikToks, and ads with modern pacing, strong hooks, and clean
           captions for mobile viewers.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/video-editing-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -761,7 +762,7 @@ function PanelVideo() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={Film}
           title="Reels / TikTok Edits"
@@ -809,18 +810,18 @@ function PanelVideo() {
 function PanelBrand() {
   return (
     <div className="space-y-12">
-      <div className="text-center">
+      <div>
         <Badge icon={Wand2}>Brand Building</Badge>
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
           Complete Brand Systems From Scratch
         </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
           Full brand ecosystems: identity, website, social presence, and ads
           funnels for consistent growth.
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex">
         <Link
           to="/brand-building-expertise"
           className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
@@ -831,7 +832,7 @@ function PanelBrand() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <ServiceCard
           icon={Wand2}
           title="Brand Strategy"
@@ -972,7 +973,7 @@ export default function ServicesPage() {
                 initial={reduced ? false : { y: 16 }}
                 animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-3xl mx-auto"
+                className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-2xl"
               >
                 From websites and Salesforce solutions to digital marketing and brand building — we
                 deliver complete solutions that drive real business growth.
@@ -992,41 +993,90 @@ export default function ServicesPage() {
           </Container>
         </section>
 
-        {/* ==================== SERVICE SELECTOR (PROMINENT GRID) ==================== */}
-        <section className="py-12 sm:py-16">
+        {/* ==================== SERVICES: VERTICAL TABS + CONTENT ==================== */}
+        <section className="py-10 sm:py-14">
           <Container>
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              animate={reduced ? {} : { y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-8"
-            >
-              <h2 className="text-2xl font-bold text-white sm:text-3xl">
-                Select a Service to Explore
-              </h2>
-              <p className="mt-2 text-zinc-400">
-                Click on any service below to see what we offer
-              </p>
-            </motion.div>
+            <div className="flex flex-col lg:flex-row gap-6 xl:gap-10 items-start">
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-9 gap-3 sm:gap-4">
-              {tabs.map((tab, index) => (
-                <ServiceSelector
-                  key={tab.key}
-                  active={activeTab === tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  icon={tab.icon}
-                  label={tab.label}
-                  description={tab.description}
-                />
-              ))}
+              {/* LEFT: Tab Navigation */}
+              <div className="w-full lg:w-60 xl:w-64 flex-shrink-0">
+
+                {/* Mobile: horizontal scrollable pills */}
+                <div className="lg:hidden overflow-x-auto pb-3 -mx-4 px-4">
+                  <div className="flex gap-2 min-w-max">
+                    {tabs.map((tab) => (
+                      <button
+                        key={tab.key}
+                        onClick={() => setActiveTab(tab.key)}
+                        className={cx(
+                          "inline-flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all whitespace-nowrap",
+                          activeTab === tab.key
+                            ? "border-[#5025d1] bg-gradient-to-r from-[#5025d1] to-purple-600 text-white shadow-md shadow-[#5025d1]/30"
+                            : "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 hover:border-white/20"
+                        )}
+                      >
+                        <tab.icon className="h-4 w-4 flex-shrink-0" />
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Desktop: vertical sticky tab list */}
+                <div className="hidden lg:block sticky top-24">
+                  {/* Nav header */}
+                  <div className="mb-4 px-5 flex items-center gap-3">
+                    <span className="h-px flex-1 bg-gradient-to-r from-[#5025d1]/40 to-transparent" />
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
+                      Our Services
+                    </span>
+                    <span className="h-px flex-1 bg-gradient-to-l from-[#5025d1]/40 to-transparent" />
+                  </div>
+
+                  {/* Subtle container */}
+                  <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-2 space-y-0.5">
+                    {tabs.map((tab) => (
+                      <VerticalTabButton
+                        key={tab.key}
+                        active={activeTab === tab.key}
+                        onClick={() => setActiveTab(tab.key)}
+                        icon={tab.icon}
+                        label={tab.label}
+                        description={tab.description}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Bottom CTA card */}
+                  <div className="mt-4 rounded-2xl border border-[#5025d1]/20 bg-gradient-to-br from-[#5025d1]/10 to-purple-600/5 p-4 text-center">
+                    <p className="text-xs text-zinc-400 leading-relaxed">
+                      Not sure which service fits? Let's figure it out together.
+                    </p>
+                    <Link
+                      to="/contact"
+                      className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-4 py-2 text-xs font-semibold text-white transition-all hover:shadow-md hover:shadow-[#5025d1]/30 hover:scale-105"
+                    >
+                      Talk to Us
+                      <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT: Panel Content */}
+              <div className="flex-1 min-w-0">
+                <motion.div
+                  key={activeTab}
+                  initial={reduced ? false : { opacity: 0, y: 12 }}
+                  animate={reduced ? {} : { opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  {renderPanel()}
+                </motion.div>
+              </div>
+
             </div>
           </Container>
-        </section>
-
-        {/* ==================== SERVICE CONTENT ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>{renderPanel()}</Container>
         </section>
 
         <SeoContentFaq content={seoContent} faqs={seoFaqs} />
