@@ -27,6 +27,7 @@ import {
   Ticket,
   Truck,
   Users,
+  Wallet,
   Workflow,
   X,
   Zap,
@@ -313,6 +314,47 @@ const PROJECTS = [
       { label: "Experience Cloud", icon: Globe },
     ],
     href: "/case-study/salesforce-service-cloud-implementation",
+  },
+
+  {
+    key: "letting-agency-portal",
+    title: "Letting Agency Portal — Full CRM & Property Management",
+    icon: Building2,
+    industry: "Salesforce • Real Estate • Experience Cloud • LWC",
+    tags: ["Salesforce", "Experience Cloud", "LWC", "Property Management", "CRM"],
+    category: CATEGORIES.SALESFORCE,
+    subCategories: [SUB_CATEGORIES.SALES_CLOUD, SUB_CATEGORIES.SERVICE_CLOUD, SUB_CATEGORIES.EXPERIENCE_CLOUD],
+    summary:
+      "End-to-end Salesforce letting agency portal covering property records, tenant applications, landlord management, agent pipelines, rent tracking, deposit management, admin settings, and role-based dashboards — built on Sales Cloud, Experience Cloud, custom LWC, and Apex.",
+    scope: [
+      "Property records & listings",
+      "Tenant & application management",
+      "Landlord portal (Experience Cloud)",
+      "Agent pipeline & commissions",
+      "Rent & deposit financial tracking",
+      "Admin settings & user management",
+      "Custom Objects & data model",
+      "Reporting & dashboards",
+    ],
+    highlights: [
+      "8 custom Salesforce objects",
+      "4-role permission model",
+      "Automated rent reminders",
+      "Experience Cloud multi-audience portal",
+      "Full financial tracking",
+      "Real-time dashboards",
+    ],
+    stats: [
+      { icon: Home, label: "Properties", value: "Full lifecycle" },
+      { icon: Users, label: "User roles", value: "4 profiles" },
+      { icon: Wallet, label: "Finance", value: "Automated" },
+    ],
+    platforms: [
+      { label: "Sales Cloud", icon: Cloud },
+      { label: "Experience Cloud", icon: Globe },
+      { label: "LWC + Apex", icon: Code2 },
+    ],
+    href: "/case-study/letting-agency-portal",
   },
 
   // ==================== WEB DEVELOPMENT PROJECTS ====================

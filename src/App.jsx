@@ -18,6 +18,7 @@ import EkommartCaseStudy from "./pages/case-studies/EkommartCaseStudy";
 import SalesforceDuplicateCheckCaseStudy from "./pages/case-studies/SalesforceDuplicateCheckCaseStudy";
 import SalesforceExperienceCloudGovernmentCloud from "./pages/case-studies/SalesforceExperienceCloudGovernmentCloud";
 import SalesforceServiceCloudImplementation from "./pages/case-studies/SalesforceServiceCloudImplementation";
+import LettingAgencyPortalCaseStudy from "./pages/case-studies/LettingAgencyPortalCaseStudy";
 import ProcessPage from "./pages/main/process";
 import Contact from "./pages/main/Contact";
 import NotFoundPage from "./pages/main/404";
@@ -221,6 +222,7 @@ function App() {
             <Route path="/case-study/salesforce-duplicate-check" element={<SalesforceDuplicateCheckCaseStudy />} />
             <Route path="/case-study/salesforce-experience-cloud-government-cloud" element={<SalesforceExperienceCloudGovernmentCloud />} />
             <Route path="/case-study/salesforce-service-cloud-implementation" element={<SalesforceServiceCloudImplementation />} />
+            <Route path="/case-study/letting-agency-portal" element={<LettingAgencyPortalCaseStudy />} />
             <Route path="/salesforce-expertise" element={<SalesforceExpertise />} />
             <Route path="/web-development-expertise" element={<WebDevelopmentExpertise />} />
             <Route path="/digital-marketing-expertise" element={<DigitalMarketingExpertise />} />

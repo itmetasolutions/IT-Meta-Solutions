@@ -1,0 +1,1103 @@
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import SeoContentFaq from "../../components/SeoContentFaq";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import {
+    ArrowRight,
+    BarChart3,
+    Building2,
+    CheckCircle2,
+    ChevronRight,
+    Cloud,
+    Cog,
+    Database,
+    FileText,
+    Gauge,
+    Home,
+    ImageIcon,
+    KeyRound,
+    Layers,
+    LayoutGrid,
+    LineChart,
+    Lock,
+    Network,
+    Search,
+    Settings,
+    ShieldCheck,
+    Sparkles,
+    Target,
+    Users,
+    Wallet,
+    Workflow,
+    Wrench,
+} from "lucide-react";
+
+/* ==================== IMAGE IMPORTS ==================== */
+/**
+ * INSTRUCTIONS: Replace these comment blocks with your actual image imports.
+ * Add the screenshot files to: src/assets/img/
+ *
+ * import lapImg1  from "../../assets/img/LettingAgencyPortal-Properties-Dashboard.png";
+ * import lapImg2  from "../../assets/img/LettingAgencyPortal-Tenant-Management.png";
+ * import lapImg3  from "../../assets/img/LettingAgencyPortal-Landlord-Portal.png";
+ * import lapImg4  from "../../assets/img/LettingAgencyPortal-Agent-Pipeline.png";
+ * import lapImg5  from "../../assets/img/LettingAgencyPortal-Financial-Records.png";
+ * import lapImg6  from "../../assets/img/LettingAgencyPortal-Admin-Settings.png";
+ * import lapImg7  from "../../assets/img/LettingAgencyPortal-Data-Model.png";
+ * import lapImg8  from "../../assets/img/LettingAgencyPortal-Reports-Dashboard.png";
+ *
+ * Then replace each <ScreenshotPlaceholder> with <Screenshot src={lapImg1} ... />
+ */
+
+const cx = (...c) => c.filter(Boolean).join(" ");
+
+/* ==================== HOOKS ==================== */
+function usePrefersReducedMotion() {
+    const [reduced, setReduced] = useState(false);
+    useEffect(() => {
+        const m = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+        if (!m) return;
+        const onChange = () => setReduced(!!m.matches);
+        onChange();
+        m.addEventListener?.("change", onChange);
+        return () => m.removeEventListener?.("change", onChange);
+    }, []);
+    return reduced;
+}
+
+/* ==================== UI ATOMS ==================== */
+function Container({ children, className }) {
+    return <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
+}
+
+function AnchorLink({ href, children, className }) {
+    return (
+        <a
+            href={href}
+            onClick={(e) => {
+                if (href?.startsWith?.("#")) {
+                    e.preventDefault();
+                    document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }}
+            className={className}
+        >
+            {children}
+        </a>
+    );
+}
+
+function GradientBlob({ className, color = "rgba(80,37,209,0.22)" }) {
+    return (
+        <div
+            aria-hidden
+            className={cx("pointer-events-none absolute -z-10 blur-3xl", className)}
+            style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}
+        />
+    );
+}
+
+function ScrollProgress() {
+    const { scrollYProgress } = useScroll();
+    const s = useSpring(scrollYProgress, { stiffness: 120, damping: 18, mass: 0.5 });
+    return (
+        <motion.div
+            aria-hidden
+            className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+            style={{ scaleX: s }}
+        />
+    );
+}
+
+function Badge({ children, icon: Icon }) {
+    return (
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+            {Icon ? <Icon className="h-4 w-4" /> : null}
+            {children}
+        </span>
+    );
+}
+
+function Reveal({ children, delay = 0, className }) {
+    const reduced = usePrefersReducedMotion();
+    return (
+        <motion.div
+            className={className}
+            initial={reduced ? false : { y: 16 }}
+            whileInView={reduced ? {} : { y: 0 }}
+            viewport={{ once: true, margin: "-90px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay }}
+        >
+            {children}
+        </motion.div>
+    );
+}
+
+function Pill({ icon: Icon, children }) {
+    return (
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-zinc-100 backdrop-blur-sm">
+            {Icon ? <Icon className="h-3.5 w-3.5 flex-shrink-0 opacity-90" /> : null}
+            {children}
+        </span>
+    );
+}
+
+function SectionHeading({ badge, title, description, centered = false }) {
+    return (
+        <div className={cx("mb-12", centered && "text-center")}>
+            {badge ? (
+                <div className={cx("mb-4", centered && "flex justify-center")}>
+                    <Badge icon={Sparkles}>{badge}</Badge>
+                </div>
+            ) : null}
+            <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">{title}</h2>
+            {description ? (
+                <p className={cx("mt-4 text-base text-zinc-300 sm:text-lg max-w-3xl", centered && "mx-auto")}>{description}</p>
+            ) : null}
+        </div>
+    );
+}
+
+/* ==================== CARDS ==================== */
+function StatCard({ icon: Icon, value, label, delay = 0 }) {
+    const reduced = usePrefersReducedMotion();
+    return (
+        <motion.div
+            initial={reduced ? false : { y: 16 }}
+            whileInView={reduced ? {} : { y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay }}
+            className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm h-full"
+        >
+            <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                    <Icon className="h-6 w-6 flex-shrink-0 text-white" />
+                </div>
+                <div className="min-w-0">
+                    <div className="text-2xl font-bold text-white sm:text-3xl">{value}</div>
+                    <div className="mt-1 text-sm text-zinc-400">{label}</div>
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
+function FeatureCard({ icon: Icon, title, desc, bullets, delay = 0 }) {
+    const reduced = usePrefersReducedMotion();
+    return (
+        <motion.div
+            initial={reduced ? false : { y: 16 }}
+            whileInView={reduced ? {} : { y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay }}
+            whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
+            className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm"
+        >
+            <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+            <div className="relative flex h-full flex-col">
+                <div className="mb-4 flex items-center gap-3">
+                    <div className="flex-shrink-0 inline-flex rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                        <Icon className="h-5 w-5 flex-shrink-0 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white">{title}</h3>
+                </div>
+                <p className="text-sm leading-relaxed text-zinc-300">{desc}</p>
+                {bullets?.length ? (
+                    <ul className="mt-5 space-y-2 text-sm text-zinc-200">
+                        {bullets.map((b, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
+                                <span className="opacity-90">{b}</span>
+                            </li>
+                        ))}
+                    </ul>
+                ) : null}
+                <div className="mt-auto pt-4" />
+            </div>
+        </motion.div>
+    );
+}
+
+function Divider() {
+    return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
+}
+
+/* ==================== SCREENSHOT PLACEHOLDER ==================== */
+/**
+ * Replace with the Screenshot component once you add images:
+ *
+ * function Screenshot({ src, title, comment }) {
+ *   return (
+ *     <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-4 backdrop-blur-sm h-full">
+ *       <div className="overflow-hidden rounded-2xl">
+ *         <img src={src} alt={title} className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105" />
+ *       </div>
+ *       <div className="mt-4 px-2">
+ *         <div className="text-sm font-semibold text-white">{title}</div>
+ *         <div className="mt-1 text-sm text-zinc-400">{comment}</div>
+ *       </div>
+ *     </div>
+ *   );
+ * }
+ */
+function ScreenshotPlaceholder({ label, comment }) {
+    return (
+        <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-4 backdrop-blur-sm h-full">
+            <div className="flex min-h-[260px] flex-col items-center justify-center gap-4 overflow-hidden rounded-2xl border border-dashed border-white/20 bg-gradient-to-br from-[#5025d1]/10 to-purple-900/20">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <ImageIcon className="h-10 w-10 text-white/25" />
+                </div>
+                <div className="px-6 text-center">
+                    <div className="text-sm font-semibold text-white/50">{label}</div>
+                    <div className="mt-1 text-xs text-zinc-600">Replace with: lapImg placeholder</div>
+                </div>
+            </div>
+            <div className="mt-4 px-2">
+                <div className="text-sm font-semibold text-white">{label}</div>
+                {comment && <div className="mt-1 text-sm text-zinc-400">{comment}</div>}
+            </div>
+        </div>
+    );
+}
+
+/* ==================== MODULE DETAIL BLOCK ==================== */
+function ModuleBlock({ icon: Icon, number, title, desc, fields, delay = 0 }) {
+    const reduced = usePrefersReducedMotion();
+    return (
+        <motion.div
+            initial={reduced ? false : { y: 16 }}
+            whileInView={reduced ? {} : { y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay }}
+            className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 sm:p-8 backdrop-blur-sm"
+        >
+            <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-[#5025d1]/15 to-purple-600/15 blur-3xl" />
+            <div className="relative flex flex-col gap-5 md:flex-row md:gap-8">
+                <div className="flex items-center gap-4 md:flex-col md:items-start md:gap-3 md:w-56 md:flex-shrink-0">
+                    <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                        <Icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                        <div className="text-xs font-semibold uppercase tracking-widest text-purple-400">Module {number}</div>
+                        <h3 className="text-xl font-bold text-white">{title}</h3>
+                    </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                    <p className="text-sm leading-relaxed text-zinc-300">{desc}</p>
+                    {fields?.length ? (
+                        <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                            {fields.map((f, i) => (
+                                <div key={i} className="flex items-start gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
+                                    <ChevronRight className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-purple-400" />
+                                    <span className="text-xs text-zinc-200">{f}</span>
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
+/* ==================== NAV ==================== */
+const inPageNav = [
+    { label: "Overview", href: "#overview" },
+    { label: "Modules", href: "#modules" },
+    { label: "Architecture", href: "#architecture" },
+    { label: "Screenshots", href: "#screens" },
+    { label: "Impact", href: "#impact" },
+];
+
+function StickySubnav() {
+    return (
+        <div className="sticky top-[72px] z-40 border-b border-white/10 bg-white/5 backdrop-blur-lg">
+            <Container className="py-3">
+                <div className="flex items-center justify-between gap-3">
+                    <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
+                        <Cloud className="h-4 w-4 text-[#5025d1]" />
+                        Salesforce • Experience Cloud • LWC • Apex
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 justify-end">
+                        {inPageNav.map((n) => (
+                            <AnchorLink
+                                key={n.href}
+                                href={n.href}
+                                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200 hover:bg-white/10"
+                            >
+                                {n.label}
+                            </AnchorLink>
+                        ))}
+                    </div>
+                </div>
+            </Container>
+        </div>
+    );
+}
+
+/* ==================== SEO DATA ==================== */
+const seoContent = {
+    kicker: "Case Study",
+    title: "Salesforce Letting Agency Portal — Full CRM & Property Management",
+    subtitle:
+        "Custom Salesforce portal built for a letting agency with property records, tenant management, agent pipelines, admin controls, financial tracking, and role-based access.",
+    paragraphs: [
+        "We built a complete Salesforce-based letting agency portal covering the full lifecycle of property letting — from landlord onboarding and property listings through tenant applications, tenancy management, rent collection, and agent commission tracking.",
+        "The platform runs on Salesforce Sales Cloud and Experience Cloud with custom LWC components, Apex logic, and a role-based permission model that serves agents, landlords, tenants, and admin staff from a single unified system.",
+    ],
+    bullets: [
+        "Salesforce Experience Cloud portal for letting agency workflows",
+        "Custom LWC components for property, tenant, and landlord records",
+        "Financial tracking: rent, deposits, invoices, and commissions",
+        "Role-based access for agents, admins, landlords, and tenants",
+    ],
+};
+
+const seoFaqs = [
+    {
+        q: "What Salesforce products were used for the Letting Agency Portal?",
+        a: "Salesforce Sales Cloud, Experience Cloud, and custom LWC components with Apex backend logic.",
+    },
+    {
+        q: "Does the portal support multiple user roles?",
+        a: "Yes. The system has distinct permission sets for admin staff, letting agents, landlords, and tenants.",
+    },
+    {
+        q: "Can this portal handle financial records like rent and deposits?",
+        a: "Yes. It includes full financial tracking — rent schedules, deposit management, invoice generation, and agent commissions.",
+    },
+    {
+        q: "Can you build a similar Salesforce portal for our agency?",
+        a: "Absolutely. We tailor Salesforce CRM solutions to your letting or estate agency workflows. Contact us for a free consultation.",
+    },
+];
+
+/* ==================== PAGE ==================== */
+export default function LettingAgencyPortalCaseStudy() {
+    const reduced = usePrefersReducedMotion();
+    const year = useMemo(() => new Date().getFullYear(), []);
+    const { scrollY } = useScroll();
+    const heroY = useTransform(scrollY, [0, 900], [0, reduced ? 0 : -70]);
+    const heroOpacity = useTransform(scrollY, [0, 520], [1, 0.9]);
+    const heroRef = useRef(null);
+
+    return (
+        <>
+            <Helmet>
+                <title>Letting Agency Portal — Salesforce CRM & Property Management | Case Study | IT Meta Solutions</title>
+                <meta
+                    name="description"
+                    content="Salesforce case study: custom letting agency portal with property records, tenant management, agent pipeline, financial tracking, and role-based admin controls."
+                />
+                <meta
+                    name="keywords"
+                    content="Salesforce letting agency portal, property management CRM, Experience Cloud, LWC, Apex, tenant management, landlord portal, agent pipeline, IT Meta Solutions"
+                />
+                <meta property="og:title" content="Letting Agency Portal — Salesforce CRM & Property Management | Case Study" />
+                <meta
+                    property="og:description"
+                    content="Full-stack Salesforce portal for letting agencies: property records, tenants, landlords, agents, financials, admin settings, and reporting."
+                />
+                <meta property="og:type" content="article" />
+                <link rel="canonical" href="https://itmetasolutions.com/case-study/letting-agency-portal" />
+                <meta property="og:url" content="https://itmetasolutions.com/case-study/letting-agency-portal" />
+                <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Letting Agency Portal — Salesforce CRM & Property Management | Case Study" />
+                <meta
+                    name="twitter:description"
+                    content="Full-stack Salesforce portal for letting agencies: property records, tenants, landlords, agents, financials, admin settings, and reporting."
+                />
+                <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
+            </Helmet>
+
+            <div className="relative min-h-screen overflow-hidden text-zinc-100">
+                <ScrollProgress />
+
+                <GradientBlob className="left-[-120px] top-[-120px] h-[620px] w-[620px]" color="rgba(80,37,209,0.20)" />
+                <GradientBlob className="right-[-180px] top-[180px] h-[720px] w-[720px]" color="rgba(186,85,211,0.14)" />
+                <GradientBlob className="bottom-[-160px] left-[25%] h-[760px] w-[760px]" color="rgba(80,37,209,0.16)" />
+
+                {/* ==================== HERO ==================== */}
+                <section ref={heroRef} className="relative pt-24 pb-10 sm:pt-32 sm:pb-16">
+                    <Container>
+                        <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+                            <Reveal>
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <Pill icon={Cloud}>Sales Cloud</Pill>
+                                    <Pill icon={Building2}>Experience Cloud</Pill>
+                                    <Pill icon={Layers}>LWC + Apex</Pill>
+                                    <Pill icon={Home}>Property Records</Pill>
+                                    <Pill icon={Users}>Agent Portal</Pill>
+                                    <Pill icon={Wallet}>Financial Tracking</Pill>
+                                    <Pill icon={KeyRound}>Role-Based Access</Pill>
+                                    <Pill icon={Settings}>Admin Controls</Pill>
+                                </div>
+                            </Reveal>
+
+                            <Reveal delay={0.06}>
+                                <h1 className="mt-7 max-w-5xl text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                                    Letting Agency Portal —{" "}
+                                    <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                                        Full Salesforce CRM
+                                    </span>
+                                </h1>
+                            </Reveal>
+
+                            <Reveal delay={0.12}>
+                                <p className="mt-5 max-w-3xl text-sm leading-relaxed text-zinc-300 sm:text-base">
+                                    A complete Salesforce-based letting agency management portal covering the entire property lifecycle — property listings,
+                                    landlord onboarding, tenant applications, agent pipelines, rent tracking, deposit management, admin settings, and
+                                    role-based dashboards — all built on Sales Cloud and Experience Cloud with custom LWC components and Apex logic.
+                                </p>
+                            </Reveal>
+
+                            {/* Hero image placeholder — replace with actual hero image */}
+                            <Reveal delay={0.14}>
+                                <div className="mt-8 overflow-hidden rounded-3xl border border-dashed border-white/20 bg-gradient-to-br from-[#5025d1]/10 to-purple-900/20">
+                                    <div className="flex min-h-[220px] sm:min-h-[320px] flex-col items-center justify-center gap-4 px-6 py-10 text-center">
+                                        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                                            <ImageIcon className="h-12 w-12 text-white/20" />
+                                        </div>
+                                        <div>
+                                            <div className="text-base font-semibold text-white/40">Hero / Banner Image Placeholder</div>
+                                            <div className="mt-1 text-xs text-zinc-600">
+                                                Add your hero screenshot here — replace this block with an{" "}
+                                                <code className="text-zinc-500">&lt;img&gt;</code> tag
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Reveal>
+
+                            {/* KPI cards */}
+                            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                                <StatCard icon={Home} label="Core Objects" value="Properties" delay={0.05} />
+                                <StatCard icon={Users} label="User Roles" value="4 Profiles" delay={0.1} />
+                                <StatCard icon={Wallet} label="Finance" value="Full Tracking" delay={0.15} />
+                                <StatCard icon={Settings} label="Admin" value="Full Control" delay={0.2} />
+                            </div>
+
+                            <Reveal delay={0.18}>
+                                <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm">
+                                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                        <div className="max-w-2xl">
+                                            <div className="text-sm font-semibold text-white">Project summary</div>
+                                            <div className="mt-1 text-sm text-zinc-300">
+                                                End-to-end Salesforce portal replacing manual letting agency processes with a unified CRM — from property
+                                                listing and landlord management to tenant onboarding, agent deal tracking, and automated financial records.
+                                            </div>
+                                        </div>
+                                        <a
+                                            href="/contact"
+                                            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/40 transition-all hover:shadow-xl hover:shadow-[#5025d1]/55 hover:scale-[1.02]"
+                                        >
+                                            Build Your Portal
+                                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                        </a>
+                                    </div>
+
+                                    <div className="mt-6 grid gap-4 md:grid-cols-3">
+                                        {[
+                                            { icon: Users, title: "Agents & Staff", desc: "Manage their full pipeline — viewings, offers, deals, and commissions from one dashboard." },
+                                            { icon: Home, title: "Landlords & Tenants", desc: "Self-service Experience Cloud portal for landlords to track properties and tenants to view tenancy status." },
+                                            { icon: Settings, title: "Admin & Finance", desc: "Complete control over users, permissions, financial records, rent schedules, and reporting." },
+                                        ].map((b) => (
+                                            <div key={b.title} className="rounded-2xl border border-white/10 bg-white/5 p-4 flex flex-col justify-center">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
+                                                        <b.icon className="h-5 w-5 text-white/85" />
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-sm font-semibold text-white">{b.title}</div>
+                                                        <div className="mt-1 text-sm text-zinc-300">{b.desc}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </Reveal>
+                        </motion.div>
+                    </Container>
+                </section>
+
+                <StickySubnav />
+
+                {/* ==================== OVERVIEW ==================== */}
+                <section id="overview" className="scroll-mt-24 py-16 sm:py-20">
+                    <Container>
+                        <Reveal>
+                            <SectionHeading
+                                badge="Overview"
+                                title={
+                                    <>
+                                        Replacing spreadsheets with a{" "}
+                                        <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                                            unified CRM portal
+                                        </span>
+                                    </>
+                                }
+                                description="The agency was managing properties, tenants, landlords, and financials across disconnected spreadsheets and emails. We built a single Salesforce portal that covers every aspect of the letting process — from first enquiry to tenancy end."
+                            />
+                        </Reveal>
+
+                        <div className="grid gap-6 lg:grid-cols-3">
+                            <FeatureCard
+                                icon={Search}
+                                title="The challenge"
+                                desc="Disconnected tools, manual tracking, and no visibility across the full property lifecycle."
+                                bullets={[
+                                    "Properties, tenants, landlords managed in spreadsheets",
+                                    "No unified agent pipeline or deal tracking",
+                                    "Manual rent reminders and deposit records",
+                                    "No role-based access or permission control",
+                                    "Reporting required manual data export",
+                                ]}
+                                delay={0.05}
+                            />
+                            <FeatureCard
+                                icon={Target}
+                                title="Primary goals"
+                                desc="Build a Salesforce portal that centralises the entire letting workflow for all user types."
+                                bullets={[
+                                    "Unified property, tenant & landlord records",
+                                    "Agent pipeline with stages and commissions",
+                                    "Financial tracking: rent, deposits, invoices",
+                                    "Role-based dashboards per user profile",
+                                    "Admin control panel for settings and users",
+                                ]}
+                                delay={0.1}
+                            />
+                            <FeatureCard
+                                icon={ShieldCheck}
+                                title="Delivered outcome"
+                                desc="A fully operational Salesforce letting portal serving agents, landlords, tenants, and admin staff."
+                                bullets={[
+                                    "End-to-end property lifecycle in one system",
+                                    "Automated rent schedules and reminders",
+                                    "Secure multi-role Experience Cloud portal",
+                                    "Real-time dashboards and reports",
+                                    "Clean data model built for scale",
+                                ]}
+                                delay={0.15}
+                            />
+                        </div>
+                    </Container>
+                </section>
+
+                <Container><Divider /></Container>
+
+                {/* ==================== MODULES ==================== */}
+                <section id="modules" className="scroll-mt-24 py-16 sm:py-20">
+                    <Container>
+                        <Reveal>
+                            <SectionHeading
+                                badge="Core Modules"
+                                title={
+                                    <>
+                                        Every part of the portal,{" "}
+                                        <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                                            in detail
+                                        </span>
+                                    </>
+                                }
+                                description="The system is organised into eight core modules. Each handles a distinct area of the letting business — from property records to financial reporting and admin configuration."
+                            />
+                        </Reveal>
+
+                        <div className="flex flex-col gap-6">
+                            <ModuleBlock
+                                icon={Home}
+                                number="01"
+                                title="Property Records"
+                                desc="The core object of the portal. Every property is stored as a custom Salesforce record with full details, status tracking, media links, and relationship to landlords and tenants. Agents can manage availability, set listing status, log viewings, and link to active tenancies."
+                                fields={[
+                                    "Property ID & reference number",
+                                    "Address & postcode (structured)",
+                                    "Property type (flat, house, HMO, commercial)",
+                                    "Bedrooms, bathrooms, floor area (sqft/sqm)",
+                                    "Listing status (Available / Let / Under Offer / Maintenance)",
+                                    "Monthly rent & service charge",
+                                    "EPC rating & compliance certificates",
+                                    "Key features and description",
+                                    "Photos & virtual tour links",
+                                    "Linked landlord record",
+                                    "Active tenancy relationship",
+                                    "Viewing history log",
+                                    "Maintenance requests linked",
+                                    "Last inspection date & notes",
+                                ]}
+                                delay={0.05}
+                            />
+
+                            <ModuleBlock
+                                icon={Users}
+                                number="02"
+                                title="Tenant & Application Management"
+                                desc="Manages the full tenant journey — from initial application through referencing, tenancy agreement, check-in, active tenancy, and checkout. Each tenant has a complete profile with all communication history, payment records, and document storage."
+                                fields={[
+                                    "Tenant full name, DOB, NI number",
+                                    "Contact details (phone, email, address)",
+                                    "Employment status & employer details",
+                                    "Annual income & guarantor info",
+                                    "Application status (New / Referencing / Approved / Rejected)",
+                                    "Right to Rent check record & expiry",
+                                    "Tenancy start & end date",
+                                    "Monthly rent amount & payment method",
+                                    "Security deposit amount & protection scheme",
+                                    "Check-in inventory condition report",
+                                    "Checkout report & deposit deduction log",
+                                    "Maintenance requests raised",
+                                    "Communication log (emails, calls, notes)",
+                                    "Document vault (tenancy agreement, ID, references)",
+                                ]}
+                                delay={0.07}
+                            />
+
+                            <ModuleBlock
+                                icon={Building2}
+                                number="03"
+                                title="Landlord Records"
+                                desc="Dedicated landlord profiles with ownership details, property portfolio, financial statements, and communication history. Landlords can access their own Experience Cloud portal view to monitor their properties, tenancy status, and monthly statements in real time."
+                                fields={[
+                                    "Landlord full name / company name",
+                                    "Contact details & correspondence address",
+                                    "Bank account details (encrypted)",
+                                    "Linked property portfolio",
+                                    "Management type (full / rent collect / tenant find)",
+                                    "Management fee % and setup fee",
+                                    "Monthly statement generation",
+                                    "Rent received vs expected dashboard",
+                                    "Property compliance status overview",
+                                    "Preferred communication channel",
+                                    "Notes and activity log",
+                                    "Documents vault (contracts, certificates)",
+                                ]}
+                                delay={0.09}
+                            />
+
+                            <ModuleBlock
+                                icon={Target}
+                                number="04"
+                                title="Sales & Letting Agent Pipeline"
+                                desc="The agent-facing CRM pipeline tracks every deal from enquiry to completion. Agents manage their allocated properties, log viewings, track offers, and monitor deal stages through a custom LWC dashboard. Commission records are automatically calculated on deal completion."
+                                fields={[
+                                    "Lead enquiry capture (web form / manual)",
+                                    "Enquiry source tracking (portal, referral, walk-in)",
+                                    "Viewing schedule & confirmation status",
+                                    "Offer submitted / negotiated / accepted stages",
+                                    "Deal pipeline stage (Kanban view available)",
+                                    "Assigned agent per property",
+                                    "Agent activity log (calls, viewings, notes)",
+                                    "Commission rate per deal type",
+                                    "Commission earned & paid records",
+                                    "KPI dashboard (viewings/week, deals/month)",
+                                    "Target vs actual performance tracker",
+                                    "Handoff checklist on deal completion",
+                                ]}
+                                delay={0.11}
+                            />
+
+                            <ModuleBlock
+                                icon={Wallet}
+                                number="05"
+                                title="Financial Records & Rent Tracking"
+                                desc="Full financial management module covering rent collection schedules, deposit records, invoice generation, landlord disbursements, and agent commissions. Automated reminders trigger before rent due dates and flag late payments for follow-up."
+                                fields={[
+                                    "Rent schedule (monthly/weekly auto-generated)",
+                                    "Payment status per period (Paid / Pending / Late)",
+                                    "Late payment flag & overdue counter",
+                                    "Automated rent reminder notifications",
+                                    "Security deposit amount & scheme reference",
+                                    "Deposit dispute & deduction records",
+                                    "Invoice generation (PDF-ready template)",
+                                    "Agency management fee deduction logic",
+                                    "Landlord disbursement records",
+                                    "Maintenance cost tracking per property",
+                                    "Void period cost recording",
+                                    "Annual financial summary per property",
+                                    "Agent commission invoice & payment log",
+                                    "Financial report export (CSV / PDF)",
+                                ]}
+                                delay={0.13}
+                            />
+
+                            <ModuleBlock
+                                icon={Cog}
+                                number="06"
+                                title="Admin Panel & Settings"
+                                desc="The admin module gives authorised staff complete control over the entire system. From managing user accounts and permission sets to configuring automation rules, email templates, and portal branding — all accessible via a secure admin-only interface."
+                                fields={[
+                                    "User account creation & deactivation",
+                                    "Role & permission set assignment",
+                                    "Profile configuration (agent, admin, landlord, tenant)",
+                                    "Email template management",
+                                    "Automation rule builder (Flow-based)",
+                                    "Notification preferences per user type",
+                                    "Portal branding configuration",
+                                    "Custom field management",
+                                    "Record type and page layout control",
+                                    "Validation rule management",
+                                    "Audit log (user actions & record changes)",
+                                    "Data import / export tool",
+                                    "System health dashboard",
+                                    "Connected apps & API integrations",
+                                ]}
+                                delay={0.15}
+                            />
+
+                            <ModuleBlock
+                                icon={Database}
+                                number="07"
+                                title="Database & Data Model"
+                                desc="Built on Salesforce's native platform with custom objects and standard object relationships. The data model is designed for referential integrity, clean lookups, and scalable reporting across all modules. All sensitive data is field-level encrypted."
+                                fields={[
+                                    "Custom Object: Property__c",
+                                    "Custom Object: Tenancy__c",
+                                    "Custom Object: Application__c",
+                                    "Custom Object: Viewing__c",
+                                    "Custom Object: RentPayment__c",
+                                    "Custom Object: Deposit__c",
+                                    "Custom Object: Commission__c",
+                                    "Custom Object: MaintenanceRequest__c",
+                                    "Standard Object: Account (Landlords)",
+                                    "Standard Object: Contact (Tenants & Agents)",
+                                    "Standard Object: Opportunity (Deals)",
+                                    "Standard Object: Case (Complaints & Issues)",
+                                    "Lookup & Master-Detail relationships",
+                                    "Field-level encryption on sensitive fields",
+                                ]}
+                                delay={0.17}
+                            />
+
+                            <ModuleBlock
+                                icon={BarChart3}
+                                number="08"
+                                title="Reporting & Dashboards"
+                                desc="Custom reports and dashboards give every user type the visibility they need. Agents see their personal pipeline metrics, managers see cross-team performance, landlords see property income summaries, and admins see full operational oversight reports."
+                                fields={[
+                                    "Agent KPI dashboard (viewings, deals, conversions)",
+                                    "Pipeline stage report (all active deals by stage)",
+                                    "Monthly rent collection report",
+                                    "Overdue rent & arrears tracker",
+                                    "Vacancy rate report per month",
+                                    "Portfolio income summary per landlord",
+                                    "Deposit status report",
+                                    "Maintenance open/closed tickets report",
+                                    "New enquiries by source report",
+                                    "Tenancy expiry calendar (30/60/90 days)",
+                                    "Agent commission earned report",
+                                    "Compliance certificate expiry tracker",
+                                    "Custom report builder (admin access)",
+                                    "Scheduled report email delivery",
+                                ]}
+                                delay={0.19}
+                            />
+                        </div>
+                    </Container>
+                </section>
+
+                <Container><Divider /></Container>
+
+                {/* ==================== ARCHITECTURE ==================== */}
+                <section id="architecture" className="scroll-mt-24 py-16 sm:py-20">
+                    <Container>
+                        <Reveal>
+                            <SectionHeading
+                                badge="Architecture"
+                                title={
+                                    <>
+                                        Built on scalable{" "}
+                                        <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                                            Salesforce foundations
+                                        </span>
+                                    </>
+                                }
+                                description="The portal uses a multi-cloud Salesforce architecture combining Sales Cloud for CRM data, Experience Cloud for the external-facing portal, LWC for custom interfaces, and Apex for server-side business logic."
+                            />
+                        </Reveal>
+
+                        <div className="grid gap-6 lg:grid-cols-3">
+                            <FeatureCard
+                                icon={Cloud}
+                                title="Sales Cloud & CRM"
+                                desc="Core CRM layer for managing all contacts, accounts, opportunities, and activity tracking."
+                                bullets={[
+                                    "Accounts for landlord companies",
+                                    "Contacts for tenants and agents",
+                                    "Opportunities for active deals",
+                                    "Activities: calls, emails, tasks, events",
+                                    "Cases for complaints and maintenance",
+                                ]}
+                                delay={0.05}
+                            />
+                            <FeatureCard
+                                icon={Building2}
+                                title="Experience Cloud Portal"
+                                desc="Multi-audience external portal giving landlords and tenants their own secure, branded access."
+                                bullets={[
+                                    "Landlord self-service dashboard",
+                                    "Tenant tenancy status view",
+                                    "Document download centre",
+                                    "Maintenance request submission",
+                                    "Secure login with profile-based access",
+                                ]}
+                                delay={0.1}
+                            />
+                            <FeatureCard
+                                icon={Layers}
+                                title="LWC + Apex Development"
+                                desc="Custom Lightning Web Components and Apex classes power every non-standard interface and logic."
+                                bullets={[
+                                    "Custom LWC for property listing view",
+                                    "Agent pipeline Kanban component",
+                                    "Financial summary LWC widget",
+                                    "Apex triggers for automation",
+                                    "REST API integration hooks",
+                                ]}
+                                delay={0.15}
+                            />
+                        </div>
+
+                        <div className="mt-6 grid gap-6 md:grid-cols-2">
+                            <FeatureCard
+                                icon={Workflow}
+                                title="Automation & Flows"
+                                desc="Salesforce Flows and Process Builder handle routine tasks without manual intervention."
+                                bullets={[
+                                    "Rent due reminder (3 days before)",
+                                    "Late payment alert (1 day after due)",
+                                    "Tenancy expiry notification (60/30 days)",
+                                    "Viewing confirmation email auto-send",
+                                    "New application alert to assigned agent",
+                                    "Compliance certificate expiry warning",
+                                ]}
+                                delay={0.05}
+                            />
+                            <FeatureCard
+                                icon={Lock}
+                                title="Security & Permissions"
+                                desc="Role hierarchy and permission sets ensure every user only sees and does what they're entitled to."
+                                bullets={[
+                                    "4-tier role hierarchy (Admin → Manager → Agent → Viewer)",
+                                    "Object-level and field-level security",
+                                    "Record sharing rules per portfolio",
+                                    "Experience Cloud guest vs authenticated",
+                                    "Sensitive field encryption (bank details, NI)",
+                                    "Full audit trail on all record changes",
+                                ]}
+                                delay={0.1}
+                            />
+                        </div>
+
+                        <Reveal delay={0.16}>
+                            <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm">
+                                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                    <div className="max-w-2xl">
+                                        <div className="text-sm font-semibold text-white">Full tech stack</div>
+                                        <div className="mt-1 text-sm text-zinc-300">
+                                            Salesforce Sales Cloud • Experience Cloud • LWC • Apex • Salesforce Flow •
+                                            Custom Objects • Permission Sets • REST API • Reports & Dashboards
+                                        </div>
+                                    </div>
+                                    <div className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-200">
+                                        <ShieldCheck className="h-4 w-4" />
+                                        Enterprise-grade security
+                                    </div>
+                                </div>
+                            </div>
+                        </Reveal>
+                    </Container>
+                </section>
+
+                <Container><Divider /></Container>
+
+                {/* ==================== SCREENSHOTS ==================== */}
+                <section id="screens" className="scroll-mt-24 py-16 sm:py-20">
+                    <Container>
+                        <Reveal>
+                            <SectionHeading
+                                badge="Project Screenshots"
+                                title={
+                                    <>
+                                        See the portal{" "}
+                                        <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                                            in action
+                                        </span>
+                                    </>
+                                }
+                                description="Screenshots of all major modules — property records, agent pipeline, tenant management, financial tracking, admin settings, and reporting dashboards."
+                            />
+                        </Reveal>
+
+                        {/* Row 1 — 2 wide */}
+                        <div className="grid gap-6 lg:grid-cols-2">
+                            <Reveal delay={0.05}>
+                                <ScreenshotPlaceholder
+                                    label="Property Records Dashboard"
+                                    comment="Main property listing view with status filters, search, and quick-action buttons"
+                                />
+                            </Reveal>
+                            <Reveal delay={0.1}>
+                                <ScreenshotPlaceholder
+                                    label="Agent Pipeline — Kanban View"
+                                    comment="Deal stages from enquiry to completion with drag-and-drop and commission tracking"
+                                />
+                            </Reveal>
+                        </div>
+
+                        {/* Row 2 — 2 wide */}
+                        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+                            <Reveal delay={0.05}>
+                                <ScreenshotPlaceholder
+                                    label="Tenant & Application Management"
+                                    comment="Tenant profile with application status, documents, referencing, and communication log"
+                                />
+                            </Reveal>
+                            <Reveal delay={0.1}>
+                                <ScreenshotPlaceholder
+                                    label="Landlord Portal — Property Overview"
+                                    comment="Landlord self-service Experience Cloud view with portfolio summary and income stats"
+                                />
+                            </Reveal>
+                        </div>
+
+                        {/* Row 3 — full width */}
+                        <div className="mt-6">
+                            <Reveal delay={0.05}>
+                                <ScreenshotPlaceholder
+                                    label="Financial Records — Rent Collection & Deposits"
+                                    comment="Monthly rent schedule, payment status, overdue flags, deposit tracking, and invoice list"
+                                />
+                            </Reveal>
+                        </div>
+
+                        {/* Row 4 — 3 columns */}
+                        <div className="mt-6 grid gap-6 lg:grid-cols-3">
+                            <Reveal delay={0.05}>
+                                <ScreenshotPlaceholder
+                                    label="Admin Settings & User Management"
+                                    comment="User roles, permission sets, profile configurations, and system settings panel"
+                                />
+                            </Reveal>
+                            <Reveal delay={0.1}>
+                                <ScreenshotPlaceholder
+                                    label="Custom Objects Data Model"
+                                    comment="Salesforce schema overview showing all custom objects and their relationships"
+                                />
+                            </Reveal>
+                            <Reveal delay={0.15}>
+                                <ScreenshotPlaceholder
+                                    label="Reports & Analytics Dashboard"
+                                    comment="Manager-level performance dashboard with KPIs, pipeline stats, and rent collection chart"
+                                />
+                            </Reveal>
+                        </div>
+                    </Container>
+                </section>
+
+                <Container><Divider /></Container>
+
+                {/* ==================== IMPACT ==================== */}
+                <section id="impact" className="scroll-mt-24 py-16 sm:py-20 pb-24">
+                    <Container>
+                        <Reveal>
+                            <SectionHeading
+                                badge="Impact"
+                                title={
+                                    <>
+                                        One portal, zero spreadsheets,{" "}
+                                        <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                                            full visibility
+                                        </span>
+                                    </>
+                                }
+                                description="The letting agency portal replaced all disconnected manual processes with a single, scalable Salesforce system — delivering faster operations, cleaner data, and better outcomes for agents, landlords, and tenants."
+                                centered
+                            />
+                        </Reveal>
+
+                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                            <StatCard icon={Home} label="Property Lifecycle" value="Fully tracked" delay={0.05} />
+                            <StatCard icon={Wallet} label="Financials" value="Automated" delay={0.1} />
+                            <StatCard icon={Users} label="User Roles" value="4 profiles" delay={0.15} />
+                            <StatCard icon={BarChart3} label="Reporting" value="Real-time" delay={0.2} />
+                        </div>
+
+                        <div className="mt-8 grid gap-6 md:grid-cols-2">
+                            <Reveal delay={0.05}>
+                                <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 h-full">
+                                    <h3 className="text-lg font-bold text-white">Operational improvements</h3>
+                                    <ul className="mt-5 space-y-3 text-sm text-zinc-200">
+                                        {[
+                                            "All property, tenant, and landlord records centralised in Salesforce",
+                                            "Rent tracking automated — no more manual chasing spreadsheets",
+                                            "Agents work from a single pipeline dashboard with live deal stages",
+                                            "Landlords access their portfolio statements without contacting the office",
+                                            "Tenants submit maintenance requests directly from their portal",
+                                            "Compliance certificate expiry tracked and alerted automatically",
+                                        ].map((item, i) => (
+                                            <li key={i} className="flex items-start gap-3">
+                                                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </Reveal>
+
+                            <Reveal delay={0.1}>
+                                <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 h-full">
+                                    <h3 className="text-lg font-bold text-white">Technical deliverables</h3>
+                                    <ul className="mt-5 space-y-3 text-sm text-zinc-200">
+                                        {[
+                                            "8 custom Salesforce objects with full relationship mapping",
+                                            "15+ Lightning Web Components across all portal views",
+                                            "Apex triggers and classes for automation and integration",
+                                            "Experience Cloud portal with 4 distinct profile experiences",
+                                            "Role hierarchy and permission sets for secure access control",
+                                            "14 custom dashboards and 20+ automated reports",
+                                        ].map((item, i) => (
+                                            <li key={i} className="flex items-start gap-3">
+                                                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-purple-400" />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </Reveal>
+                        </div>
+
+                        <Reveal delay={0.15}>
+                            <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-7 backdrop-blur-sm">
+                                <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+                                    <div className="max-w-2xl">
+                                        <div className="text-sm font-semibold text-white">Skills & deliverables</div>
+                                        <div className="mt-1 text-sm text-zinc-300">
+                                            Salesforce Sales Cloud • Experience Cloud • LWC • Apex • Custom Objects •
+                                            Flows & Automation • Role-Based Access • Reports & Dashboards
+                                        </div>
+                                    </div>
+                                    <a
+                                        href="/contact"
+                                        className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-[1.02]"
+                                    >
+                                        Build Your Salesforce Portal
+                                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                    </a>
+                                </div>
+                            </div>
+                        </Reveal>
+
+                        <div className="mt-10 text-center text-xs text-zinc-500">
+                            © {year} • Salesforce case study • IT Meta Solutions
+                        </div>
+                    </Container>
+                </section>
+
+                <SeoContentFaq content={seoContent} faqs={seoFaqs} />
+            </div>
+        </>
+    );
+}
