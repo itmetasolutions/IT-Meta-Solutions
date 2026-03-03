@@ -13,7 +13,6 @@ import {
     FileText,
     Gauge,
     Home,
-    ImageIcon,
     KeyRound,
     Layers,
     LayoutGrid,
@@ -34,21 +33,15 @@ import {
 } from "lucide-react";
 
 /* ==================== IMAGE IMPORTS ==================== */
-/**
- * INSTRUCTIONS: Replace these comment blocks with your actual image imports.
- * Add the screenshot files to: src/assets/img/
- *
- * import lapImg1  from "../../assets/img/LettingAgencyPortal-Properties-Dashboard.png";
- * import lapImg2  from "../../assets/img/LettingAgencyPortal-Tenant-Management.png";
- * import lapImg3  from "../../assets/img/LettingAgencyPortal-Landlord-Portal.png";
- * import lapImg4  from "../../assets/img/LettingAgencyPortal-Agent-Pipeline.png";
- * import lapImg5  from "../../assets/img/LettingAgencyPortal-Financial-Records.png";
- * import lapImg6  from "../../assets/img/LettingAgencyPortal-Admin-Settings.png";
- * import lapImg7  from "../../assets/img/LettingAgencyPortal-Data-Model.png";
- * import lapImg8  from "../../assets/img/LettingAgencyPortal-Reports-Dashboard.png";
- *
- * Then replace each <ScreenshotPlaceholder> with <Screenshot src={lapImg1} ... />
- */
+import lettingAgencyBannerImg from "../../assets/img/Banner Image.png";
+import adminControlCenterImg from "../../assets/img/Admin Control Center.png";
+import agentWorkspaceImg from "../../assets/img/Agent Workspace \u2014 Property Lifecycle.png";
+import dialerSuiteImg from "../../assets/img/Dialer Suite \u2014 Dialpad & Call History.png";
+import dialerLabelsImg from "../../assets/img/Dialer \u2014 Labels, Notes & Recordings.png";
+import teamCommunicationImg from "../../assets/img/Team Communication \u2014 Embedded Chat.png";
+import revenueDashboardImg from "../../assets/img/Revenue & Commission Dashboard.png";
+import otpLoginImg from "../../assets/img/OTP Login & Authentication.png";
+import auditLogImg from "../../assets/img/Audit Log \u2014 Platform Governance.png";
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -223,38 +216,20 @@ function Divider() {
     return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
 }
 
-/* ==================== SCREENSHOT PLACEHOLDER ==================== */
-/**
- * Replace with the Screenshot component once you add images:
- *
- * function Screenshot({ src, title, comment }) {
- *   return (
- *     <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-4 backdrop-blur-sm h-full">
- *       <div className="overflow-hidden rounded-2xl">
- *         <img src={src} alt={title} className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105" />
- *       </div>
- *       <div className="mt-4 px-2">
- *         <div className="text-sm font-semibold text-white">{title}</div>
- *         <div className="mt-1 text-sm text-zinc-400">{comment}</div>
- *       </div>
- *     </div>
- *   );
- * }
- */
-function ScreenshotPlaceholder({ label, comment }) {
+/* ==================== SCREENSHOT CARD ==================== */
+function Screenshot({ src, title, comment }) {
     return (
-        <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-4 backdrop-blur-sm h-full">
-            <div className="flex min-h-[260px] flex-col items-center justify-center gap-4 overflow-hidden rounded-2xl border border-dashed border-white/20 bg-gradient-to-br from-[#5025d1]/10 to-purple-900/20">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <ImageIcon className="h-10 w-10 text-white/25" />
-                </div>
-                <div className="px-6 text-center">
-                    <div className="text-sm font-semibold text-white/50">{label}</div>
-                    <div className="mt-1 text-xs text-zinc-600">Replace with: lapImg placeholder</div>
-                </div>
+        <div className="group rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-4 backdrop-blur-sm h-full">
+            <div className="overflow-hidden rounded-2xl border border-white/10">
+                <img
+                    src={src}
+                    alt={title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                />
             </div>
             <div className="mt-4 px-2">
-                <div className="text-sm font-semibold text-white">{label}</div>
+                <div className="text-sm font-semibold text-white">{title}</div>
                 {comment && <div className="mt-1 text-sm text-zinc-400">{comment}</div>}
             </div>
         </div>
@@ -458,24 +433,15 @@ export default function LettingAgencyPortalCaseStudy() {
                                 </p>
                             </Reveal>
 
-                            {/* Hero image placeholder — replace with actual hero image */}
                             <Reveal delay={0.14}>
-                                <div className="mt-8 overflow-hidden rounded-3xl border border-dashed border-white/20 bg-gradient-to-br from-[#5025d1]/10 to-purple-900/20">
-                                    <div className="flex min-h-[220px] sm:min-h-[320px] flex-col items-center justify-center gap-4 px-6 py-10 text-center">
-                                        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                                            <ImageIcon className="h-12 w-12 text-white/20" />
-                                        </div>
-                                        <div>
-                                            <div className="text-base font-semibold text-white/40">Hero / Banner Image Placeholder</div>
-                                            <div className="mt-1 text-xs text-zinc-600">
-                                                Add your hero screenshot here — replace this block with an{" "}
-                                                <code className="text-zinc-500">&lt;img&gt;</code> tag
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div className="mt-8 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02]">
+                                    <img
+                                        src={lettingAgencyBannerImg}
+                                        alt="MHG Portal banner"
+                                        className="h-full w-full object-cover"
+                                    />
                                 </div>
                             </Reveal>
-
                             {/* KPI cards */}
                             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                                 <StatCard icon={Layers} label="Core Modules" value="5 Modules" delay={0.05} />
@@ -836,65 +802,73 @@ export default function LettingAgencyPortalCaseStudy() {
                             />
                         </Reveal>
 
-                        {/* Row 1 — 2 wide */}
+                        {/* Row 1 - 2 wide */}
                         <div className="grid gap-6 lg:grid-cols-2">
                             <Reveal delay={0.05}>
-                                <ScreenshotPlaceholder
-                                    label="Admin Control Center"
+                                <Screenshot
+                                    src={adminControlCenterImg}
+                                    title="Admin Control Center"
                                     comment="Agent management, commission config, dialer domain settings, and audit log overview"
                                 />
                             </Reveal>
                             <Reveal delay={0.1}>
-                                <ScreenshotPlaceholder
-                                    label="Agent Workspace — Property Lifecycle"
+                                <Screenshot
+                                    src={agentWorkspaceImg}
+                                    title="Agent Workspace - Property Lifecycle"
                                     comment="Agent view showing landlord onboarding, property status tracking, and sales records"
                                 />
                             </Reveal>
                         </div>
 
-                        {/* Row 2 — 2 wide */}
+                        {/* Row 2 - 2 wide */}
                         <div className="mt-6 grid gap-6 lg:grid-cols-2">
                             <Reveal delay={0.05}>
-                                <ScreenshotPlaceholder
-                                    label="Dialer Suite — Dialpad & Call History"
+                                <Screenshot
+                                    src={dialerSuiteImg}
+                                    title="Dialer Suite - Dialpad & Call History"
                                     comment="Live-status dialpad, call history log, contacts list, and intercalling interface"
                                 />
                             </Reveal>
                             <Reveal delay={0.1}>
-                                <ScreenshotPlaceholder
-                                    label="Dialer — Labels, Notes & Recordings"
+                                <Screenshot
+                                    src={dialerLabelsImg}
+                                    title="Dialer - Labels, Notes & Recordings"
                                     comment="Call labelling, per-call notes, favourites, and recording URL management"
                                 />
                             </Reveal>
                         </div>
 
-                        {/* Row 3 — full width */}
+                        {/* Row 3 - full width */}
                         <div className="mt-6">
                             <Reveal delay={0.05}>
-                                <ScreenshotPlaceholder
-                                    label="Team Communication — Embedded Chat"
+                                <Screenshot
+                                    src={teamCommunicationImg}
+                                    title="Team Communication - Embedded Chat"
                                     comment="In-portal direct messaging between admin and agent users with conversation history"
                                 />
                             </Reveal>
                         </div>
 
-                        {/* Row 4 — 3 columns */}
+                        {/* Row 4 - 3 columns */}
                         <div className="mt-6 grid gap-6 lg:grid-cols-3">
                             <Reveal delay={0.05}>
-                                <ScreenshotPlaceholder
-                                    label="Revenue & Commission Dashboard"
+                                <Screenshot
+                                    src={revenueDashboardImg}
+                                    title="Revenue & Commission Dashboard"
                                     comment="Sales and commission overview with deal volumes and agent performance summaries"
                                 />
                             </Reveal>
                             <Reveal delay={0.1}>
-                                <ScreenshotPlaceholder
-                                    label="OTP Login & Authentication"
+                                <Screenshot
+                                    src={otpLoginImg}
+                                    title="OTP Login & Authentication"
                                     comment="Secure OTP-protected login flow with rate limiting and session management"
                                 />
                             </Reveal>
                             <Reveal delay={0.15}>
-                                <ScreenshotPlaceholder
-                                    label="Audit Log — Platform Governance"
+                                <Screenshot
+                                    src={auditLogImg}
+                                    title="Audit Log - Platform Governance"
                                     comment="Admin-accessible audit trail showing all user actions and record changes across the portal"
                                 />
                             </Reveal>
