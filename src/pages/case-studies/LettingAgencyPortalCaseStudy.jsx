@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
     ArrowRight,
     BarChart3,
+    ExternalLink,
     Building2,
     CheckCircle2,
     ChevronRight,
@@ -460,13 +461,24 @@ export default function LettingAgencyPortalCaseStudy() {
                                                 dialer suite, team communication, and compliance governance in one secure, role-based platform.
                                             </div>
                                         </div>
-                                        <a
-                                            href="/contact"
-                                            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/40 transition-all hover:shadow-xl hover:shadow-[#5025d1]/55 hover:scale-[1.02]"
-                                        >
-                                            Build Your Portal
-                                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                        </a>
+                                        <div className="flex flex-wrap items-center gap-3">
+                                            <a
+                                                href="https://portal.morehomesgroup.co.uk/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/[0.12] hover:scale-[1.02]"
+                                            >
+                                                Visit Live Site
+                                                <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                                            </a>
+                                            <a
+                                                href="/contact"
+                                                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/40 transition-all hover:shadow-xl hover:shadow-[#5025d1]/55 hover:scale-[1.02]"
+                                            >
+                                                Build Your Portal
+                                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                            </a>
+                                        </div>
                                     </div>
 
                                     <div className="mt-6 grid gap-4 md:grid-cols-3">
