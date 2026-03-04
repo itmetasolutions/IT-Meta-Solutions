@@ -453,7 +453,7 @@ export default function LettingAgencyPortalCaseStudy() {
 
                             <Reveal delay={0.18}>
                                 <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm">
-                                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                    <div className="flex flex-col gap-4">
                                         <div className="max-w-2xl">
                                             <div className="text-sm font-semibold text-white">Project summary</div>
                                             <div className="mt-1 text-sm text-zinc-300">
