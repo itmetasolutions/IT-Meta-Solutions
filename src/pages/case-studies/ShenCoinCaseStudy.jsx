@@ -530,7 +530,7 @@ export default function ShenCoinCaseStudy() {
         {/* ==================== SCOPE ==================== */}
         <section className="py-4">
           <Container>
-            <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+            <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 lg:items-center">
               <Reveal>
                 <SectionHeading
                   badge="Project Scope"
