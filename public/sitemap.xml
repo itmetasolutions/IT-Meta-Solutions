@@ -91,6 +91,18 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://itmetasolutions.com/case-study/letting-agency-portal</loc>
+    <lastmod>2026-03-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://itmetasolutions.com/case-study/shencoin</loc>
+    <lastmod>2026-03-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://itmetasolutions.com/salesforce-expertise</loc>
     <lastmod>2026-02-04</lastmod>
     <changefreq>monthly</changefreq>
@@ -135,6 +147,12 @@
   <url>
     <loc>https://itmetasolutions.com/seo-expertise</loc>
     <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itmetasolutions.com/custom-web-apps-expertise</loc>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
