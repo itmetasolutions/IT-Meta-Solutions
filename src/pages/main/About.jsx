@@ -898,7 +898,7 @@ export default function AboutUsPage() {
 
         <GoogleReviewsSection
           title="Read Our Google Reviews"
-          description="The About page now uses the same live Google reviews widget so visitors can check public feedback without leaving the site."
+          description="Public Google reviews for IT Meta Solutions, pulled directly from our live Google Business Profile."
         />
 
         <SeoContentFaq content={seoContent} faqs={seoFaqs} />

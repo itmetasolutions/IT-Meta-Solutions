@@ -1559,7 +1559,7 @@ export default function Home() {
 
         <GoogleReviewsSection
           title="See What Clients Say On Google"
-          description="Browse our live Google reviews widget directly on the home page."
+          description="Latest public Google feedback from our business profile."
         />
 
         <SeoContentFaq content={seoContent} />

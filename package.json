@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "start": "node server/server.js",
     "server": "node server/server.js",
-    "sitemap": "node scripts/generate-sitemap.mjs"
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "reviews:refresh": "python scripts/scrape_google_reviews.py"
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-03-06T11:08:51.781427+00:00",
+  "page_url": "https://itmetasolutions.com/",
+  "widget_id": "416e46d0-c7c1-4638-bce7-268a149545f7",
+  "source": {
+    "supplier": "google",
+    "uri": "ChIJV-PPivIHGTkRo3paanrWdQg",
+    "name": "IT Meta Solutions",
+    "address": "Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700, Pakistan",
+    "rating": 5,
+    "reviews_number": 2,
+    "profile_state": [
+      "complete",
+      100
+    ],
+    "thumbnail_url": null,
+    "profile_logo_url": null,
+    "google_maps_url": "https://maps.app.goo.gl/5LmmNhuWXgWUiA1L6",
+    "write_review_url": "https://search.google.com/local/writereview?placeid=ChIJV-PPivIHGTkRo3paanrWdQg"
+  },
+  "reviews": [
+    {
+      "id": "3be8f51c-b47c-4ef8-b935-4d7393a6e1b9",
+      "author_name": "Sid Rajput",
+      "author_photo_url": "https://lh3.googleusercontent.com/a/ACg8ocLScrV-Tu-BiSSwGveWCpP1VA4MdohevAGqyzHKC8nVEEA5sw=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "Humble team & done my website development work amazingly similar to my expectations. Thanks brothers!",
+      "text_html": "Humble team & done my website development work amazingly similar to my expectations. Thanks brothers!",
+      "google_review_url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pWS1UyaEthRUowYUZJMmJEVjVhekpwWmtGZlprRRAB!2m1!1s0x0:0x875d67a6a5a7aa3!3m1!1s2@1:CAIQACodChtycF9oOjVKU2hKaEJ0aFI2bDV5azJpZkFfZkE%7C0de82h0MZnB%7C",
+      "images": [
+        "https://lh3.googleusercontent.com/geougc-cs/ABOP9ptd1nEsfHPtopheaHvataBTfD1kQslCwUEcxjyHQxF-pnUhyHRUQWiDTt6kaAXgnKMs4mlZFlzaRH9VDxEnwZW23PCivXvA7_ncCE-slw6xMcC3XvxkHl8asPq9J_yGayMfr1MO1M2BKopl"
+      ],
+      "published_at": 1772654829,
+      "published_at_iso": "2026-03-04T20:07:09+00:00",
+      "owner_response": {
+        "text": "Thank you so much for your wonderful feedback!\n\nWe\u2019re thrilled to hear that you\u2019re happy with the work, it means a lot to know that it met your expectations.\n\nYour feedback helped us refine everything to get the best possible result.\n\nWe\u2019re extremely grateful for your trust and support. Looking forward to working together again in the future!",
+        "published_at": 1772582400,
+        "published_at_iso": "2026-03-04T00:00:00+00:00",
+        "name": null,
+        "logo_url": null
+      }
+    },
+    {
+      "id": "aac5401f-a516-4bcd-8e25-63b2ab6a9005",
+      "author_name": "Shamakhan",
+      "author_photo_url": "https://lh3.googleusercontent.com/a/ACg8ocKsh7ebcRAKLqQWwfEns5jDvCREqPe2Jq3psEXXcMVwgs9trg=s120-c-rp-mo-br100",
+      "rating": 5,
+      "text": "The design is clean and responsive across all devices, and the performance is fast and smooth. Communication throughout the project was clear and timely, and they were always open to feedback and revisions. I'm extremely impressed!",
+      "text_html": "The design is clean and responsive across all devices, and the performance is fast and smooth. Communication throughout the project was clear and timely, and they were always open to feedback and revisions. I'm extremely impressed!",
+      "google_review_url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2kxVWFVczJVa2gwY0V3MlRETm5aRU5ZVFdwbFVsRRAB!2m1!1s0x0:0x875d67a6a5a7aa3!3m1!1s2@1:CAIQACodChtycF9oOi1UaUs2Ukh0cEw2TDNnZENYTWplUlE%7C0ddryBIMkzp%7C",
+      "images": [],
+      "published_at": 1772584844,
+      "published_at_iso": "2026-03-04T00:40:44+00:00",
+      "owner_response": null
+    }
+  ]
+}
