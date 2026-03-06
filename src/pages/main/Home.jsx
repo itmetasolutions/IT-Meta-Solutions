@@ -13,7 +13,6 @@ import {
   Target,
   CheckCircle2,
   Star,
-  Quote,
   Rocket,
   Shield,
   Clock,
@@ -33,7 +32,9 @@ import {
   Wallet,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Marquee from "react-fast-marquee";
 import Container from "../../components/Container";
+import GoogleReviewsSection from "../../components/GoogleReviewsSection";
 import SeoContentFaq from "../../components/SeoContentFaq";
 
 /* ==================== IMAGE PLACEHOLDERS ====================
@@ -72,6 +73,7 @@ import hallaGullaLogo from "../../assets/img/Halla Gulla Logo ITMS.webp";
 import hikmabioticsLogo from "../../assets/img/Hikmabiotics Logo ITMS.webp";
 import heavenlyPurchaseLogo from "../../assets/img/Heavenly Purchase Logo ITMS.webp";
 import theRoyalPeaksLogo from "../../assets/img/The Royal Peaks Logo ITMS.webp";
+import shenLogo from "../../assets/img/SHEN Logo.webp";
 
 // Client slider data
 const clientSliderData = [
@@ -84,6 +86,7 @@ const clientSliderData = [
   { name: "Hikmabiotics", logo: hikmabioticsLogo },
   { name: "Heavenly Purchase", logo: heavenlyPurchaseLogo },
   { name: "The Royal Peaks", logo: theRoyalPeaksLogo },
+  { name: "SHEN", logo: shenLogo },
 ];
 
 /* ==================== HELPERS ==================== */
@@ -458,44 +461,6 @@ function CustomWebAppFeatureCard({ project }) {
   );
 }
 
-function TestimonialCard({ testimonial, delay = 0 }) {
-  const reduced = usePrefersReducedMotion();
-
-  return (
-    <motion.div
-      initial={reduced ? false : { y: 16 }}
-      whileInView={reduced ? {} : { y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      className="relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 backdrop-blur-sm"
-    >
-      <Quote className="h-12 w-12 text-[#5025d1]/30" />
-
-      <div className="mt-4 flex gap-1">
-        {[...Array(testimonial.rating)].map((_, i) => (
-          <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-        ))}
-      </div>
-
-      <p className="mt-4 text-zinc-200 leading-relaxed">{testimonial.quote}</p>
-
-      <div className="mt-6 flex items-center gap-4">
-        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#5025d1] to-purple-600 p-0.5">
-          <div className="flex h-full w-full items-center justify-center rounded-full bg-black">
-            <span className="text-lg font-bold text-white">
-              {testimonial.name.charAt(0)}
-            </span>
-          </div>
-        </div>
-        <div>
-          <div className="font-semibold text-white">{testimonial.name}</div>
-          <div className="text-sm text-zinc-400">{testimonial.role}</div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 function IndustryCard({ industry, delay = 0 }) {
   const reduced = usePrefersReducedMotion();
   const Icon = industry.icon;
@@ -793,27 +758,6 @@ const customWebAppProjects = [
   },
 ];
 
-const testimonials = [
-  {
-    name: "Sarah Ahmed",
-    role: "CEO, E-commerce Store",
-    rating: 5,
-    quote: "Our online sales tripled within 3 months. The website is beautiful, fast, and our customers love it. Best investment we've made!",
-  },
-  {
-    name: "Michael Chen",
-    role: "Marketing Director",
-    rating: 5,
-    quote: "The team's strategic approach to digital marketing transformed our online presence. We're now generating consistent leads every week.",
-  },
-  {
-    name: "Fatima Khan",
-    role: "Business Owner",
-    rating: 5,
-    quote: "Professional, responsive, and results-driven. They built our complete brand from scratch and the results speak for themselves.",
-  },
-];
-
 const industries = [
   {
     title: "E-commerce",
@@ -1089,140 +1033,74 @@ export default function Home() {
         <section className="py-16 sm:py-24 overflow-hidden relative">
           {/* Background gradient effects */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#5025d1]/5 to-transparent" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#5025d1]/10 rounded-full blur-[100px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-[#5025d1]/8 rounded-full blur-[100px]" />
 
           <Container className="relative z-10">
             <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
+              initial={reduced ? false : { opacity: 0, y: 16 }}
+              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
               className="text-center mb-12"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-purple-300 mb-4">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-purple-300 mb-5">
                 <Star className="h-4 w-4 fill-purple-400 text-purple-400" />
                 Trusted Partners
               </span>
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
                 Brands That{" "}
-                <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#5025d1] via-purple-400 to-pink-500 bg-clip-text text-transparent">
                   Trust Us
                 </span>
               </h3>
-              <p className="mt-3 text-zinc-400 max-w-lg mx-auto">
+              <p className="mt-4 text-zinc-400 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
                 We've partnered with amazing brands to deliver exceptional digital experiences
               </p>
             </motion.div>
           </Container>
 
-          {/* Double row infinite scrolling slider */}
-          <div className="space-y-6">
-            {/* First row - scrolling left */}
-            <div
-              className="overflow-hidden py-2"
-              style={{
-                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-              }}
-            >
-              <motion.div
-                className="flex gap-6 sm:gap-8"
-                animate={reduced ? {} : {
-                  x: ["0%", "-50%"],
-                }}
-                transition={{
-                  x: {
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    duration: 35,
-                    ease: "linear",
-                  },
-                }}
-              >
-                {[...clientSliderData, ...clientSliderData].map((client, i) => (
-                  <motion.div
-                    key={`row1-${i}`}
-                    className="group flex-shrink-0"
-                    whileHover={reduced ? {} : { scale: 1.05, y: -4 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="relative h-24 w-52 sm:h-28 sm:w-60 rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm p-4 flex items-center justify-center transition-all duration-300 group-hover:border-[#5025d1]/40 group-hover:bg-white/[0.12] group-hover:shadow-lg group-hover:shadow-[#5025d1]/20">
-                      {/* Glow effect on hover */}
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/0 to-purple-600/0 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+          {/* Single infinite scrolling slider — react-fast-marquee */}
+          <Marquee
+            speed={50}
+            pauseOnHover
+            gradient
+            gradientColor="#060011"
+            gradientWidth={120}
+            className="py-3"
+          >
+            {clientSliderData.map((client, i) => (
+              <div key={i} className="group mx-3 flex-shrink-0">
+                <div className="relative h-[90px] w-[200px] sm:h-[100px] sm:w-[220px] rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm flex flex-col items-center justify-center gap-2 px-5 py-4 transition-all duration-300 group-hover:border-[#5025d1]/50 group-hover:bg-white/[0.11] group-hover:shadow-[0_8px_32px_rgba(80,37,209,0.18)] group-hover:-translate-y-1">
+                  {/* Corner glow on hover */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/0 to-purple-600/0 group-hover:from-[#5025d1]/10 group-hover:to-purple-600/5 transition-all duration-300" />
+                  {/* Top shine line */}
+                  <div className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                      {client.logo ? (
-                        <img
-                          src={client.logo}
-                          alt={`${client.name} logo`}
-                          className="h-full w-full object-contain brightness-100 contrast-100 transition-all duration-300 group-hover:brightness-110"
-                        />
-                      ) : (
-                        <span className="text-base font-semibold text-zinc-300 group-hover:text-white transition-colors">
-                          {client.name}
-                        </span>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
+                  {client.logo ? (
+                    <img
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      className="relative h-[52px] w-full object-contain transition-all duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <span className="relative text-base font-semibold text-zinc-300 group-hover:text-white transition-colors">
+                      {client.name}
+                    </span>
+                  )}
+                  <span className="relative text-[11px] font-medium text-zinc-500 group-hover:text-purple-400 transition-colors tracking-wide">
+                    {client.name}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </Marquee>
 
-            {/* Second row - scrolling right (opposite direction) */}
-            <div
-              className="overflow-hidden py-2"
-              style={{
-                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-              }}
-            >
-              <motion.div
-                className="flex gap-6 sm:gap-8"
-                animate={reduced ? {} : {
-                  x: ["-50%", "0%"],
-                }}
-                transition={{
-                  x: {
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    duration: 40,
-                    ease: "linear",
-                  },
-                }}
-              >
-                {[...clientSliderData.slice().reverse(), ...clientSliderData.slice().reverse()].map((client, i) => (
-                  <motion.div
-                    key={`row2-${i}`}
-                    className="group flex-shrink-0"
-                    whileHover={reduced ? {} : { scale: 1.05, y: -4 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="relative h-24 w-52 sm:h-28 sm:w-60 rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm p-4 flex items-center justify-center transition-all duration-300 group-hover:border-[#5025d1]/40 group-hover:bg-white/[0.12] group-hover:shadow-lg group-hover:shadow-[#5025d1]/20">
-                      {/* Glow effect on hover */}
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/0 to-purple-600/0 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-
-                      {client.logo ? (
-                        <img
-                          src={client.logo}
-                          alt={`${client.name} logo`}
-                          className="h-full w-full object-contain brightness-100 contrast-100 transition-all duration-300 group-hover:brightness-110"
-                        />
-                      ) : (
-                        <span className="text-base font-semibold text-zinc-300 group-hover:text-white transition-colors">
-                          {client.name}
-                        </span>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Bottom decorative line */}
+          {/* Bottom count */}
           <Container className="relative z-10">
-            <div className="mt-12 flex items-center justify-center gap-4">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              <span className="text-sm text-zinc-500 whitespace-nowrap">And many more...</span>
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <div className="mt-10 flex items-center justify-center gap-4">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              <span className="text-xs text-zinc-600 uppercase tracking-widest whitespace-nowrap">and growing</span>
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             </div>
           </Container>
         </section>
@@ -1679,31 +1557,10 @@ export default function Home() {
           </Container>
         </section>
 
-        {/* ==================== TESTIMONIALS ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionHeading
-              badge="Testimonials"
-              title={
-                <>
-                  Loved by Businesses
-                  <br />
-                  <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
-                    Around the World
-                  </span>
-                </>
-              }
-              description="Don't just take our word for it. Here's what our clients say about working with us."
-              centered
-            />
-
-            <div className="grid gap-8 md:grid-cols-3">
-              {testimonials.map((testimonial, index) => (
-                <TestimonialCard key={index} testimonial={testimonial} delay={index * 0.1} />
-              ))}
-            </div>
-          </Container>
-        </section>
+        <GoogleReviewsSection
+          title="See What Clients Say On Google"
+          description="Browse our live Google reviews widget directly on the home page."
+        />
 
         <SeoContentFaq content={seoContent} />
 

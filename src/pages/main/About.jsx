@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
+import GoogleReviewsSection from "../../components/GoogleReviewsSection";
 import SeoContentFaq from "../../components/SeoContentFaq";
 
 // Import team member images
@@ -894,6 +895,11 @@ export default function AboutUsPage() {
             </motion.div>
           </Container>
         </section>
+
+        <GoogleReviewsSection
+          title="Read Our Google Reviews"
+          description="The About page now uses the same live Google reviews widget so visitors can check public feedback without leaving the site."
+        />
 
         <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
