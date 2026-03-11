@@ -1021,9 +1021,9 @@ export default function Home() {
 
         {/* ==================== BRANDS WE'VE WORKED WITH - AUTO SLIDER ==================== */}
         <section className="py-16 sm:py-24 overflow-hidden relative">
-          {/* Background gradient effects */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#5025d1]/5 to-transparent" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-[#5025d1]/8 rounded-full blur-[100px]" />
+          {/* Background effects */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#5025d1]/5 to-transparent pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] bg-[#5025d1]/6 rounded-full blur-[120px] pointer-events-none" />
 
           <Container className="relative z-10">
             <motion.div
@@ -1031,7 +1031,7 @@ export default function Home() {
               whileInView={reduced ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="text-center mb-12"
+              className="text-center mb-14"
             >
               <span className="inline-flex items-center gap-2 rounded-full border border-[#5025d1]/30 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-purple-300 mb-5">
                 <Star className="h-4 w-4 fill-purple-400 text-purple-400" />
@@ -1049,48 +1049,65 @@ export default function Home() {
             </motion.div>
           </Container>
 
-          {/* Single infinite scrolling slider — react-fast-marquee */}
+          {/* Infinite scrolling slider — forward direction */}
           <Marquee
-            speed={50}
+            speed={35}
             pauseOnHover
             gradient
             gradientColor="#060011"
-            gradientWidth={120}
-            className="py-3"
+            gradientWidth={160}
+            className="py-2"
           >
-            {clientSliderData.map((client, i) => (
-              <div key={i} className="group mx-3 flex-shrink-0">
-                <div className="relative h-[90px] w-[200px] sm:h-[100px] sm:w-[220px] rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm flex flex-col items-center justify-center gap-2 px-5 py-4 transition-all duration-300 group-hover:border-[#5025d1]/50 group-hover:bg-white/[0.11] group-hover:shadow-[0_8px_32px_rgba(80,37,209,0.18)] group-hover:-translate-y-1">
-                  {/* Corner glow on hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/0 to-purple-600/0 group-hover:from-[#5025d1]/10 group-hover:to-purple-600/5 transition-all duration-300" />
-                  {/* Top shine line */}
+            {[...clientSliderData, ...clientSliderData, ...clientSliderData].map((client, i) => (
+              <div key={i} className="group mx-4 flex-shrink-0">
+                <div className="relative flex items-center justify-center h-[88px] w-[180px] rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm px-6 transition-all duration-300 group-hover:border-[#5025d1]/50 group-hover:bg-white/[0.08] group-hover:shadow-[0_0_28px_rgba(80,37,209,0.18)] group-hover:-translate-y-0.5">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/0 to-purple-500/0 group-hover:from-[#5025d1]/10 group-hover:to-purple-500/5 transition-all duration-300" />
                   <div className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {client.logo ? (
+                  {client.logo && (
                     <img
                       src={client.logo}
                       alt={`${client.name} logo`}
-                      className="relative h-[52px] w-full object-contain transition-all duration-300 group-hover:scale-105"
+                      className="relative h-[50px] w-full object-contain transition-transform duration-300 group-hover:scale-105"
                     />
-                  ) : (
-                    <span className="relative text-base font-semibold text-zinc-300 group-hover:text-white transition-colors">
-                      {client.name}
-                    </span>
                   )}
-                  <span className="relative text-[11px] font-medium text-zinc-500 group-hover:text-purple-400 transition-colors tracking-wide">
-                    {client.name}
-                  </span>
                 </div>
               </div>
             ))}
           </Marquee>
 
-          {/* Bottom count */}
+          {/* Infinite scrolling slider — reverse direction */}
+          <Marquee
+            speed={28}
+            pauseOnHover
+            direction="right"
+            gradient
+            gradientColor="#060011"
+            gradientWidth={160}
+            className="py-2 mt-4"
+          >
+            {[...clientSliderData, ...clientSliderData, ...clientSliderData].map((client, i) => (
+              <div key={i} className="group mx-4 flex-shrink-0">
+                <div className="relative flex items-center justify-center h-[88px] w-[180px] rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm px-6 transition-all duration-300 group-hover:border-[#5025d1]/50 group-hover:bg-white/[0.08] group-hover:shadow-[0_0_28px_rgba(80,37,209,0.18)] group-hover:-translate-y-0.5">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#5025d1]/0 to-purple-500/0 group-hover:from-[#5025d1]/10 group-hover:to-purple-500/5 transition-all duration-300" />
+                  <div className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {client.logo && (
+                    <img
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      className="relative h-[50px] w-full object-contain transition-transform duration-300 group-hover:scale-105 opacity-85 group-hover:opacity-100"
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </Marquee>
+
+          {/* Bottom divider */}
           <Container className="relative z-10">
-            <div className="mt-10 flex items-center justify-center gap-4">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-              <span className="text-xs text-zinc-600 uppercase tracking-widest whitespace-nowrap">and growing</span>
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            <div className="mt-12 flex items-center justify-center gap-4">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+              <span className="text-[11px] text-zinc-600 uppercase tracking-[0.2em] whitespace-nowrap font-medium">and growing</span>
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/8 to-transparent" />
             </div>
           </Container>
         </section>
