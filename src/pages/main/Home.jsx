@@ -66,26 +66,16 @@ import showcaseBannerImage from "../../assets/img/Crafting Digital Excellence Si
 // CLIENT SLIDER LOGOS
 import ekommartLogo from "../../assets/img/Ekommart Logo ITMS.webp";
 import eSahulatMartLogo from "../../assets/img/E Sahulat Mart Logo ITMS.webp";
-import inHomesDirectLogo from "../../assets/img/INHomes Direct Logo ITMS.webp";
 import moreHomesGroupLogo from "../../assets/img/More Homes Group Logo ITMS.webp";
-import unitedMuslimTravelsLogo from "../../assets/img/United Muslim Travels Logo ITMS.webp";
-import hallaGullaLogo from "../../assets/img/Halla Gulla Logo ITMS.webp";
-import hikmabioticsLogo from "../../assets/img/Hikmabiotics Logo ITMS.webp";
 import heavenlyPurchaseLogo from "../../assets/img/Heavenly Purchase Logo ITMS.webp";
-import theRoyalPeaksLogo from "../../assets/img/The Royal Peaks Logo ITMS.webp";
 import shenLogo from "../../assets/img/SHEN Logo.webp";
 
 // Client slider data
 const clientSliderData = [
   { name: "Ekommart", logo: ekommartLogo },
   { name: "E Sahulat Mart", logo: eSahulatMartLogo },
-  { name: "IN Homes Direct", logo: inHomesDirectLogo },
   { name: "More Homes Group", logo: moreHomesGroupLogo },
-  { name: "United Muslim Travels", logo: unitedMuslimTravelsLogo },
-  { name: "Halla Gulla", logo: hallaGullaLogo },
-  { name: "Hikmabiotics", logo: hikmabioticsLogo },
   { name: "Heavenly Purchase", logo: heavenlyPurchaseLogo },
-  { name: "The Royal Peaks", logo: theRoyalPeaksLogo },
   { name: "SHEN", logo: shenLogo },
 ];
 

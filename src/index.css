@@ -48,37 +48,40 @@ html, body {
   isolation: isolate;
 }
 
-/* Aurora blobs (animated contrast motion) */
+/* Aurora blobs — static on low-end, subtle animation on capable devices */
 .bg-stage::before,
 .bg-stage::after{
   content:"";
   position: fixed;
-  inset: -20%;
+  inset: 0;
   z-index: -3;
   pointer-events: none;
+  will-change: opacity;
+  contain: strict;
   background:
-    radial-gradient(closest-side at 30% 30%, rgba(80,37,209,.35), transparent 60%),
-    radial-gradient(closest-side at 70% 60%, rgba(186,85,211,.28), transparent 62%),
-    radial-gradient(closest-side at 50% 85%, rgba(80,37,209,.18), transparent 60%);
-  filter: blur(22px) saturate(125%);
-  transform: translate3d(0,0,0);
-  animation: auroraMove 16s ease-in-out infinite;
+    radial-gradient(ellipse 80% 60% at 30% 30%, rgba(80,37,209,.30), transparent 70%),
+    radial-gradient(ellipse 70% 55% at 70% 65%, rgba(186,85,211,.22), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 50% 85%, rgba(80,37,209,.14), transparent 70%);
+  /* No blur — saves massive GPU cost. Gradient itself is soft enough. */
+  animation: auroraMove 20s ease-in-out infinite;
 }
 .bg-stage::after{
-  opacity: .75;
-  filter: blur(28px) saturate(140%);
-  animation: auroraMove2 22s ease-in-out infinite;
+  opacity: .6;
+  background:
+    radial-gradient(ellipse 70% 55% at 65% 25%, rgba(186,85,211,.18), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 35% 70%, rgba(80,37,209,.14), transparent 70%);
+  animation: auroraMove2 28s ease-in-out infinite;
 }
 
 @keyframes auroraMove{
-  0%   { transform: translate(-1%, -1%) scale(1); opacity: 1; }
-  50%  { transform: translate(2%, 1%) scale(1.03); opacity: 0.85; }
-  100% { transform: translate(-1%, -1%) scale(1); opacity: 1; }
+  0%   { opacity: 1; }
+  50%  { opacity: 0.82; }
+  100% { opacity: 1; }
 }
 @keyframes auroraMove2{
-  0%   { transform: translate(1%, 0.5%) scale(1.01); opacity: 0.75; }
-  50%  { transform: translate(-2%, -1%) scale(1.04); opacity: 0.9; }
-  100% { transform: translate(1%, 0.5%) scale(1.01); opacity: 0.75; }
+  0%   { opacity: 0.6; }
+  50%  { opacity: 0.85; }
+  100% { opacity: 0.6; }
 }
 
 /* Subtle grid overlay */
@@ -95,27 +98,28 @@ html, body {
   mask-image: radial-gradient(closest-side at 50% 30%, #000 40%, transparent 80%);
 }
 
-/* Scanline shimmer */
+/* Scanline shimmer — uses transform only (GPU-composited) */
 .bg-scan{
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  contain: strict;
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(80,37,209,.08),
+    rgba(80,37,209,.06),
     transparent
   );
-  opacity: .15;
-  transform: translateY(-40%);
-  animation: scanMove 20s ease-in-out infinite;
+  opacity: .12;
+  will-change: transform;
+  animation: scanMove 24s ease-in-out infinite;
   mix-blend-mode: screen;
 }
 @keyframes scanMove{
-  0% { transform: translateY(-50%); opacity: 0.1; }
-  50% { transform: translateY(50%); opacity: 0.2; }
-  100% { transform: translateY(-50%); opacity: 0.1; }
+  0%   { transform: translateY(-50%); }
+  50%  { transform: translateY(50%); }
+  100% { transform: translateY(-50%); }
 }
 
 /* Noise overlay (premium texture) */
@@ -141,9 +145,8 @@ html, body {
   width: 56px;
   height: 56px;
   opacity: .12;
-  filter: drop-shadow(0 0 12px rgba(80,37,209,.28));
-  animation: iconFloat 24s ease-in-out infinite;
-  transform: translate3d(0,0,0);
+  will-change: transform;
+  animation: iconFloat 28s ease-in-out infinite;
 }
 .floating-icons .icon.big{ width: 86px; height: 86px; opacity: .08; }
 .floating-icons .icon.small{ width: 38px; height: 38px; opacity: .14; }
@@ -186,8 +189,9 @@ html, body {
   border-radius: 999px;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform .08s ease, width .12s ease, height .12s ease, border-color .12s ease;
+  will-change: transform;
+  /* transform is set via JS; only size/color transitions remain */
+  transition: width .12s ease, height .12s ease, border-color .12s ease;
   box-shadow: 0 0 18px rgba(80,37,209,0.40);
 }
 
@@ -204,8 +208,10 @@ html, body {
   .bg-stage::before,
   .bg-stage::after,
   .bg-scan,
-  .floating-icons .icon{
+  .floating-icons .icon,
+  .cursor-effect {
     animation: none !important;
+    transition: none !important;
   }
 
   .floating-icons {
@@ -213,8 +219,17 @@ html, body {
   }
 }
 
-/* Smooth hover states instead of jarring transitions */
-* {
+/* Low-power devices: hide expensive layers on mobile */
+@media (max-width: 480px) {
+  .bg-stage::before,
+  .bg-stage::after {
+    animation: none !important;
+    opacity: 0.5;
+  }
+}
+
+/* Transition timing applied only to interactive elements, not all DOM nodes */
+a, button, input, textarea, select, [role="button"] {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 

@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ChevronUp } from "lucide-react";
 import { HelmetProvider } from "react-helmet-async";
 
-import Home from "./pages/main/Home";
-import Services from "./pages/main/Services";
-import Work from "./pages/main/Work";
-import About from "./pages/main/About";
-import InHomesDirectCaseStudy from "./pages/case-studies/InHomesDirectCaseStudy";
-import MoreHomesGroupCaseStudy from "./pages/case-studies/MoreHomesGroupCaseStudy";
-import HallaGullaCaseStudy from "./pages/case-studies/HallaGullaCaseStudy";
-import UnitedMuslimTravelsCaseStudy from "./pages/case-studies/UnitedMuslimTravelsCaseStudy";
-import MultidatumCaseStudy from "./pages/case-studies/MultidatumCaseStudy";
-import ESahulatMartCaseStudy from "./pages/case-studies/ESahulatMartCaseStudy";
-import HikmabioticsCaseStudy from "./pages/case-studies/HikmabioticsCaseStudy";
-import EkommartCaseStudy from "./pages/case-studies/EkommartCaseStudy";
-import SalesforceDuplicateCheckCaseStudy from "./pages/case-studies/SalesforceDuplicateCheckCaseStudy";
-import SalesforceExperienceCloudGovernmentCloud from "./pages/case-studies/SalesforceExperienceCloudGovernmentCloud";
-import SalesforceServiceCloudImplementation from "./pages/case-studies/SalesforceServiceCloudImplementation";
-import LettingAgencyPortalCaseStudy from "./pages/case-studies/LettingAgencyPortalCaseStudy";
-import ShenCoinCaseStudy from "./pages/case-studies/ShenCoinCaseStudy";
-import ProcessPage from "./pages/main/process";
-import Contact from "./pages/main/Contact";
-import NotFoundPage from "./pages/main/404";
-import SalesforceExpertise from "./pages/expertise/SalesforceExpertise";
-import WebDevelopmentExpertise from "./pages/expertise/WebDevelopmentExpertise";
-import DigitalMarketingExpertise from "./pages/expertise/DigitalMarketingExpertise";
-import SocialMediaExpertise from "./pages/expertise/SocialMediaExpertise";
-import GraphicDesigningExpertise from "./pages/expertise/GraphicDesigningExpertise";
-import VideoEditingExpertise from "./pages/expertise/VideoEditingExpertise";
-import BrandBuildingExpertise from "./pages/expertise/BrandBuildingExpertise";
-import SeoExpertise from "./pages/expertise/SeoExpertise";
-import CustomWebAppsExpertise from "./pages/expertise/CustomWebAppsExpertise";
+const Home = lazy(() => import("./pages/main/Home"));
+const Services = lazy(() => import("./pages/main/Services"));
+const Work = lazy(() => import("./pages/main/Work"));
+const About = lazy(() => import("./pages/main/About"));
+const InHomesDirectCaseStudy = lazy(() => import("./pages/case-studies/InHomesDirectCaseStudy"));
+const MoreHomesGroupCaseStudy = lazy(() => import("./pages/case-studies/MoreHomesGroupCaseStudy"));
+const HallaGullaCaseStudy = lazy(() => import("./pages/case-studies/HallaGullaCaseStudy"));
+const UnitedMuslimTravelsCaseStudy = lazy(() => import("./pages/case-studies/UnitedMuslimTravelsCaseStudy"));
+const MultidatumCaseStudy = lazy(() => import("./pages/case-studies/MultidatumCaseStudy"));
+const ESahulatMartCaseStudy = lazy(() => import("./pages/case-studies/ESahulatMartCaseStudy"));
+const HikmabioticsCaseStudy = lazy(() => import("./pages/case-studies/HikmabioticsCaseStudy"));
+const EkommartCaseStudy = lazy(() => import("./pages/case-studies/EkommartCaseStudy"));
+const SalesforceDuplicateCheckCaseStudy = lazy(() => import("./pages/case-studies/SalesforceDuplicateCheckCaseStudy"));
+const SalesforceExperienceCloudGovernmentCloud = lazy(() => import("./pages/case-studies/SalesforceExperienceCloudGovernmentCloud"));
+const SalesforceServiceCloudImplementation = lazy(() => import("./pages/case-studies/SalesforceServiceCloudImplementation"));
+const LettingAgencyPortalCaseStudy = lazy(() => import("./pages/case-studies/LettingAgencyPortalCaseStudy"));
+const ShenCoinCaseStudy = lazy(() => import("./pages/case-studies/ShenCoinCaseStudy"));
+const ProcessPage = lazy(() => import("./pages/main/process"));
+const Contact = lazy(() => import("./pages/main/Contact"));
+const NotFoundPage = lazy(() => import("./pages/main/404"));
+const SalesforceExpertise = lazy(() => import("./pages/expertise/SalesforceExpertise"));
+const WebDevelopmentExpertise = lazy(() => import("./pages/expertise/WebDevelopmentExpertise"));
+const DigitalMarketingExpertise = lazy(() => import("./pages/expertise/DigitalMarketingExpertise"));
+const SocialMediaExpertise = lazy(() => import("./pages/expertise/SocialMediaExpertise"));
+const GraphicDesigningExpertise = lazy(() => import("./pages/expertise/GraphicDesigningExpertise"));
+const VideoEditingExpertise = lazy(() => import("./pages/expertise/VideoEditingExpertise"));
+const BrandBuildingExpertise = lazy(() => import("./pages/expertise/BrandBuildingExpertise"));
+const SeoExpertise = lazy(() => import("./pages/expertise/SeoExpertise"));
+const CustomWebAppsExpertise = lazy(() => import("./pages/expertise/CustomWebAppsExpertise"));
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -107,45 +107,28 @@ function App() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Cursor hover-grow (works with pointer-events:none cursor)
+  // Cursor hover-grow via event delegation — single pair of listeners on document
   useEffect(() => {
     if (isMobile) return;
 
     const cursor = document.querySelector(".cursor-effect");
     if (!cursor) return;
 
-    const onEnter = () => cursor.classList.add("is-hover");
-    const onLeave = () => cursor.classList.remove("is-hover");
+    const SELECTORS = "a, button, input, textarea, select, [role='button'], [data-cursor='hover']";
 
-    const bind = () => {
-      const targets = document.querySelectorAll(
-        "a, button, input, textarea, select, [role='button'], [data-cursor='hover']"
-      );
-      targets.forEach((t) => {
-        t.addEventListener("mouseenter", onEnter);
-        t.addEventListener("mouseleave", onLeave);
-      });
-
-      return () => {
-        targets.forEach((t) => {
-          t.removeEventListener("mouseenter", onEnter);
-          t.removeEventListener("mouseleave", onLeave);
-        });
-      };
+    const onOver = (e) => {
+      if (e.target.closest(SELECTORS)) cursor.classList.add("is-hover");
+    };
+    const onOut = (e) => {
+      if (e.target.closest(SELECTORS)) cursor.classList.remove("is-hover");
     };
 
-    const unbind = bind();
-
-    // Re-bind after route changes / re-renders (simple)
-    const mo = new MutationObserver(() => {
-      // Small optimization: just ensure class removed if DOM changes
-      cursor.classList.remove("is-hover");
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener("mouseover", onOver, { passive: true });
+    document.addEventListener("mouseout", onOut, { passive: true });
 
     return () => {
-      unbind?.();
-      mo.disconnect();
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseout", onOut);
     };
   }, [isMobile]);
 
@@ -208,6 +191,7 @@ function App() {
 
           <Header nav={nav} AnchorLink={AnchorLink} />
 
+          <Suspense fallback={<div className="min-h-screen" />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
@@ -239,6 +223,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          </Suspense>
 
           <GoToTopButton />
           <Footer nav={nav} year={year} AnchorLink={AnchorLink} Container={Container} />
