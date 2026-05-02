@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
-import { motion, useScroll } from "framer-motion";
 import {
   ArrowRight,
   Sparkles,
@@ -34,7 +33,6 @@ import {
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import Container from "../../components/Container";
-import GoogleReviewsSection from "../../components/GoogleReviewsSection";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import TechMeshBg from "../../components/TechMeshBg";
 
@@ -57,22 +55,109 @@ const clientSliderData = [
 ];
 
 const homeAboutImage = "/assets/img/vitaly-gariev-3vBESHYwRkE-unsplash.jpg";
+const GoogleReviewsSection = React.lazy(() => import("../../components/GoogleReviewsSection"));
 
 /* ==================== HELPERS ==================== */
 
 const cx = (...classes) => classes.filter(Boolean).join(" ");
 
+const strippedMotionProps = new Set([
+  "animate",
+  "exit",
+  "initial",
+  "layout",
+  "transition",
+  "variants",
+  "viewport",
+  "whileHover",
+  "whileInView",
+  "whileTap",
+]);
+
+function createStaticMotionComponent(Tag) {
+  return React.forwardRef(function StaticMotionComponent(props, ref) {
+    const cleanProps = {};
+    Object.entries(props).forEach(([key, value]) => {
+      if (!strippedMotionProps.has(key)) cleanProps[key] = value;
+    });
+    return <Tag ref={ref} {...cleanProps} />;
+  });
+}
+
+const motion = {
+  details: createStaticMotionComponent("details"),
+  div: createStaticMotionComponent("div"),
+  h1: createStaticMotionComponent("h1"),
+  p: createStaticMotionComponent("p"),
+};
+
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
     const m = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-    if (!m) return;
-    const onChange = () => setReduced(!!m.matches);
+    const mobile = window.matchMedia?.("(max-width: 1023px)");
+    if (!m && !mobile) return;
+    const onChange = () => setReduced(!!m?.matches || !!mobile?.matches);
     onChange();
     m.addEventListener?.("change", onChange);
-    return () => m.removeEventListener?.("change", onChange);
+    mobile?.addEventListener?.("change", onChange);
+    return () => {
+      m.removeEventListener?.("change", onChange);
+      mobile?.removeEventListener?.("change", onChange);
+    };
   }, []);
   return reduced;
+}
+
+function useDesktopViewport() {
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth >= 1024 : false
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia?.("(min-width: 1024px)");
+    if (!media) return;
+    const onChange = () => setIsDesktop(media.matches);
+    onChange();
+    media.addEventListener?.("change", onChange);
+    return () => media.removeEventListener?.("change", onChange);
+  }, []);
+
+  return isDesktop;
+}
+
+function DeferredRender({ children, minHeight = 420 }) {
+  const ref = useRef(null);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    if (!("IntersectionObserver" in window)) {
+      const timer = window.setTimeout(() => setShouldRender(true), 1400);
+      return () => window.clearTimeout(timer);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "1000px 0px" }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} style={shouldRender ? undefined : { minHeight }}>
+      {shouldRender ? children() : null}
+    </div>
+  );
 }
 
 /* ==================== GLOBE COMPONENT ==================== */
@@ -281,12 +366,33 @@ function RotatingGlobe() {
 /* ==================== SHARED COMPONENTS ==================== */
 
 function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(window.scrollY / max, 1) : 0);
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   return (
-    <motion.div
+    <div
       className="fixed left-0 top-0 z-50 h-[3px] w-full origin-left"
       style={{
-        scaleX: scrollYProgress,
+        transform: `scaleX(${progress})`,
         background: "linear-gradient(90deg, #5025d1, #a855f7, #00f5ff)",
       }}
     />
@@ -704,6 +810,7 @@ const techShowcaseImages = [
 
 export default function Home() {
   const reduced = usePrefersReducedMotion();
+  const isDesktop = useDesktopViewport();
 
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [status, setStatus] = useState("idle");
@@ -844,11 +951,12 @@ export default function Home() {
               </motion.div>
 
               {/* RIGHT: Browser + Mobile Prototype */}
+              {isDesktop && (
               <motion.div
                 initial={reduced ? false : { x: 50, opacity: 0 }}
                 animate={reduced ? {} : { x: 0, opacity: 1 }}
                 transition={{ duration: 0.9, delay: 0.25, ease: "easeOut" }}
-                className="relative hidden lg:flex items-center justify-center"
+                className="relative flex items-center justify-center"
               >
                 <div className="relative w-full max-w-[480px]">
 
@@ -1067,6 +1175,7 @@ export default function Home() {
                   </motion.div>
                 </div>
               </motion.div>
+              )}
 
             </div>
           </Container>
@@ -1188,7 +1297,7 @@ export default function Home() {
                   <img
                     src={homeAboutImage}
                     alt="Professional woman representing digital growth"
-                    className="w-full h-[460px] object-cover"
+                    className="w-full h-[280px] sm:h-[380px] lg:h-[460px] object-cover"
                     loading="lazy"
                   />
                   {/* Dark gradient overlay at bottom */}
@@ -1201,7 +1310,7 @@ export default function Home() {
                 <motion.div
                   animate={{ y: [-5, 5, -5] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-4 -right-4 flex items-center gap-2 rounded-xl border border-[#5025d1]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
+                  className="absolute top-3 right-3 sm:-top-4 sm:-right-4 flex items-center gap-2 rounded-xl border border-[#5025d1]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
                   style={{ boxShadow: "0 0 20px rgba(80,37,209,0.3)" }}
                 >
                   <div className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -1211,7 +1320,7 @@ export default function Home() {
                 <motion.div
                   animate={{ y: [5, -5, 5] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -bottom-4 -left-4 flex items-center gap-2 rounded-xl border border-[#5025d1]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
+                  className="absolute bottom-3 left-3 sm:-bottom-4 sm:-left-4 flex items-center gap-2 rounded-xl border border-[#5025d1]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
                   style={{ boxShadow: "0 0 20px rgba(80,37,209,0.25)" }}
                 >
                   <Award className="h-4 w-4 text-yellow-400" />
@@ -1249,7 +1358,7 @@ export default function Home() {
                 </p>
 
                 {/* Key facts grid */}
-                <div className="mt-8 grid grid-cols-2 gap-3">
+                <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
                     { icon: Shield,    label: "SECP & FBR Registered", desc: "Officially registered IT firm" },
                     { icon: Globe,     label: "Global Clients",         desc: "UK, US, Pakistan, Middle East" },
@@ -1519,7 +1628,7 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
                 className="flex justify-center"
               >
-                {!reduced && <RotatingGlobe />}
+                {!reduced && isDesktop && <RotatingGlobe />}
                 {reduced && (
                   <div className="w-[400px] h-[400px] rounded-full border border-[#5025d1]/40 flex items-center justify-center"
                     style={{ background: "radial-gradient(circle, rgba(80,37,209,0.1) 0%, transparent 70%)" }}>

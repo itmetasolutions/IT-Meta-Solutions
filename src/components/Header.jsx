@@ -23,17 +23,35 @@ const serviceSubMenu = [
 const WHATSAPP_NUMBER  = "923271804037";
 const WHATSAPP_MESSAGE = "Hi! I'm interested in your services.";
 
+function useDesktopViewport() {
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth >= 1024 : false
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia?.("(min-width: 1024px)");
+    if (!media) return;
+    const onChange = () => setIsDesktop(media.matches);
+    onChange();
+    media.addEventListener?.("change", onChange);
+    return () => media.removeEventListener?.("change", onChange);
+  }, []);
+
+  return isDesktop;
+}
+
 export default function Header({ nav, AnchorLink }) {
   const [isMenuOpen,          setIsMenuOpen]          = useState(false);
   const [isServicesOpen,      setIsServicesOpen]      = useState(false);
   const [isMobileServicesOpen,setIsMobileServicesOpen]= useState(false);
   const [scrolled,            setScrolled]            = useState(false);
   const location = useLocation();
+  const isDesktop = useDesktopViewport();
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    document.body.style.overflow = !isDesktop && isMenuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [isMenuOpen]);
+  }, [isDesktop, isMenuOpen]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -43,6 +61,7 @@ export default function Header({ nav, AnchorLink }) {
 
   /* Close mobile menu on route change */
   useEffect(() => { setIsMenuOpen(false); }, [location.pathname]);
+  useEffect(() => { if (isDesktop) setIsMenuOpen(false); }, [isDesktop]);
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
@@ -63,7 +82,7 @@ export default function Header({ nav, AnchorLink }) {
       <div className="absolute top-0 left-0 right-0 h-[2px] shimmer-border opacity-70" />
 
       {/* Subtle tech mesh in header background */}
-      <TechMeshBg variant="header" iconOpacityBase={0.028} />
+      {isDesktop && <TechMeshBg variant="header" iconOpacityBase={0.028} />}
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-[68px] sm:h-[76px]">
@@ -84,7 +103,7 @@ export default function Header({ nav, AnchorLink }) {
           </Link>
 
           {/* ── Desktop nav ── */}
-          <nav className="hidden lg:flex items-center gap-0.5">
+          {isDesktop && <nav className="flex items-center gap-0.5">
             {nav.map((n) => {
               if (n.label === "Services") {
                 return (
@@ -223,7 +242,7 @@ export default function Header({ nav, AnchorLink }) {
                 </AnchorLink>
               );
             })}
-          </nav>
+          </nav>}
 
           {/* ── Right CTAs ── */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
@@ -246,31 +265,33 @@ export default function Header({ nav, AnchorLink }) {
             </a>
 
             {/* Get a Proposal — desktop */}
-            <Link
+            {isDesktop && <Link
               to="/contact"
-              className="hidden md:inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-4 py-2.5 text-[13px] font-semibold text-white transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-4 py-2.5 text-[13px] font-semibold text-white transition-all duration-300 hover:scale-105"
               style={{ boxShadow: "0 0 0 0 transparent", transition: "box-shadow 0.3s, transform 0.2s" }}
               onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 24px rgba(80,37,209,0.55)"}
               onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 0 0 transparent"}
             >
               Get a Proposal
               <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
+            </Link>}
 
             {/* Hamburger — mobile */}
-            <button
+            {!isDesktop && <button
               onClick={() => setIsMenuOpen(true)}
-              className="lg:hidden relative flex flex-col justify-center items-center w-10 h-10 rounded-xl border border-white/[0.08] bg-white/[0.04] hover:bg-[#5025d1]/15 hover:border-[#5025d1]/30 transition-all duration-200"
+              className="relative flex flex-col justify-center items-center w-10 h-10 rounded-xl border border-white/[0.08] bg-white/[0.04] hover:bg-[#5025d1]/15 hover:border-[#5025d1]/30 transition-all duration-200"
               aria-label="Open menu"
             >
               <span className="w-5 h-[1.5px] bg-white mb-[5px] rounded-full block" />
               <span className="w-4 h-[1.5px] bg-zinc-400 mb-[5px] rounded-full block" />
               <span className="w-5 h-[1.5px] bg-white rounded-full block" />
-            </button>
+            </button>}
           </div>
         </div>
       </div>
 
+      {!isDesktop && isMenuOpen && (
+      <>
       {/* ── Overlay ── */}
       <div
         className={`fixed inset-0 bg-black/65 backdrop-blur-sm z-[110] transition-opacity duration-300 ${
@@ -414,6 +435,8 @@ export default function Header({ nav, AnchorLink }) {
           </div>
         </div>
       </div>
+      </>
+      )}
     </header>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ChevronUp } from "lucide-react";
 import { HelmetProvider } from "react-helmet-async";
@@ -32,9 +32,9 @@ const VideoEditingExpertise = lazy(() => import("./pages/expertise/VideoEditingE
 const BrandBuildingExpertise = lazy(() => import("./pages/expertise/BrandBuildingExpertise"));
 const SeoExpertise = lazy(() => import("./pages/expertise/SeoExpertise"));
 const CustomWebAppsExpertise = lazy(() => import("./pages/expertise/CustomWebAppsExpertise"));
+const Footer = lazy(() => import("./components/Footer"));
 
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import CursorEffect from "./components/CursorEffect";
 import Container from "./components/Container";
 import codeIcon from "./assets/img/Code.png";
@@ -86,8 +86,48 @@ function GoToTopButton() {
   );
 }
 
+function DeferredFooter(props) {
+  const ref = useRef(null);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    if (!("IntersectionObserver" in window)) {
+      const timer = window.setTimeout(() => setShouldRender(true), 1200);
+      return () => window.clearTimeout(timer);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "1200px 0px" }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref}>
+      {shouldRender && (
+        <Suspense fallback={null}>
+          <Footer {...props} />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+
 function App() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false
+  );
 
   const nav = [
     { label: "Home", href: "/" },
@@ -142,7 +182,7 @@ function App() {
 
         {/* Floating icons layer (put icons in /public/icons/) */}
         {/* Floating icons layer */}
-        <div className="floating-icons" aria-hidden="true">
+        {!isMobile && <div className="floating-icons" aria-hidden="true">
           <img
             className="icon small"
             style={{ top: "12%", left: "10%", animationDelay: "0s" }}
@@ -181,7 +221,7 @@ function App() {
               opacity: 0.08,
             }}
           />
-        </div>
+        </div>}
 
 
 
@@ -226,7 +266,7 @@ function App() {
           </Suspense>
 
           <GoToTopButton />
-          <Footer nav={nav} year={year} AnchorLink={AnchorLink} Container={Container} />
+          <DeferredFooter nav={nav} year={year} AnchorLink={AnchorLink} Container={Container} />
         </BrowserRouter>
       </div>
     </HelmetProvider>

@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   Code2, Database, Cloud, Megaphone, Search, Palette,
   Cpu, Zap, Shield, Globe, LayoutGrid, Rocket, Layers,
@@ -83,6 +83,23 @@ const ICON_SETS = {
   ],
 };
 
+function useMobileViewport() {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth <= 767 : false
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia?.("(max-width: 767px)");
+    if (!media) return;
+    const onChange = () => setIsMobile(media.matches);
+    onChange();
+    media.addEventListener?.("change", onChange);
+    return () => media.removeEventListener?.("change", onChange);
+  }, []);
+
+  return isMobile;
+}
+
 export default function TechMeshBg({
   variant    = "full",
   opacity    = 1,
@@ -92,6 +109,21 @@ export default function TechMeshBg({
   const uid = useId().replace(/:/g, "");
   const patternId = `mesh-${uid}`;
   const icons = ICON_SETS[variant] || ICON_SETS.full;
+  const isMobile = useMobileViewport();
+
+  if (isMobile) {
+    return (
+      <div
+        className="absolute inset-0 pointer-events-none select-none"
+        aria-hidden="true"
+        style={{
+          opacity,
+          backgroundImage: `radial-gradient(${iconColor}22 1px, transparent 1px)`,
+          backgroundSize: "48px 48px",
+        }}
+      />
+    );
+  }
 
   return (
     <div

@@ -99,6 +99,19 @@ html, body {
   }
 }
 
+/* Mobile performance: let the browser skip layout/paint for below-fold sections. */
+@media (max-width: 767px) {
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: 720px;
+  }
+
+  section:first-of-type {
+    content-visibility: visible;
+    contain-intrinsic-size: auto;
+  }
+}
+
 /* Transition timing applied only to interactive elements, not all DOM nodes */
 a, button, input, textarea, select, [role="button"] {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
