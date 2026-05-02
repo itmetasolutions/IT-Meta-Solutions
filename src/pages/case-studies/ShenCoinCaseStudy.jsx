@@ -19,6 +19,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -424,7 +425,9 @@ export default function ShenCoinCaseStudy() {
 
       <ScrollProgress />
 
-      <main className="relative min-h-screen overflow-hidden pb-24">
+      <main className="itms-subpage text-zinc-100 relative min-h-screen overflow-hidden pb-24">
+        <SubpageVisualLayer />
+
         {/* Background blobs */}
         <GradientBlob className="left-1/3 top-0 h-[600px] w-[600px] -translate-x-1/2" color="rgba(80,37,209,0.18)" />
         <GradientBlob className="-right-40 top-1/3 h-[500px] w-[500px]" color="rgba(124,58,237,0.12)" />

@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * PROCESS PAGE
@@ -450,10 +451,12 @@ export default function ProcessPage() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+      <div className="itms-subpage relative min-h-screen text-zinc-100 mb-16 overflow-hidden">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
-      {/* Background accents */}
+        {/* Background accents */}
       <GradientBlob className="left-[-140px] top-[-140px] h-[560px] w-[560px]" />
       <GradientBlob className="right-[-180px] top-[240px] h-[560px] w-[560px] bg-[radial-gradient(closest-side,rgba(16,185,129,0.5),rgba(16,185,129,0))]" />
 

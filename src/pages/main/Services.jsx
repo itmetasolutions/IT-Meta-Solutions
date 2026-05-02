@@ -31,6 +31,7 @@ import {
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import Container from "../../components/Container";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /* ==================== HELPERS ==================== */
 
@@ -941,7 +942,9 @@ export default function ServicesPage() {
         <link rel="canonical" href="https://itmetasolutions.com/services" />
       </Helmet>
 
-      <div className="relative min-h-screen">
+      <div className="itms-subpage overflow-hidden text-zinc-100 relative min-h-screen">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* ==================== HERO SECTION ==================== */}

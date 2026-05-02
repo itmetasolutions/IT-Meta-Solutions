@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * Custom Web Apps Expertise Page - IT Meta Solutions
@@ -304,9 +305,10 @@ export default function CustomWebAppsExpertisePage() {
         <link rel="canonical" href="https://itmetasolutions.com/custom-web-apps-expertise" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
-        <ScrollProgress />
+      <div className="itms-subpage relative min-h-screen text-zinc-100 mb-16 overflow-hidden">
+        <SubpageVisualLayer />
 
+        <ScrollProgress />
         {/* Background accents */}
         <GradientBlob className="h-[600px] w-[600px] -left-32 -top-32" />
         <GradientBlob className="h-[600px] w-[600px] -right-32 top-96 bg-[radial-gradient(closest-side,rgba(139,92,246,0.5),rgba(139,92,246,0))]" />

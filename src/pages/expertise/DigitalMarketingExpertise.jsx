@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * Digital Marketing Service / Expertise Page — IT Meta Solutions
@@ -308,7 +309,9 @@ export default function DigitalMarketingExpertisePage() {
         <link rel="canonical" href="https://itmetasolutions.com/digital-marketing-services" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+      <div className="itms-subpage relative min-h-screen text-zinc-100 mb-16 overflow-hidden">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background accents */}

@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * Web Development Expertise Page - IT Meta Solutions
@@ -289,7 +290,9 @@ export default function WebDevelopmentExpertisePage() {
         <link rel="canonical" href="https://itmetasolutions.com/web-development-expertise" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+      <div className="itms-subpage relative min-h-screen text-zinc-100 mb-16 overflow-hidden">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background accents */}

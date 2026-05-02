@@ -4,6 +4,7 @@ import { ArrowRight, Home, Search, Sparkles, AlertTriangle } from "lucide-react"
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -86,9 +87,10 @@ export default function NotFoundPage() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="relative min-h-screen overflow-hidden text-zinc-100">
+      <div className="itms-subpage relative min-h-screen overflow-hidden text-zinc-100">
+        <SubpageVisualLayer />
 
-      <Container className="py-24 sm:py-32">
+        <Container className="py-24 sm:py-32">
         <motion.div
           initial={{ y: 14 }}
           animate={{ y: 0 }}

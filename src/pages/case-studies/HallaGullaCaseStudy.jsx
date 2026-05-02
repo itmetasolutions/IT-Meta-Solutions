@@ -28,6 +28,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * Halla Gulla — Case Study (REDESIGNED to match your NEW Home style)
@@ -677,7 +678,9 @@ export default function HallaGullaCaseStudy() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="relative min-h-screen overflow-hidden text-zinc-100">
+      <div className="itms-subpage relative min-h-screen overflow-hidden text-zinc-100">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background blobs (Home style) */}

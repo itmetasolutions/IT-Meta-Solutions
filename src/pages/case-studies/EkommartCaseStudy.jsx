@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 import adsJuly from "../../assets/img/Ekommart Ads SS July.png";
 import adsAugust from "../../assets/img/Ekommart Ads SS August.png";
@@ -165,9 +166,11 @@ export default function EkommartCaseStudy() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 overflow-x-hidden">
+      <div className="itms-subpage relative min-h-screen text-zinc-100 overflow-hidden">
+        <SubpageVisualLayer />
 
         <ScrollProgress />
+
 
         {/* HERO */}
 

@@ -25,6 +25,7 @@ import {
   Users,
   Workflow,
 } from "lucide-react";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /* =========================================================
    ✅ Project 2 — Salesforce Experience Cloud & Government Cloud (Customer Portal)
@@ -354,7 +355,9 @@ export default function SalesforceGovPortalCaseStudy() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="relative min-h-screen overflow-hidden text-zinc-100">
+      <div className="itms-subpage relative min-h-screen overflow-hidden text-zinc-100">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background blobs */}

@@ -34,6 +34,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /* ==================== HELPERS ==================== */
 
@@ -408,7 +409,9 @@ export default function Contact() {
         <link rel="canonical" href="https://itmetasolutions.com/contact" />
       </Helmet>
 
-      <div className="relative min-h-screen overflow-hidden">
+      <div className="itms-subpage text-zinc-100 relative min-h-screen overflow-hidden">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background Elements */}

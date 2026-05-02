@@ -30,6 +30,7 @@ import {
   LineChart,
   BadgeHelp,
 } from "lucide-react";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 // Import case study images
 import sfImage1 from "../../assets/img/Salesforce Duplicate Check Case Study Image 1.png";
@@ -339,7 +340,9 @@ export default function SalesforceDuplicateCheckCaseStudy() {
         <link rel="canonical" href="https://itmetasolutions.com/case-study/salesforce-duplicate-check" />
       </Helmet>
 
-      <div className="relative min-h-screen overflow-hidden text-zinc-100">
+      <div className="itms-subpage relative min-h-screen overflow-hidden text-zinc-100">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background blobs */}

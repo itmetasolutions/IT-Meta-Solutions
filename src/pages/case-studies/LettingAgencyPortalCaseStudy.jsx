@@ -32,6 +32,7 @@ import {
     Workflow,
     Wrench,
 } from "lucide-react";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /* ==================== IMAGE IMPORTS ==================== */
 import lettingAgencyBannerImg from "../../assets/img/Banner Image.png";
@@ -393,10 +394,12 @@ export default function LettingAgencyPortalCaseStudy() {
                 <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
             </Helmet>
 
-            <div className="relative min-h-screen overflow-hidden text-zinc-100">
-                <ScrollProgress />
+            <div className="itms-subpage relative min-h-screen overflow-hidden text-zinc-100">
+              <SubpageVisualLayer />
 
-                <GradientBlob className="left-[-120px] top-[-120px] h-[620px] w-[620px]" color="rgba(80,37,209,0.20)" />
+        <ScrollProgress />
+
+<GradientBlob className="left-[-120px] top-[-120px] h-[620px] w-[620px]" color="rgba(80,37,209,0.20)" />
                 <GradientBlob className="right-[-180px] top-[180px] h-[720px] w-[720px]" color="rgba(186,85,211,0.14)" />
                 <GradientBlob className="bottom-[-160px] left-[25%] h-[760px] w-[760px]" color="rgba(80,37,209,0.16)" />
 

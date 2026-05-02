@@ -31,6 +31,7 @@ import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
 import GoogleReviewsSection from "../../components/GoogleReviewsSection";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 // Import team member images
 import abdullahKhalidImg from "../../assets/img/Abdullah Khalid ITMS.webp";
@@ -429,7 +430,9 @@ export default function AboutUsPage() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="relative min-h-screen">
+      <div className="itms-subpage overflow-hidden text-zinc-100 relative min-h-screen">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* ==================== HERO SECTION ==================== */}

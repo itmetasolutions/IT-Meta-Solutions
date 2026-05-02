@@ -1,5 +1,6 @@
 import React from "react";
 import Container from "./Container";
+import TechMeshBg from "./TechMeshBg";
 import {
   ChevronRight,
   Sparkles,
@@ -94,7 +95,9 @@ export default function SeoContentFaq({ content, faqs, className }) {
   return (
     <>
       {/* Main Section - Content Left + Attractive Visual Right */}
-      <section className={cx("py-16 sm:py-24", className)}>
+      <section className={cx("py-16 sm:py-24 bg-[#09090e] relative overflow-hidden", className)}>
+        <TechMeshBg variant="devtech" iconColor="#5025d1" iconOpacityBase={0.032} />
+        <div className="absolute inset-0 hex-grid-bg opacity-35 pointer-events-none" />
         <Container>
           <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
             {/* Left Side - SEO Content */}

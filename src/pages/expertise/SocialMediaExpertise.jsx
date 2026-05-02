@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * Social Media Management Service / Expertise Page — IT Meta Solutions
@@ -307,7 +308,9 @@ export default function SocialMediaManagementPage() {
         <link rel="canonical" href="https://itmetasolutions.com/social-media-management" />
       </Helmet>
 
-      <div className="min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+      <div className="itms-subpage relative min-h-screen text-zinc-100 mb-16 overflow-hidden">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background accents */}

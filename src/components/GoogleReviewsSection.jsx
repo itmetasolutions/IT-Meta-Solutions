@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  ExternalLink,
-  LoaderCircle,
-  Quote,
-  Star,
-} from "lucide-react";
+import { ExternalLink, LoaderCircle, Star, Quote, ThumbsUp } from "lucide-react";
 import Container from "./Container";
+import TechMeshBg from "./TechMeshBg";
 
 function GoogleLogo({ className = "" }) {
   return (
@@ -24,331 +20,240 @@ const FALLBACK_GOOGLE_MAPS_URL = "https://maps.app.goo.gl/5LmmNhuWXgWUiA1L6";
 
 function getApiBaseUrl() {
   const envBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "");
-  if (envBaseUrl) {
-    return envBaseUrl;
-  }
-
+  if (envBaseUrl) return envBaseUrl;
   if (typeof window !== "undefined") {
     const host = window.location.hostname;
-    if (host === "localhost" || host === "127.0.0.1") {
-      return "http://localhost:3001";
-    }
+    if (host === "localhost" || host === "127.0.0.1") return "http://localhost:3001";
   }
-
   return DEFAULT_API_BASE_URL;
 }
 
 function formatReviewDate(value) {
-  if (!value) {
-    return "";
-  }
-
+  if (!value) return "";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-function RatingStars({ rating, size = "md", className = "" }) {
-  const filledStars = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
-  const sizeClass = size === "lg" ? "h-5 w-5" : "h-5 w-5";
-
+function RatingStars({ rating, size = "sm" }) {
+  const filled = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
+  const cls = size === "lg" ? "h-6 w-6" : "h-4 w-4";
   return (
-    <div className={`flex items-center gap-1 ${className}`}>
-      {Array.from({ length: 5 }, (_, index) => (
-        <Star
-          key={index}
-          className={`${sizeClass} ${
-            index < filledStars
-              ? "fill-[#fbbc05] text-[#fbbc05]"
-              : "text-white/15"
-          }`}
-        />
+    <div className="flex items-center gap-0.5">
+      {Array.from({ length: 5 }, (_, i) => (
+        <Star key={i} className={`${cls} ${i < filled ? "fill-[#fbbc05] text-[#fbbc05]" : "text-white/15"}`} />
       ))}
     </div>
   );
 }
 
-function LoadingCard() {
+function SkeletonCard() {
   return (
-    <div className="h-full rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
-      <div className="animate-pulse">
-        <div className="h-12 w-12 rounded-full bg-white/10" />
-        <div className="mt-5 h-4 w-32 rounded-full bg-white/10" />
-        <div className="mt-2 h-3 w-24 rounded-full bg-white/10" />
-        <div className="mt-4 h-4 w-28 rounded-full bg-white/10" />
-        <div className="mt-6 space-y-3">
-          <div className="h-3 rounded-full bg-white/10" />
-          <div className="h-3 rounded-full bg-white/10" />
-          <div className="h-3 w-4/5 rounded-full bg-white/10" />
+    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 animate-pulse">
+      <div className="flex gap-3 mb-4">
+        <div className="h-10 w-10 rounded-full bg-white/10 shrink-0" />
+        <div className="flex-1 space-y-2 pt-1">
+          <div className="h-3 w-28 rounded-full bg-white/10" />
+          <div className="h-3 w-20 rounded-full bg-white/10" />
         </div>
+      </div>
+      <div className="space-y-2">
+        <div className="h-3 rounded-full bg-white/10" />
+        <div className="h-3 rounded-full bg-white/10" />
+        <div className="h-3 w-3/4 rounded-full bg-white/10" />
       </div>
     </div>
   );
 }
 
-function ReviewCard({ review }) {
-  const authorInitial = review.author_name?.trim()?.charAt(0)?.toUpperCase() || "G";
-  const reviewDate = formatReviewDate(review.published_at_iso);
+function ReviewCard({ review, delay = 0 }) {
+  const initial = review.author_name?.trim()?.charAt(0)?.toUpperCase() || "G";
+  const date = formatReviewDate(review.published_at_iso);
 
   return (
-    <article className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:p-6">
-      {/* Top row: avatar + name/date + stars + link */}
-      <div className="flex items-start gap-4">
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.45, delay, ease: "easeOut" }}
+      className="group relative flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-sm transition-all duration-300 hover:border-[#5025d1]/40 hover:bg-white/[0.05]"
+      style={{ transition: "box-shadow 0.3s, border-color 0.3s, background 0.3s" }}
+      onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 30px rgba(80,37,209,0.12), 0 0 60px rgba(80,37,209,0.05)"}
+      onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}
+    >
+      {/* Top accent */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#5025d1]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl" />
+
+      {/* Header row */}
+      <div className="flex items-start gap-3 mb-4">
         {review.author_photo_url ? (
           <img
             src={review.author_photo_url}
             alt={review.author_name}
-            className="h-11 w-11 flex-shrink-0 rounded-full object-cover ring-1 ring-white/10"
+            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-white/10"
             loading="lazy"
           />
         ) : (
-          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-white">
-            {authorInitial}
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+            style={{ background: "linear-gradient(135deg, #5025d1, #ba55d3)" }}>
+            {initial}
           </div>
         )}
 
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-            <div>
-              <p className="text-sm font-semibold text-white">{review.author_name}</p>
-              <p className="text-xs text-zinc-500">{reviewDate}</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <RatingStars rating={review.rating} />
-              <a
-                href={review.google_review_url}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 text-xs font-medium text-zinc-400 transition hover:text-[#fbbc05]"
-              >
-                View
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            </div>
-          </div>
+          <p className="text-sm font-semibold text-white truncate">{review.author_name}</p>
+          <p className="text-[11px] text-zinc-500 mt-0.5">{date}</p>
         </div>
+
+        <a href={review.google_review_url} target="_blank" rel="noreferrer"
+          className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-zinc-600 hover:text-[#fbbc05]">
+          <ExternalLink className="h-3.5 w-3.5" />
+        </a>
       </div>
+
+      {/* Stars */}
+      <RatingStars rating={review.rating} />
 
       {/* Review text */}
-      <div className="mt-4 flex items-start gap-2">
-        <Quote className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-white/20" />
-        <p className="text-[14px] leading-7 text-zinc-300">{review.text}</p>
+      <div className="mt-3 flex gap-2">
+        <Quote className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#5025d1]/50" />
+        <p className="text-[13px] leading-[1.75] text-zinc-400 line-clamp-4">{review.text}</p>
       </div>
 
-      {/* Review image — small thumbnail */}
-      {review.images?.[0] ? (
-        <div className="mt-4 overflow-hidden rounded-xl border border-white/10 w-28 h-20">
-          <img
-            src={review.images[0]}
-            alt={`${review.author_name} review`}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
+      {/* Review image */}
+      {review.images?.[0] && (
+        <div className="mt-4 overflow-hidden rounded-xl border border-white/10 h-20 w-28">
+          <img src={review.images[0]} alt="" className="h-full w-full object-cover" loading="lazy" />
         </div>
-      ) : null}
-    </article>
+      )}
+    </motion.article>
   );
 }
 
 export default function GoogleReviewsSection({
-  title = "Read Our Google Reviews",
-  description = "Latest customer feedback pulled directly from our Google Business Profile.",
+  title = "See What Clients Say On Google",
+  description = "Latest public Google feedback from our business profile.",
 }) {
-  const [state, setState] = useState({
-    loading: true,
-    error: null,
-    data: null,
-  });
+  const [state, setState] = useState({ loading: true, error: null, data: null });
 
   useEffect(() => {
-    let isMounted = true;
-
-    async function loadReviews() {
-      // Try live API first
+    let mounted = true;
+    async function load() {
       try {
-        const response = await fetch(`${getApiBaseUrl()}/api/google-reviews`);
-        if (!response.ok) throw new Error("API error");
-        const data = await response.json();
-        if (isMounted) {
-          setState({ loading: false, error: null, data });
-        }
+        const res = await fetch(`${getApiBaseUrl()}/api/google-reviews`);
+        if (!res.ok) throw new Error("API error");
+        const data = await res.json();
+        if (mounted) setState({ loading: false, error: null, data });
         return;
-      } catch {
-        // Fall through to static fallback
-      }
-
-      // Fallback: static cached JSON served from /public
+      } catch { /* fall through */ }
       try {
-        const response = await fetch("/google-reviews.json");
-        if (!response.ok) throw new Error("Fallback unavailable");
-        const data = await response.json();
-        if (isMounted) {
-          setState({ loading: false, error: null, data: { ...data, cache_status: "stale" } });
-        }
-      } catch (error) {
-        if (isMounted) {
-          setState({
-            loading: false,
-            error: error instanceof Error ? error.message : "Failed to load Google reviews.",
-            data: null,
-          });
-        }
+        const res = await fetch("/google-reviews.json");
+        if (!res.ok) throw new Error("Fallback unavailable");
+        const data = await res.json();
+        if (mounted) setState({ loading: false, error: null, data: { ...data, cache_status: "stale" } });
+      } catch (err) {
+        if (mounted) setState({ loading: false, error: err instanceof Error ? err.message : "Failed to load.", data: null });
       }
     }
-
-    loadReviews();
-
-    return () => {
-      isMounted = false;
-    };
+    load();
+    return () => { mounted = false; };
   }, []);
 
-  const source = state.data?.source || {};
-  const reviews = state.data?.reviews || [];
-  const googleMapsUrl = source.google_maps_url || FALLBACK_GOOGLE_MAPS_URL;
-  const writeReviewUrl = source.write_review_url || googleMapsUrl;
-  const generatedAt = formatReviewDate(state.data?.generated_at);
-  const cacheStatusLabel =
-    state.data?.cache_status === "stale" ? "Refreshing cache" : "Live feed";
+  const source    = state.data?.source || {};
+  const reviews   = state.data?.reviews || [];
+  const mapsUrl   = source.google_maps_url   || FALLBACK_GOOGLE_MAPS_URL;
+  const writeUrl  = source.write_review_url  || mapsUrl;
+  const syncedAt  = formatReviewDate(state.data?.generated_at);
+  const isLive    = state.data?.cache_status !== "stale";
+  const rating    = source.rating?.toFixed?.(1) || "5.0";
+  const totalRevs = source.reviews_number || reviews.length || 0;
 
   return (
-    <section className="py-16 sm:py-20">
+    <section className="py-16 sm:py-24 bg-[#09090e] relative overflow-hidden">
+      <TechMeshBg variant="marketing" iconColor="#5025d1" iconOpacityBase={0.03} />
+      <div className="absolute inset-0 dot-grid-bg opacity-30 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(80,37,209,0.09) 0%, transparent 70%)" }} />
+
       <Container>
+        {/* ── Section heading ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#0b0812] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-8 lg:p-10"
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-12 text-center"
         >
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-          <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-[#5025d1]/20 blur-3xl" />
-          <div className="absolute right-0 top-12 h-80 w-80 rounded-full bg-[#1b4dff]/10 blur-3xl" />
-          <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-pink-500/10 blur-3xl" />
+          {/* Google badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-1.5 mb-5">
+            <GoogleLogo className="h-4 w-4" />
+            <span className="text-xs font-semibold text-white tracking-wide">Google Reviews</span>
+          </div>
 
-          <div className="relative grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.25fr)]">
-            {/* Left panel */}
-            <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 sm:p-8">
-              {/* Google badge */}
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 px-4 py-2">
-                <GoogleLogo className="h-5 w-5" />
-                <span className="text-sm font-medium text-white">Google Reviews</span>
-              </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">{title}</h2>
+          <p className="mt-4 text-base text-zinc-400 max-w-xl mx-auto">{description}</p>
 
-              <h2 className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                {title}
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-zinc-300">
-                {description}
-              </p>
-
-              {/* Overall rating */}
-              <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
-                <p className="text-xs uppercase tracking-[0.26em] text-white/35">Overall rating</p>
-                <div className="mt-3 flex items-end gap-3">
-                  <span className="text-5xl font-bold text-white">
-                    {source.rating?.toFixed?.(1) || source.rating || "5.0"}
-                  </span>
-                  <div className="pb-1.5">
-                    <RatingStars rating={source.rating || 5} />
-                    <p className="mt-1.5 text-xs text-zinc-500">
-                      {source.reviews_number || reviews.length || 0} reviews
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Business profile + sync status */}
-              <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-5">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.26em] text-white/35">Business profile</p>
-                    <p className="mt-2 text-lg font-semibold text-white">
-                      {source.name || "IT Meta Solutions"}
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200">
-                    {state.loading ? (
-                      <>
-                        <LoaderCircle className="h-3.5 w-3.5 animate-spin" />
-                        Loading
-                      </>
-                    ) : (
-                      cacheStatusLabel
-                    )}
-                  </div>
-                </div>
-                {generatedAt && (
-                  <p className="mt-3 text-xs text-zinc-600">Last synced {generatedAt}</p>
-                )}
-              </div>
-
-              <div className="mt-6 flex gap-3">
-                <a
-                  href={googleMapsUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2.5 text-xs font-semibold text-zinc-950 transition hover:bg-zinc-200"
-                >
-                  View Google Profile
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
-                <a
-                  href={writeReviewUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.08] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-white/[0.14]"
-                >
-                  Write a Review
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
+          {/* Rating summary row */}
+          <div className="mt-8 inline-flex flex-col sm:flex-row items-center gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur px-6 py-4">
+            <div className="flex items-end gap-3">
+              <span className="text-5xl font-bold text-white" style={{ textShadow: "0 0 20px rgba(251,188,5,0.3)" }}>
+                {rating}
+              </span>
+              <div className="pb-1.5">
+                <RatingStars rating={parseFloat(rating)} size="lg" />
+                <p className="text-xs text-zinc-500 mt-1">{totalRevs} reviews</p>
               </div>
             </div>
-
-            {/* Right panel — reviews as rows */}
-            <div className="flex flex-col gap-4">
+            <div className="hidden sm:block w-px h-10 bg-white/10" />
+            <div className="flex items-center gap-2">
               {state.loading ? (
-                <>
-                  <LoadingCard />
-                  <LoadingCard />
-                </>
-              ) : reviews.length > 0 ? (
-                reviews.slice(0, 4).map((review) => <ReviewCard key={review.id} review={review} />)
+                <LoaderCircle className="h-3.5 w-3.5 animate-spin text-zinc-500" />
               ) : (
-                <div className="flex h-full flex-col justify-between rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.26em] text-white/35">Google reviews</p>
-                    <h3 className="mt-3 text-2xl font-semibold text-white">
-                      {state.error ? "Reviews temporarily unavailable" : "No reviews found yet"}
-                    </h3>
-                    <p className="mt-3 max-w-xl text-sm leading-7 text-zinc-300">
-                      {state.error ||
-                        "Use the Google Business Profile button to view the latest public reviews directly on Google."}
-                    </p>
-                  </div>
-                  <div className="mt-6">
-                    <a
-                      href={googleMapsUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/[0.14]"
-                    >
-                      Open on Google
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  </div>
-                </div>
+                <span className={`h-2 w-2 rounded-full ${isLive ? "bg-emerald-400" : "bg-amber-400"}`} />
               )}
+              <span className="text-xs text-zinc-400">{state.loading ? "Loading…" : isLive ? "Live feed" : "Cached"}</span>
+              {syncedAt && <span className="text-xs text-zinc-600 hidden sm:inline">· {syncedAt}</span>}
             </div>
           </div>
         </motion.div>
+
+        {/* ── Review cards grid ── */}
+        {state.loading ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : reviews.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {reviews.slice(0, 6).map((r, i) => (
+              <ReviewCard key={r.id ?? i} review={r} delay={i * 0.07} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16">
+            <ThumbsUp className="h-10 w-10 text-zinc-700 mx-auto mb-4" />
+            <p className="text-zinc-400 text-sm">
+              {state.error ? "Reviews temporarily unavailable." : "No reviews found yet."}
+            </p>
+          </div>
+        )}
+
+        {/* ── CTA row ── */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href={mapsUrl} target="_blank" rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-950 transition-all hover:bg-zinc-100 hover:scale-105"
+            style={{ boxShadow: "0 0 20px rgba(255,255,255,0.1)" }}
+          >
+            <GoogleLogo className="h-4 w-4" />
+            View Google Profile
+            <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+          <a href={writeUrl} target="_blank" rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/[0.12] hover:border-white/25"
+          >
+            Write a Review
+            <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        </div>
       </Container>
     </section>
   );

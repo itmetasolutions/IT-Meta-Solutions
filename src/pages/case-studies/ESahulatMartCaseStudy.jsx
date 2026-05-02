@@ -31,6 +31,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * ESahulat Mart — Case Study (REDESIGNED to match new Home theme)
@@ -672,7 +673,9 @@ export default function ESahulatMartCaseStudy() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="relative min-h-screen overflow-hidden text-zinc-100">
+      <div className="itms-subpage relative min-h-screen overflow-hidden text-zinc-100">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background blobs (Home style) */}

@@ -29,6 +29,7 @@ import {
   CalendarDays,
   Globe,
 } from "lucide-react";
+import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * United Muslim Travels — Complete Brand Build (Tabbed) — UPDATED
@@ -622,7 +623,9 @@ export default function UnitedMuslimTravelsCaseStudy() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="relative min-h-screen text-zinc-100 mb-16 overflow-x-hidden">
+      <div className="itms-subpage relative min-h-screen text-zinc-100 mb-16 overflow-hidden">
+        <SubpageVisualLayer />
+
         <ScrollProgress />
 
         {/* Background accents */}
