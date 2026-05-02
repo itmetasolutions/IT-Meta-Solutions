@@ -976,7 +976,7 @@ export default function ServicesPage() {
                 initial={reduced ? false : { y: 16 }}
                 animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-2xl"
+                className="mx-auto mt-6 max-w-3xl text-xl text-zinc-300 sm:text-2xl"
               >
                 From websites and Salesforce solutions to digital marketing and brand building — we
                 deliver complete solutions that drive real business growth.
@@ -986,7 +986,7 @@ export default function ServicesPage() {
                 initial={reduced ? false : { y: 16 }}
                 animate={reduced ? {} : { y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="mt-10 grid gap-6 sm:grid-cols-3"
+                className="mx-auto mt-10 grid max-w-[1180px] gap-6 sm:grid-cols-3"
               >
                 <StatCard icon={LayoutGrid} label="Build" value="Web & Salesforce" />
                 <StatCard icon={Megaphone} label="Grow" value="Marketing & Ads" />

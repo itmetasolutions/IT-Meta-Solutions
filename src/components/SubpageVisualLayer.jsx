@@ -1,10 +1,5 @@
 import TechMeshBg from "./TechMeshBg";
-import codeIcon from "../assets/img/Code.png";
-import rocketIcon from "../assets/img/Rocket.png";
-import sparkleIcon from "../assets/img/sparkle.png";
 import globeIcon from "../assets/img/globe.png";
-import orbIcon from "../assets/img/orb.png";
-import showcaseImage from "../assets/img/Banner Image.png";
 
 export default function SubpageVisualLayer() {
   return (
@@ -23,15 +18,6 @@ export default function SubpageVisualLayer() {
           <span className="itms-globe-node itms-globe-node-a" />
           <span className="itms-globe-node itms-globe-node-b" />
           <span className="itms-globe-node itms-globe-node-c" />
-        </div>
-
-        <img src={orbIcon} alt="" className="itms-visual-asset itms-visual-orb" />
-        <img src={rocketIcon} alt="" className="itms-visual-asset itms-visual-rocket" />
-        <img src={codeIcon} alt="" className="itms-visual-asset itms-visual-code" />
-        <img src={sparkleIcon} alt="" className="itms-visual-asset itms-visual-sparkle" />
-
-        <div className="itms-visual-screenshot">
-          <img src={showcaseImage} alt="" />
         </div>
 
         <div className="itms-visual-panel itms-visual-panel-a">

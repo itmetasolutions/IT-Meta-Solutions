@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -81,7 +81,7 @@ const seoContent = {
 
 function Container({ children, className }) {
   return (
-    <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>
+    <div className={cx("mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12", className)}>
       {children}
     </div>
   );
@@ -429,10 +429,6 @@ export default function ProcessPage() {
   const [mode, setMode] = useState("brand");
   const heroRef = useRef(null);
 
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 700], [0, -55]);
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.88]);
-
   return (
     <>
       <Helmet>
@@ -463,7 +459,7 @@ export default function ProcessPage() {
       {/* Hero */}
       <section ref={heroRef} className="relative overflow-hidden">
         <Container className="pb-12 pt-24 sm:pb-16 sm:pt-32">
-          <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+          <motion.div>
             <Reveal>
               <div className="flex flex-wrap items-center gap-2">
                 <Pill icon={Workflow}>Clear process</Pill>

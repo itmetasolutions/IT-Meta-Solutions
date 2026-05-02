@@ -47,6 +47,8 @@ import fbrCertificate from "../../assets/img/FBR Certificate ITMS.png";
 import secpLogo from "../../assets/img/SECP Logo ITMS.webp";
 import fbrLogo from "../../assets/img/FBR Logo ITMS.webp";
 
+const aboutDeliveryImage = "/assets/img/lyubomyr-reverchuk-rtD_lcsN6_U-unsplash.jpg";
+
 /* ==================== HELPERS ==================== */
 
 function usePrefersReducedMotion() {
@@ -493,6 +495,70 @@ export default function AboutUsPage() {
         <section className="py-8 sm:py-12">
           <Container>
             <ContactCard />
+          </Container>
+        </section>
+
+        {/* ==================== DELIVERY SNAPSHOT ==================== */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+              <motion.div
+                initial={reduced ? false : { x: -24, opacity: 0 }}
+                whileInView={reduced ? {} : { x: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]"
+              >
+                <img
+                  src={aboutDeliveryImage}
+                  alt="IT Meta Solutions team collaborating in office"
+                  className="h-[360px] w-full object-cover sm:h-[440px]"
+                  style={{ objectPosition: "center 74%" }}
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b14]/80 via-transparent to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/10 bg-zinc-950/80 p-4 backdrop-blur-md">
+                  <div className="text-sm font-semibold text-white">Strategy, design, development, and growth in one workflow</div>
+                  <div className="mt-1 text-xs text-zinc-400">Built for clear communication and reliable delivery.</div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={reduced ? false : { x: 24, opacity: 0 }}
+                whileInView={reduced ? {} : { x: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                <Badge icon={Handshake}>How We Deliver</Badge>
+                <h2 className="mt-5 text-4xl font-bold text-white sm:text-5xl">
+                  A Team Built Around Complete Digital Execution
+                </h2>
+                <p className="mt-5 text-lg leading-relaxed text-zinc-300">
+                  We connect planning, creative, development, Salesforce, and marketing work into one
+                  organized process so every project moves with clarity from idea to launch.
+                </p>
+                <div className="mt-7 grid gap-3 sm:grid-cols-2">
+                  {[
+                    "Discovery before design",
+                    "Weekly progress visibility",
+                    "Conversion-focused execution",
+                    "Launch and optimization support",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-400" />
+                      <span className="text-sm font-medium text-zinc-200">{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link
+                  to="/process"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:scale-105"
+                >
+                  View Our Process
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </motion.div>
+            </div>
           </Container>
         </section>
 

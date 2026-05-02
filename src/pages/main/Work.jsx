@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -689,11 +689,7 @@ function FilterChip({ active, onClick, icon: Icon, label }) {
 
 export default function WorkPage() {
   const reduced = usePrefersReducedMotion();
-  const { scrollY } = useScroll();
   const [searchParams] = useSearchParams();
-
-  // Parallax effects
-  const heroY = useTransform(scrollY, [0, 500], [0, reduced ? 0 : 150]);
 
   const [query, setQuery] = useState("");
   const [mainTab, setMainTab] = useState("all");
@@ -840,9 +836,8 @@ export default function WorkPage() {
 
         {/* ==================== HERO SECTION ==================== */}
         <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-20">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12">
             <motion.div
-              style={{ y: heroY }}
               className="mx-auto max-w-5xl text-center"
             >
               <motion.div
@@ -1001,7 +996,7 @@ export default function WorkPage() {
 
         {/* ==================== PROJECTS GRID ==================== */}
         <section className="relative z-10 py-16 sm:py-20">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12">
             {filtered.length > 0 ? (
               <>
                 <div className="mb-8 flex items-center justify-between">
@@ -1060,7 +1055,7 @@ export default function WorkPage() {
 
         {/* ==================== CTA SECTION ==================== */}
         <section className="py-16 sm:py-20">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12">
             <motion.div
               initial={reduced ? false : { y: 16 }}
               whileInView={reduced ? {} : { y: 0 }}

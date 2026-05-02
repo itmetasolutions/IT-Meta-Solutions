@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
     ArrowRight,
     BarChart3,
@@ -56,7 +56,7 @@ function usePrefersReducedMotion() {
 
 /* ==================== UI ATOMS ==================== */
 function Container({ children, className }) {
-    return <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
+    return <div className={cx("mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12", className)}>{children}</div>;
 }
 
 function AnchorLink({ href, children, className }) {
@@ -304,11 +304,7 @@ const seoFaqs = [
 
 /* ==================== PAGE ==================== */
 export default function SalesforceServiceCloudCaseManagementCaseStudy() {
-    const reduced = usePrefersReducedMotion();
     const year = useMemo(() => new Date().getFullYear(), []);
-    const { scrollY } = useScroll();
-    const heroY = useTransform(scrollY, [0, 900], [0, reduced ? 0 : -70]);
-    const heroOpacity = useTransform(scrollY, [0, 520], [1, 0.9]);
     const heroRef = useRef(null);
 
     return (
@@ -360,7 +356,7 @@ export default function SalesforceServiceCloudCaseManagementCaseStudy() {
                 {/* HERO */}
                 <section ref={heroRef} className="relative pt-24 pb-10 sm:pt-32 sm:pb-16">
                     <Container>
-                        <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+                        <motion.div>
                             <Reveal>
                                 <div className="flex flex-wrap items-center gap-2">
                                     <Pill icon={Cloud}>Service Cloud</Pill>

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -72,7 +72,7 @@ const inPageNav = [
 
 /* ==================== UI HELPERS ==================== */
 function Container({ children, className }) {
-  return <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
+  return <div className={cx("mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12", className)}>{children}</div>;
 }
 
 function AnchorLink({ href, children, className }) {
@@ -584,13 +584,8 @@ const seoFaqs = [
 
 /* ==================== PAGE ==================== */
 export default function UnitedMuslimTravelsCaseStudy() {
-  const reduced = usePrefersReducedMotion();
   const year = useMemo(() => new Date().getFullYear(), []);
   const [activeTab, setActiveTab] = useState("website");
-
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 800], [0, reduced ? 0 : -60]);
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.9]);
   const heroRef = useRef(null);
 
   return (
@@ -636,7 +631,7 @@ export default function UnitedMuslimTravelsCaseStudy() {
         {/* Hero */}
         <section ref={heroRef} className="relative overflow-hidden">
           <Container className="pb-16 pt-24 sm:pb-24 sm:pt-32">
-            <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+            <motion.div>
               <Reveal>
                 <div className="flex flex-wrap items-center gap-2">
                   <Pill icon={Landmark}>Islamic travel brand</Pill>

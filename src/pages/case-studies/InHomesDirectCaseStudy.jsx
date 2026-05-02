@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -30,7 +30,7 @@ import SubpageVisualLayer from "../../components/SubpageVisualLayer";
  * - Primary: #5025d1 (ITMS purple)
  * - Dark glass + gradients + blobs
  * - Scroll progress bar
- * - Parallax hero
+ * - Static hero
  * - Reveal animations
  * - Equal-height cards in grids (h-full + flex + items-stretch)
  * - Mobile safe (overflow-x-hidden + safe padding)
@@ -74,7 +74,7 @@ const nav = [
 
 /* ==================== UI ==================== */
 function Container({ children, className }) {
-  return <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
+  return <div className={cx("mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12", className)}>{children}</div>;
 }
 
 function AnchorLink({ href, children, className }) {
@@ -300,11 +300,7 @@ const seoFaqs = [
 
 /* ==================== PAGE ==================== */
 export default function InHomesDirectCaseStudy() {
-  const reduced = usePrefersReducedMotion();
   const year = useMemo(() => new Date().getFullYear(), []);
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 800], [0, reduced ? 0 : -60]);
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.9]);
   const heroRef = useRef(null);
 
   return (
@@ -350,7 +346,7 @@ export default function InHomesDirectCaseStudy() {
         {/* Hero */}
         <section ref={heroRef} className="relative overflow-hidden">
           <Container className="pb-16 pt-24 sm:pb-24 sm:pt-32">
-            <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+            <motion.div>
               <Reveal>
                 <Badge icon={Sparkles}>E-commerce + Custom Product Logic</Badge>
               </Reveal>

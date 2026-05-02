@@ -29,10 +29,7 @@ import {
   ShoppingCart,
   Search,
   LayoutGrid,
-  Wallet,
   MapPin,
-  Cpu,
-  Layers,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
@@ -59,6 +56,8 @@ const clientSliderData = [
   { name: "SHEN",             logo: shenLogo },
 ];
 
+const homeAboutImage = "/assets/img/vitaly-gariev-3vBESHYwRkE-unsplash.jpg";
+
 /* ==================== HELPERS ==================== */
 
 const cx = (...classes) => classes.filter(Boolean).join(" ");
@@ -80,7 +79,7 @@ function usePrefersReducedMotion() {
 
 function RotatingGlobe() {
   const canvasRef = useRef(null);
-  const stateRef = useRef({ rot: 0, scrollOff: 0, animId: null });
+  const stateRef = useRef({ rot: 0, animId: null });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -98,11 +97,6 @@ function RotatingGlobe() {
     const CX = SIZE / 2;
     const CY = SIZE / 2;
     const R  = SIZE * 0.4;
-
-    const handleScroll = () => {
-      stateRef.current.scrollOff = window.scrollY * 0.022;
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
 
     function proj(lat, lng, rotY) {
       const phi = (90 - lat) * (Math.PI / 180);
@@ -137,7 +131,7 @@ function RotatingGlobe() {
 
     function drawFrame() {
       stateRef.current.rot += 0.11;
-      const rot = stateRef.current.rot + stateRef.current.scrollOff;
+      const rot = stateRef.current.rot;
 
       ctx.clearRect(0, 0, SIZE, SIZE);
 
@@ -267,7 +261,6 @@ function RotatingGlobe() {
 
     return () => {
       if (stateRef.current.animId) cancelAnimationFrame(stateRef.current.animId);
-      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -380,160 +373,74 @@ function ServiceCard({ service, delay = 0 }) {
   );
 }
 
-function ProjectCard({ project, delay = 0 }) {
+function WorkCategoryCard({ category, delay = 0 }) {
   const reduced = usePrefersReducedMotion();
-  const Icon = project.icon;
+  const Icon = category.icon;
   return (
-    <Link to={project.link} className="block">
-      <motion.div
-        initial={reduced ? false : { y: 16, opacity: 0 }}
-        whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay, ease: "easeOut" }}
-        className="group overflow-hidden rounded-2xl bg-[#0d0d18] border border-white/[0.07] neon-card transition-all duration-300"
-      >
-        <div className="flex flex-col sm:flex-row">
-          <div className="flex items-center gap-4 p-5 sm:w-auto sm:flex-shrink-0 sm:border-r sm:border-white/[0.07]">
-            <div className="flex-shrink-0 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#1c1a3a]">
-              <Icon className="h-5 w-5 text-[#a78bfa]" />
-            </div>
-            <div className="sm:hidden">
-              <h3 className="text-base font-bold text-white">{project.title}</h3>
-              <div className="mt-1 flex flex-wrap gap-1.5">
-                {project.tags?.map((tag, idx) => (
-                  <span key={idx} className="rounded-full bg-[#1c1a3a] px-2 py-0.5 text-xs font-medium text-[#a78bfa]">{tag}</span>
+    <motion.div
+      initial={reduced ? false : { y: 16, opacity: 0 }}
+      whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.45, delay, ease: "easeOut" }}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0d0d18] neon-card"
+    >
+      <Link to={category.link} className="relative block h-44 overflow-hidden border-b border-white/[0.07]">
+        <img
+          src={category.image}
+          alt={category.title}
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d18] via-[#0d0d18]/45 to-transparent" />
+        <div className="absolute bottom-4 left-4 flex items-center gap-3">
+          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[#1c1a3a]/95"
+            style={{ boxShadow: `0 0 22px ${category.glow}` }}>
+            <Icon className="h-5 w-5" style={{ color: category.accent }} />
+          </div>
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c4b5fd]">{category.kicker}</p>
+            <h3 className="mt-1 text-xl font-bold leading-tight text-white">{category.title}</h3>
+          </div>
+        </div>
+      </Link>
+
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <p className="text-sm leading-relaxed text-zinc-400">{category.description}</p>
+
+        <div className="mt-6 space-y-3">
+          {category.projects.map((project) => (
+            <Link
+              key={project.title}
+              to={project.link}
+              className="group/item block rounded-xl border border-white/[0.07] bg-[#13122a] p-4 transition-all duration-200 hover:border-[#5025d1]/40 hover:bg-[#171537]"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h4 className="text-sm font-bold text-white leading-snug">{project.title}</h4>
+                  <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-zinc-400">{project.description}</p>
+                </div>
+                <ArrowRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#a78bfa] transition-transform group-hover/item:translate-x-1" />
+              </div>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {project.tags.map((tag) => (
+                  <span key={tag} className="rounded-full bg-[#1c1a3a] px-2 py-0.5 text-[11px] font-medium text-[#a78bfa]">
+                    {tag}
+                  </span>
                 ))}
               </div>
-            </div>
-          </div>
-          <div className="flex-1 p-5 pt-0 sm:pt-5">
-            <div className="hidden sm:block">
-              <div className="flex items-center gap-3 flex-wrap">
-                <h3 className="text-base font-bold text-white">{project.title}</h3>
-                {project.tags?.map((tag, idx) => (
-                  <span key={idx} className="rounded-full bg-[#1c1a3a] px-2.5 py-0.5 text-xs font-medium text-[#a78bfa]">{tag}</span>
-                ))}
-              </div>
-            </div>
-            <p className="mt-2 text-sm text-zinc-400 line-clamp-2 leading-relaxed">{project.description}</p>
-          </div>
-          <div className="flex items-center gap-4 border-t border-white/[0.07] p-5 sm:border-l sm:border-t-0 sm:w-auto sm:flex-shrink-0">
-            {project.results?.slice(0, 2).map((result, idx) => (
-              <div key={idx} className="text-center min-w-[64px]">
-                <div className="text-base font-bold text-white">{result.value}</div>
-                <div className="text-xs text-zinc-500">{result.label}</div>
-              </div>
-            ))}
-            <div className="flex items-center gap-1 text-[#a78bfa] transition-all group-hover:gap-2 ml-auto sm:ml-2">
-              <ArrowRight className="h-4 w-4" />
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </Link>
-  );
-}
-
-function SalesforceProjectCard({ project, delay = 0 }) {
-  const reduced = usePrefersReducedMotion();
-  const Icon = project.icon;
-  return (
-    <Link to={project.link} className="block h-full">
-      <motion.div
-        initial={reduced ? false : { y: 16, opacity: 0 }}
-        whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay, ease: "easeOut" }}
-        className="group flex h-full flex-col rounded-2xl bg-[#0d0d18] border border-white/[0.07] p-6 sm:p-7 neon-card"
-      >
-        <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex-shrink-0 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#1c1a3a]">
-            <Icon className="h-5 w-5 text-[#a78bfa]" />
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {project.tags?.map((tag, idx) => (
-              <span key={idx} className="rounded-full bg-[#1c1a3a] px-2.5 py-1 text-xs font-medium text-[#a78bfa]">{tag}</span>
-            ))}
-          </div>
-        </div>
-        <h3 className="mt-5 text-lg sm:text-xl font-bold text-white leading-snug">{project.title}</h3>
-        <p className="mt-2.5 text-sm text-zinc-400 leading-relaxed line-clamp-3 flex-1">{project.description}</p>
-        {project.results && project.results.length > 0 && (
-          <div className="mt-5 grid grid-cols-2 gap-2.5">
-            {project.results.map((result, idx) => (
-              <div key={idx} className="rounded-xl bg-[#13122a] p-3 text-center">
-                <div className="text-base font-bold text-white">{result.value}</div>
-                <div className="text-xs text-zinc-500">{result.label}</div>
-              </div>
-            ))}
-          </div>
-        )}
-        <div className="mt-5 flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] group-hover:text-[#a78bfa] group-hover:gap-3 transition-all duration-200">
-          <span>View case study</span>
-          <ArrowRight className="h-4 w-4" />
-        </div>
-      </motion.div>
-    </Link>
-  );
-}
-
-function CustomWebAppFeatureCard({ project }) {
-  const reduced = usePrefersReducedMotion();
-  const Icon = project.icon;
-  return (
-    <Link to={project.link} className="block h-full">
-      <motion.div
-        initial={reduced ? false : { y: 16, opacity: 0 }}
-        whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="group flex h-full flex-col gap-5 rounded-2xl bg-[#0d0d18] border border-white/[0.07] p-6 sm:p-8 neon-card"
-      >
-        <div>
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#1c1a3a]">
-              <Icon className="h-5 w-5 text-[#a78bfa]" />
-            </div>
-            {project.tags?.map((tag, idx) => (
-              <span key={idx} className="rounded-full bg-[#1c1a3a] px-2.5 py-1 text-xs font-medium text-[#a78bfa]">{tag}</span>
-            ))}
-          </div>
-          <h3 className="mt-5 text-xl font-bold leading-tight text-white sm:text-2xl">{project.title}</h3>
-          <p className="mt-3 text-sm leading-relaxed text-zinc-400">{project.description}</p>
-        </div>
-        <div className="grid grid-cols-3 gap-2.5">
-          {project.results?.map((result, idx) => (
-            <div key={idx} className="rounded-xl bg-[#13122a] p-3 text-center">
-              <div className="text-base font-bold text-white leading-tight">{result.value}</div>
-              <div className="mt-1 text-[11px] text-zinc-500">{result.label}</div>
-            </div>
+            </Link>
           ))}
         </div>
-        <div className="grid gap-2 sm:grid-cols-2">
-          {project.highlights?.map((highlight, idx) => (
-            <div key={idx} className="flex items-start gap-2 rounded-xl bg-[#13122a] px-3 py-2.5">
-              <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#7c6fcd]" />
-              <span className="text-xs text-zinc-300">{highlight}</span>
-            </div>
-          ))}
-        </div>
-        <div className="rounded-xl bg-[#13122a] p-4">
-          <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#a78bfa]">Core Modules</h4>
-          <ul className="mt-2.5 space-y-1.5">
-            {project.modules?.map((module, idx) => (
-              <li key={idx} className="flex items-start gap-2 text-xs text-zinc-300">
-                <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#7c6fcd]" />
-                <span>{module}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="mt-auto flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] group-hover:text-[#a78bfa] group-hover:gap-3 transition-all duration-200">
-          <span>View case study</span>
+
+        <Link
+          to={category.link}
+          className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] transition-all hover:gap-3 hover:text-[#a78bfa]"
+        >
+          View all {category.title} work
           <ArrowRight className="h-4 w-4" />
-        </div>
-      </motion.div>
-    </Link>
+        </Link>
+      </div>
+    </motion.div>
   );
 }
 
@@ -638,96 +545,96 @@ const services = [
   },
 ];
 
-const featuredProjects = [
+const projectCategories = [
   {
-    title: "Ekommart",
-    description: "Complete e-commerce brand build from scratch — website, social media, and Meta Ads generating 3,300+ purchases in 5 months.",
-    tags: ["Brand Build", "Meta Ads"],
-    icon: Sparkles,
-    results: [{ value: "3,300+", label: "Purchases" }, { value: "164 PKR", label: "Best CPA" }],
-    link: "/case-study/ekommart",
-  },
-  {
-    title: "E Sahulat Mart",
-    description: "Modern e-commerce platform with product catalog, shopping cart, payment integration, and complete order management system.",
-    tags: ["E-commerce", "Web Dev"],
-    icon: ShoppingCart,
-    results: [{ value: "Modern", label: "Storefront" }, { value: "Secure", label: "Payments" }],
-    link: "/case-study/esahulat-mart",
-  },
-  {
-    title: "IN Homes Direct",
-    description: "Logic-driven Shopify storefront with custom calculators for area-to-pack conversion, real-time pricing, and survey-based estimates.",
-    tags: ["Shopify", "Custom Dev"],
+    title: "Web Development",
+    kicker: "Web projects",
+    description: "E-commerce sites, custom storefronts, and business platforms built for speed, conversion, and day-to-day clarity.",
     icon: Code2,
-    results: [{ value: "Custom", label: "Calculators" }, { value: "Real-time", label: "Pricing" }],
-    link: "/case-study/inhomes-direct",
+    accent: "#a78bfa",
+    glow: "rgba(167,139,250,0.28)",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=900&auto=format&fit=crop&q=80",
+    link: "/work?filter=web",
+    projects: [
+      {
+        title: "InHomes Direct",
+        description: "Logic-driven Shopify storefront with custom calculators, real-time pricing, and survey-based estimates.",
+        tags: ["Shopify", "Calculators"],
+        link: "/case-study/inhomes-direct",
+      },
+      {
+        title: "ESahulat Mart",
+        description: "Modern e-commerce platform with catalog, cart, payment integration, and order management.",
+        tags: ["E-commerce", "Retail"],
+        link: "/case-study/esahulat-mart",
+      },
+      {
+        title: "More Homes Group",
+        description: "Property platform with listings, tenant workflows, maintenance tracking, and reporting.",
+        tags: ["Real Estate", "Platform"],
+        link: "/case-study/more-homes-group",
+      },
+    ],
   },
   {
-    title: "More Homes Group",
-    description: "Comprehensive property management platform with listings, tenant management, maintenance tracking, and financial reporting.",
-    tags: ["Web App", "Platform"],
-    icon: Building2,
-    results: [{ value: "Streamlined", label: "Operations" }, { value: "Automated", label: "Reports" }],
-    link: "/case-study/more-homes-group",
-  },
-  {
-    title: "United Muslim Travels",
-    description: "Complete brand building and digital marketing campaign including brand identity, website development, and performance marketing.",
-    tags: ["Branding", "Marketing"],
-    icon: Megaphone,
-    results: [{ value: "Brand", label: "Built" }, { value: "Marketing", label: "Executed" }],
-    link: "/case-studies/united-muslim-travels-brand-build",
-  },
-];
-
-const salesforceProjects = [
-  {
-    title: "Duplicate Check & Data Validation",
-    description: "Salesforce components for duplicate prevention and data validation — keeping CRM data clean and reporting accurate.",
-    tags: ["Salesforce", "Data Quality"],
-    icon: ShieldCheck,
-    results: [{ value: "Cleaner", label: "CRM Data" }, { value: "Better", label: "Reporting" }],
-    link: "/case-study/salesforce-duplicate-check",
-  },
-  {
-    title: "Customer Portal for Environmental Issue Reporting",
-    description: "User-friendly portal on Salesforce Experience Cloud for citizens to report environmental concerns, manage properties, process payments, and track requests.",
-    tags: ["Salesforce", "Experience Cloud", "Custom Development"],
-    icon: Globe,
-    results: [{ value: "Improved", label: "Transparency" }, { value: "Better", label: "Citizen UX" }],
-    link: "/case-study/salesforce-experience-cloud-government-cloud",
-  },
-  {
-    title: "Service Cloud Case Management + Property Data Automation",
-    description: "Lightning Web Components application integrated with automation engine for real-time property data lead generation, agent dashboards, and role-based access.",
-    tags: ["Salesforce", "Service Cloud", "LWC", "Automation"],
+    title: "Salesforce & CRM",
+    kicker: "CRM builds",
+    description: "Salesforce implementations, Experience Cloud portals, LWC components, and automation systems for cleaner operations.",
     icon: Cloud,
-    results: [{ value: "Qualified", label: "Leads" }, { value: "Real-time", label: "Data" }],
-    link: "/case-study/salesforce-service-cloud-implementation",
+    accent: "#00f5ff",
+    glow: "rgba(0,245,255,0.2)",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&auto=format&fit=crop&q=80",
+    link: "/work?filter=salesforce",
+    projects: [
+      {
+        title: "More Homes Group CRM",
+        description: "CRM-style letting operations portal with agent workflows, property records, dialer tools, and audit logs.",
+        tags: ["CRM", "Real Estate"],
+        link: "/case-study/letting-agency-portal",
+      },
+      {
+        title: "Environmental Issue Reporting Portal",
+        description: "Experience Cloud portal for reports, property management, payments, and request tracking.",
+        tags: ["Experience Cloud", "Portal"],
+        link: "/case-study/salesforce-experience-cloud-government-cloud",
+      },
+      {
+        title: "Service Cloud Case Management",
+        description: "LWC case management and property-data automation for qualified lead generation.",
+        tags: ["Service Cloud", "LWC"],
+        link: "/case-study/salesforce-service-cloud-implementation",
+      },
+    ],
   },
-];
-
-const customWebAppProjects = [
   {
-    title: "MHG Portal — Custom Letting Agency App",
-    description: "Custom internal platform for a letting agency, built with Next.js 14, TypeScript, Prisma, and PostgreSQL. Combines Admin and Agent workspaces, SIP dialer workflows, team chat, OTP login, audit logs, and revenue dashboards.",
-    tags: ["Next.js 14", "PostgreSQL", "Role-Based"],
-    icon: LayoutGrid,
-    highlights: ["Admin control center for team and process management", "Agent workspace with property pipeline and notes", "Embedded SIP dialer with intercalling and recordings", "OTP login, rate limiting, and full audit trail"],
-    results: [{ value: "5", label: "Modules" }, { value: "2", label: "User Roles" }, { value: "OTP", label: "Auth" }],
-    modules: ["Admin and team management", "Agent pipeline and follow-up workflow", "Dialpad, call history, labels, recordings", "Internal chat and handoff communication", "Revenue and performance dashboard"],
-    link: "/case-study/letting-agency-portal",
-  },
-  {
-    title: "ShenCoin — Solana Crypto Platform",
-    description: "Full-stack crypto platform with a React + Vite SPA, Express.js REST API, Prisma ORM, and Neon Serverless PostgreSQL. Phantom and Solflare wallet payments — users sign on-chain, submit TX hash, admin verifies and credits wallet.",
-    tags: ["React + Vite", "Solana", "Express.js"],
-    icon: Wallet,
-    highlights: ["Phantom & Solflare deep link wallet integration", "On-chain transaction signing and TX hash submission", "Express.js API with Prisma ORM and Neon PostgreSQL", "Admin on-chain verification and wallet crediting"],
-    results: [{ value: "Solana", label: "On-chain" }, { value: "Neon PG", label: "Database" }, { value: "Admin", label: "Verify TX" }],
-    modules: ["React + Vite SPA with wallet detection", "Express.js REST API + JWT admin routes", "Prisma ORM + Neon serverless PostgreSQL", "Solana RPC on-chain TX verification", "Wallet balance crediting and audit log"],
-    link: "/case-study/shencoin",
+    title: "Digital Marketing",
+    kicker: "Growth work",
+    description: "Brand building, performance campaigns, social strategy, and content systems that turn attention into sales.",
+    icon: Megaphone,
+    accent: "#f472b6",
+    glow: "rgba(244,114,182,0.22)",
+    image: "https://images.unsplash.com/photo-1557838923-2985c318be48?w=900&auto=format&fit=crop&q=80",
+    link: "/work?filter=digital-marketing",
+    projects: [
+      {
+        title: "Ekommart",
+        description: "Complete brand and marketing transformation with store build, social presence, and Meta Ads.",
+        tags: ["Meta Ads", "E-commerce"],
+        link: "/case-study/ekommart",
+      },
+      {
+        title: "Halla Gulla",
+        description: "Brand identity, website, social setup, and digital marketing strategy for a tourism brand.",
+        tags: ["Branding", "Social"],
+        link: "/case-study/halla-gulla",
+      },
+      {
+        title: "United Muslim Travels",
+        description: "Travel brand build with identity, website, social presence, and performance marketing.",
+        tags: ["Travel", "Marketing"],
+        link: "/case-studies/united-muslim-travels-brand-build",
+      },
+    ],
   },
 ];
 
@@ -1279,8 +1186,8 @@ export default function Home() {
                 <div className="relative rounded-2xl overflow-hidden"
                   style={{ boxShadow: "0 0 50px rgba(80,37,209,0.3), 0 0 100px rgba(80,37,209,0.1)" }}>
                   <img
-                    src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&auto=format&fit=crop&q=80"
-                    alt="IT Meta Solutions Team"
+                    src={homeAboutImage}
+                    alt="Professional woman representing digital growth"
                     className="w-full h-[460px] object-cover"
                     loading="lazy"
                   />
@@ -1711,78 +1618,26 @@ export default function Home() {
           </Container>
         </section>
 
-        {/* ==================== FEATURED PROJECTS ==================== */}
+        {/* ==================== PROJECTS & WORK ==================== */}
         <section className="py-16 sm:py-24 bg-[#09090e] relative overflow-hidden">
           <TechMeshBg variant="marketing" iconColor="#5025d1" iconOpacityBase={0.03} />
-          <div className="absolute inset-0 dot-grid-bg opacity-30 pointer-events-none" />
+          <div className="absolute inset-0 dot-grid-bg opacity-35 pointer-events-none" />
           <Container>
             <SectionHeading
-              badge="Our Work"
-              title="Projects We're Proud Of"
-              description="Real businesses, real results. See how we've helped brands grow and succeed."
+              badge="Projects & Work"
+              title="Explore Work by Expertise"
+              description="Browse featured outcomes by category, or jump straight into the filtered project library."
               centered
             />
-            <div className="flex flex-col gap-4">
-              {featuredProjects.map((project, index) => (
-                <ProjectCard key={index} project={project} delay={index * 0.08} />
+            <div className="grid gap-6 lg:grid-cols-3">
+              {projectCategories.map((category, index) => (
+                <WorkCategoryCard key={category.title} category={category} delay={index * 0.1} />
               ))}
             </div>
             <div className="mt-12 text-center">
               <Link to="/work"
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#a78bfa] transition-all hover:gap-3">
-                View All Projects
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </Container>
-        </section>
-
-        {/* ==================== SALESFORCE PROJECTS ==================== */}
-        <section className="py-16 sm:py-24 bg-[#0b0b14] relative overflow-hidden">
-          <TechMeshBg variant="devtech" iconColor="#5025d1" iconOpacityBase={0.028} />
-          <div className="absolute inset-0 hex-grid-bg opacity-50 pointer-events-none" />
-          <Container>
-            <SectionHeading
-              badge="Salesforce Expertise"
-              title="Salesforce Projects That Deliver Results"
-              description="Custom Salesforce solutions that streamline operations, improve data quality, and drive business growth."
-              centered
-            />
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {salesforceProjects.map((project, index) => (
-                <SalesforceProjectCard key={index} project={project} delay={index * 0.1} />
-              ))}
-            </div>
-            <div className="mt-12 text-center">
-              <Link to="/work?filter=salesforce"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#a78bfa] transition-all hover:gap-3">
-                View All Salesforce Projects
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </Container>
-        </section>
-
-        {/* ==================== CUSTOM WEB APPS ==================== */}
-        <section className="py-16 sm:py-24 bg-[#0b0b14] relative overflow-hidden">
-          <TechMeshBg variant="devtech" iconColor="#5025d1" iconOpacityBase={0.03} />
-          <div className="absolute inset-0 hex-grid-bg opacity-35 pointer-events-none" />
-          <Container>
-            <SectionHeading
-              badge="Custom Web Apps"
-              title="Custom Web App Featured Projects"
-              description="Bespoke web platforms built around complex real-world workflows — from letting agency portals with SIP dialers to full-stack Solana crypto platforms."
-              centered
-            />
-            <div className="grid gap-8 lg:grid-cols-2">
-              {customWebAppProjects.map((project, index) => (
-                <CustomWebAppFeatureCard key={index} project={project} />
-              ))}
-            </div>
-            <div className="mt-12 text-center">
-              <Link to="/work?filter=custom-web-apps"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#a78bfa] transition-all hover:gap-3">
-                View All Custom Web App Projects
+                View Complete Project Library
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -1887,6 +1742,7 @@ export default function Home() {
                     src={img.url}
                     alt={img.title}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    style={{ objectPosition: img.objectPosition || "center" }}
                     loading="lazy"
                   />
                   {/* Gradient overlay */}

@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import {
   ArrowRight,
   Sparkles,
@@ -42,23 +42,10 @@ const cx = (...classes) => classes.filter(Boolean).join(" ");
 
 function Container({ children, className }) {
   return (
-    <div className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className || ''}`}>
+    <div className={`mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12 ${className || ''}`}>
       {children}
     </div>
   );
-}
-
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-    if (!m) return;
-    const onChange = () => setReduced(!!m.matches);
-    onChange();
-    m.addEventListener?.("change", onChange);
-    return () => m.removeEventListener?.("change", onChange);
-  }, []);
-  return reduced;
 }
 
 /* ==================== UI: HOME THEME PRIMITIVES ==================== */
@@ -323,11 +310,6 @@ async function submitContact(payload) {
 /* ==================== PAGE ==================== */
 
 export default function Contact() {
-  const reduced = usePrefersReducedMotion();
-  const { scrollY } = useScroll();
-
-  // subtle hero parallax - extended range for better readability
-  const heroY = useTransform(scrollY, [0, 800], [0, reduced ? 0 : 100]);
 
   // ✅ Data from your previous contact page
   const CONTACT = useMemo(
@@ -419,7 +401,7 @@ export default function Contact() {
         {/* ==================== NEW HERO (COMPLETELY DIFFERENT) ==================== */}
         <section className="relative pt-28 pb-12 sm:pt-36 sm:pb-16">
           <Container>
-            <motion.div style={{ y: heroY }} className="relative">
+            <motion.div className="relative">
               {/* Split hero card */}
               <GlowCard className="p-7 sm:p-10">
                 <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">

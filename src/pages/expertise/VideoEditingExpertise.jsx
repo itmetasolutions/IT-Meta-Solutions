@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -48,7 +48,7 @@ import SubpageVisualLayer from "../../components/SubpageVisualLayer";
  * Matches your template:
  * - Dark glass cards + gradients
  * - Scroll progress
- * - Parallax hero
+ * - Static hero
  * - Sticky section nav (active state)
  *
  * Built for modern short-form + ads workflows (Reels/TikTok/Shorts) + long-form YouTube.
@@ -101,7 +101,7 @@ const seoFaqs = [
 ];
 
 function Container({ children, className }) {
-  return <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
+  return <div className={cx("mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12", className)}>{children}</div>;
 }
 
 function AnchorLink({ href, children, className }) {
@@ -282,9 +282,6 @@ function Divider() {
 }
 
 export default function VideoEditingExpertise() {
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 600], [0, -100]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.85]);
   const heroRef = useRef(null);
 
   return (
@@ -320,7 +317,7 @@ export default function VideoEditingExpertise() {
         {/* HERO */}
         <section ref={heroRef} className="relative overflow-hidden">
           <Container className="pb-10 pt-24 sm:pb-14 sm:pt-32">
-            <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+            <motion.div>
               <Reveal>
                 <div className="flex flex-wrap items-center gap-2 mb-6">
                   <Pill icon={Film}>Short-form</Pill>

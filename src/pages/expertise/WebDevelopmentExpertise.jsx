@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -85,7 +85,7 @@ const seoFaqs = [
 
 function Container({ children, className }) {
   return (
-    <div className={cx("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>
+    <div className={cx("mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12", className)}>
       {children}
     </div>
   );
@@ -273,9 +273,6 @@ function Divider() {
 }
 
 export default function WebDevelopmentExpertisePage() {
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 600], [0, -100]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.85]);
   const heroRef = useRef(null);
 
   return (
@@ -302,7 +299,7 @@ export default function WebDevelopmentExpertisePage() {
         {/* HERO */}
         <section ref={heroRef} className="relative overflow-hidden">
           <Container className="pb-10 pt-24 sm:pb-14 sm:pt-32">
-            <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+            <motion.div>
               <Reveal>
                 <div className="flex flex-wrap items-center gap-2 mb-6">
                   <Pill icon={Code2}>Web Development</Pill>
