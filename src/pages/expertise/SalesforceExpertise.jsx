@@ -324,6 +324,21 @@ export default function SalesforceExpertisePage() {
           </Container>
         </section>
 
+        {/* Hero banner image */}
+        <section className="pb-6">
+          <Container>
+            <div className="relative h-64 sm:h-80 overflow-hidden rounded-2xl border border-white/[0.07]">
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400&q=80"
+                alt="Salesforce Development"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#09090e]/80 via-[#09090e]/20 to-transparent" />
+            </div>
+          </Container>
+        </section>
+
         {/* STICKY NAV */}
         <StickyNav items={nav} />
 

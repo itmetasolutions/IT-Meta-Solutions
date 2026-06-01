@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useInView } from "framer-motion";
 import {
   ArrowRight,
   Brush,
@@ -27,6 +27,21 @@ import {
   Wand2,
   FileSearch,
   MapPin,
+  Zap,
+  Users,
+  TrendingUp,
+  HeartHandshake,
+  Clock,
+  Star,
+  ChevronRight,
+  Globe,
+  ShoppingBag,
+  BarChart3,
+  Award,
+  Rocket,
+  Target,
+  Lightbulb,
+  MonitorSmartphone,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
@@ -50,6 +65,273 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
+/* ==================== DATA ==================== */
+
+const SERVICES = [
+  {
+    id: "web-development",
+    icon: Code2,
+    title: "Web Development",
+    short: "High-performance websites built for conversion.",
+    description: "Custom, fast, and scalable websites tailored to your brand identity and business goals.",
+    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80",
+    link: "/services/web-development",
+    accent: "#5025d1",
+  },
+  {
+    id: "custom-apps",
+    icon: MonitorSmartphone,
+    title: "Custom Web Apps",
+    short: "Bespoke software for complex business needs.",
+    description: "Full-stack web applications engineered for performance, scalability, and user delight.",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
+    link: "/services/custom-web-apps",
+    accent: "#7c3aed",
+  },
+  {
+    id: "salesforce",
+    icon: Cloud,
+    title: "Salesforce CRM",
+    short: "Unlock revenue growth with Salesforce expertise.",
+    description: "Implementation, customisation, and automation for Sales Cloud, Service Cloud, and Experience Cloud.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+    link: "/services/salesforce",
+    accent: "#0ea5e9",
+  },
+  {
+    id: "digital-marketing",
+    icon: Megaphone,
+    title: "Digital Marketing",
+    short: "Data-driven campaigns that drive real results.",
+    description: "Performance marketing across Google, Meta, and LinkedIn — built around ROI.",
+    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
+    link: "/services/digital-marketing",
+    accent: "#ec4899",
+  },
+  {
+    id: "seo",
+    icon: Search,
+    title: "SEO Optimisation",
+    short: "Dominate search rankings with proven strategies.",
+    description: "Technical SEO, content strategy, and link building to grow organic traffic sustainably.",
+    image: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=800&q=80",
+    link: "/services/seo",
+    accent: "#10b981",
+  },
+  {
+    id: "social-media",
+    icon: Instagram,
+    title: "Social Media",
+    short: "Build an audience that converts.",
+    description: "Strategy, content creation, and community management across all major platforms.",
+    image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=80",
+    link: "/services/social-media",
+    accent: "#f59e0b",
+  },
+  {
+    id: "graphic-design",
+    icon: Palette,
+    title: "Graphic Design",
+    short: "Visuals that stop the scroll.",
+    description: "Brand-aligned design across digital, print, and social — from logos to full campaigns.",
+    image: "https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=800&q=80",
+    link: "/services/graphic-designing",
+    accent: "#ba55d3",
+  },
+  {
+    id: "video-editing",
+    icon: Film,
+    title: "Video Editing",
+    short: "Cinematic storytelling for your brand.",
+    description: "Professional video production and editing — explainers, reels, ads, and corporate videos.",
+    image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80",
+    link: "/services/video-editing",
+    accent: "#ef4444",
+  },
+];
+
+const FEATURED = [
+  {
+    id: "web",
+    label: "Web & Apps",
+    icon: Code2,
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80",
+    headline: "Websites & Apps That Work as Hard as You Do",
+    description: "We design and build high-performance digital products — from marketing sites to complex web applications. Every project starts with strategy and ends with measurable results.",
+    benefits: [
+      "Mobile-first responsive design",
+      "Core Web Vitals optimised",
+      "Next.js & React architecture",
+      "API integrations & automations",
+      "Post-launch support included",
+    ],
+  },
+  {
+    id: "marketing",
+    label: "Digital Marketing",
+    icon: Megaphone,
+    image: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=1200&q=80",
+    headline: "Marketing Campaigns That Actually Convert",
+    description: "Data-first campaigns across Google, Meta, and LinkedIn. We combine paid performance with organic SEO and social strategy to build a compounding growth engine for your brand.",
+    benefits: [
+      "Google & Meta advertising",
+      "SEO & content marketing",
+      "Social media management",
+      "Conversion rate optimisation",
+      "Monthly performance reports",
+    ],
+  },
+  {
+    id: "salesforce",
+    label: "Salesforce",
+    icon: Cloud,
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80",
+    headline: "Salesforce Implementations That Drive Revenue",
+    description: "Certified Salesforce expertise for Sales Cloud, Service Cloud, and Experience Cloud. We turn your CRM into a revenue-generating powerhouse with custom flows, automations, and portals.",
+    benefits: [
+      "Sales Cloud & Service Cloud",
+      "Experience Cloud portals",
+      "Custom Lightning components",
+      "Flow & Process Builder automation",
+      "Data migration & training",
+    ],
+  },
+  {
+    id: "brand",
+    label: "Branding & Design",
+    icon: Palette,
+    image: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=1200&q=80",
+    headline: "Brands That Stand Out in Any Market",
+    description: "From brand identity and logo design to motion graphics and video production — we craft visual stories that leave a lasting impression and build brand equity over time.",
+    benefits: [
+      "Brand identity & guidelines",
+      "Logo & visual design",
+      "Social media content packs",
+      "Video production & editing",
+      "Print & digital collateral",
+    ],
+  },
+];
+
+const REASONS = [
+  {
+    icon: Zap,
+    title: "Fast Delivery",
+    description: "We move quickly without sacrificing quality. Most projects are delivered 20–30% faster than industry average with our agile workflow.",
+    gradient: "from-[#5025d1]/20 to-[#7c3aed]/10",
+    border: "border-[#5025d1]/30",
+    iconColor: "text-[#a78bfa]",
+    glow: "rgba(80,37,209,0.35)",
+  },
+  {
+    icon: Users,
+    title: "Experienced Team",
+    description: "Our team brings 10+ years of combined expertise across development, design, and marketing — with real-world results to show for it.",
+    gradient: "from-[#0ea5e9]/20 to-[#0284c7]/10",
+    border: "border-[#0ea5e9]/30",
+    iconColor: "text-[#38bdf8]",
+    glow: "rgba(14,165,233,0.35)",
+  },
+  {
+    icon: Target,
+    title: "Conversion Focused",
+    description: "Everything we build is optimised for business outcomes — more leads, higher sales, better retention. Vanity metrics aren't our style.",
+    gradient: "from-[#ec4899]/20 to-[#db2777]/10",
+    border: "border-[#ec4899]/30",
+    iconColor: "text-[#f472b6]",
+    glow: "rgba(236,72,153,0.35)",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Ongoing Support",
+    description: "We don't disappear after launch. Every client gets dedicated post-launch support, monthly check-ins, and proactive improvement suggestions.",
+    gradient: "from-[#10b981]/20 to-[#059669]/10",
+    border: "border-[#10b981]/30",
+    iconColor: "text-[#34d399]",
+    glow: "rgba(16,185,129,0.35)",
+  },
+];
+
+const PROCESS_STEPS = [
+  {
+    step: "01",
+    icon: Lightbulb,
+    title: "Discovery",
+    description: "We learn your business, goals, and audience through a detailed discovery session.",
+  },
+  {
+    step: "02",
+    icon: Target,
+    title: "Strategy",
+    description: "A clear roadmap is built — scope, timelines, tech stack, and success metrics defined.",
+  },
+  {
+    step: "03",
+    icon: Palette,
+    title: "Design",
+    description: "High-fidelity designs crafted with your brand identity and conversion goals in mind.",
+  },
+  {
+    step: "04",
+    icon: Code2,
+    title: "Build",
+    description: "Engineers bring the designs to life with clean, performant, production-ready code.",
+  },
+  {
+    step: "05",
+    icon: Rocket,
+    title: "Launch",
+    description: "Rigorous QA, deployment, and a smooth handover — then we monitor and optimise.",
+  },
+];
+
+const STATS = [
+  { value: 50, suffix: "+", label: "Projects Completed" },
+  { value: 40, suffix: "+", label: "Happy Clients" },
+  { value: 98, suffix: "%", label: "Client Satisfaction" },
+  { value: 200, suffix: "%", label: "Average Growth" },
+];
+
+const seoContent = `
+IT Meta Solutions offers a comprehensive suite of digital services designed to help businesses grow and succeed online. From web development and custom applications to Salesforce CRM implementation, digital marketing, SEO, social media management, graphic design, and video production — we bring the full spectrum of digital expertise under one roof.
+
+Our web development team specialises in building high-performance, conversion-optimised websites and web applications using modern frameworks including React, Next.js, and Node.js. Every project is engineered for speed, scalability, and security.
+
+Our digital marketing and SEO specialists craft data-driven strategies that deliver measurable ROI. Whether you need paid advertising on Google and Meta, organic search growth, or a full social media presence — we build campaigns that convert.
+
+As a Salesforce partner, we implement and customise Sales Cloud, Service Cloud, and Experience Cloud solutions that streamline operations and accelerate revenue growth for businesses of all sizes.
+
+Our creative team delivers world-class branding, graphic design, and video production that builds brand equity and drives engagement across all touchpoints.
+`;
+
+const seoFaqs = [
+  {
+    question: "What services does IT Meta Solutions offer?",
+    answer:
+      "IT Meta Solutions offers web development, custom web applications, Salesforce CRM implementation, digital marketing, SEO, social media management, graphic design, video editing, and brand building services.",
+  },
+  {
+    question: "How long does a typical project take?",
+    answer:
+      "Project timelines vary by scope. A standard website takes 4–8 weeks. Custom applications typically take 8–16 weeks. Digital marketing campaigns are ongoing with results visible within 60–90 days.",
+  },
+  {
+    question: "Do you provide ongoing support after launch?",
+    answer:
+      "Yes. Every project includes post-launch support. We offer monthly retainer packages for ongoing maintenance, updates, and continuous improvement.",
+  },
+  {
+    question: "How does IT Meta Solutions price its services?",
+    answer:
+      "Pricing is tailored to each project's scope and requirements. We offer fixed-price packages for standard services and custom quotes for complex projects. Contact us for a free consultation.",
+  },
+  {
+    question: "Are you a Salesforce certified partner?",
+    answer:
+      "Our team includes Salesforce-certified developers with hands-on experience implementing Sales Cloud, Service Cloud, and Experience Cloud for clients across multiple industries.",
+  },
+];
+
 /* ==================== COMPONENTS ==================== */
 
 function ScrollProgress() {
@@ -62,1073 +344,484 @@ function ScrollProgress() {
   );
 }
 
-function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
-  return (
-    <div
-      aria-hidden
-      className={cx("pointer-events-none absolute -z-10 blur-3xl", className)}
-      style={{
-        background: `radial-gradient(circle, ${color}, transparent 70%)`,
-      }}
-    />
-  );
-}
-
-function Badge({ children, icon: Icon }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
-      {Icon && <Icon className="h-4 w-4" />}
-      {children}
-    </span>
-  );
-}
-
-function VerticalTabButton({ active, onClick, icon: Icon, label, description }) {
-  const reduced = usePrefersReducedMotion();
-  return (
-    <motion.button
-      type="button"
-      onClick={onClick}
-      whileHover={reduced ? {} : { x: active ? 0 : 4, transition: { duration: 0.15 } }}
-      whileTap={reduced ? {} : { scale: 0.98 }}
-      className={cx(
-        "group relative w-full flex items-center gap-3.5 pl-5 pr-4 py-3 rounded-2xl border text-left transition-all duration-300",
-        active
-          ? "border-[#5025d1]/40 bg-gradient-to-r from-[#5025d1]/20 to-purple-600/5 shadow-md shadow-[#5025d1]/10"
-          : "border-transparent hover:border-white/10 hover:bg-white/[0.04]"
-      )}
-    >
-      {/* Active left indicator bar */}
-      <span className={cx(
-        "absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-full bg-gradient-to-b from-[#5025d1] to-purple-400 transition-all duration-300",
-        active ? "h-8 opacity-100" : "h-0 opacity-0"
-      )} />
-
-      <div className={cx(
-        "flex items-center justify-center w-9 h-9 rounded-xl flex-shrink-0 transition-all duration-300",
-        active
-          ? "bg-gradient-to-br from-[#5025d1] to-purple-600 shadow-md shadow-[#5025d1]/40"
-          : "bg-white/8 group-hover:bg-white/12"
-      )}>
-        <Icon className={cx("w-[18px] h-[18px] transition-colors", active ? "text-white" : "text-zinc-400 group-hover:text-zinc-200")} />
-      </div>
-
-      <div className="min-w-0 flex-1">
-        <div className={cx(
-          "text-sm font-semibold leading-tight transition-colors",
-          active ? "text-white" : "text-zinc-400 group-hover:text-zinc-200"
-        )}>
-          {label}
-        </div>
-        {description && (
-          <div className={cx(
-            "text-xs mt-0.5 transition-colors",
-            active ? "text-zinc-400" : "text-zinc-600 group-hover:text-zinc-500"
-          )}>
-            {description}
-          </div>
-        )}
-      </div>
-
-      <ArrowRight className={cx(
-        "h-3.5 w-3.5 flex-shrink-0 transition-all duration-300",
-        active ? "text-[#5025d1] opacity-100" : "opacity-0 -translate-x-2"
-      )} />
-    </motion.button>
-  );
-}
-
-function ServiceCard({ icon: Icon, title, description, features, delay = 0 }) {
-  const reduced = usePrefersReducedMotion();
-
+function Reveal({ children, delay = 0, className }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
-      initial={reduced ? false : { y: 16 }}
-      whileInView={reduced ? {} : { y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
-      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
-
-      <div className="relative p-5 sm:p-6">
-        <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
-            <Icon className="h-6 w-6 text-white" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h3 className="text-lg sm:text-xl font-bold text-white">{title}</h3>
-          </div>
-        </div>
-
-        <p className="mt-4 text-sm leading-relaxed text-zinc-300">
-          {description}
-        </p>
-
-        {features && features.length > 0 && (
-          <ul className="mt-5 space-y-2.5">
-            {features.map((feature, idx) => (
-              <li key={idx} className="flex items-start gap-2.5">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
-                <span className="text-sm text-zinc-200">{feature}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {children}
     </motion.div>
   );
 }
 
-function StatCard({ icon: Icon, label, value }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 backdrop-blur-sm">
-      <div className="flex items-center gap-3 sm:gap-4">
-        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5 sm:p-3">
-          <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-        </div>
-        <div className="min-w-0">
-          <div className="text-lg sm:text-2xl font-bold text-white truncate">{value}</div>
-          <div className="text-xs sm:text-sm text-zinc-400">{label}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
+function CountUp({ target, suffix, reduced }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
 
-/* ==================== DATA ==================== */
-
-const tabs = [
-  { key: "web", label: "Web Development", icon: Code2, description: "Custom websites & e-commerce" },
-  { key: "customwebapps", label: "Custom Web Apps", icon: Layers, description: "Portals & business systems" },
-  { key: "salesforce", label: "Salesforce", icon: Cloud, description: "CRM solutions & automation" },
-  { key: "marketing", label: "Digital Marketing", icon: Megaphone, description: "Ads that drive results" },
-  { key: "seo", label: "SEO", icon: Search, description: "Rank & convert" },
-  { key: "social", label: "Social Media", icon: Share2, description: "Content & engagement" },
-  { key: "design", label: "Graphic Design", icon: Palette, description: "Visuals that convert" },
-  { key: "video", label: "Video Editing", icon: Clapperboard, description: "Reels, TikToks & ads" },
-  { key: "brand", label: "Brand Building", icon: Wand2, description: "Complete brand systems" },
-];
-
-const seoContent = {
-  kicker: "Our Services",
-  title: "Revenue-Focused Services for Salesforce, E-commerce, and Growth",
-  subtitle:
-    "We deliver Salesforce implementation, LWC development services, Experience Cloud portals, and high-converting Shopify and WooCommerce builds.",
-  paragraphs: [
-    "Our team combines CRM automation, performance marketing, and conversion-first web development to create end-to-end growth systems.",
-    "From data cleaning in Salesforce to Meta Ads ROAS optimization, we focus on measurable outcomes and scalable results.",
-  ],
-  bullets: [
-    "Salesforce automation experts and Experience Cloud portal development",
-    "Shopify custom theme development with performance optimization",
-    "Custom web app development and pricing engine builds",
-    "Performance marketing for online stores and lead generation",
-  ],
-};
-
-const seoFaqs = [
-  {
-    q: "What Salesforce services do you offer?",
-    a: "We handle implementation, LWC development, Experience Cloud portals, integrations, and CRM automation.",
-  },
-  {
-    q: "Do you build high-converting ecommerce websites?",
-    a: "Yes. We build fast-loading Shopify and WooCommerce stores with CRO, tracking, and conversion-focused UX.",
-  },
-  {
-    q: "Can you improve an existing store or CRM?",
-    a: "Absolutely. We optimize site performance, fix data issues, and automate lead workflows for better results.",
-  },
-  {
-    q: "Do you offer Meta Ads and performance marketing?",
-    a: "Yes. We run scalable Meta Ads strategies, creative testing, and ROAS optimization for growth.",
-  },
-];
-
-/* ==================== PANELS ==================== */
-
-function PanelWeb() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Code2}>Web Development</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          High-Converting Websites Built for Growth
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Modern websites and e-commerce stores optimized for speed, conversions,
-          and mobile users.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/web-development-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Code2 className="h-5 w-5" />
-          Explore Our Web Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={LayoutGrid}
-          title="Business Websites"
-          description="Service websites, landing pages, and portfolios designed to convert visitors into customers."
-          features={[
-            "Modern UI with clear CTAs",
-            "Mobile-first responsive layouts",
-            "Lead forms + WhatsApp integration",
-            "Speed optimization",
-            "SEO-ready structure",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={Store}
-          title="E-commerce Stores"
-          description="Shopify and custom stores with frictionless checkout and conversion optimization."
-          features={[
-            "Product & category page templates",
-            "Cart & checkout optimization",
-            "COD / shipping rules setup",
-            "Bundles & special offers",
-            "Pixel & conversion tracking",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={Gauge}
-          title="Performance Optimization"
-          description="Built for ads traffic, fast loading times, and clean analytics tracking."
-          features={[
-            "Landing pages for campaigns",
-            "Event tracking (leads/purchases)",
-            "Conversion-focused copy",
-            "A/B testing ready layouts",
-            "Heatmap & analytics support",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PanelCustomWebApps() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Layers}>Custom Web Applications</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          Bespoke Portals & Business Systems
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Role-based web applications, internal tools, and operations dashboards built around your exact workflows — not generic templates.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/custom-web-apps-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Layers className="h-5 w-5" />
-          Explore Our Custom Web Apps Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={LayoutGrid}
-          title="Portals & Dashboards"
-          description="Multi-role web portals with separate admin and user views, tailored to your operational structure."
-          features={[
-            "Role-based access control",
-            "Admin control panels",
-            "Agent / user workspaces",
-            "Real-time data dashboards",
-            "Audit logs & activity tracking",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={Code2}
-          title="Backend APIs & Data Models"
-          description="Scalable server-side logic built with modern frameworks and a clean, maintainable data architecture."
-          features={[
-            "Next.js 14 + TypeScript",
-            "Prisma ORM & PostgreSQL",
-            "REST API development",
-            "Zod validation & type safety",
-            "Vercel / Docker deployment",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={Settings}
-          title="Auth, Security & Integrations"
-          description="Secure authentication systems and third-party integrations wired into your platform from day one."
-          features={[
-            "OTP login & rate limiting",
-            "Secure session management",
-            "SIP / VoIP dialer integration",
-            "Embedded chat systems",
-            "Third-party API integrations",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PanelSalesforce() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Cloud}>Salesforce Development</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          Custom Salesforce Solutions
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Streamline your business operations with custom Salesforce
-          implementations and integrations.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/salesforce-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Cloud className="h-5 w-5" />
-          Explore Our Salesforce Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={Cloud}
-          title="Salesforce Implementation"
-          description="End-to-end Salesforce setup tailored to your business needs and processes."
-          features={[
-            "Sales & Service Cloud setup",
-            "Custom objects & fields",
-            "User roles & permissions",
-            "Data migration & import",
-            "Training & documentation",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={Code2}
-          title="Custom Development"
-          description="Build custom functionality with Apex, LWC, and Visualforce development."
-          features={[
-            "Apex classes & triggers",
-            "Lightning Web Components",
-            "Visualforce pages",
-            "Custom APIs & integrations",
-            "AppExchange app development",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={Settings}
-          title="Process Automation"
-          description="Automate workflows to increase efficiency and reduce manual work significantly."
-          features={[
-            "Flow Builder automation",
-            "Process Builder & workflows",
-            "Approval processes",
-            "Email alerts & notifications",
-            "Scheduled jobs & batch processes",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PanelMarketing() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Megaphone}>Digital Marketing</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          Performance Marketing That Drives Results
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Full-funnel ad systems focused on leads, sales, and maximizing ROAS
-          across all platforms.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/digital-marketing-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Megaphone className="h-5 w-5" />
-          Explore Our Digital Marketing Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={Megaphone}
-          title="Meta Ads"
-          description="Facebook and Instagram campaigns with retargeting and conversion optimization."
-          features={[
-            "Business Manager setup",
-            "Pixel & event tracking",
-            "Awareness → Conversion funnels",
-            "WhatsApp + lead forms",
-            "Controlled spend scaling",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={Video}
-          title="TikTok Ads"
-          description="Short-form performance creatives built for reach and high conversion rates."
-          features={[
-            "UGC style concepts",
-            "Hook + benefit + CTA scripts",
-            "Interest & lookalike targeting",
-            "Landing pages for TikTok",
-            "Creative rotation system",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={Search}
-          title="Google Ads"
-          description="Search and shopping campaigns capturing high-intent buyers effectively."
-          features={[
-            "Search campaigns (high intent)",
-            "Display & YouTube remarketing",
-            "Shopping feed optimization",
-            "Conversion tracking setup",
-            "Keyword & landing optimization",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PanelSEO() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Search}>SEO Services</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          SEO That Compounds Over Time
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Technical fixes, on-page structure, and content strategy that grow organic visibility
-          and qualified leads.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/seo-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Search className="h-5 w-5" />
-          Explore Our SEO Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={FileSearch}
-          title="Technical SEO"
-          description="Fix crawlability, speed, and Core Web Vitals to unlock rankings."
-          features={[
-            "Site audits and fixes",
-            "Schema and structured data",
-            "Indexing and crawl control",
-            "Core Web Vitals improvements",
-            "Redirects and canonicals",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={Search}
-          title="On-Page + Content"
-          description="Intent-based pages and content that convert visitors into leads."
-          features={[
-            "Keyword intent mapping",
-            "Title and meta optimization",
-            "Content hierarchy and headings",
-            "Internal linking structure",
-            "Service and blog page planning",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={MapPin}
-          title="Local SEO"
-          description="Rank for local intent and build trust with nearby customers."
-          features={[
-            "Google Business Profile setup",
-            "Location and service pages",
-            "Citations and NAP consistency",
-            "Review strategy guidance",
-            "Local reporting",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PanelSocial() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Share2}>Social Media Management</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          Consistent Content That Builds Trust
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Manage your social presence with strategic content that supports ads
-          and drives engagement.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/social-media-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Share2 className="h-5 w-5" />
-          Explore Our Social Media Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={Instagram}
-          title="Profile Optimization"
-          description="Fix the basics that increase trust and conversion rates immediately."
-          features={[
-            "Bio & category optimization",
-            "CTA buttons (WhatsApp/Call)",
-            "Highlights structure",
-            "Brand colors & grid style",
-            "Pinned posts strategy",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={Layers}
-          title="Content Pillars"
-          description="A system that keeps content consistent, purposeful, and on-brand."
-          features={[
-            "Product/service showcases",
-            "Offers & promotions",
-            "Educational content posts",
-            "Trust posts (proof/reviews)",
-            "Engagement content",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={Clapperboard}
-          title="Reels & Short-Form"
-          description="Reels for reach, authority building, and retargeting fuel for ads."
-          features={[
-            "Hook + script writing",
-            "Shot list guidance",
-            "Editing style direction",
-            "Posting cadence planning",
-            "Best practices for reach",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PanelDesign() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Palette}>Graphic Design</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          High-Impact Visuals That Convert
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Modern creatives for ads, social media, and brand identity that make
-          users stop and take action.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/graphic-designing-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Palette className="h-5 w-5" />
-          Explore Our Graphic Design Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={Brush}
-          title="Social Media Creatives"
-          description="Clean, modern post designs that maintain consistency across platforms."
-          features={[
-            "Post & story templates",
-            "Carousel designs",
-            "Highlight covers",
-            "Offer banners & promotions",
-            "Content branding system",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={PenTool}
-          title="Ads Creatives"
-          description="Performance-first designs optimized for Meta, TikTok, and Google Ads."
-          features={[
-            "Ad static creatives",
-            "Creative testing variations",
-            "Thumb-stopping hooks",
-            "Offer clarity layouts",
-            "Multiple aspect ratios",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={Palette}
-          title="Brand Identity"
-          description="Logo and brand kits that look premium everywhere you showcase them."
-          features={[
-            "Logo variations & formats",
-            "Color palette & typography",
-            "Brand guidelines document",
-            "Icons and patterns",
-            "Platform consistency",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PanelVideo() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Clapperboard}>Video Editing</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          Short-Form Edits That Drive Engagement
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Reels, TikToks, and ads with modern pacing, strong hooks, and clean
-          captions for mobile viewers.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/video-editing-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Clapperboard className="h-5 w-5" />
-          Explore Our Video Editing Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={Film}
-          title="Reels / TikTok Edits"
-          description="Fast-paced edits built for social algorithms and maximum reach."
-          features={[
-            "Hook-first pacing",
-            "Smooth cuts & transitions",
-            "Music syncing & timing",
-            "Trend-aware editing style",
-            "Multiple ratio exports",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={Captions}
-          title="Captions & Subtitles"
-          description="Readable captions that increase retention and watch time significantly."
-          features={[
-            "Clean subtitle styling",
-            "Urdu/English support",
-            "Emphasis on keywords",
-            "Safe area placement",
-            "Brand-style captions",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={Video}
-          title="Ad Edits"
-          description="Performance edits specifically optimized for Meta and TikTok campaigns."
-          features={[
-            "Multiple hook variants",
-            "Offer overlays & graphics",
-            "CTA end cards",
-            "UGC style editing",
-            "Test-ready outputs",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PanelBrand() {
-  return (
-    <div className="space-y-12">
-      <div>
-        <Badge icon={Wand2}>Brand Building</Badge>
-        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-          Complete Brand Systems From Scratch
-        </h2>
-        <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-          Full brand ecosystems: identity, website, social presence, and ads
-          funnels for consistent growth.
-        </p>
-      </div>
-
-      <div className="flex">
-        <Link
-          to="/brand-building-expertise"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
-        >
-          <Wand2 className="h-5 w-5" />
-          Explore Our Brand Building Expertise
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <ServiceCard
-          icon={Wand2}
-          title="Brand Strategy"
-          description="Positioning, messaging framework, and offer clarity that resonates."
-          features={[
-            "Brand positioning strategy",
-            "Audience personas research",
-            "Offer & pricing strategy",
-            "Messaging framework",
-            "Competitive analysis",
-          ]}
-          delay={0.1}
-        />
-        <ServiceCard
-          icon={Palette}
-          title="Identity System"
-          description="Visual identity that stays consistent everywhere your brand appears."
-          features={[
-            "Logo + variations",
-            "Color palette selection",
-            "Typography system",
-            "Templates & guidelines",
-            "Content style direction",
-          ]}
-          delay={0.2}
-        />
-        <ServiceCard
-          icon={Megaphone}
-          title="Growth System"
-          description="Organic and paid system designed for real, measurable results."
-          features={[
-            "Content + ads alignment",
-            "Full-funnel campaigns",
-            "Retargeting systems",
-            "Landing pages for offers",
-            "Scaling roadmap planning",
-          ]}
-          delay={0.3}
-        />
-      </div>
-    </div>
-  );
-}
-
-/* ==================== MAIN ==================== */
-
-export default function ServicesPage() {
-  const reduced = usePrefersReducedMotion();
-  const [activeTab, setActiveTab] = useState("web");
-
-  // ✅ Measure your fixed header height (id="site-header") and set CSS variable for sticky tabs.
   useEffect(() => {
-    const header = document.getElementById("site-header");
-    if (!header) return;
-
-    const setHeaderH = () => {
-      const h = header.getBoundingClientRect().height || 72;
-      document.documentElement.style.setProperty("--header-h", `${Math.ceil(h)}px`);
-    };
-
-    setHeaderH();
-
-    const ro = new ResizeObserver(setHeaderH);
-    ro.observe(header);
-
-    window.addEventListener("resize", setHeaderH);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", setHeaderH);
-    };
-  }, []);
-
-  const renderPanel = () => {
-    switch (activeTab) {
-      case "web":
-        return <PanelWeb />;
-      case "customwebapps":
-        return <PanelCustomWebApps />;
-      case "salesforce":
-        return <PanelSalesforce />;
-      case "marketing":
-        return <PanelMarketing />;
-      case "seo":
-        return <PanelSEO />;
-      case "social":
-        return <PanelSocial />;
-      case "design":
-        return <PanelDesign />;
-      case "video":
-        return <PanelVideo />;
-      case "brand":
-        return <PanelBrand />;
-      default:
-        return <PanelWeb />;
+    if (!inView || reduced) {
+      setCount(target);
+      return;
     }
-  };
+    const duration = 1800;
+    const steps = 60;
+    const increment = target / steps;
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
+    return () => clearInterval(timer);
+  }, [inView, target, reduced]);
 
   return (
-    <>
+    <span ref={ref}>
+      {count}
+      {suffix}
+    </span>
+  );
+}
+
+/* ==================== PAGE ==================== */
+
+export default function Services() {
+  const reduced = usePrefersReducedMotion();
+  const [activeFeatured, setActiveFeatured] = useState(0);
+
+  return (
+    <div className="itms-subpage min-h-screen bg-[#09090e] text-white">
       <Helmet>
-        <title>IT Meta Solutions - Services | Web Development, Digital Marketing & Branding</title>
+        <title>Our Services | IT Meta Solutions</title>
         <meta
           name="description"
-          content="Salesforce implementation, LWC, Experience Cloud, Shopify, and performance marketing services built for growth."
+          content="Explore IT Meta Solutions' full range of digital services — web development, Salesforce CRM, digital marketing, SEO, social media, graphic design, video editing, and brand building."
         />
-        <link rel="canonical" href="https://itmetasolutions.com/services" />
       </Helmet>
 
-      <div className="itms-subpage overflow-hidden text-zinc-100 relative min-h-screen">
-        <SubpageVisualLayer />
+      <SubpageVisualLayer />
+      {!reduced && <ScrollProgress />}
 
-        <ScrollProgress />
+      {/* ==================== 1. HERO ==================== */}
+      <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+        {/* Background image */}
+        <div className="absolute inset-0 -z-10">
+          <img
+            src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1800&q=80"
+            alt=""
+            className="h-full w-full object-cover object-center opacity-20"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#09090e]/60 via-[#09090e]/70 to-[#09090e]" />
+        </div>
 
-        {/* ==================== HERO SECTION ==================== */}
-        <section className="relative pt-28 pb-12 sm:pt-36 sm:pb-16">
-          <Container>
-            <div className="mx-auto max-w-5xl text-center">
-              <motion.div
-                initial={reduced ? false : { y: 16 }}
-                animate={reduced ? {} : { y: 0 }}
-                transition={{ duration: 0.6 }}
+        {/* Glow blobs */}
+        <div className="pointer-events-none absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-[#5025d1]/20 blur-[120px] -z-10" />
+        <div className="pointer-events-none absolute -top-20 right-0 h-[400px] w-[400px] rounded-full bg-[#ba55d3]/15 blur-[100px] -z-10" />
+
+        <Container>
+          <div className="mx-auto max-w-4xl text-center">
+            <motion.div
+              initial={reduced ? false : { opacity: 0, y: 20 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#5025d1]/40 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-[#a78bfa]"
+            >
+              <Sparkles className="h-4 w-4" />
+              Full-Service Digital Agency
+            </motion.div>
+
+            <motion.h1
+              initial={reduced ? false : { opacity: 0, y: 24 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+            >
+              Everything Your Business
+              <br />
+              <span className="animated-gradient-text">Needs to Grow Online</span>
+            </motion.h1>
+
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 20 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mt-6 text-lg text-zinc-400 sm:text-xl max-w-2xl mx-auto"
+            >
+              From first click to loyal customer — we provide end-to-end digital services that generate real, measurable business results.
+            </motion.p>
+
+            <motion.div
+              initial={reduced ? false : { opacity: 0, y: 20 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-10 flex flex-wrap items-center justify-center gap-4"
+            >
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-[#5025d1]/50 hover:scale-105"
               >
-                <Badge icon={Sparkles}>Full-Service Digital Agency</Badge>
-              </motion.div>
-
-              <motion.h1
-                initial={reduced ? false : { y: 16 }}
-                animate={reduced ? {} : { y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl"
+                Book a Free Consultation
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link
+                to="/work"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-7 py-3.5 text-base font-semibold text-white transition-all hover:bg-white/10 hover:border-white/25"
               >
-                Everything You Need to
-                <br />
-                <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                  Build & Grow
-                </span>
-              </motion.h1>
+                View Our Work
+                <ChevronRight className="h-5 w-5" />
+              </Link>
+            </motion.div>
+          </div>
+        </Container>
+      </section>
 
-              <motion.p
-                initial={reduced ? false : { y: 16 }}
-                animate={reduced ? {} : { y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mx-auto mt-6 max-w-3xl text-xl text-zinc-300 sm:text-2xl"
-              >
-                From websites and Salesforce solutions to digital marketing and brand building — we
-                deliver complete solutions that drive real business growth.
-              </motion.p>
+      {/* ==================== 2. SERVICES OVERVIEW GRID ==================== */}
+      <section className="py-20 sm:py-28 bg-[#0b0b14]">
+        <Container>
+          <Reveal className="text-center mb-14">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">What We Do</p>
+            <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Our Core Services</h2>
+            <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
+              Eight specialist disciplines, one integrated team — built to accelerate your business.
+            </p>
+          </Reveal>
 
-              <motion.div
-                initial={reduced ? false : { y: 16 }}
-                animate={reduced ? {} : { y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="mx-auto mt-10 grid max-w-[1180px] gap-6 sm:grid-cols-3"
-              >
-                <StatCard icon={LayoutGrid} label="Build" value="Web & Salesforce" />
-                <StatCard icon={Megaphone} label="Grow" value="Marketing & Ads" />
-                <StatCard icon={Palette} label="Create" value="Design & Video" />
-              </motion.div>
-            </div>
-          </Container>
-        </section>
-
-        {/* ==================== SERVICES: VERTICAL TABS + CONTENT ==================== */}
-        <section className="py-10 sm:py-14">
-          <Container>
-            <div className="flex flex-col lg:flex-row gap-6 xl:gap-10 items-start">
-
-              {/* LEFT: Tab Navigation */}
-              <div className="w-full lg:w-60 xl:w-64 flex-shrink-0">
-
-                {/* Mobile: horizontal scrollable pills */}
-                <div className="lg:hidden overflow-x-auto pb-3 -mx-4 px-4">
-                  <div className="flex gap-2 min-w-max">
-                    {tabs.map((tab) => (
-                      <button
-                        key={tab.key}
-                        onClick={() => setActiveTab(tab.key)}
-                        className={cx(
-                          "inline-flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all whitespace-nowrap",
-                          activeTab === tab.key
-                            ? "border-[#5025d1] bg-gradient-to-r from-[#5025d1] to-purple-600 text-white shadow-md shadow-[#5025d1]/30"
-                            : "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 hover:border-white/20"
-                        )}
-                      >
-                        <tab.icon className="h-4 w-4 flex-shrink-0" />
-                        {tab.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Desktop: vertical sticky tab list */}
-                <div className="hidden lg:block sticky top-24">
-                  {/* Nav header */}
-                  <div className="mb-4 px-5 flex items-center gap-3">
-                    <span className="h-px flex-1 bg-gradient-to-r from-[#5025d1]/40 to-transparent" />
-                    <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
-                      Our Services
-                    </span>
-                    <span className="h-px flex-1 bg-gradient-to-l from-[#5025d1]/40 to-transparent" />
-                  </div>
-
-                  {/* Subtle container */}
-                  <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-2 space-y-0.5">
-                    {tabs.map((tab) => (
-                      <VerticalTabButton
-                        key={tab.key}
-                        active={activeTab === tab.key}
-                        onClick={() => setActiveTab(tab.key)}
-                        icon={tab.icon}
-                        label={tab.label}
-                        description={tab.description}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {SERVICES.map((svc, i) => {
+              const Icon = svc.icon;
+              return (
+                <Reveal key={svc.id} delay={i * 0.05}>
+                  <Link
+                    to={svc.link}
+                    className="group block rounded-2xl border border-white/[0.07] bg-[#111118] overflow-hidden transition-all duration-300 hover:border-white/20 hover:-translate-y-1 hover:shadow-xl"
+                    style={{ "--svc-glow": svc.accent }}
+                  >
+                    {/* Image */}
+                    <div className="relative h-40 overflow-hidden">
+                      <img
+                        src={svc.image}
+                        alt={svc.title}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
                       />
-                    ))}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#111118]/90 via-[#111118]/30 to-transparent" />
+                      <div
+                        className="absolute bottom-3 left-3 flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-[#1c1a3a]/90 backdrop-blur-sm"
+                        style={{ boxShadow: `0 0 14px ${svc.accent}55` }}
+                      >
+                        <Icon className="h-4 w-4" style={{ color: svc.accent }} />
+                      </div>
+                    </div>
+                    {/* Text */}
+                    <div className="p-5">
+                      <h3 className="font-bold text-white text-base mb-1.5 group-hover:text-[#a78bfa] transition-colors">
+                        {svc.title}
+                      </h3>
+                      <p className="text-xs text-zinc-500 leading-relaxed">{svc.short}</p>
+                      <div className="mt-4 flex items-center gap-1 text-xs font-medium" style={{ color: svc.accent }}>
+                        Learn more
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                      </div>
+                    </div>
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== 3. FEATURED SERVICE SHOWCASE ==================== */}
+      <section className="py-20 sm:py-28">
+        <Container>
+          <Reveal className="text-center mb-12">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">Deep Dive</p>
+            <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Explore Our Specialisations</h2>
+            <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
+              Click any service to see what we deliver, why it matters, and what you can expect.
+            </p>
+          </Reveal>
+
+          {/* Tab buttons */}
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            {FEATURED.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <button
+                  key={f.id}
+                  onClick={() => setActiveFeatured(i)}
+                  className={cx(
+                    "inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200",
+                    activeFeatured === i
+                      ? "bg-gradient-to-r from-[#5025d1] to-purple-600 text-white shadow-lg shadow-[#5025d1]/30"
+                      : "border border-white/10 bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  {f.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Panel */}
+          <AnimatePresence mode="wait">
+            {FEATURED.map((f, i) => {
+              if (i !== activeFeatured) return null;
+              return (
+                <motion.div
+                  key={f.id}
+                  initial={reduced ? false : { opacity: 0, y: 16 }}
+                  animate={reduced ? {} : { opacity: 1, y: 0 }}
+                  exit={reduced ? {} : { opacity: 0, y: -16 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="grid gap-8 lg:grid-cols-2 items-center rounded-3xl border border-white/[0.07] bg-[#0f0f17] overflow-hidden"
+                >
+                  {/* Image */}
+                  <div className="relative h-72 lg:h-full min-h-[320px] overflow-hidden">
+                    <img
+                      src={f.image}
+                      alt={f.label}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0f0f17] hidden lg:block" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f17]/80 via-transparent to-transparent lg:hidden" />
                   </div>
 
-                  {/* Bottom CTA card */}
-                  <div className="mt-4 rounded-2xl border border-[#5025d1]/20 bg-gradient-to-br from-[#5025d1]/10 to-purple-600/5 p-4 text-center">
-                    <p className="text-xs text-zinc-400 leading-relaxed">
-                      Not sure which service fits? Let's figure it out together.
-                    </p>
+                  {/* Content */}
+                  <div className="p-8 lg:p-10 lg:pl-4">
+                    <h3 className="text-2xl font-extrabold text-white mb-3 leading-snug">{f.headline}</h3>
+                    <p className="text-zinc-400 text-sm leading-relaxed mb-7">{f.description}</p>
+                    <ul className="space-y-2.5 mb-8">
+                      {f.benefits.map((b) => (
+                        <li key={b} className="flex items-start gap-2.5 text-sm text-zinc-300">
+                          <CheckCircle2 className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#a78bfa]" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
                     <Link
                       to="/contact"
-                      className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-4 py-2 text-xs font-semibold text-white transition-all hover:shadow-md hover:shadow-[#5025d1]/30 hover:scale-105"
+                      className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-[#5025d1]/30 hover:scale-105"
                     >
-                      Talk to Us
-                      <ArrowRight className="h-3 w-3" />
+                      Get Started
+                      <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
-                </div>
-              </div>
-
-              {/* RIGHT: Panel Content */}
-              <div className="flex-1 min-w-0">
-                <motion.div
-                  key={activeTab}
-                  initial={reduced ? false : { opacity: 0, y: 12 }}
-                  animate={reduced ? {} : { opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  {renderPanel()}
                 </motion.div>
-              </div>
+              );
+            })}
+          </AnimatePresence>
+        </Container>
+      </section>
 
+      {/* ==================== 4. WHY CLIENTS CHOOSE US ==================== */}
+      <section className="py-20 sm:py-28 bg-[#0b0b14]">
+        <Container>
+          <Reveal className="text-center mb-14">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">Why IT Meta</p>
+            <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Why Clients Choose Us</h2>
+            <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
+              We combine technical excellence with business acumen to deliver outcomes that matter.
+            </p>
+          </Reveal>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {REASONS.map((r, i) => {
+              const Icon = r.icon;
+              return (
+                <Reveal key={r.title} delay={i * 0.08}>
+                  <div
+                    className={cx(
+                      "group rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1",
+                      `bg-gradient-to-br ${r.gradient}`,
+                      r.border
+                    )}
+                  >
+                    <div
+                      className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-[#09090e]/60"
+                      style={{ boxShadow: `0 0 20px ${r.glow}` }}
+                    >
+                      <Icon className={cx("h-6 w-6", r.iconColor)} />
+                    </div>
+                    <h3 className="mb-2 text-base font-bold text-white">{r.title}</h3>
+                    <p className="text-xs text-zinc-400 leading-relaxed">{r.description}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== 5. OUR PROCESS ==================== */}
+      <section className="py-20 sm:py-28 relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <img
+            src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1800&q=80"
+            alt=""
+            className="h-full w-full object-cover opacity-10"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#09090e] via-[#09090e]/90 to-[#09090e]" />
+        </div>
+
+        <Container>
+          <Reveal className="text-center mb-16">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">How We Work</p>
+            <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Our Proven Process</h2>
+            <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
+              A clear, collaborative process that keeps you informed at every stage.
+            </p>
+          </Reveal>
+
+          {/* Desktop: horizontal timeline */}
+          <div className="hidden lg:grid lg:grid-cols-5 gap-0 relative">
+            {/* Connector line */}
+            <div className="absolute top-10 left-[10%] right-[10%] h-px bg-gradient-to-r from-[#5025d1]/20 via-[#5025d1]/60 to-[#5025d1]/20" />
+
+            {PROCESS_STEPS.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <Reveal key={step.step} delay={i * 0.1}>
+                  <div className="flex flex-col items-center text-center px-4 pt-2">
+                    <div
+                      className="relative z-10 mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-[#5025d1]/40 bg-gradient-to-br from-[#5025d1]/20 to-[#09090e]"
+                      style={{ boxShadow: "0 0 24px rgba(80,37,209,0.3)" }}
+                    >
+                      <Icon className="h-7 w-7 text-[#a78bfa]" />
+                      <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#5025d1] text-[10px] font-bold text-white">
+                        {step.step}
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-white text-base mb-2">{step.title}</h3>
+                    <p className="text-xs text-zinc-500 leading-relaxed">{step.description}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Mobile: vertical */}
+          <div className="lg:hidden space-y-0">
+            {PROCESS_STEPS.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <Reveal key={step.step} delay={i * 0.07}>
+                  <div className="flex gap-5 pb-8 last:pb-0 relative">
+                    {i < PROCESS_STEPS.length - 1 && (
+                      <div className="absolute left-6 top-14 bottom-0 w-px bg-[#5025d1]/30" />
+                    )}
+                    <div
+                      className="relative z-10 flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-full border border-[#5025d1]/40 bg-gradient-to-br from-[#5025d1]/20 to-[#09090e]"
+                      style={{ boxShadow: "0 0 16px rgba(80,37,209,0.3)" }}
+                    >
+                      <Icon className="h-5 w-5 text-[#a78bfa]" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-bold text-[#5025d1]">{step.step}</span>
+                        <h3 className="font-bold text-white text-sm">{step.title}</h3>
+                      </div>
+                      <p className="text-xs text-zinc-500 leading-relaxed">{step.description}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== 6. STATS ==================== */}
+      <section className="py-20 sm:py-24 bg-[#0b0b14]">
+        <Container>
+          <Reveal className="mb-12 text-center">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">By the Numbers</p>
+            <h2 className="text-3xl font-extrabold sm:text-4xl">Results We're Proud Of</h2>
+          </Reveal>
+
+          <div className="relative rounded-3xl border border-white/[0.07] overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#5025d1]/10 via-transparent to-[#ba55d3]/5" />
+            <div className="relative grid grid-cols-2 divide-x divide-y divide-white/[0.06] lg:grid-cols-4 lg:divide-y-0">
+              {STATS.map((stat, i) => (
+                <Reveal key={stat.label} delay={i * 0.1}>
+                  <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
+                    <div className="text-5xl font-black text-white mb-2" style={{ fontVariantNumeric: "tabular-nums" }}>
+                      <CountUp target={stat.value} suffix={stat.suffix} reduced={reduced} />
+                    </div>
+                    <p className="text-sm text-zinc-500">{stat.label}</p>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-          </Container>
-        </section>
+          </div>
+        </Container>
+      </section>
 
-        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
+      {/* ==================== SEO CONTENT ==================== */}
+      <SeoContentFaq content={seoContent} faqs={seoFaqs} />
 
-        {/* ==================== CTA SECTION ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-12 backdrop-blur-sm sm:p-16"
-            >
-              <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-[#5025d1]/30 blur-3xl" />
-              <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-purple-600/30 blur-3xl" />
-
-              <div className="relative mx-auto max-w-3xl text-center">
-                <h2 className="text-4xl font-bold text-white sm:text-5xl">
-                  Ready to Get Started?
+      {/* ==================== 7. CTA ==================== */}
+      <section className="py-20 sm:py-28">
+        <Container>
+          <Reveal>
+            <div className="relative overflow-hidden rounded-3xl border border-white/10">
+              {/* Background */}
+              <div className="absolute inset-0 -z-10">
+                <img
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=80"
+                  alt=""
+                  className="h-full w-full object-cover opacity-15"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#5025d1]/40 via-[#09090e]/80 to-[#ba55d3]/20" />
+              </div>
+              <div className="relative py-16 px-8 sm:py-20 sm:px-16 text-center">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#a78bfa]/30 bg-[#5025d1]/10 px-4 py-1.5 text-sm font-medium text-[#a78bfa]">
+                  <Sparkles className="h-4 w-4" />
+                  Let's Build Something Great
+                </div>
+                <h2 className="mt-4 text-3xl font-extrabold sm:text-4xl md:text-5xl text-white max-w-2xl mx-auto leading-tight">
+                  Ready to Grow Your Business?
                 </h2>
-                <p className="mt-6 text-xl text-zinc-300">
-                  Let's discuss your project and create a custom plan that fits your goals and budget.
+                <p className="mt-5 text-zinc-400 text-lg max-w-xl mx-auto">
+                  Book a free 30-minute strategy call. No obligation — just a focused conversation about your goals and how we can help.
                 </p>
-
-                <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-105"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3.5 text-base font-bold text-[#09090e] shadow-lg transition-all hover:shadow-white/20 hover:scale-105"
                   >
-                    Get Started Now
+                    Book Consultation
                     <ArrowRight className="h-5 w-5" />
                   </Link>
-
-                  <a
-                    href="https://wa.me/923271804037"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/20 bg-white/5 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10"
+                  <Link
+                    to="/work"
+                    className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-white/10"
                   >
-                    <Phone className="h-5 w-5" />
-                    WhatsApp Us
-                  </a>
+                    See Our Projects
+                    <ChevronRight className="h-5 w-5" />
+                  </Link>
                 </div>
               </div>
-            </motion.div>
-          </Container>
-        </section>
-      </div>
-    </>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+    </div>
   );
 }

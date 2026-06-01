@@ -533,6 +533,21 @@ export default function ProcessPage() {
         </Container>
       </section>
 
+      {/* Process hero banner */}
+      <section className="pb-6">
+        <Container>
+          <div className="relative h-60 sm:h-72 overflow-hidden rounded-2xl border border-white/[0.07]">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&q=80"
+              alt="Our Process"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#09090e]/85 via-[#09090e]/20 to-transparent" />
+          </div>
+        </Container>
+      </section>
+
       {/* Sticky anchors */}
       <StickySubnav />
 

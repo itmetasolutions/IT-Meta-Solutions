@@ -348,6 +348,21 @@ export default function VideoEditingExpertise() {
           </Container>
         </section>
 
+        {/* Hero banner image */}
+        <section className="pb-6">
+          <Container>
+            <div className="relative h-64 sm:h-80 overflow-hidden rounded-2xl border border-white/[0.07]">
+              <img
+                src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1400&q=80"
+                alt="Video Editing Expertise"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#09090e]/80 via-[#09090e]/20 to-transparent" />
+            </div>
+          </Container>
+        </section>
+
         {/* STICKY NAV */}
         <StickyNav items={nav} />
 
