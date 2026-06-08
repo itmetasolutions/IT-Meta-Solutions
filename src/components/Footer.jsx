@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import TechMeshBg from "./TechMeshBg";
-import logo    from "../assets/img/IT Meta Solutions Logo.webp";
+import logo    from "../assets/img/ITMS Logo Updated.webp";
 import secpLogo from "../assets/img/SECP Logo ITMS.webp";
 import fbrLogo  from "../assets/img/FBR Logo ITMS.webp";
 
@@ -140,7 +140,6 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                   onMouseLeave={e => e.currentTarget.style.filter = "drop-shadow(0 0 0 transparent)"}
                 />
               </Link>
-              <p className="text-[10px] text-zinc-500 tracking-[0.2em] mb-4">Web&nbsp;•&nbsp;Social&nbsp;•&nbsp;Marketing</p>
 
               <p className="text-sm leading-relaxed text-zinc-400 max-w-xs">
                 Modern websites, social media management, and marketing systems designed to look premium and perform at scale.

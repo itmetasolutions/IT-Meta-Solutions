@@ -6,7 +6,7 @@ import {
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import TechMeshBg from "./TechMeshBg";
-import logo from "../assets/img/IT Meta Solutions Logo.webp";
+import logo from "../assets/img/ITMS Logo Updated.webp";
 
 const serviceSubMenu = [
   { label: "Web Development",   href: "/web-development-expertise",   icon: Code2      },
@@ -97,9 +97,6 @@ export default function Header({ nav, AnchorLink }) {
               onMouseEnter={e => e.currentTarget.style.filter = "drop-shadow(0 0 12px rgba(80,37,209,0.5))"}
               onMouseLeave={e => e.currentTarget.style.filter = "drop-shadow(0 0 0px transparent)"}
             />
-            <div className="text-[9px] sm:text-[10px] text-zinc-500 tracking-[0.18em] mt-0.5 group-hover:text-zinc-400 transition-colors">
-              Web&nbsp;•&nbsp;Social&nbsp;•&nbsp;Marketing
-            </div>
           </Link>
 
           {/* ── Desktop nav ── */}
