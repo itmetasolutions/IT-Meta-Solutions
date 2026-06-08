@@ -84,7 +84,7 @@ export default function Header({ nav, AnchorLink }) {
       {/* Subtle tech mesh in header background */}
       {isDesktop && <TechMeshBg variant="header" iconOpacityBase={0.028} />}
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-[68px] sm:h-[76px]">
 
           {/* ── Logo ── */}
