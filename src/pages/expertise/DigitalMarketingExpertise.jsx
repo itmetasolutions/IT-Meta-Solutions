@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+﻿import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
@@ -128,7 +128,7 @@ function GradientBlob({ className }) {
       aria-hidden
       className={cx(
         "pointer-events-none absolute -z-10 blur-3xl opacity-40",
-        "bg-[radial-gradient(closest-side,rgba(80,37,209,0.55),rgba(80,37,209,0))]",
+        "bg-[radial-gradient(closest-side,rgba(29,78,216,0.55),rgba(29,78,216,0))]",
         className
       )}
     />
@@ -141,7 +141,7 @@ function ScrollProgress() {
   return (
     <motion.div
       aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-emerald-400 to-fuchsia-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-emerald-400 to-fuchsia-500"
       style={{ scaleX: w }}
     />
   );
@@ -204,7 +204,7 @@ function Card({ icon: Icon, title, desc, bullets }) {
   return (
     <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6 pb-8 h-full flex">
       <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-[#5025d1]/25 blur-3xl" />
+        <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-[#1D4ED8]/25 blur-3xl" />
         <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-emerald-400/20 blur-3xl" />
       </div>
 
@@ -361,7 +361,7 @@ export default function DigitalMarketingExpertisePage() {
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#09090e]/80 via-[#09090e]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#141A2E]/80 via-[#141A2E]/20 to-transparent" />
             </div>
           </Container>
         </section>
@@ -544,7 +544,7 @@ export default function DigitalMarketingExpertisePage() {
               <Reveal delay={0.1}>
                 <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6">
                   <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/5 mb-4">
-                    <MousePointerClick className="h-6 w-6 text-[#5025d1]" />
+                    <MousePointerClick className="h-6 w-6 text-[#1D4ED8]" />
                   </div>
                   <div className="text-3xl font-bold text-white">Funnels</div>
                   <div className="mt-1 text-sm text-zinc-300">Awareness → Leads</div>
@@ -565,7 +565,7 @@ export default function DigitalMarketingExpertisePage() {
             </div>
 
             <Reveal delay={0.1}>
-              <div className="mt-10 rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/15 to-[#5025d1]/10 p-7">
+              <div className="mt-10 rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/15 to-[#1D4ED8]/10 p-7">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                   <div className="max-w-2xl">
                     <div className="flex items-center gap-2 mb-2">
@@ -783,7 +783,7 @@ export default function DigitalMarketingExpertisePage() {
           {/* CTA */}
           <section>
             <Reveal>
-              <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/15 to-emerald-400/10 p-8 md:p-12">
+              <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/15 to-emerald-400/10 p-8 md:p-12">
                 <div className="max-w-3xl mx-auto text-center">
                   <h2 className="text-3xl font-bold text-white mb-4">Ready to grow with a real funnel?</h2>
                   <p className="text-lg text-zinc-300 mb-8">
@@ -814,3 +814,4 @@ export default function DigitalMarketingExpertisePage() {
     </>
   );
 }
+

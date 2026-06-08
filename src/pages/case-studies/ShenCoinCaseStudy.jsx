@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
@@ -46,7 +46,7 @@ function Container({ children, className }) {
   );
 }
 
-function GradientBlob({ className, color = "rgba(80,37,209,0.22)" }) {
+function GradientBlob({ className, color = "rgba(29,78,216,0.22)" }) {
   return (
     <div
       aria-hidden
@@ -62,7 +62,7 @@ function ScrollProgress() {
   return (
     <motion.div
       aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
       style={{ scaleX: s }}
     />
   );
@@ -130,7 +130,7 @@ function StatCard({ icon: Icon, value, label, delay = 0 }) {
       className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm h-full"
     >
       <div className="flex items-start gap-4">
-        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
           <Icon className="h-6 w-6 flex-shrink-0 text-white" />
         </div>
         <div className="min-w-0">
@@ -153,10 +153,10 @@ function FeatureCard({ icon: Icon, title, desc, bullets, delay = 0 }) {
       whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
       className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm"
     >
-      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 blur-3xl transition-all group-hover:scale-150" />
       <div className="relative flex h-full flex-col">
         <div className="mb-4 flex items-center gap-3">
-          <div className="flex-shrink-0 inline-flex rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <div className="flex-shrink-0 inline-flex rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
             <Icon className="h-5 w-5 flex-shrink-0 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-white">{title}</h3>
@@ -218,7 +218,7 @@ function ArchFlow() {
       icon: Database,
       label: "PostgreSQL",
       sublabel: "Neon Serverless",
-      color: "from-indigo-500 to-violet-600",
+      color: "from-indigo-500 to-blue-700",
       note: "Users, transactions, wallet balances, admin records",
     },
   ];
@@ -280,7 +280,7 @@ function ArchFlow() {
       <Reveal delay={0.1}>
         <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
           <div className="mb-5 flex items-center gap-3">
-            <div className="rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 p-2.5">
+            <div className="rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 p-2.5">
               <Wallet className="h-5 w-5 text-white" />
             </div>
             <h3 className="text-base font-semibold text-white">Solana Wallet Payment Flow</h3>
@@ -295,7 +295,7 @@ function ArchFlow() {
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-4 py-3"
               >
-                <span className="flex-shrink-0 h-6 w-6 rounded-full bg-gradient-to-br from-[#5025d1] to-purple-600 text-xs font-bold text-white flex items-center justify-center">
+                <span className="flex-shrink-0 h-6 w-6 rounded-full bg-gradient-to-br from-[#1D4ED8] to-blue-600 text-xs font-bold text-white flex items-center justify-center">
                   {i + 1}
                 </span>
                 <span className="text-sm text-zinc-200 leading-snug">{step}</span>
@@ -429,7 +429,7 @@ export default function ShenCoinCaseStudy() {
         <SubpageVisualLayer />
 
         {/* Background blobs */}
-        <GradientBlob className="left-1/3 top-0 h-[600px] w-[600px] -translate-x-1/2" color="rgba(80,37,209,0.18)" />
+        <GradientBlob className="left-1/3 top-0 h-[600px] w-[600px] -translate-x-1/2" color="rgba(29,78,216,0.18)" />
         <GradientBlob className="-right-40 top-1/3 h-[500px] w-[500px]" color="rgba(124,58,237,0.12)" />
         <GradientBlob className="-left-40 bottom-1/4 h-[400px] w-[400px]" color="rgba(99,102,241,0.12)" />
 
@@ -444,7 +444,7 @@ export default function ShenCoinCaseStudy() {
                   href="https://shencoin.xyz"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-[#5025d1]/40 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-purple-300 transition-colors hover:bg-[#5025d1]/20"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[#1D4ED8]/40 bg-[#1D4ED8]/10 px-4 py-2 text-sm font-medium text-sky-300 transition-colors hover:bg-[#1D4ED8]/20"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
                   shencoin.xyz
@@ -456,7 +456,7 @@ export default function ShenCoinCaseStudy() {
               <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl">
                 ShenCoin
                 <br />
-                <span className="bg-gradient-to-r from-[#5025d1] via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#1D4ED8] via-sky-400 to-pink-400 bg-clip-text text-transparent">
                   Crypto Platform
                 </span>
               </h1>
@@ -486,7 +486,7 @@ export default function ShenCoinCaseStudy() {
                   href="https://shencoin.xyz"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:gap-3"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/40 hover:gap-3"
                 >
                   Visit shencoin.xyz
                   <ExternalLink className="h-4 w-4" />
@@ -543,7 +543,7 @@ export default function ShenCoinCaseStudy() {
                 <ul className="space-y-3">
                   {scope.map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm text-zinc-200">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#5025d1]" />
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#1D4ED8]" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -559,7 +559,7 @@ export default function ShenCoinCaseStudy() {
                         key={i}
                         className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2.5"
                       >
-                        <div className="flex-shrink-0 rounded-lg bg-gradient-to-br from-[#5025d1] to-purple-600 p-1.5">
+                        <div className="flex-shrink-0 rounded-lg bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-1.5">
                           <t.icon className="h-3.5 w-3.5 text-white" />
                         </div>
                         <div>
@@ -647,11 +647,11 @@ export default function ShenCoinCaseStudy() {
               ].map((item, i) => (
                 <Reveal key={i} delay={i * 0.07}>
                   <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm h-full">
-                    <div className="absolute right-0 top-0 h-24 w-24 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/15 blur-2xl transition-all group-hover:scale-150" />
+                    <div className="absolute right-0 top-0 h-24 w-24 rounded-full bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/15 blur-2xl transition-all group-hover:scale-150" />
                     <div className="relative">
                       <div className="mb-4 flex items-center gap-3">
                         <span className="text-4xl font-black text-white/10 leading-none">{item.step}</span>
-                        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5">
+                        <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2.5">
                           <item.icon className="h-4 w-4 text-white" />
                         </div>
                       </div>
@@ -671,10 +671,10 @@ export default function ShenCoinCaseStudy() {
         <section className="py-4">
           <Container>
             <Reveal>
-              <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 via-purple-900/10 to-transparent p-10 text-center backdrop-blur-sm">
+              <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 via-purple-900/10 to-transparent p-10 text-center backdrop-blur-sm">
                 <GradientBlob
                   className="left-1/2 top-0 h-64 w-64 -translate-x-1/2"
-                  color="rgba(80,37,209,0.25)"
+                  color="rgba(29,78,216,0.25)"
                 />
                 <div className="relative">
                   <Badge icon={Sparkles}>Get In Touch</Badge>
@@ -688,7 +688,7 @@ export default function ShenCoinCaseStudy() {
                   <div className="mt-8 flex flex-wrap justify-center gap-4">
                     <Link
                       to="/contact"
-                      className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:gap-3"
+                      className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/40 hover:gap-3"
                     >
                       Start a Project
                       <ArrowRight className="h-4 w-4" />
@@ -710,3 +710,4 @@ export default function ShenCoinCaseStudy() {
     </>
   );
 }
+

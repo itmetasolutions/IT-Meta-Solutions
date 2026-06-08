@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+﻿import { useEffect, useId, useState } from "react";
 import {
   Code2, Database, Cloud, Megaphone, Search, Palette,
   Cpu, Zap, Shield, Globe, LayoutGrid, Rocket, Layers,
@@ -103,7 +103,7 @@ function useMobileViewport() {
 export default function TechMeshBg({
   variant    = "full",
   opacity    = 1,
-  iconColor  = "#5025d1",
+  iconColor  = "#1D4ED8",
   iconOpacityBase = 0.055,
 }) {
   const uid = useId().replace(/:/g, "");
@@ -205,3 +205,4 @@ export default function TechMeshBg({
     </div>
   );
 }
+

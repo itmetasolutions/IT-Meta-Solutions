@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, LoaderCircle, Star, Quote, ThumbsUp } from "lucide-react";
 import Container from "./Container";
@@ -76,13 +76,13 @@ function ReviewCard({ review, delay = 0 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
       transition={{ duration: 0.45, delay, ease: "easeOut" }}
-      className="group relative flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-sm transition-all duration-300 hover:border-[#5025d1]/40 hover:bg-white/[0.05]"
+      className="group relative flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-sm transition-all duration-300 hover:border-[#1D4ED8]/40 hover:bg-white/[0.05]"
       style={{ transition: "box-shadow 0.3s, border-color 0.3s, background 0.3s" }}
-      onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 30px rgba(80,37,209,0.12), 0 0 60px rgba(80,37,209,0.05)"}
+      onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 30px rgba(29,78,216,0.12), 0 0 60px rgba(29,78,216,0.05)"}
       onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}
     >
       {/* Top accent */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#5025d1]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl" />
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#1D4ED8]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl" />
 
       {/* Header row */}
       <div className="flex items-start gap-3 mb-4">
@@ -95,7 +95,7 @@ function ReviewCard({ review, delay = 0 }) {
           />
         ) : (
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-            style={{ background: "linear-gradient(135deg, #5025d1, #ba55d3)" }}>
+            style={{ background: "linear-gradient(135deg, #1D4ED8, #23A6E8)" }}>
             {initial}
           </div>
         )}
@@ -116,7 +116,7 @@ function ReviewCard({ review, delay = 0 }) {
 
       {/* Review text */}
       <div className="mt-3 flex gap-2">
-        <Quote className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#5025d1]/50" />
+        <Quote className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#1D4ED8]/50" />
         <p className="text-[13px] leading-[1.75] text-zinc-400 line-clamp-4">{review.text}</p>
       </div>
 
@@ -169,11 +169,11 @@ export default function GoogleReviewsSection({
   const totalRevs = source.reviews_number || reviews.length || 0;
 
   return (
-    <section className="py-16 sm:py-24 bg-[#09090e] relative overflow-hidden">
-      <TechMeshBg variant="marketing" iconColor="#5025d1" iconOpacityBase={0.03} />
+    <section className="py-16 sm:py-24 bg-[#141A2E] relative overflow-hidden">
+      <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.03} />
       <div className="absolute inset-0 dot-grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(80,37,209,0.09) 0%, transparent 70%)" }} />
+        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(29,78,216,0.09) 0%, transparent 70%)" }} />
 
       <Container>
         {/* ── Section heading ── */}
@@ -258,3 +258,4 @@ export default function GoogleReviewsSection({
     </section>
   );
 }
+

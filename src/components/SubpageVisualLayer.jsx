@@ -1,11 +1,11 @@
-import TechMeshBg from "./TechMeshBg";
+﻿import TechMeshBg from "./TechMeshBg";
 import globeIcon from "../assets/img/globe.png";
 
 export default function SubpageVisualLayer() {
   return (
     <>
       <div className="itms-subpage-mesh" aria-hidden="true">
-        <TechMeshBg variant="full" iconColor="#5025d1" iconOpacityBase={0.026} />
+        <TechMeshBg variant="full" iconColor="#1D4ED8" iconOpacityBase={0.026} />
       </div>
       <div className="itms-subpage-grid" aria-hidden="true" />
 
@@ -35,3 +35,4 @@ export default function SubpageVisualLayer() {
     </>
   );
 }
+

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+﻿import React, { useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, useScroll } from "framer-motion";
 import {
@@ -54,13 +54,13 @@ function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
       style={{ scaleX: scrollYProgress }}
     />
   );
 }
 
-function GradientBlob({ className, color = "rgba(80,37,209,0.3)" }) {
+function GradientBlob({ className, color = "rgba(29,78,216,0.3)" }) {
   return (
     <div
       aria-hidden
@@ -150,9 +150,9 @@ const seoFaqs = [
 
 function IconTile({ icon: Icon, title, desc }) {
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 transition-all hover:border-[#5025d1]/50">
+    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 transition-all hover:border-[#1D4ED8]/50">
       <div className="relative flex items-start gap-4">
-        <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+        <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
           <Icon className="h-6 w-6 text-white" />
         </div>
         <div className="min-w-0">
@@ -171,7 +171,7 @@ function ContactMiniCard({ icon: Icon, label, value, href, copyText }) {
     <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6">
       <div className="relative flex items-start justify-between gap-4 min-w-0">
         <div className="flex items-start gap-4 min-w-0">
-          <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
             <Icon className="h-6 w-6 text-white" />
           </div>
           <div className="min-w-0">
@@ -181,7 +181,7 @@ function ContactMiniCard({ icon: Icon, label, value, href, copyText }) {
             {href ? (
               <a
                 href={href}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#5025d1] transition-all hover:scale-[1.02] sm:w-auto"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1D4ED8] transition-all hover:scale-[1.02] sm:w-auto"
               >
                 {label === "Email" ? "Send email" : label.includes("WhatsApp") ? "Chat on WhatsApp" : "Open"}
                 <ArrowRight className="h-4 w-4" />
@@ -236,7 +236,7 @@ function Input({ name, value, onChange, placeholder, type = "text", error }) {
       placeholder={placeholder}
       className={cx(
         "w-full min-w-0 rounded-2xl border bg-white/5 px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2",
-        error ? "border-red-500/60 focus:ring-red-500" : "border-white/10 focus:ring-[#5025d1]"
+        error ? "border-red-500/60 focus:ring-red-500" : "border-white/10 focus:ring-[#1D4ED8]"
       )}
     />
   );
@@ -251,7 +251,7 @@ function Select({ name, value, onChange, options }) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#5025d1] flex items-center justify-between"
+        className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#1D4ED8] flex items-center justify-between"
       >
         <div className="flex items-center gap-3">
           {selectedOption?.icon && React.createElement(selectedOption.icon, { className: "h-5 w-5 text-white/80" })}
@@ -292,7 +292,7 @@ function TextArea({ name, value, onChange, placeholder, rows = 6, error }) {
       rows={rows}
       className={cx(
         "w-full min-w-0 resize-none rounded-2xl border bg-white/5 px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2",
-        error ? "border-red-500/60 focus:ring-red-500" : "border-white/10 focus:ring-[#5025d1]"
+        error ? "border-red-500/60 focus:ring-red-500" : "border-white/10 focus:ring-[#1D4ED8]"
       )}
     />
   );
@@ -412,7 +412,7 @@ export default function Contact() {
                     <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
                       Contact the team that
                       <br />
-                      <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                      <span className="bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500 bg-clip-text text-transparent">
                         builds + scales brands
                       </span>
                     </h1>
@@ -438,7 +438,7 @@ export default function Contact() {
                           <div className="text-sm font-semibold text-white">Quick contact</div>
                           <div className="mt-1 text-sm text-zinc-300">Pick the fastest option</div>
                         </div>
-                        <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                        <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
                           <MessageCircle className="h-6 w-6 text-white" />
                         </div>
                       </div>
@@ -449,7 +449,7 @@ export default function Contact() {
                           className="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10"
                         >
                           <div className="flex items-center gap-3 min-w-0">
-                            <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+                            <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
                               <Phone className="h-5 w-5 text-white" />
                             </div>
                             <div className="min-w-0">
@@ -467,7 +467,7 @@ export default function Contact() {
                           className="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10"
                         >
                           <div className="flex items-center gap-3 min-w-0">
-                            <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+                            <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
                               <Mail className="h-5 w-5 text-white" />
                             </div>
                             <div className="min-w-0">
@@ -482,7 +482,7 @@ export default function Contact() {
 
                         <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
                           <div className="flex items-start gap-3">
-                            <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+                            <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
                               <Building2 className="h-5 w-5 text-white" />
                             </div>
                             <div className="min-w-0">
@@ -506,7 +506,7 @@ export default function Contact() {
                         </a>
                         <a
                           href={`tel:${CONTACT.phoneRaw}`}
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-[#5025d1] hover:opacity-95"
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-[#1D4ED8] hover:opacity-95"
                         >
                           <Phone className="h-4 w-4" />
                           Call Now
@@ -573,7 +573,7 @@ export default function Contact() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={s.label}
-                        className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-400 transition-all duration-300 hover:border-[#5025d1]/30 hover:bg-[#5025d1]/20 hover:text-white"
+                        className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-400 transition-all duration-300 hover:border-[#1D4ED8]/30 hover:bg-[#1D4ED8]/20 hover:text-white"
                       >
                         <s.icon className="h-4 w-4" />
                       </a>
@@ -584,7 +584,7 @@ export default function Contact() {
                 {/* Why share box */}
                 <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6">
                   <div className="flex items-start gap-4">
-                    <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                    <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
                       <Wand2 className="h-6 w-6 text-white" />
                     </div>
                     <div className="min-w-0">
@@ -620,7 +620,7 @@ export default function Contact() {
                         We’ll reply with a scope + timeline. For urgent work, WhatsApp is fastest.
                       </p>
                     </div>
-                    <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                    <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
                       <Send className="h-6 w-6 text-white" />
                     </div>
                   </div>
@@ -765,11 +765,11 @@ export default function Contact() {
                         disabled={status === "sending"}
                         className={cx(
                           "w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl",
-                          "bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-4 text-lg font-semibold text-white",
-                          "shadow-lg shadow-[#5025d1]/40 transition-all",
+                          "bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-4 text-lg font-semibold text-white",
+                          "shadow-lg shadow-[#1D4ED8]/40 transition-all",
                           status === "sending"
                             ? "opacity-50 cursor-not-allowed"
-                            : "hover:shadow-xl hover:shadow-[#5025d1]/50 hover:scale-[1.02]"
+                            : "hover:shadow-xl hover:shadow-[#1D4ED8]/50 hover:scale-[1.02]"
                         )}
                       >
                         {status === "sending" ? "Submiting..." : "Submit"}
@@ -850,7 +850,7 @@ export default function Contact() {
                 <div className="flex flex-col gap-6 border-t border-white/10 bg-white/5 p-6 sm:p-8 lg:border-l lg:border-t-0">
                   <div>
                     <div className="mb-3 flex items-center gap-3">
-                      <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                      <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
                         <MapPin className="h-6 w-6 text-white" />
                       </div>
                       <div className="text-lg font-bold text-white">Our Office</div>
@@ -861,7 +861,7 @@ export default function Contact() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                    <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
                       <Clock className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -871,7 +871,7 @@ export default function Contact() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                    <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
                       <Phone className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -894,7 +894,7 @@ export default function Contact() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={s.label}
-                          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-400 transition-all duration-300 hover:border-[#5025d1]/30 hover:bg-[#5025d1]/20 hover:text-white"
+                          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-400 transition-all duration-300 hover:border-[#1D4ED8]/30 hover:bg-[#1D4ED8]/20 hover:text-white"
                         >
                           <s.icon className="h-4 w-4" />
                         </a>
@@ -906,7 +906,7 @@ export default function Contact() {
                     href="https://www.google.com/maps/search/?api=1&query=31.4642625,74.31494959999999"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
+                    className="mt-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
                   >
                     <MapPin className="h-4 w-4" />
                     Get Directions
@@ -923,3 +923,4 @@ export default function Contact() {
     </>
   );
 }
+

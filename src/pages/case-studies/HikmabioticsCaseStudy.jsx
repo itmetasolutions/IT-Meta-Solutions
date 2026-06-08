@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useSpring } from "framer-motion";
@@ -34,7 +34,7 @@ import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * Hikmabiotics — Case Study (REDESIGNED to match your NEW Home style)
- * - Primary: #5025d1 (IT Meta Solutions purple)
+ * - Primary: #1D4ED8 (IT Meta Solutions purple)
  * - Dark glass + gradients + blobs
  * - Scroll progress same as Home
  * - Reduced-motion safe
@@ -79,7 +79,7 @@ function AnchorLink({ href, children, className }) {
   );
 }
 
-function GradientBlob({ className, color = "rgba(80,37,209,0.22)" }) {
+function GradientBlob({ className, color = "rgba(29,78,216,0.22)" }) {
   return (
     <div
       aria-hidden
@@ -95,7 +95,7 @@ function ScrollProgress() {
   return (
     <motion.div
       aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
       style={{ scaleX: w }}
     />
   );
@@ -168,7 +168,7 @@ function StatCard({ icon: Icon, value, label, delay = 0 }) {
       className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm h-full"
     >
       <div className="flex items-start gap-4">
-        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+        <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
           <Icon className="h-6 w-6 text-white" />
         </div>
         <div>
@@ -191,10 +191,10 @@ function FeatureCard({ icon: Icon, title, desc, bullets, delay = 0 }) {
       whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
       className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm"
     >
-      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 blur-3xl transition-all group-hover:scale-150" />
       <div className="relative flex h-full flex-col">
         <div className="mb-4 flex items-center gap-3">
-          <div className="inline-flex rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <div className="inline-flex rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
             <Icon className="h-5 w-5 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-white">{title}</h3>
@@ -255,7 +255,7 @@ function StickySubnav() {
       <Container className="py-3">
         <div className="flex items-center justify-between gap-3">
           <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
-            <Landmark className="h-4 w-4 text-[#5025d1]" />
+            <Landmark className="h-4 w-4 text-[#1D4ED8]" />
             Hikmabiotics — Brand Build
           </div>
 
@@ -325,7 +325,7 @@ function TabPanel({ active }) {
             title={
               <>
                 Two localized stores under{" "}
-                <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                   one premium brand system
                 </span>
               </>
@@ -400,7 +400,7 @@ function TabPanel({ active }) {
         </div>
 
         <Reveal>
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-6 backdrop-blur-sm">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-6 backdrop-blur-sm">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div className="max-w-2xl">
                 <div className="text-sm font-semibold text-white">Website goals</div>
@@ -429,7 +429,7 @@ function TabPanel({ active }) {
             title={
               <>
                 Low-budget launch that{" "}
-                <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                   validated profitable purchases
                 </span>{" "}
                 early
@@ -487,7 +487,7 @@ function TabPanel({ active }) {
         </div>
 
         <Reveal>
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-6 backdrop-blur-sm">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-6 backdrop-blur-sm">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div className="max-w-2xl">
                 <div className="text-sm font-semibold text-white">Performance snapshot (launch phase)</div>
@@ -535,7 +535,7 @@ function TabPanel({ active }) {
           title={
             <>
               Localized content for PK +{" "}
-              <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                 premium authority
               </span>{" "}
               for UK/global
@@ -599,7 +599,7 @@ function TabPanel({ active }) {
       </div>
 
       <Reveal>
-        <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-6 backdrop-blur-sm">
+        <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-6 backdrop-blur-sm">
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <div className="max-w-2xl">
               <div className="text-sm font-semibold text-white">Why this dual system works</div>
@@ -693,7 +693,7 @@ export default function HikmabioticsCaseStudy() {
         <ScrollProgress />
 
         {/* Background blobs (Home style) */}
-        <GradientBlob className="left-[-140px] top-[-140px] h-[640px] w-[640px]" color="rgba(80,37,209,0.20)" />
+        <GradientBlob className="left-[-140px] top-[-140px] h-[640px] w-[640px]" color="rgba(29,78,216,0.20)" />
         <GradientBlob className="right-[-180px] top-[180px] h-[740px] w-[740px]" color="rgba(16,185,129,0.14)" />
         <GradientBlob className="bottom-[-170px] left-[20%] h-[780px] w-[780px]" color="rgba(236,72,153,0.12)" />
 
@@ -708,7 +708,7 @@ export default function HikmabioticsCaseStudy() {
               <Reveal delay={0.06}>
                 <h1 className="mt-7 max-w-4xl text-4xl font-bold tracking-tight text-white sm:text-6xl">
                   Hikmabiotics — dual-market brand build across{" "}
-                  <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500 bg-clip-text text-transparent">
                     websites, social & Meta Ads
                   </span>
                 </h1>
@@ -755,7 +755,7 @@ export default function HikmabioticsCaseStudy() {
                         href="https://hikmabiotics.com"
                         target="_blank"
                         rel="noreferrer"
-                        className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/40 transition-all hover:shadow-xl hover:shadow-[#5025d1]/55 hover:scale-[1.02]"
+                        className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/40 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/55 hover:scale-[1.02]"
                       >
                         PK Website
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -815,7 +815,7 @@ export default function HikmabioticsCaseStudy() {
                 title={
                   <>
                     A scalable international wellness brand system{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       (PK + UK)
                     </span>
                   </>
@@ -868,7 +868,7 @@ export default function HikmabioticsCaseStudy() {
                 title={
                   <>
                     Everything organized into{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       three deliverables
                     </span>
                   </>
@@ -900,7 +900,7 @@ export default function HikmabioticsCaseStudy() {
                 title={
                   <>
                     Drop your proof here for a{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       high-trust portfolio
                     </span>
                   </>
@@ -957,7 +957,7 @@ export default function HikmabioticsCaseStudy() {
                 title={
                   <>
                     Dual websites + dual social +{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       early profitable ads validation
                     </span>
                   </>
@@ -975,7 +975,7 @@ export default function HikmabioticsCaseStudy() {
             </div>
 
             <Reveal delay={0.16}>
-              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-7 backdrop-blur-sm">
+              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-7 backdrop-blur-sm">
                 <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
                   <div className="max-w-2xl">
                     <div className="text-sm font-semibold text-white">Scalable next steps</div>
@@ -987,7 +987,7 @@ export default function HikmabioticsCaseStudy() {
 
                   <a
                     href="/contact"
-                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-[1.02]"
+                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-[1.02]"
                   >
                     Request a proposal
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -1005,4 +1005,5 @@ export default function HikmabioticsCaseStudy() {
     </>
   );
 }
+
 

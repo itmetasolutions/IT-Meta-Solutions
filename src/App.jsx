@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
+﻿import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ChevronUp } from "lucide-react";
 import { HelmetProvider } from "react-helmet-async";
@@ -79,7 +79,7 @@ function GoToTopButton() {
     <button
       onClick={scrollToTop}
       aria-label="Go to top"
-      className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-[#5025d1] to-purple-600 text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:scale-110 hover:shadow-xl hover:shadow-[#5025d1]/40"
+      className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-[#1D4ED8] to-blue-600 text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:scale-110 hover:shadow-xl hover:shadow-[#1D4ED8]/40"
     >
       <ChevronUp className="h-6 w-6" />
     </button>
@@ -145,6 +145,42 @@ function App() {
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Scroll-reveal: observe .fade-up / .reveal* elements site-wide, including lazy-loaded
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) {
+      document.querySelectorAll(".fade-up,.reveal,.reveal-left,.reveal-right,.reveal-scale")
+        .forEach(el => el.classList.add("in-view"));
+      return;
+    }
+
+    const SELECTORS = ".fade-up,.reveal,.reveal-left,.reveal-right,.reveal-scale";
+
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); }
+      }),
+      { threshold: 0.10, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    const observed = new WeakSet();
+    const observe = (root) => {
+      (root.querySelectorAll ? root.querySelectorAll(SELECTORS) : []).forEach(el => {
+        if (!observed.has(el)) { observed.add(el); io.observe(el); }
+      });
+    };
+
+    observe(document);
+
+    const mo = new MutationObserver(mutations =>
+      mutations.forEach(m => m.addedNodes.forEach(node => {
+        if (node.nodeType === 1) observe(node);
+      }))
+    );
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    return () => { io.disconnect(); mo.disconnect(); };
   }, []);
 
   // Cursor hover-grow via event delegation — single pair of listeners on document
@@ -274,3 +310,4 @@ function App() {
 }
 
 export default App;
+

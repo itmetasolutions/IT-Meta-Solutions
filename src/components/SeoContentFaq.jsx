@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Container from "./Container";
 import TechMeshBg from "./TechMeshBg";
 import {
@@ -38,10 +38,10 @@ function AttractiveVisual() {
 
       {/* Visual Cards */}
       <div className="mt-6 space-y-4">
-        <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/10 p-5">
-          <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#5025d1]/20 blur-3xl transition-all duration-500 group-hover:scale-150" />
+        <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/10 p-5">
+          <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#1D4ED8]/20 blur-3xl transition-all duration-500 group-hover:scale-150" />
           <div className="relative flex items-start gap-4">
-            <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5">
+            <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2.5">
               <Rocket className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -95,8 +95,8 @@ export default function SeoContentFaq({ content, faqs, className }) {
   return (
     <>
       {/* Main Section - Content Left + Attractive Visual Right */}
-      <section className={cx("py-16 sm:py-24 bg-[#09090e] relative overflow-hidden", className)}>
-        <TechMeshBg variant="devtech" iconColor="#5025d1" iconOpacityBase={0.032} />
+      <section className={cx("py-16 sm:py-24 bg-[#141A2E] relative overflow-hidden", className)}>
+        <TechMeshBg variant="devtech" iconColor="#1D4ED8" iconOpacityBase={0.032} />
         <div className="absolute inset-0 hex-grid-bg opacity-35 pointer-events-none" />
         <Container>
           <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
@@ -164,3 +164,4 @@ export default function SeoContentFaq({ content, faqs, className }) {
     </>
   );
 }
+

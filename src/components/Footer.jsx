@@ -1,11 +1,11 @@
-import {
+﻿import {
   ArrowRight, ArrowUpRight, BadgeCheck,
   Facebook, Globe, Instagram, Linkedin,
   Mail, MapPin, Phone, Zap, Sparkles, Shield,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import TechMeshBg from "./TechMeshBg";
-import logo    from "../assets/img/ITMS Logo Updated.webp";
+import logo    from "../assets/img/IT Meta Solutions Logo Updated.webp";
 import secpLogo from "../assets/img/SECP Logo ITMS.webp";
 import fbrLogo  from "../assets/img/FBR Logo ITMS.webp";
 
@@ -40,20 +40,20 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
   return (
-    <footer className="relative overflow-hidden bg-[#09090e]">
+    <footer className="relative overflow-hidden bg-[#141A2E]">
 
       {/* ── Full-footer tech mesh background ── */}
       <TechMeshBg variant="footer" iconOpacityBase={0.04} />
 
       {/* Top gradient border */}
       <div className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(80,37,209,0.6) 30%, rgba(186,85,211,0.5) 50%, rgba(80,37,209,0.6) 70%, transparent)" }} />
+        style={{ background: "linear-gradient(90deg, transparent, rgba(29,78,216,0.6) 30%, rgba(35,166,232,0.5) 50%, rgba(29,78,216,0.6) 70%, transparent)" }} />
 
       {/* Ambient glow blobs */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[400px] rounded-full blur-[140px] pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(80,37,209,0.08) 0%, transparent 70%)" }} />
+        style={{ background: "radial-gradient(circle, rgba(29,78,216,0.08) 0%, transparent 70%)" }} />
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] rounded-full blur-[120px] pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(186,85,211,0.06) 0%, transparent 70%)" }} />
+        style={{ background: "radial-gradient(circle, rgba(35,166,232,0.06) 0%, transparent 70%)" }} />
 
       <div className="relative">
 
@@ -62,28 +62,28 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
         ============================================================ */}
         <Container className="pt-14 sm:pt-20 pb-0">
           <div className="relative rounded-3xl overflow-hidden"
-            style={{ boxShadow: "0 0 60px rgba(80,37,209,0.15), 0 0 0 1px rgba(80,37,209,0.2)" }}>
+            style={{ boxShadow: "0 0 60px rgba(29,78,216,0.15), 0 0 0 1px rgba(29,78,216,0.2)" }}>
 
             {/* Animated shimmer border */}
             <div className="absolute inset-0 rounded-3xl pointer-events-none"
-              style={{ padding: "1px", background: "linear-gradient(135deg, rgba(80,37,209,0.5), rgba(186,85,211,0.3), rgba(0,245,255,0.2), rgba(80,37,209,0.5))" }}>
-              <div className="absolute inset-[1px] rounded-[23px] bg-[#0d0b1e]" />
+              style={{ padding: "1px", background: "linear-gradient(135deg, rgba(29,78,216,0.5), rgba(35,166,232,0.3), rgba(58,201,245,0.2), rgba(29,78,216,0.5))" }}>
+              <div className="absolute inset-[1px] rounded-[23px] bg-[#0F1826]" />
             </div>
 
             {/* CTA inner content */}
-            <div className="relative bg-gradient-to-br from-[#5025d1]/12 via-[#0d0b1e] to-[#ba55d3]/6 px-8 sm:px-12 py-10 sm:py-14">
+            <div className="relative bg-gradient-to-br from-[#1D4ED8]/12 via-[#0F1826] to-[#23A6E8]/6 px-8 sm:px-12 py-10 sm:py-14">
               {/* Corner neon accents */}
               <div className="absolute top-0 left-0 w-20 h-20 pointer-events-none"
-                style={{ background: "linear-gradient(135deg, rgba(80,37,209,0.3) 0%, transparent 60%)" }} />
+                style={{ background: "linear-gradient(135deg, rgba(29,78,216,0.3) 0%, transparent 60%)" }} />
               <div className="absolute bottom-0 right-0 w-24 h-24 pointer-events-none"
-                style={{ background: "linear-gradient(315deg, rgba(0,245,255,0.12) 0%, transparent 60%)" }} />
+                style={{ background: "linear-gradient(315deg, rgba(58,201,245,0.12) 0%, transparent 60%)" }} />
 
               {/* Top shimmer line */}
               <div className="absolute top-0 left-8 right-8 h-[1.5px] shimmer-border opacity-50" />
 
               <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8">
                 <div className="text-center lg:text-left max-w-xl">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#a78bfa] mb-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#60A5FA] mb-3">
                     Let's Collaborate
                   </p>
                   <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
@@ -98,10 +98,10 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                 <div className="flex flex-col sm:flex-row gap-3 shrink-0">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
-                    style={{ boxShadow: "0 0 20px rgba(80,37,209,0.4)" }}
-                    onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 36px rgba(80,37,209,0.6)"}
-                    onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 20px rgba(80,37,209,0.4)"}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
+                    style={{ boxShadow: "0 0 20px rgba(29,78,216,0.4)" }}
+                    onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 36px rgba(29,78,216,0.6)"}
+                    onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 20px rgba(29,78,216,0.4)"}
                   >
                     Start a Project
                     <ArrowRight className="h-4 w-4" />
@@ -134,9 +134,9 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                 <img
                   src={logo}
                   alt="IT Meta Solutions"
-                  className="h-[46px] w-auto object-contain object-left transition-all duration-300 group-hover:scale-[1.04]"
+                  className="h-[68px] w-auto object-contain object-left transition-all duration-300 group-hover:scale-[1.04]"
                   style={{ filter: "drop-shadow(0 0 0 transparent)", transition: "filter 0.3s" }}
-                  onMouseEnter={e => e.currentTarget.style.filter = "drop-shadow(0 0 10px rgba(80,37,209,0.4))"}
+                  onMouseEnter={e => e.currentTarget.style.filter = "drop-shadow(0 0 10px rgba(29,78,216,0.4))"}
                   onMouseLeave={e => e.currentTarget.style.filter = "drop-shadow(0 0 0 transparent)"}
                 />
               </Link>
@@ -153,7 +153,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                   { value: "100%",label: "Sat."      },
                 ].map((s) => (
                   <div key={s.label}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#5025d1]/20 bg-[#5025d1]/8 px-3 py-1.5">
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#1D4ED8]/20 bg-[#1D4ED8]/8 px-3 py-1.5">
                     <span className="text-sm font-bold text-white">{s.value}</span>
                     <span className="text-[11px] text-zinc-500">{s.label}</span>
                   </div>
@@ -191,7 +191,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
             {/* ── Quick Links ── */}
             <div className="lg:col-span-2">
               <h4 className="text-sm font-semibold text-white mb-5 flex items-center gap-2">
-                <span className="w-1 h-4 rounded-full bg-gradient-to-b from-[#5025d1] to-[#ba55d3]" />
+                <span className="w-1 h-4 rounded-full bg-gradient-to-b from-[#1D4ED8] to-[#23A6E8]" />
                 Quick Links
               </h4>
               <nav className="flex flex-col gap-2">
@@ -199,12 +199,12 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                   const cls = "group text-sm text-zinc-400 hover:text-white transition-colors duration-200 flex items-center gap-1.5";
                   return n.href.startsWith("/") ? (
                     <Link key={n.href} to={n.href} className={cls}>
-                      <span className="w-0 group-hover:w-2.5 h-px rounded-full bg-gradient-to-r from-[#5025d1] to-[#ba55d3] transition-all duration-200 shrink-0" />
+                      <span className="w-0 group-hover:w-2.5 h-px rounded-full bg-gradient-to-r from-[#1D4ED8] to-[#23A6E8] transition-all duration-200 shrink-0" />
                       {n.label}
                     </Link>
                   ) : (
                     <AnchorLink key={n.href} href={n.href} className={cls}>
-                      <span className="w-0 group-hover:w-2.5 h-px rounded-full bg-gradient-to-r from-[#5025d1] to-[#ba55d3] transition-all duration-200 shrink-0" />
+                      <span className="w-0 group-hover:w-2.5 h-px rounded-full bg-gradient-to-r from-[#1D4ED8] to-[#23A6E8] transition-all duration-200 shrink-0" />
                       {n.label}
                     </AnchorLink>
                   );
@@ -215,7 +215,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
             {/* ── Services ── */}
             <div className="lg:col-span-3">
               <h4 className="text-sm font-semibold text-white mb-5 flex items-center gap-2">
-                <span className="w-1 h-4 rounded-full bg-gradient-to-b from-[#5025d1] to-[#ba55d3]" />
+                <span className="w-1 h-4 rounded-full bg-gradient-to-b from-[#1D4ED8] to-[#23A6E8]" />
                 Services
               </h4>
               <nav className="flex flex-col gap-2">
@@ -225,7 +225,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                     to={service.href}
                     className="group flex items-center gap-1.5 text-[12.5px] text-zinc-400 hover:text-white transition-colors duration-200"
                   >
-                    <span className="w-0 group-hover:w-2.5 h-px rounded-full bg-gradient-to-r from-[#5025d1] to-[#ba55d3] transition-all duration-200 shrink-0" />
+                    <span className="w-0 group-hover:w-2.5 h-px rounded-full bg-gradient-to-r from-[#1D4ED8] to-[#23A6E8] transition-all duration-200 shrink-0" />
                     {service.label}
                   </Link>
                 ))}
@@ -235,7 +235,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
             {/* ── Contact ── */}
             <div className="lg:col-span-3">
               <h4 className="text-sm font-semibold text-white mb-5 flex items-center gap-2">
-                <span className="w-1 h-4 rounded-full bg-gradient-to-b from-[#5025d1] to-[#ba55d3]" />
+                <span className="w-1 h-4 rounded-full bg-gradient-to-b from-[#1D4ED8] to-[#23A6E8]" />
                 Get in Touch
               </h4>
               <div className="space-y-3">
@@ -251,7 +251,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                     rel={ext ? "noopener noreferrer" : undefined}
                     className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-white transition-colors"
                   >
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/[0.07] bg-white/[0.03] group-hover:bg-[#5025d1]/20 group-hover:border-[#5025d1]/30 transition-all shrink-0">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/[0.07] bg-white/[0.03] group-hover:bg-[#1D4ED8]/20 group-hover:border-[#1D4ED8]/30 transition-all shrink-0">
                       <Icon className="h-3.5 w-3.5" />
                     </span>
                     <span className="text-[13px] truncate">{label}</span>
@@ -280,7 +280,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
               {/* Registration badges */}
               <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
                 <div className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 backdrop-blur-sm"
-                  style={{ boxShadow: "0 0 20px rgba(80,37,209,0.06)" }}>
+                  style={{ boxShadow: "0 0 20px rgba(29,78,216,0.06)" }}>
                   <img src={secpLogo} alt="SECP" className="h-9 w-auto object-contain" />
                   <div>
                     <div className="text-[9px] font-semibold uppercase tracking-widest text-zinc-500">SECP Registered</div>
@@ -288,7 +288,7 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 backdrop-blur-sm"
-                  style={{ boxShadow: "0 0 20px rgba(80,37,209,0.06)" }}>
+                  style={{ boxShadow: "0 0 20px rgba(29,78,216,0.06)" }}>
                   <img src={fbrLogo} alt="FBR" className="h-9 w-auto object-contain" />
                   <div>
                     <div className="text-[9px] font-semibold uppercase tracking-widest text-zinc-500">FBR Tax Registered</div>
@@ -309,8 +309,8 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                 {/* Trust badges */}
                 <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 sm:gap-5">
                   {[
-                    { label: "Trusted Delivery", Icon: BadgeCheck, color: "#5025d1" },
-                    { label: "Fast & Modern",    Icon: Zap,        color: "#ba55d3" },
+                    { label: "Trusted Delivery", Icon: BadgeCheck, color: "#1D4ED8" },
+                    { label: "Fast & Modern",    Icon: Zap,        color: "#23A6E8" },
                     { label: "Secure Solutions", Icon: Shield,     color: "#10b981" },
                   ].map(({ label, Icon, color }) => (
                     <span key={label} className="inline-flex items-center gap-1.5 text-[11px] text-zinc-500">
@@ -330,3 +330,4 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
     </footer>
   );
 }
+

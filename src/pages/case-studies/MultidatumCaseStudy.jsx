@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useSpring } from "framer-motion";
@@ -28,7 +28,7 @@ import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 /**
  * Multidatum — Case Study (UPDATED to match your NEW Home theme)
- * - Primary: #5025d1 (ITMS purple)
+ * - Primary: #1D4ED8 (ITMS purple)
  * - Dark glass + gradients + blobs
  * - Scroll progress bar
  * - Static hero
@@ -86,7 +86,7 @@ function AnchorLink({ href, children, className }) {
   );
 }
 
-function GradientBlob({ className, color = "rgba(80,37,209,0.20)" }) {
+function GradientBlob({ className, color = "rgba(29,78,216,0.20)" }) {
   return (
     <div
       aria-hidden
@@ -102,7 +102,7 @@ function ScrollProgress() {
   return (
     <motion.div
       aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
       style={{ scaleX: w }}
     />
   );
@@ -126,7 +126,7 @@ function Reveal({ children, delay = 0, className }) {
 function Badge({ children }) {
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
-      <Sparkles className="h-4 w-4 text-[#5025d1]" />
+      <Sparkles className="h-4 w-4 text-[#1D4ED8]" />
       {children}
     </span>
   );
@@ -159,7 +159,7 @@ function Stat({ icon: Icon, label, value }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-5 h-full flex flex-col justify-center backdrop-blur-sm">
       <div className="flex items-center gap-3">
-        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+        <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
           <Icon className="h-5 w-5 text-white" />
         </div>
         <div>
@@ -192,13 +192,13 @@ function Card({ icon: Icon, title, desc, bullets, delay = 0 }) {
     >
       {/* Hover glow */}
       <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-[#5025d1]/25 blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-purple-500/20 blur-3xl" />
+        <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-[#1D4ED8]/25 blur-3xl" />
+        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-blue-500/20 blur-3xl" />
       </div>
 
       <div className="relative flex h-full flex-col">
         <div className="mb-4 flex items-center gap-3">
-          <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
             <Icon className="h-5 w-5 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-white">{title}</h3>
@@ -233,7 +233,7 @@ function StickySubnav() {
       <Container className="py-3">
         <div className="flex items-center justify-between gap-3">
           <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
-            <BriefcaseBusiness className="h-4 w-4 text-[#5025d1]" />
+            <BriefcaseBusiness className="h-4 w-4 text-[#1D4ED8]" />
             Multidatum — Case Study
           </div>
 
@@ -328,7 +328,7 @@ export default function MultidatumCaseStudy() {
         <ScrollProgress />
 
         {/* Background accents (Home style) */}
-        <GradientBlob className="left-[-140px] top-[-140px] h-[650px] w-[650px]" color="rgba(80,37,209,0.20)" />
+        <GradientBlob className="left-[-140px] top-[-140px] h-[650px] w-[650px]" color="rgba(29,78,216,0.20)" />
         <GradientBlob className="right-[-190px] top-[220px] h-[700px] w-[700px]" color="rgba(16,185,129,0.14)" />
         <GradientBlob className="bottom-[-180px] left-[18%] h-[780px] w-[780px]" color="rgba(236,72,153,0.10)" />
 
@@ -343,7 +343,7 @@ export default function MultidatumCaseStudy() {
               <Reveal delay={0.06} className="mt-6">
                 <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-white sm:text-6xl">
                   Multidatum — data-driven{" "}
-                  <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500 bg-clip-text text-transparent">
                     social media growth
                   </span>{" "}
                   for measurable brand impact
@@ -385,7 +385,7 @@ export default function MultidatumCaseStudy() {
                       href="https://lemonchiffon-buffalo-514190.hostingersite.com/"
                       target="_blank"
                       rel="noreferrer"
-                      className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/35 transition-all hover:shadow-xl hover:shadow-[#5025d1]/55 hover:scale-[1.02]"
+                      className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/35 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/55 hover:scale-[1.02]"
                     >
                       Visit Multidatum{" "}
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -708,7 +708,7 @@ export default function MultidatumCaseStudy() {
                   ].map((r) => (
                     <div key={r.title} className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 backdrop-blur-sm">
                       <div className="flex items-start gap-3">
-                        <div className="rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+                        <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
                           <r.icon className="h-5 w-5 text-white" />
                         </div>
                         <div>
@@ -747,7 +747,7 @@ export default function MultidatumCaseStudy() {
             </div>
 
             <Reveal delay={0.15}>
-              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-emerald-400/10 p-6 backdrop-blur-sm">
+              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-emerald-400/10 p-6 backdrop-blur-sm">
                 <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
                   <div className="max-w-2xl">
                     <div className="text-sm font-semibold text-white">Want a similar agency website?</div>
@@ -757,7 +757,7 @@ export default function MultidatumCaseStudy() {
                   </div>
                   <a
                     href="/contact"
-                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-[1.02]"
+                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-[1.02]"
                   >
                     Request a proposal <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </a>
@@ -774,4 +774,5 @@ export default function MultidatumCaseStudy() {
     </>
   );
 }
+
 

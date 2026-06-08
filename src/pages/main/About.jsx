@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll } from "framer-motion";
 import {
@@ -70,7 +70,7 @@ function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
       style={{ scaleX: scrollYProgress }}
     />
   );
@@ -97,7 +97,7 @@ function StatCard({ icon: Icon, label, value, delay = 0 }) {
       className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 backdrop-blur-sm"
     >
       <div className="flex items-center gap-3 sm:gap-4">
-        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5 sm:p-3">
+        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2.5 sm:p-3">
           <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </div>
         <div className="min-w-0">
@@ -119,12 +119,12 @@ function FeatureCard({ icon: Icon, title, description, features, delay = 0 }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
       whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
-      className="group h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#5025d1]/50"
+      className="group h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#1D4ED8]/50"
     >
       <div className="p-5 sm:p-6">
         {/* Header */}
         <div className="flex items-start gap-3 sm:gap-4">
-          <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2.5 sm:p-3">
+          <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2.5 sm:p-3">
             <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
           <div className="min-w-0 flex-1">
@@ -161,17 +161,17 @@ function TeamCard({ name, role, skills, image, delay = 0 }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
       whileHover={reduced ? {} : { y: -8, transition: { duration: 0.25 } }}
-      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.08] via-white/[0.04] to-transparent backdrop-blur-md transition-all duration-300 hover:border-[#5025d1]/60 hover:shadow-2xl hover:shadow-[#5025d1]/20"
+      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.08] via-white/[0.04] to-transparent backdrop-blur-md transition-all duration-300 hover:border-[#1D4ED8]/60 hover:shadow-2xl hover:shadow-[#1D4ED8]/20"
     >
       {/* Gradient Glow Effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#5025d1]/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1D4ED8]/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
       <div className="relative p-6 sm:p-8">
         {/* Centered Image */}
         <div className="flex justify-center">
           <div className="relative">
             {/* Decorative Ring */}
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#5025d1] via-purple-500 to-pink-500 opacity-60 blur-sm transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1D4ED8] via-blue-500 to-pink-500 opacity-60 blur-sm transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative rounded-full border-2 border-white/20 bg-zinc-900 p-1">
               {image ? (
                 <img
@@ -198,7 +198,7 @@ function TeamCard({ name, role, skills, image, delay = 0 }) {
           {role.split(" • ").map((r, idx) => (
             <div
               key={idx}
-              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#5025d1]/30 to-purple-600/30 px-3 py-1.5 text-xs font-semibold text-purple-200 ring-1 ring-inset ring-[#5025d1]/40"
+              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#1D4ED8]/30 to-blue-600/30 px-3 py-1.5 text-xs font-semibold text-sky-200 ring-1 ring-inset ring-[#1D4ED8]/40"
             >
               <BriefcaseBusiness className="h-3.5 w-3.5" />
               {r}
@@ -244,7 +244,7 @@ function ContactCard() {
               href="tel:+923271804037"
               className="flex items-center gap-3 hover:text-white transition-colors"
             >
-              <div className="rounded-lg bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+              <div className="rounded-lg bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
                 <Phone className="h-4 w-4 text-white" />
               </div>
               <span className="font-semibold text-white">+92 327 180 4037</span>
@@ -253,13 +253,13 @@ function ContactCard() {
               href="mailto:info@itmetasolutions.com"
               className="flex items-center gap-3 hover:text-white transition-colors"
             >
-              <div className="rounded-lg bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+              <div className="rounded-lg bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
                 <Mail className="h-4 w-4 text-white" />
               </div>
               <span className="font-semibold text-white">info@itmetasolutions.com</span>
             </a>
             <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+              <div className="rounded-lg bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
                 <MapPin className="h-4 w-4 text-white" />
               </div>
               <span>Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700</span>
@@ -270,7 +270,7 @@ function ContactCard() {
         <div className="flex flex-wrap gap-3">
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-105"
+            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-105"
           >
             Get a Proposal
             <ArrowRight className="h-4 w-4" />
@@ -460,7 +460,7 @@ export default function AboutUsPage() {
               >
                 Building Brands &
                 <br />
-                <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500 bg-clip-text text-transparent">
                   Growth Systems
                 </span>
               </motion.h1>
@@ -516,7 +516,7 @@ export default function AboutUsPage() {
                   style={{ objectPosition: "center 74%" }}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b14]/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F1628]/80 via-transparent to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/10 bg-zinc-950/80 p-4 backdrop-blur-md">
                   <div className="text-sm font-semibold text-white">Strategy, design, development, and growth in one workflow</div>
                   <div className="mt-1 text-xs text-zinc-400">Built for clear communication and reliable delivery.</div>
@@ -552,7 +552,7 @@ export default function AboutUsPage() {
                 </div>
                 <Link
                   to="/process"
-                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:scale-105"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:scale-105"
                 >
                   View Our Process
                   <ArrowRight className="h-4 w-4" />
@@ -774,7 +774,7 @@ export default function AboutUsPage() {
             >
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-xl hover:shadow-[#5025d1]/40 hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/40 hover:scale-105"
               >
                 View All Services
                 <ArrowRight className="h-5 w-5" />
@@ -902,12 +902,12 @@ export default function AboutUsPage() {
                 whileInView={reduced ? {} : { y: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm overflow-hidden transition-all hover:border-[#5025d1]/50"
+                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm overflow-hidden transition-all hover:border-[#1D4ED8]/50"
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-[#5025d1]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1D4ED8]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <div className="relative">
                   <div className="text-center mb-4">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#5025d1]/20 px-3 py-1.5 text-xs font-semibold text-purple-200">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#1D4ED8]/20 px-3 py-1.5 text-xs font-semibold text-sky-200">
                       <ShieldCheck className="h-3.5 w-3.5" />
                       SECP Certificate
                     </span>
@@ -928,9 +928,9 @@ export default function AboutUsPage() {
                 whileInView={reduced ? {} : { y: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm overflow-hidden transition-all hover:border-[#5025d1]/50"
+                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm overflow-hidden transition-all hover:border-[#1D4ED8]/50"
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-[#5025d1]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1D4ED8]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <div className="relative">
                   <div className="text-center mb-4">
                     <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold text-emerald-200">
@@ -980,7 +980,7 @@ export default function AboutUsPage() {
               whileInView={reduced ? {} : { y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-12 backdrop-blur-sm sm:p-16"
+              className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-12 backdrop-blur-sm sm:p-16"
             >
               <div className="mx-auto max-w-3xl text-center">
                 <h2 className="text-4xl font-bold text-white sm:text-5xl">
@@ -1003,7 +1003,7 @@ export default function AboutUsPage() {
                       className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm"
                     >
                       <div className="flex items-center justify-center gap-3">
-                        <div className="rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-2">
+                        <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
                           <item.icon className="h-5 w-5 text-white" />
                         </div>
                         <div className="text-left">
@@ -1018,7 +1018,7 @@ export default function AboutUsPage() {
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-105"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-105"
                   >
                     Request a Proposal
                     <ArrowRight className="h-5 w-5" />
@@ -1042,3 +1042,4 @@ export default function AboutUsPage() {
     </>
   );
 }
+

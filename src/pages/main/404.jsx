@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+﻿import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Home, Search, Sparkles, AlertTriangle } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -16,12 +16,12 @@ function Container({ children, className }) {
   );
 }
 
-function GradientBlob({ className, color = "rgba(80,37,209,0.55)" }) {
+function GradientBlob({ className, color = "rgba(29,78,216,0.55)" }) {
   return (
     <div
       aria-hidden
       className={cx("pointer-events-none absolute -z-10 blur-3xl opacity-40", className)}
-      style={{ background: `radial-gradient(closest-side, ${color}, rgba(80,37,209,0))` }}
+      style={{ background: `radial-gradient(closest-side, ${color}, rgba(29,78,216,0))` }}
     />
   );
 }
@@ -133,7 +133,7 @@ export default function NotFoundPage() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Link
                   to="/"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#5025d1] px-5 py-3 text-sm font-semibold text-white hover:opacity-90"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#1D4ED8] px-5 py-3 text-sm font-semibold text-white hover:opacity-90"
                 >
                   Back to home <Home className="h-4 w-4" />
                 </Link>
@@ -165,7 +165,7 @@ export default function NotFoundPage() {
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
               className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.03] p-6"
             >
-              <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-[#5025d1]/20 blur-3xl" />
+              <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-[#1D4ED8]/20 blur-3xl" />
               <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-emerald-400/20 blur-3xl" />
 
               <div className="relative">
@@ -209,3 +209,4 @@ export default function NotFoundPage() {
     </>
   );
 }
+

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion, useScroll, useInView } from "framer-motion";
 import {
@@ -61,7 +61,7 @@ function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
       style={{ scaleX: scrollYProgress }}
     />
   );
@@ -115,7 +115,7 @@ function FilterChip({ active, onClick, icon: Icon, label }) {
       className={cx(
         "inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-all",
         active
-          ? "border-[#5025d1] bg-gradient-to-r from-[#5025d1] to-purple-600 text-white shadow-md shadow-[#5025d1]/30"
+          ? "border-[#1D4ED8] bg-gradient-to-r from-[#1D4ED8] to-blue-600 text-white shadow-md shadow-[#1D4ED8]/30"
           : "border-white/10 bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
       )}
     >
@@ -132,7 +132,7 @@ function ProjectCard({ project, delay = 0 }) {
   return (
     <Reveal delay={delay}>
       <Link to={project.href} className="group block h-full">
-        <div className="relative h-full overflow-hidden rounded-2xl border border-white/[0.07] bg-[#111118] transition-all duration-300 hover:border-white/20 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#5025d1]/10">
+        <div className="relative h-full overflow-hidden rounded-2xl border border-white/[0.07] bg-[#111118] transition-all duration-300 hover:border-white/20 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#1D4ED8]/10">
           {/* Image */}
           {project.image && (
             <div className="relative h-48 overflow-hidden">
@@ -146,9 +146,9 @@ function ProjectCard({ project, delay = 0 }) {
               <div className="absolute bottom-3 left-3">
                 <div
                   className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-[#1c1a3a]/90 backdrop-blur-sm"
-                  style={{ boxShadow: "0 0 14px rgba(80,37,209,0.35)" }}
+                  style={{ boxShadow: "0 0 14px rgba(29,78,216,0.35)" }}
                 >
-                  <Icon className="h-4 w-4 text-[#a78bfa]" />
+                  <Icon className="h-4 w-4 text-[#60A5FA]" />
                 </div>
               </div>
             </div>
@@ -156,8 +156,8 @@ function ProjectCard({ project, delay = 0 }) {
 
           {/* Content */}
           <div className="p-6">
-            <div className="mb-1 text-xs font-medium text-[#a78bfa]">{project.industry}</div>
-            <h3 className="mb-2 text-base font-bold text-white leading-snug group-hover:text-[#a78bfa] transition-colors">
+            <div className="mb-1 text-xs font-medium text-[#60A5FA]">{project.industry}</div>
+            <h3 className="mb-2 text-base font-bold text-white leading-snug group-hover:text-[#60A5FA] transition-colors">
               {project.title}
             </h3>
             <p className="text-xs text-zinc-500 leading-relaxed line-clamp-3">{project.summary}</p>
@@ -171,7 +171,7 @@ function ProjectCard({ project, delay = 0 }) {
               ))}
             </div>
 
-            <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#5025d1] group-hover:text-[#a78bfa] transition-colors">
+            <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#1D4ED8] group-hover:text-[#60A5FA] transition-colors">
               View Case Study
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </div>
@@ -209,7 +209,7 @@ function FeaturedCard({ project, reversed = false }) {
           <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f17]/80 via-transparent to-transparent lg:hidden" />
           {/* Industry badge on image */}
           <div className="absolute top-4 left-4">
-            <span className="rounded-full border border-white/20 bg-[#09090e]/80 backdrop-blur-sm px-3 py-1.5 text-[10px] font-medium text-zinc-300">
+            <span className="rounded-full border border-white/20 bg-[#141A2E]/80 backdrop-blur-sm px-3 py-1.5 text-[10px] font-medium text-zinc-300">
               {project.industry}
             </span>
           </div>
@@ -219,9 +219,9 @@ function FeaturedCard({ project, reversed = false }) {
         <div className={cx("flex flex-col justify-center p-8 lg:p-10", reversed && "lg:pr-4")}>
           <div
             className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-[#1c1a3a]"
-            style={{ boxShadow: "0 0 20px rgba(80,37,209,0.35)" }}
+            style={{ boxShadow: "0 0 20px rgba(29,78,216,0.35)" }}
           >
-            <Icon className="h-5 w-5 text-[#a78bfa]" />
+            <Icon className="h-5 w-5 text-[#60A5FA]" />
           </div>
           <h3 className="mb-3 text-xl font-extrabold text-white leading-snug">{project.title}</h3>
           <p className="mb-6 text-sm text-zinc-400 leading-relaxed">{project.summary}</p>
@@ -243,7 +243,7 @@ function FeaturedCard({ project, reversed = false }) {
 
           <Link
             to={project.href}
-            className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-[#5025d1]/30 hover:scale-105"
+            className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-[#1D4ED8]/30 hover:scale-105"
           >
             View Case Study
             <ArrowRight className="h-4 w-4" />
@@ -668,7 +668,7 @@ export default function WorkPage() {
         <link rel="canonical" href="https://itmetasolutions.com/work" />
       </Helmet>
 
-      <div className="itms-subpage min-h-screen bg-[#09090e] text-white">
+      <div className="itms-subpage min-h-screen bg-[#141A2E] text-white">
         <SubpageVisualLayer />
         {!reduced && <ScrollProgress />}
 
@@ -681,9 +681,9 @@ export default function WorkPage() {
               className="h-full w-full object-cover opacity-15"
               loading="eager"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#09090e]/60 via-[#09090e]/70 to-[#09090e]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#141A2E]/60 via-[#141A2E]/70 to-[#141A2E]" />
           </div>
-          <div className="pointer-events-none absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-[#5025d1]/20 blur-[120px] -z-10" />
+          <div className="pointer-events-none absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-[#1D4ED8]/20 blur-[120px] -z-10" />
 
           <Container>
             <div className="mx-auto max-w-4xl text-center">
@@ -691,7 +691,7 @@ export default function WorkPage() {
                 initial={reduced ? false : { opacity: 0, y: 20 }}
                 animate={reduced ? {} : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#5025d1]/40 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-[#a78bfa]"
+                className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#1D4ED8]/40 bg-[#1D4ED8]/10 px-4 py-2 text-sm font-medium text-[#60A5FA]"
               >
                 <Sparkles className="h-4 w-4" />
                 Our Portfolio
@@ -721,10 +721,10 @@ export default function WorkPage() {
         </section>
 
         {/* ==================== SUCCESS METRICS ==================== */}
-        <section className="py-14 bg-[#0b0b14]">
+        <section className="py-14 bg-[#0F1628]">
           <Container>
             <div className="relative rounded-3xl border border-white/[0.07] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#5025d1]/10 via-transparent to-[#ba55d3]/5" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1D4ED8]/10 via-transparent to-[#23A6E8]/5" />
               <div className="relative grid grid-cols-2 divide-x divide-y divide-white/[0.06] lg:grid-cols-4 lg:divide-y-0">
                 {WORK_STATS.map((stat, i) => (
                   <Reveal key={stat.label} delay={i * 0.1}>
@@ -745,7 +745,7 @@ export default function WorkPage() {
         <section className="py-20 sm:py-28">
           <Container>
             <Reveal className="text-center mb-14">
-              <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">Featured Work</p>
+              <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">Featured Work</p>
               <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Highlighted Case Studies</h2>
               <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
                 In-depth looks at some of our most impactful projects.
@@ -761,10 +761,10 @@ export default function WorkPage() {
         </section>
 
         {/* ==================== ALL PROJECTS ==================== */}
-        <section className="py-20 sm:py-24 bg-[#0b0b14]">
+        <section className="py-20 sm:py-24 bg-[#0F1628]">
           <Container>
             <Reveal className="text-center mb-12">
-              <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">Full Portfolio</p>
+              <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">Full Portfolio</p>
               <h2 className="text-3xl font-extrabold sm:text-4xl">All Projects</h2>
             </Reveal>
 
@@ -778,7 +778,7 @@ export default function WorkPage() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search projects..."
-                  className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#5025d1]/50"
+                  className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/50"
                 />
                 {query && (
                   <button onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white">
@@ -818,7 +818,7 @@ export default function WorkPage() {
               {(mainTab !== "all" || subFilter !== "all" || query) && (
                 <button
                   onClick={() => { setQuery(""); setMainTab("all"); setSubFilter("all"); }}
-                  className="text-xs text-[#a78bfa] hover:text-white transition-colors"
+                  className="text-xs text-[#60A5FA] hover:text-white transition-colors"
                 >
                   Clear filters
                 </button>
@@ -839,7 +839,7 @@ export default function WorkPage() {
                 <p className="text-sm text-zinc-500 mb-6">Try adjusting your search or filters.</p>
                 <button
                   onClick={() => { setQuery(""); setMainTab("all"); setSubFilter("all"); }}
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-5 py-2.5 text-sm font-semibold text-white"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-5 py-2.5 text-sm font-semibold text-white"
                 >
                   Clear filters <ArrowRight className="h-4 w-4" />
                 </button>
@@ -862,10 +862,10 @@ export default function WorkPage() {
                     className="h-full w-full object-cover opacity-15"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#5025d1]/40 via-[#09090e]/80 to-[#ba55d3]/20" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#1D4ED8]/40 via-[#141A2E]/80 to-[#23A6E8]/20" />
                 </div>
                 <div className="relative py-16 px-8 sm:py-20 sm:px-16 text-center">
-                  <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-4">Start Your Project</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-4">Start Your Project</p>
                   <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl text-white max-w-2xl mx-auto leading-tight">
                     Ready to Add Your Project to This List?
                   </h2>
@@ -875,7 +875,7 @@ export default function WorkPage() {
                   <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                     <Link
                       to="/contact"
-                      className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3.5 text-base font-bold text-[#09090e] shadow-lg transition-all hover:scale-105"
+                      className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3.5 text-base font-bold text-[#141A2E] shadow-lg transition-all hover:scale-105"
                     >
                       Start a Project
                       <ArrowRight className="h-5 w-5" />
@@ -897,3 +897,4 @@ export default function WorkPage() {
     </>
   );
 }
+

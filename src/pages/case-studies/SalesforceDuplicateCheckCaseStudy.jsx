@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import { motion, useScroll, useSpring } from "framer-motion";
@@ -84,7 +84,7 @@ function AnchorLink({ href, children, className }) {
   );
 }
 
-function GradientBlob({ className, color = "rgba(80,37,209,0.22)" }) {
+function GradientBlob({ className, color = "rgba(29,78,216,0.22)" }) {
   return (
     <div
       aria-hidden
@@ -100,7 +100,7 @@ function ScrollProgress() {
   return (
     <motion.div
       aria-hidden
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
       style={{ scaleX: s }}
     />
   );
@@ -169,7 +169,7 @@ function StatCard({ icon: Icon, value, label, delay = 0 }) {
       className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm h-full"
     >
       <div className="flex items-start gap-4">
-        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
           <Icon className="h-6 w-6 flex-shrink-0 text-white" />
         </div>
         <div className="min-w-0">
@@ -192,10 +192,10 @@ function FeatureCard({ icon: Icon, title, desc, bullets, delay = 0 }) {
       whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
       className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm"
     >
-      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 blur-3xl transition-all group-hover:scale-150" />
+      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 blur-3xl transition-all group-hover:scale-150" />
       <div className="relative flex h-full flex-col">
         <div className="mb-4 flex items-center gap-3">
-          <div className="flex-shrink-0 inline-flex rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 p-3">
+          <div className="flex-shrink-0 inline-flex rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
             <Icon className="h-5 w-5 flex-shrink-0 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-white">{title}</h3>
@@ -257,7 +257,7 @@ function StickySubnav() {
       <Container className="py-3">
         <div className="flex items-center justify-between gap-3">
           <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
-            <Database className="h-4 w-4 text-[#5025d1]" />
+            <Database className="h-4 w-4 text-[#1D4ED8]" />
             Salesforce — Duplicate Prevention
           </div>
 
@@ -342,9 +342,9 @@ export default function SalesforceDuplicateCheckCaseStudy() {
         <ScrollProgress />
 
         {/* Background blobs */}
-        <GradientBlob className="left-[-120px] top-[-120px] h-[620px] w-[620px]" color="rgba(80,37,209,0.20)" />
-        <GradientBlob className="right-[-180px] top-[180px] h-[720px] w-[720px]" color="rgba(186,85,211,0.14)" />
-        <GradientBlob className="bottom-[-160px] left-[25%] h-[760px] w-[760px]" color="rgba(80,37,209,0.16)" />
+        <GradientBlob className="left-[-120px] top-[-120px] h-[620px] w-[620px]" color="rgba(29,78,216,0.20)" />
+        <GradientBlob className="right-[-180px] top-[180px] h-[720px] w-[720px]" color="rgba(35,166,232,0.14)" />
+        <GradientBlob className="bottom-[-160px] left-[25%] h-[760px] w-[760px]" color="rgba(29,78,216,0.16)" />
 
         {/* HERO */}
         <section ref={heroRef} className="relative pt-24 pb-10 sm:pt-32 sm:pb-16">
@@ -363,7 +363,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
               <Reveal delay={0.06}>
                 <h1 className="mt-7 max-w-4xl text-4xl font-bold tracking-tight text-white sm:text-6xl">
                   Duplicate Check & Data Validation Components for{" "}
-                  <span className="bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500 bg-clip-text text-transparent">
                     Salesforce
                   </span>
                 </h1>
@@ -398,7 +398,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
 
                     <a
                       href="/contact"
-                      className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/40 transition-all hover:shadow-xl hover:shadow-[#5025d1]/55 hover:scale-[1.02]"
+                      className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/40 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/55 hover:scale-[1.02]"
                     >
                       Build in Salesforce
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -457,7 +457,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
                 title={
                   <>
                     Fixing duplicates at the{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       source of truth
                     </span>
                   </>
@@ -517,7 +517,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
                 title={
                   <>
                     A layered system:{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       validate + detect + guide
                     </span>
                   </>
@@ -590,7 +590,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
             </div>
 
             <Reveal delay={0.16}>
-              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-6 backdrop-blur-sm">
+              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-6 backdrop-blur-sm">
                 <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
                   <div className="max-w-2xl">
                     <div className="text-sm font-semibold text-white">What made it successful</div>
@@ -622,7 +622,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
                 title={
                   <>
                     Designed as reusable{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       Salesforce components
                     </span>
                   </>
@@ -682,7 +682,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
                 title={
                   <>
                     See the solution{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       in action
                     </span>
                   </>
@@ -730,7 +730,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
                 title={
                   <>
                     Cleaner CRM data, fewer errors,{" "}
-                    <span className="bg-gradient-to-r from-[#5025d1] to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
                       better decisions
                     </span>
                   </>
@@ -748,7 +748,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
             </div>
 
             <Reveal delay={0.15}>
-              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-purple-600/20 p-7 backdrop-blur-sm">
+              <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-7 backdrop-blur-sm">
                 <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
                   <div className="max-w-2xl">
                     <div className="text-sm font-semibold text-white">Skills & deliverables</div>
@@ -759,7 +759,7 @@ export default function SalesforceDuplicateCheckCaseStudy() {
 
                   <a
                     href="/contact"
-                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#5025d1] shadow-lg transition-all hover:scale-[1.02]"
+                    className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-[1.02]"
                   >
                     Discuss your Salesforce build
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -777,4 +777,5 @@ export default function SalesforceDuplicateCheckCaseStudy() {
     </>
   );
 }
+
 

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+﻿import React, { useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
@@ -339,7 +339,7 @@ export default function WebDevelopmentExpertisePage() {
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#09090e]/80 via-[#09090e]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#141A2E]/80 via-[#141A2E]/20 to-transparent" />
             </div>
           </Container>
         </section>
@@ -711,3 +711,4 @@ export default function WebDevelopmentExpertisePage() {
     </>
   );
 }
+

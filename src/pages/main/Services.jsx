@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+﻿import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useInView } from "framer-motion";
 import {
@@ -76,7 +76,7 @@ const SERVICES = [
     description: "Custom, fast, and scalable websites tailored to your brand identity and business goals.",
     image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80",
     link: "/services/web-development",
-    accent: "#5025d1",
+    accent: "#1D4ED8",
   },
   {
     id: "custom-apps",
@@ -86,7 +86,7 @@ const SERVICES = [
     description: "Full-stack web applications engineered for performance, scalability, and user delight.",
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
     link: "/services/custom-web-apps",
-    accent: "#7c3aed",
+    accent: "#1A56C4",
   },
   {
     id: "salesforce",
@@ -136,7 +136,7 @@ const SERVICES = [
     description: "Brand-aligned design across digital, print, and social — from logos to full campaigns.",
     image: "https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=800&q=80",
     link: "/services/graphic-designing",
-    accent: "#ba55d3",
+    accent: "#23A6E8",
   },
   {
     id: "video-editing",
@@ -218,10 +218,10 @@ const REASONS = [
     icon: Zap,
     title: "Fast Delivery",
     description: "We move quickly without sacrificing quality. Most projects are delivered 20–30% faster than industry average with our agile workflow.",
-    gradient: "from-[#5025d1]/20 to-[#7c3aed]/10",
-    border: "border-[#5025d1]/30",
-    iconColor: "text-[#a78bfa]",
-    glow: "rgba(80,37,209,0.35)",
+    gradient: "from-[#1D4ED8]/20 to-[#1A56C4]/10",
+    border: "border-[#1D4ED8]/30",
+    iconColor: "text-[#60A5FA]",
+    glow: "rgba(29,78,216,0.35)",
   },
   {
     icon: Users,
@@ -338,7 +338,7 @@ function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#5025d1] via-purple-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
       style={{ scaleX: scrollYProgress }}
     />
   );
@@ -401,7 +401,7 @@ export default function Services() {
   const [activeFeatured, setActiveFeatured] = useState(0);
 
   return (
-    <div className="itms-subpage min-h-screen bg-[#09090e] text-white">
+    <div className="itms-subpage min-h-screen bg-[#141A2E] text-white">
       <Helmet>
         <title>Our Services | IT Meta Solutions</title>
         <meta
@@ -423,12 +423,12 @@ export default function Services() {
             className="h-full w-full object-cover object-center opacity-20"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#09090e]/60 via-[#09090e]/70 to-[#09090e]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#141A2E]/60 via-[#141A2E]/70 to-[#141A2E]" />
         </div>
 
         {/* Glow blobs */}
-        <div className="pointer-events-none absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-[#5025d1]/20 blur-[120px] -z-10" />
-        <div className="pointer-events-none absolute -top-20 right-0 h-[400px] w-[400px] rounded-full bg-[#ba55d3]/15 blur-[100px] -z-10" />
+        <div className="pointer-events-none absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-[#1D4ED8]/20 blur-[120px] -z-10" />
+        <div className="pointer-events-none absolute -top-20 right-0 h-[400px] w-[400px] rounded-full bg-[#23A6E8]/15 blur-[100px] -z-10" />
 
         <Container>
           <div className="mx-auto max-w-4xl text-center">
@@ -436,7 +436,7 @@ export default function Services() {
               initial={reduced ? false : { opacity: 0, y: 20 }}
               animate={reduced ? {} : { opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#5025d1]/40 bg-[#5025d1]/10 px-4 py-2 text-sm font-medium text-[#a78bfa]"
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#1D4ED8]/40 bg-[#1D4ED8]/10 px-4 py-2 text-sm font-medium text-[#60A5FA]"
             >
               <Sparkles className="h-4 w-4" />
               Full-Service Digital Agency
@@ -470,7 +470,7 @@ export default function Services() {
             >
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:shadow-[#5025d1]/50 hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:shadow-[#1D4ED8]/50 hover:scale-105"
               >
                 Book a Free Consultation
                 <ArrowRight className="h-5 w-5" />
@@ -488,10 +488,10 @@ export default function Services() {
       </section>
 
       {/* ==================== 2. SERVICES OVERVIEW GRID ==================== */}
-      <section className="py-20 sm:py-28 bg-[#0b0b14]">
+      <section className="py-20 sm:py-28 bg-[#0F1628]">
         <Container>
           <Reveal className="text-center mb-14">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">What We Do</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">What We Do</p>
             <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Our Core Services</h2>
             <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
               Eight specialist disciplines, one integrated team — built to accelerate your business.
@@ -526,7 +526,7 @@ export default function Services() {
                     </div>
                     {/* Text */}
                     <div className="p-5">
-                      <h3 className="font-bold text-white text-base mb-1.5 group-hover:text-[#a78bfa] transition-colors">
+                      <h3 className="font-bold text-white text-base mb-1.5 group-hover:text-[#60A5FA] transition-colors">
                         {svc.title}
                       </h3>
                       <p className="text-xs text-zinc-500 leading-relaxed">{svc.short}</p>
@@ -547,7 +547,7 @@ export default function Services() {
       <section className="py-20 sm:py-28">
         <Container>
           <Reveal className="text-center mb-12">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">Deep Dive</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">Deep Dive</p>
             <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Explore Our Specialisations</h2>
             <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
               Click any service to see what we deliver, why it matters, and what you can expect.
@@ -565,7 +565,7 @@ export default function Services() {
                   className={cx(
                     "inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200",
                     activeFeatured === i
-                      ? "bg-gradient-to-r from-[#5025d1] to-purple-600 text-white shadow-lg shadow-[#5025d1]/30"
+                      ? "bg-gradient-to-r from-[#1D4ED8] to-blue-600 text-white shadow-lg shadow-[#1D4ED8]/30"
                       : "border border-white/10 bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10"
                   )}
                 >
@@ -608,14 +608,14 @@ export default function Services() {
                     <ul className="space-y-2.5 mb-8">
                       {f.benefits.map((b) => (
                         <li key={b} className="flex items-start gap-2.5 text-sm text-zinc-300">
-                          <CheckCircle2 className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#a78bfa]" />
+                          <CheckCircle2 className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#60A5FA]" />
                           {b}
                         </li>
                       ))}
                     </ul>
                     <Link
                       to="/contact"
-                      className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-[#5025d1]/30 hover:scale-105"
+                      className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-[#1D4ED8]/30 hover:scale-105"
                     >
                       Get Started
                       <ArrowRight className="h-4 w-4" />
@@ -629,10 +629,10 @@ export default function Services() {
       </section>
 
       {/* ==================== 4. WHY CLIENTS CHOOSE US ==================== */}
-      <section className="py-20 sm:py-28 bg-[#0b0b14]">
+      <section className="py-20 sm:py-28 bg-[#0F1628]">
         <Container>
           <Reveal className="text-center mb-14">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">Why IT Meta</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">Why IT Meta</p>
             <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Why Clients Choose Us</h2>
             <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
               We combine technical excellence with business acumen to deliver outcomes that matter.
@@ -652,7 +652,7 @@ export default function Services() {
                     )}
                   >
                     <div
-                      className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-[#09090e]/60"
+                      className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-[#141A2E]/60"
                       style={{ boxShadow: `0 0 20px ${r.glow}` }}
                     >
                       <Icon className={cx("h-6 w-6", r.iconColor)} />
@@ -676,12 +676,12 @@ export default function Services() {
             className="h-full w-full object-cover opacity-10"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#09090e] via-[#09090e]/90 to-[#09090e]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#141A2E] via-[#141A2E]/90 to-[#141A2E]" />
         </div>
 
         <Container>
           <Reveal className="text-center mb-16">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">How We Work</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">How We Work</p>
             <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Our Proven Process</h2>
             <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
               A clear, collaborative process that keeps you informed at every stage.
@@ -691,7 +691,7 @@ export default function Services() {
           {/* Desktop: horizontal timeline */}
           <div className="hidden lg:grid lg:grid-cols-5 gap-0 relative">
             {/* Connector line */}
-            <div className="absolute top-10 left-[10%] right-[10%] h-px bg-gradient-to-r from-[#5025d1]/20 via-[#5025d1]/60 to-[#5025d1]/20" />
+            <div className="absolute top-10 left-[10%] right-[10%] h-px bg-gradient-to-r from-[#1D4ED8]/20 via-[#1D4ED8]/60 to-[#1D4ED8]/20" />
 
             {PROCESS_STEPS.map((step, i) => {
               const Icon = step.icon;
@@ -699,11 +699,11 @@ export default function Services() {
                 <Reveal key={step.step} delay={i * 0.1}>
                   <div className="flex flex-col items-center text-center px-4 pt-2">
                     <div
-                      className="relative z-10 mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-[#5025d1]/40 bg-gradient-to-br from-[#5025d1]/20 to-[#09090e]"
-                      style={{ boxShadow: "0 0 24px rgba(80,37,209,0.3)" }}
+                      className="relative z-10 mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-[#1D4ED8]/40 bg-gradient-to-br from-[#1D4ED8]/20 to-[#141A2E]"
+                      style={{ boxShadow: "0 0 24px rgba(29,78,216,0.3)" }}
                     >
-                      <Icon className="h-7 w-7 text-[#a78bfa]" />
-                      <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#5025d1] text-[10px] font-bold text-white">
+                      <Icon className="h-7 w-7 text-[#60A5FA]" />
+                      <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#1D4ED8] text-[10px] font-bold text-white">
                         {step.step}
                       </span>
                     </div>
@@ -723,17 +723,17 @@ export default function Services() {
                 <Reveal key={step.step} delay={i * 0.07}>
                   <div className="flex gap-5 pb-8 last:pb-0 relative">
                     {i < PROCESS_STEPS.length - 1 && (
-                      <div className="absolute left-6 top-14 bottom-0 w-px bg-[#5025d1]/30" />
+                      <div className="absolute left-6 top-14 bottom-0 w-px bg-[#1D4ED8]/30" />
                     )}
                     <div
-                      className="relative z-10 flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-full border border-[#5025d1]/40 bg-gradient-to-br from-[#5025d1]/20 to-[#09090e]"
-                      style={{ boxShadow: "0 0 16px rgba(80,37,209,0.3)" }}
+                      className="relative z-10 flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-full border border-[#1D4ED8]/40 bg-gradient-to-br from-[#1D4ED8]/20 to-[#141A2E]"
+                      style={{ boxShadow: "0 0 16px rgba(29,78,216,0.3)" }}
                     >
-                      <Icon className="h-5 w-5 text-[#a78bfa]" />
+                      <Icon className="h-5 w-5 text-[#60A5FA]" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-bold text-[#5025d1]">{step.step}</span>
+                        <span className="text-xs font-bold text-[#1D4ED8]">{step.step}</span>
                         <h3 className="font-bold text-white text-sm">{step.title}</h3>
                       </div>
                       <p className="text-xs text-zinc-500 leading-relaxed">{step.description}</p>
@@ -747,15 +747,15 @@ export default function Services() {
       </section>
 
       {/* ==================== 6. STATS ==================== */}
-      <section className="py-20 sm:py-24 bg-[#0b0b14]">
+      <section className="py-20 sm:py-24 bg-[#0F1628]">
         <Container>
           <Reveal className="mb-12 text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#a78bfa] mb-3">By the Numbers</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">By the Numbers</p>
             <h2 className="text-3xl font-extrabold sm:text-4xl">Results We're Proud Of</h2>
           </Reveal>
 
           <div className="relative rounded-3xl border border-white/[0.07] overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#5025d1]/10 via-transparent to-[#ba55d3]/5" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#1D4ED8]/10 via-transparent to-[#23A6E8]/5" />
             <div className="relative grid grid-cols-2 divide-x divide-y divide-white/[0.06] lg:grid-cols-4 lg:divide-y-0">
               {STATS.map((stat, i) => (
                 <Reveal key={stat.label} delay={i * 0.1}>
@@ -788,10 +788,10 @@ export default function Services() {
                   className="h-full w-full object-cover opacity-15"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#5025d1]/40 via-[#09090e]/80 to-[#ba55d3]/20" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#1D4ED8]/40 via-[#141A2E]/80 to-[#23A6E8]/20" />
               </div>
               <div className="relative py-16 px-8 sm:py-20 sm:px-16 text-center">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#a78bfa]/30 bg-[#5025d1]/10 px-4 py-1.5 text-sm font-medium text-[#a78bfa]">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#60A5FA]/30 bg-[#1D4ED8]/10 px-4 py-1.5 text-sm font-medium text-[#60A5FA]">
                   <Sparkles className="h-4 w-4" />
                   Let's Build Something Great
                 </div>
@@ -804,7 +804,7 @@ export default function Services() {
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3.5 text-base font-bold text-[#09090e] shadow-lg transition-all hover:shadow-white/20 hover:scale-105"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3.5 text-base font-bold text-[#141A2E] shadow-lg transition-all hover:shadow-white/20 hover:scale-105"
                   >
                     Book Consultation
                     <ArrowRight className="h-5 w-5" />
@@ -825,3 +825,4 @@ export default function Services() {
     </div>
   );
 }
+

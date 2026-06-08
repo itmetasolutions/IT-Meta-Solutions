@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 
 export default function CursorEffect() {
   const cursorRef = useRef(null);
@@ -34,3 +34,4 @@ export default function CursorEffect() {
 
   return <div ref={cursorRef} className="cursor-effect"></div>;
 }
+

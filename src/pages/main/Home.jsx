@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+﻿import React, { useEffect, useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   ArrowRight, ArrowUpRight, TrendingUp, Users, Zap, Code2, Palette,
@@ -137,7 +137,7 @@ function ScrollProgress() {
   return (
     <div
       className="fixed left-0 top-0 z-50 h-[3px] w-full origin-left"
-      style={{ transform: `scaleX(${progress})`, background: "linear-gradient(90deg,#5025d1,#a855f7,#00f5ff)" }}
+      style={{ transform: `scaleX(${progress})`, background: "linear-gradient(90deg,#1D4ED8,#23A6E8,#3AC9F5)" }}
     />
   );
 }
@@ -224,9 +224,9 @@ const featuredWork = [
 ];
 
 const whyFeatures = [
-  { icon: Rocket, title: "Launch Fast",         description: "From idea to live product in weeks, not months. We move at the speed of your ambition.",                   accent: "#5025d1" },
-  { icon: Target, title: "Results Focused",     description: "Every pixel, campaign, and line of code is optimized for conversions and measurable growth.",              accent: "#a855f7" },
-  { icon: Zap,    title: "Always Innovating",   description: "We stay ahead of trends so you stay ahead of competition. Cutting-edge solutions, always.",                accent: "#00f5ff" },
+  { icon: Rocket, title: "Launch Fast",         description: "From idea to live product in weeks, not months. We move at the speed of your ambition.",                   accent: "#1D4ED8" },
+  { icon: Target, title: "Results Focused",     description: "Every pixel, campaign, and line of code is optimized for conversions and measurable growth.",              accent: "#23A6E8" },
+  { icon: Zap,    title: "Always Innovating",   description: "We stay ahead of trends so you stay ahead of competition. Cutting-edge solutions, always.",                accent: "#3AC9F5" },
 ];
 
 const processSteps = [
@@ -272,7 +272,7 @@ export default function Home() {
         {/* ════════════════════════════════════════
             HERO
         ════════════════════════════════════════ */}
-        <section className="relative bg-[#09090e] pt-28 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
+        <section className="relative bg-[#141A2E] pt-28 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
           {/* Subtle real-world BG image */}
           <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
             <img
@@ -287,7 +287,7 @@ export default function Home() {
           <div className="absolute inset-0 dot-grid-bg opacity-60 pointer-events-none" />
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(80,37,209,0.14) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(29,78,216,0.14) 0%, transparent 70%)" }}
           />
 
           <Container>
@@ -304,12 +304,12 @@ export default function Home() {
                   <span
                     className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-semibold text-white"
                     style={{
-                      background: "rgba(80,37,209,0.12)",
-                      border: "1px solid rgba(80,37,209,0.40)",
-                      boxShadow: "0 0 24px rgba(80,37,209,0.18)",
+                      background: "rgba(29,78,216,0.12)",
+                      border: "1px solid rgba(29,78,216,0.40)",
+                      boxShadow: "0 0 24px rgba(29,78,216,0.18)",
                     }}
                   >
-                    <Sparkles className="h-3.5 w-3.5 text-[#a78bfa]" />
+                    <Sparkles className="h-3.5 w-3.5 text-[#60A5FA]" />
                     Trusted by 40+ businesses worldwide
                   </span>
                 </motion.div>
@@ -345,7 +345,7 @@ export default function Home() {
                 >
                   <Link
                     to="/contact"
-                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#5025d1]/40 transition-all hover:shadow-xl hover:shadow-[#5025d1]/60 hover:scale-105"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#1D4ED8]/40 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/60 hover:scale-105"
                   >
                     Start Your Project
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -390,7 +390,7 @@ export default function Home() {
                   <div className="relative w-full max-w-[480px]">
 
                     {/* Browser Window */}
-                    <div className="rounded-2xl border border-white/10 bg-zinc-900/90 backdrop-blur-xl shadow-2xl shadow-[#5025d1]/25 overflow-hidden">
+                    <div className="rounded-2xl border border-white/10 bg-zinc-900/90 backdrop-blur-xl shadow-2xl shadow-[#1D4ED8]/25 overflow-hidden">
 
                       {/* Chrome bar */}
                       <div className="flex items-center gap-3 px-4 py-3 bg-zinc-800/80 border-b border-white/10">
@@ -414,7 +414,7 @@ export default function Home() {
                         <div className="grid grid-cols-4 gap-2">
                           {[
                             { label: "Website",   value: "Live",     icon: Globe,      badge: "✓", glow: "from-emerald-500/10", iconColor: "text-emerald-400", badgeColor: "text-emerald-400" },
-                            { label: "SEO",       value: "94/100",   icon: Search,     badge: "↑", glow: "from-purple-500/10",  iconColor: "text-purple-400",  badgeColor: "text-purple-400"  },
+                            { label: "SEO",       value: "94/100",   icon: Search,     badge: "↑", glow: "from-blue-500/10",  iconColor: "text-sky-400",  badgeColor: "text-sky-400"  },
                             { label: "Web App",   value: "v2.1",     icon: LayoutGrid, badge: "●", glow: "from-blue-500/10",    iconColor: "text-blue-400",    badgeColor: "text-blue-400"    },
                             { label: "Marketing", value: "3 Active", icon: Megaphone,  badge: "↗", glow: "from-pink-500/10",    iconColor: "text-pink-400",    badgeColor: "text-pink-400"    },
                           ].map((s) => {
@@ -440,19 +440,19 @@ export default function Home() {
                               <Globe className="h-2.5 w-2.5" /> Website
                             </div>
                             <div className="flex items-center justify-between bg-zinc-800/70 rounded px-1.5 py-1 mb-1.5">
-                              <div className="h-1.5 w-7 rounded bg-[#5025d1]/70" />
+                              <div className="h-1.5 w-7 rounded bg-[#1D4ED8]/70" />
                               <div className="flex gap-1">
                                 {[10,8,10].map((w,i) => <div key={i} className="h-1 rounded bg-white/15" style={{width:w}} />)}
                               </div>
                             </div>
-                            <div className="rounded bg-gradient-to-br from-[#5025d1]/25 to-purple-900/10 p-1.5 mb-1.5">
+                            <div className="rounded bg-gradient-to-br from-[#1D4ED8]/25 to-purple-900/10 p-1.5 mb-1.5">
                               <div className="h-1.5 w-16 rounded bg-white/30 mb-1" />
                               <div className="h-1 w-12 rounded bg-white/15 mb-0.5" />
                               <div className="h-1 w-10 rounded bg-white/10 mb-1.5" />
-                              <div className="h-3 w-10 rounded-full bg-[#5025d1]/80" />
+                              <div className="h-3 w-10 rounded-full bg-[#1D4ED8]/80" />
                             </div>
                             <div className="grid grid-cols-3 gap-1 mb-1.5">
-                              {["#5025d1","#ba55d3","#3b82f6"].map((c,i) => (
+                              {["#1D4ED8","#23A6E8","#3b82f6"].map((c,i) => (
                                 <div key={i} className="rounded p-1" style={{background:`${c}18`,border:`1px solid ${c}30`}}>
                                   <div className="h-2 w-2 rounded-sm mb-0.5" style={{background:`${c}50`}} />
                                   <div className="h-0.5 rounded" style={{width:"75%",background:"rgba(255,255,255,0.2)"}} />
@@ -480,9 +480,9 @@ export default function Home() {
                                 <span className="text-[9px] text-emerald-400 shrink-0">↑{r.chg}</span>
                               </div>
                             ))}
-                            <div className="mt-2 flex items-center gap-1 rounded-md bg-purple-500/10 border border-purple-500/20 px-1.5 py-1">
-                              <TrendingUp className="h-2.5 w-2.5 text-purple-400 shrink-0" />
-                              <span className="text-[9px] text-purple-300">Avg. +4.5 positions this month</span>
+                            <div className="mt-2 flex items-center gap-1 rounded-md bg-blue-500/10 border border-blue-500/20 px-1.5 py-1">
+                              <TrendingUp className="h-2.5 w-2.5 text-sky-400 shrink-0" />
+                              <span className="text-[9px] text-sky-300">Avg. +4.5 positions this month</span>
                             </div>
                           </div>
                         </div>
@@ -497,7 +497,7 @@ export default function Home() {
                             {[
                               {name:"Google Ads",pct:82,color:"bg-blue-500"},
                               {name:"Meta Ads",  pct:67,color:"bg-pink-500"},
-                              {name:"Email",     pct:91,color:"bg-purple-500"},
+                              {name:"Email",     pct:91,color:"bg-blue-500"},
                             ].map(c => (
                               <div key={c.name} className="mb-1.5 last:mb-0">
                                 <div className="flex justify-between mb-0.5">
@@ -518,7 +518,7 @@ export default function Home() {
                             </div>
                             {[
                               {stage:"New Leads",count:24,color:"bg-blue-400"},
-                              {stage:"Qualified", count:18,color:"bg-purple-400"},
+                              {stage:"Qualified", count:18,color:"bg-sky-400"},
                               {stage:"Proposal",  count:11,color:"bg-yellow-400"},
                               {stage:"Closed",    count:8, color:"bg-emerald-400"},
                             ].map(s => (
@@ -534,27 +534,27 @@ export default function Home() {
                     </div>
 
                     {/* Floating Mobile Mockup */}
-                    <div className="absolute -bottom-10 -right-10 w-[108px] rounded-[20px] border-[3px] border-zinc-700 bg-[#0d0d14] shadow-2xl shadow-[#5025d1]/30 overflow-hidden">
+                    <div className="absolute -bottom-10 -right-10 w-[108px] rounded-[20px] border-[3px] border-zinc-700 bg-[#0d0d14] shadow-2xl shadow-[#1D4ED8]/30 overflow-hidden">
                       <div className="h-3 bg-zinc-800 flex items-center justify-center">
                         <div className="h-1 w-10 rounded-full bg-zinc-600" />
                       </div>
                       <div className="p-2 space-y-1.5">
                         <div className="flex items-center justify-between bg-zinc-800/80 rounded px-1.5 py-1">
-                          <div className="h-1.5 w-6 rounded bg-[#5025d1]/80" />
+                          <div className="h-1.5 w-6 rounded bg-[#1D4ED8]/80" />
                           <div className="flex flex-col gap-0.5">
                             {[0,1,2].map(i => <div key={i} className="h-px w-3 rounded bg-white/30" />)}
                           </div>
                         </div>
-                        <div className="rounded-lg bg-gradient-to-br from-[#5025d1]/30 to-purple-900/10 border border-[#5025d1]/25 p-1.5">
+                        <div className="rounded-lg bg-gradient-to-br from-[#1D4ED8]/30 to-purple-900/10 border border-[#1D4ED8]/25 p-1.5">
                           <div className="h-1.5 w-14 rounded bg-white/30 mb-1" />
                           <div className="h-1 w-10 rounded bg-white/15 mb-0.5" />
                           <div className="h-1 w-8 rounded bg-white/10 mb-1.5" />
-                          <div className="h-3 w-9 rounded-full bg-[#5025d1]/80" />
+                          <div className="h-3 w-9 rounded-full bg-[#1D4ED8]/80" />
                         </div>
                         <div className="grid grid-cols-2 gap-1">
                           {[
-                            {label:"SEO",color:"#5025d1"},
-                            {label:"Ads",color:"#ba55d3"},
+                            {label:"SEO",color:"#1D4ED8"},
+                            {label:"Ads",color:"#23A6E8"},
                             {label:"CRM",color:"#3b82f6"},
                             {label:"Web",color:"#10b981"},
                           ].map(pill => (
@@ -593,7 +593,7 @@ export default function Home() {
                       className="absolute top-1/2 -right-8 -translate-y-1/2 flex items-center gap-2 rounded-full border border-white/10 bg-zinc-900/90 backdrop-blur-sm px-3 py-2 shadow-xl shadow-black/40"
                       style={{ animation: "floatY 4s ease-in-out infinite" }}
                     >
-                      <Rocket className="h-3.5 w-3.5 text-purple-400" />
+                      <Rocket className="h-3.5 w-3.5 text-sky-400" />
                       <span className="text-xs font-semibold text-white">40+ Projects Delivered</span>
                     </div>
                   </div>
@@ -606,14 +606,14 @@ export default function Home() {
         {/* ════════════════════════════════════════
             CLIENT LOGOS — compact trust strip
         ════════════════════════════════════════ */}
-        <section className="py-10 sm:py-14 bg-[#09090e] relative overflow-hidden border-y border-white/[0.06]">
+        <section className="py-10 sm:py-14 bg-[#141A2E] relative overflow-hidden border-y border-white/[0.06]">
           <Container>
             <p className="text-center text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-zinc-600 mb-8">
               Trusted by 40+ growing businesses worldwide
             </p>
           </Container>
           <div style={{ overflow: "hidden" }}>
-            <Marquee speed={38} pauseOnHover gradient gradientColor="#09090e" gradientWidth={100}>
+            <Marquee speed={38} pauseOnHover gradient gradientColor="#141A2E" gradientWidth={100}>
               {[...clientSliderData, ...clientSliderData, ...clientSliderData].map((client, i) => (
                 <div key={i} className="group mx-10 flex-shrink-0 flex items-center justify-center">
                   {client.logo && (
@@ -635,8 +635,8 @@ export default function Home() {
         {/* ════════════════════════════════════════
             STATS
         ════════════════════════════════════════ */}
-        <section className="bg-[#0b0b14] py-16 sm:py-20 relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#5025d1" iconOpacityBase={0.03} />
+        <section className="bg-[#0F1628] py-16 sm:py-20 relative overflow-hidden">
+          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.03} />
           <div className="absolute inset-0 dot-grid-bg opacity-40 pointer-events-none" />
           <Container>
             <div className="grid grid-cols-2 lg:grid-cols-4">
@@ -658,9 +658,9 @@ export default function Home() {
                   >
                     <div
                       className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#1c1a3a] mb-4 mx-auto"
-                      style={{ boxShadow: "0 0 20px rgba(80,37,209,0.25)" }}
+                      style={{ boxShadow: "0 0 20px rgba(29,78,216,0.25)" }}
                     >
-                      <Icon className="h-5 w-5 text-[#a78bfa]" />
+                      <Icon className="h-5 w-5 text-[#60A5FA]" />
                     </div>
                     <div className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white neon-stat">
                       {stat.value}
@@ -676,8 +676,8 @@ export default function Home() {
         {/* ════════════════════════════════════════
             SERVICES — image-based cards
         ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#09090e] relative overflow-hidden">
-          <TechMeshBg variant="devtech" iconColor="#5025d1" iconOpacityBase={0.035} />
+        <section className="py-20 sm:py-28 bg-[#141A2E] relative overflow-hidden">
+          <TechMeshBg variant="devtech" iconColor="#1D4ED8" iconOpacityBase={0.035} />
           <div className="absolute inset-0 hex-grid-bg opacity-50 pointer-events-none" />
 
           <Container>
@@ -688,7 +688,7 @@ export default function Home() {
               transition={{ duration: 0.5 }}
               className="text-center mb-14"
             >
-              <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#5025d1] mb-4">
+              <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#1D4ED8] mb-4">
                 What We Do Best
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
@@ -714,10 +714,10 @@ export default function Home() {
                   >
                     <Link
                       to={service.link}
-                      className="group relative block h-full rounded-2xl overflow-hidden border border-white/[0.07] bg-[#0d0d18] hover:border-[#5025d1]/45 transition-all duration-300 neon-card"
+                      className="group relative block h-full rounded-2xl overflow-hidden border border-white/[0.07] bg-[#0d0d18] hover:border-[#1D4ED8]/45 transition-all duration-300 neon-card"
                     >
                       {/* Top hover accent line */}
-                      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#5025d1]/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#1D4ED8]/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
                       {/* Cover image */}
                       <div className="relative h-48 overflow-hidden">
@@ -731,9 +731,9 @@ export default function Home() {
                         {/* Icon badge overlay */}
                         <div
                           className="absolute bottom-4 left-4 h-10 w-10 rounded-xl bg-[#1c1a3a]/95 backdrop-blur-sm flex items-center justify-center"
-                          style={{ boxShadow: "0 0 18px rgba(80,37,209,0.40)" }}
+                          style={{ boxShadow: "0 0 18px rgba(29,78,216,0.40)" }}
                         >
-                          <Icon className="h-5 w-5 text-[#a78bfa]" />
+                          <Icon className="h-5 w-5 text-[#60A5FA]" />
                         </div>
                       </div>
 
@@ -741,7 +741,7 @@ export default function Home() {
                       <div className="p-5">
                         <h3 className="text-lg font-bold text-white">{service.title}</h3>
                         <p className="mt-2 text-sm text-zinc-400 leading-relaxed">{service.description}</p>
-                        <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] group-hover:text-[#a78bfa] group-hover:gap-3 transition-all duration-200">
+                        <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] group-hover:text-[#60A5FA] group-hover:gap-3 transition-all duration-200">
                           <span>Learn more</span>
                           <ArrowRight className="h-4 w-4" />
                         </div>
@@ -761,7 +761,7 @@ export default function Home() {
             >
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 rounded-full bg-[#5025d1] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:bg-[#5025d1]/90 hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-full bg-[#1D4ED8] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:bg-[#1D4ED8]/90 hover:scale-105"
               >
                 Explore All Services
                 <ArrowRight className="h-4 w-4" />
@@ -773,8 +773,8 @@ export default function Home() {
         {/* ════════════════════════════════════════
             FEATURED WORK
         ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#0b0b14] relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#5025d1" iconOpacityBase={0.03} />
+        <section className="py-20 sm:py-28 bg-[#0F1628] relative overflow-hidden">
+          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.03} />
           <div className="absolute inset-0 dot-grid-bg opacity-35 pointer-events-none" />
 
           <Container>
@@ -786,7 +786,7 @@ export default function Home() {
               className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12"
             >
               <div>
-                <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#a78bfa] mb-3">
+                <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#60A5FA] mb-3">
                   Our Work
                 </p>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
@@ -795,7 +795,7 @@ export default function Home() {
               </div>
               <Link
                 to="/work"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] hover:text-[#a78bfa] hover:gap-3 transition-all shrink-0"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] hover:text-[#60A5FA] hover:gap-3 transition-all shrink-0"
               >
                 View all projects
                 <ArrowRight className="h-4 w-4" />
@@ -813,7 +813,7 @@ export default function Home() {
                 >
                   <Link
                     to={work.link}
-                    className="group block rounded-2xl overflow-hidden border border-white/[0.07] hover:border-[#5025d1]/45 transition-all duration-300 neon-card"
+                    className="group block rounded-2xl overflow-hidden border border-white/[0.07] hover:border-[#1D4ED8]/45 transition-all duration-300 neon-card"
                   >
                     {/* Project image */}
                     <div className="relative h-52 overflow-hidden">
@@ -825,7 +825,7 @@ export default function Home() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                       {/* Category pill */}
-                      <div className="absolute top-4 left-4 rounded-full bg-[#5025d1]/80 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white border border-[#5025d1]/30">
+                      <div className="absolute top-4 left-4 rounded-full bg-[#1D4ED8]/80 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white border border-[#1D4ED8]/30">
                         {work.category}
                       </div>
                       {/* Arrow reveal */}
@@ -843,7 +843,7 @@ export default function Home() {
                       <p className="mt-2 text-sm text-zinc-400 leading-relaxed line-clamp-2">{work.description}</p>
                       <div className="mt-3 flex flex-wrap gap-1.5">
                         {work.tags.map(tag => (
-                          <span key={tag} className="rounded-full bg-[#1c1a3a] px-2.5 py-0.5 text-[11px] font-medium text-[#a78bfa]">
+                          <span key={tag} className="rounded-full bg-[#1c1a3a] px-2.5 py-0.5 text-[11px] font-medium text-[#60A5FA]">
                             {tag}
                           </span>
                         ))}
@@ -859,8 +859,8 @@ export default function Home() {
         {/* ════════════════════════════════════════
             WHY CHOOSE US
         ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#09090e] relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#5025d1" iconOpacityBase={0.035} />
+        <section className="py-20 sm:py-28 bg-[#141A2E] relative overflow-hidden">
+          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.035} />
           <div className="absolute inset-0 hex-grid-bg opacity-35 pointer-events-none" />
 
           <Container>
@@ -876,7 +876,7 @@ export default function Home() {
               >
                 <div
                   className="relative rounded-2xl overflow-hidden"
-                  style={{ boxShadow: "0 0 60px rgba(80,37,209,0.22), 0 0 120px rgba(80,37,209,0.08)" }}
+                  style={{ boxShadow: "0 0 60px rgba(29,78,216,0.22), 0 0 120px rgba(29,78,216,0.08)" }}
                 >
                   <img
                     src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80"
@@ -884,12 +884,12 @@ export default function Home() {
                     className="w-full h-[380px] sm:h-[460px] object-cover"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#09090e]/55 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#141A2E]/55 via-transparent to-transparent" />
                   {/* Neon border frame */}
                   <div
                     className="absolute -inset-[1px] rounded-2xl pointer-events-none"
                     style={{
-                      background: "linear-gradient(135deg, rgba(80,37,209,0.55) 0%, transparent 50%, rgba(0,245,255,0.22) 100%)",
+                      background: "linear-gradient(135deg, rgba(29,78,216,0.55) 0%, transparent 50%, rgba(58,201,245,0.22) 100%)",
                       padding: "1px",
                       WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                       WebkitMaskComposite: "xor",
@@ -900,16 +900,16 @@ export default function Home() {
 
                 {/* Floating badges */}
                 <div
-                  className="absolute top-5 -right-4 sm:-right-5 flex items-center gap-2 rounded-xl border border-[#5025d1]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
-                  style={{ boxShadow: "0 0 20px rgba(80,37,209,0.28)", animation: "floatY 3s ease-in-out infinite" }}
+                  className="absolute top-5 -right-4 sm:-right-5 flex items-center gap-2 rounded-xl border border-[#1D4ED8]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
+                  style={{ boxShadow: "0 0 20px rgba(29,78,216,0.28)", animation: "floatY 3s ease-in-out infinite" }}
                 >
                   <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                   <span className="text-sm font-semibold text-white">SECP Registered</span>
                 </div>
 
                 <div
-                  className="absolute bottom-5 -left-4 sm:-left-5 flex items-center gap-2 rounded-xl border border-[#5025d1]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
-                  style={{ boxShadow: "0 0 20px rgba(80,37,209,0.22)", animation: "floatYReverse 3.5s ease-in-out infinite" }}
+                  className="absolute bottom-5 -left-4 sm:-left-5 flex items-center gap-2 rounded-xl border border-[#1D4ED8]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
+                  style={{ boxShadow: "0 0 20px rgba(29,78,216,0.22)", animation: "floatYReverse 3.5s ease-in-out infinite" }}
                 >
                   <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
                   <span className="text-sm font-semibold text-white">5+ Years Excellence</span>
@@ -923,7 +923,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.15 }}
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#5025d1] mb-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#1D4ED8] mb-5">
                   Why Brands Choose Us
                 </p>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
@@ -938,7 +938,7 @@ export default function Home() {
                   {whyFeatures.map((item, i) => (
                     <div
                       key={i}
-                      className="flex gap-4 rounded-2xl border border-white/[0.07] bg-zinc-900/40 p-5 glass-card hover:border-[#5025d1]/35 transition-all duration-200"
+                      className="flex gap-4 rounded-2xl border border-white/[0.07] bg-zinc-900/40 p-5 glass-card hover:border-[#1D4ED8]/35 transition-all duration-200"
                     >
                       <div
                         className="flex-shrink-0 h-11 w-11 rounded-xl bg-[#1c1a3a] flex items-center justify-center"
@@ -957,7 +957,7 @@ export default function Home() {
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#5025d1]/30 transition-all hover:scale-105 hover:shadow-xl"
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:scale-105 hover:shadow-xl"
                   >
                     Let's Talk
                     <ArrowRight className="h-4 w-4" />
@@ -977,8 +977,8 @@ export default function Home() {
         {/* ════════════════════════════════════════
             PROCESS — 4 steps
         ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#0b0b14] relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#5025d1" iconOpacityBase={0.035} />
+        <section className="py-20 sm:py-28 bg-[#0F1628] relative overflow-hidden">
+          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.035} />
           <div className="absolute inset-0 dot-grid-bg opacity-35 pointer-events-none" />
           {/* Subtle top BG image */}
           <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -998,7 +998,7 @@ export default function Home() {
               transition={{ duration: 0.5 }}
               className="text-center mb-16"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a78bfa] mb-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#60A5FA] mb-4">
                 Our Process
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
@@ -1026,9 +1026,9 @@ export default function Home() {
                 >
                   <div
                     className="relative z-10 flex h-[76px] w-[76px] flex-shrink-0 items-center justify-center rounded-full bg-[#13122a] border border-[#2d2a5e]"
-                    style={{ boxShadow: "0 0 20px rgba(80,37,209,0.30), 0 0 40px rgba(80,37,209,0.10)" }}
+                    style={{ boxShadow: "0 0 20px rgba(29,78,216,0.30), 0 0 40px rgba(29,78,216,0.10)" }}
                   >
-                    <span className="text-2xl font-extrabold text-[#a78bfa] leading-none">{step.step}</span>
+                    <span className="text-2xl font-extrabold text-[#60A5FA] leading-none">{step.step}</span>
                   </div>
                   <h4 className="mt-6 text-base sm:text-lg font-bold text-white">{step.title}</h4>
                   <p className="mt-2.5 text-sm text-zinc-400 leading-relaxed max-w-[200px]">{step.description}</p>
@@ -1045,7 +1045,7 @@ export default function Home() {
             >
               <Link
                 to="/process"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#a78bfa] hover:gap-3 transition-all"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#60A5FA] hover:gap-3 transition-all"
               >
                 Learn more about our process
                 <ArrowRight className="h-4 w-4" />
@@ -1059,7 +1059,7 @@ export default function Home() {
         ════════════════════════════════════════ */}
         <DeferredRender minHeight={400}>
           {() => (
-            <React.Suspense fallback={<div className="py-20 bg-[#09090e]" />}>
+            <React.Suspense fallback={<div className="py-20 bg-[#141A2E]" />}>
               <GoogleReviewsSection
                 title="See What Clients Say On Google"
                 description="Latest public Google feedback from our business profile."
@@ -1071,8 +1071,8 @@ export default function Home() {
         {/* ════════════════════════════════════════
             CTA BANNER — full-width with image
         ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#09090e] relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#5025d1" iconOpacityBase={0.03} />
+        <section className="py-20 sm:py-28 bg-[#141A2E] relative overflow-hidden">
+          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.03} />
           <Container>
             <motion.div
               initial={reduced ? false : { y: 16, opacity: 0 }}
@@ -1080,7 +1080,7 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="relative overflow-hidden rounded-2xl"
-              style={{ boxShadow: "0 0 80px rgba(80,37,209,0.20), 0 0 0 1px rgba(80,37,209,0.22)" }}
+              style={{ boxShadow: "0 0 80px rgba(29,78,216,0.20), 0 0 0 1px rgba(29,78,216,0.22)" }}
             >
               {/* Background image */}
               <div className="absolute inset-0">
@@ -1094,16 +1094,16 @@ export default function Home() {
                 }
               </div>
               <div className="absolute inset-0 bg-black/65 z-[5]" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#09090e]/88 via-[#5025d1]/30 to-transparent z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#141A2E]/88 via-[#1D4ED8]/30 to-transparent z-10" />
               {/* Corner accents */}
               <div className="absolute top-0 left-0 w-24 h-24 z-20 pointer-events-none"
-                style={{ background: "linear-gradient(135deg, rgba(80,37,209,0.4) 0%, transparent 50%)" }} />
+                style={{ background: "linear-gradient(135deg, rgba(29,78,216,0.4) 0%, transparent 50%)" }} />
               <div className="absolute bottom-0 right-0 w-32 h-32 z-20 pointer-events-none"
-                style={{ background: "linear-gradient(315deg, rgba(0,245,255,0.1) 0%, transparent 50%)" }} />
+                style={{ background: "linear-gradient(315deg, rgba(58,201,245,0.1) 0%, transparent 50%)" }} />
 
               <div className="relative z-20 h-[380px] sm:h-[440px] flex items-center px-8 sm:px-12 lg:px-16">
                 <div className="max-w-lg">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a78bfa] mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#60A5FA] mb-4">
                     Ready to Grow?
                   </p>
                   <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
@@ -1116,7 +1116,7 @@ export default function Home() {
                   <div className="mt-7 flex flex-wrap gap-3">
                     <Link
                       to="/contact"
-                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5025d1] to-purple-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#5025d1]/40 transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#5025d1]/60"
+                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#1D4ED8]/40 transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#1D4ED8]/60"
                     >
                       Start Your Project
                       <ArrowRight className="h-4 w-4" />
@@ -1154,3 +1154,4 @@ export default function Home() {
     </>
   );
 }
+

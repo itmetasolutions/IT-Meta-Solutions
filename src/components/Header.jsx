@@ -1,4 +1,4 @@
-import {
+﻿import {
   ArrowRight, ChevronDown, X, Phone,
   Code2, LayoutGrid, Cloud, Megaphone, Search, Palette,
   PlayCircle, Sparkles, Users,
@@ -6,7 +6,7 @@ import {
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import TechMeshBg from "./TechMeshBg";
-import logo from "../assets/img/ITMS Logo Updated.webp";
+import logo from "../assets/img/IT Meta Solutions Logo Updated.webp";
 
 const serviceSubMenu = [
   { label: "Web Development",   href: "/web-development-expertise",   icon: Code2      },
@@ -73,10 +73,10 @@ export default function Header({ nav, AnchorLink }) {
       id="site-header"
       className={`fixed top-0 left-0 right-0 z-[9998] transition-all duration-500 ${
         scrolled
-          ? "bg-[#09090e]/92 backdrop-blur-2xl border-b border-[#5025d1]/35"
-          : "bg-[#09090e]/75 backdrop-blur-lg border-b border-white/[0.06]"
+          ? "bg-[#141A2E]/92 backdrop-blur-2xl border-b border-[#1D4ED8]/35"
+          : "bg-[#141A2E]/75 backdrop-blur-lg border-b border-white/[0.06]"
       }`}
-      style={scrolled ? { boxShadow: "0 4px 40px rgba(80,37,209,0.12), 0 1px 0 rgba(80,37,209,0.25)" } : {}}
+      style={scrolled ? { boxShadow: "0 4px 40px rgba(29,78,216,0.12), 0 1px 0 rgba(29,78,216,0.25)" } : {}}
     >
       {/* Shimmer accent line at top */}
       <div className="absolute top-0 left-0 right-0 h-[2px] shimmer-border opacity-70" />
@@ -92,9 +92,9 @@ export default function Header({ nav, AnchorLink }) {
             <img
               src={logo}
               alt="IT Meta Solutions"
-              className="h-[34px] sm:h-[42px] w-auto object-contain object-left transition-all duration-300 group-hover:scale-[1.04]"
+              className="h-[48px] sm:h-[60px] w-auto object-contain object-left transition-all duration-300 group-hover:scale-[1.04]"
               style={{ filter: "drop-shadow(0 0 0px transparent)", transition: "filter 0.3s" }}
-              onMouseEnter={e => e.currentTarget.style.filter = "drop-shadow(0 0 12px rgba(80,37,209,0.5))"}
+              onMouseEnter={e => e.currentTarget.style.filter = "drop-shadow(0 0 12px rgba(29,78,216,0.5))"}
               onMouseLeave={e => e.currentTarget.style.filter = "drop-shadow(0 0 0px transparent)"}
             />
           </Link>
@@ -114,16 +114,16 @@ export default function Header({ nav, AnchorLink }) {
                       to={n.href}
                       className={`relative flex items-center gap-1 px-4 py-2 text-[13.5px] font-medium rounded-lg transition-all duration-200 ${
                         isActive(n.href)
-                          ? "text-white bg-[#5025d1]/10"
+                          ? "text-white bg-[#1D4ED8]/10"
                           : "text-zinc-400 hover:text-white hover:bg-white/[0.05]"
                       }`}
                     >
                       {isActive(n.href) && (
-                        <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r from-[#5025d1] to-[#ba55d3]"
-                          style={{ boxShadow: "0 0 8px rgba(80,37,209,0.8)" }} />
+                        <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r from-[#1D4ED8] to-[#23A6E8]"
+                          style={{ boxShadow: "0 0 8px rgba(29,78,216,0.8)" }} />
                       )}
                       {n.label}
-                      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isServicesOpen ? "rotate-180 text-[#a78bfa]" : ""}`} />
+                      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isServicesOpen ? "rotate-180 text-[#60A5FA]" : ""}`} />
                     </Link>
 
                     {/* ── Services mega-dropdown ── */}
@@ -135,8 +135,8 @@ export default function Header({ nav, AnchorLink }) {
                       }`}
                       style={{ width: "600px" }}
                     >
-                      <div className="rounded-2xl border border-[#5025d1]/25 bg-[#0a0a12] backdrop-blur-2xl overflow-hidden"
-                        style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(80,37,209,0.18), 0 0 50px rgba(80,37,209,0.09)" }}>
+                      <div className="rounded-2xl border border-[#1D4ED8]/25 bg-[#0F1628] backdrop-blur-2xl overflow-hidden"
+                        style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(29,78,216,0.18), 0 0 50px rgba(29,78,216,0.09)" }}>
 
                         {/* Top shimmer line */}
                         <div className="h-[2px] shimmer-border w-full" />
@@ -144,14 +144,14 @@ export default function Header({ nav, AnchorLink }) {
                         <div className="flex">
                           {/* ── Left accent panel ── */}
                           <div className="w-[170px] flex-shrink-0 flex flex-col justify-between p-5 relative overflow-hidden"
-                            style={{ background: "linear-gradient(160deg, rgba(80,37,209,0.22) 0%, rgba(186,85,211,0.10) 60%, rgba(0,0,0,0) 100%)", borderRight: "1px solid rgba(80,37,209,0.18)" }}>
+                            style={{ background: "linear-gradient(160deg, rgba(29,78,216,0.22) 0%, rgba(35,166,232,0.10) 60%, rgba(0,0,0,0) 100%)", borderRight: "1px solid rgba(29,78,216,0.18)" }}>
                             {/* Soft glow orb */}
                             <div className="absolute -top-6 -left-6 w-28 h-28 rounded-full pointer-events-none"
-                              style={{ background: "radial-gradient(circle, rgba(80,37,209,0.35), transparent 70%)" }} />
+                              style={{ background: "radial-gradient(circle, rgba(29,78,216,0.35), transparent 70%)" }} />
 
                             <div className="relative">
-                              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#5025d1] to-[#ba55d3] flex items-center justify-center mb-4"
-                                style={{ boxShadow: "0 0 20px rgba(80,37,209,0.45)" }}>
+                              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-[#23A6E8] flex items-center justify-center mb-4"
+                                style={{ boxShadow: "0 0 20px rgba(29,78,216,0.45)" }}>
                                 <Sparkles className="h-4.5 w-4.5 text-white" />
                               </div>
                               <p className="text-sm font-bold text-white leading-snug">Our Services</p>
@@ -163,7 +163,7 @@ export default function Header({ nav, AnchorLink }) {
                             <div className="relative mt-6">
                               <div className="text-[10px] text-zinc-600 uppercase tracking-widest mb-2">SECP Registered</div>
                               <Link to="/services"
-                                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a78bfa] hover:text-white transition-colors group/all">
+                                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#60A5FA] hover:text-white transition-colors group/all">
                                 View all
                                 <ArrowRight className="h-3 w-3 group-hover/all:translate-x-0.5 transition-transform" />
                               </Link>
@@ -182,18 +182,18 @@ export default function Header({ nav, AnchorLink }) {
                                     to={item.href}
                                     className={`group/item flex flex-col items-start gap-2 rounded-xl px-3 py-3 text-[12.5px] transition-all duration-200 ${
                                       active
-                                        ? "bg-[#5025d1]/15 text-white border border-[#5025d1]/30"
-                                        : "text-zinc-400 hover:bg-white/[0.05] hover:text-white border border-transparent hover:border-[#5025d1]/20"
+                                        ? "bg-[#1D4ED8]/15 text-white border border-[#1D4ED8]/30"
+                                        : "text-zinc-400 hover:bg-white/[0.05] hover:text-white border border-transparent hover:border-[#1D4ED8]/20"
                                     }`}
                                   >
                                     <div className={`flex items-center justify-center h-8 w-8 rounded-lg transition-all duration-200 ${
                                       active
-                                        ? "bg-[#5025d1]/30"
-                                        : "bg-white/[0.05] group-hover/item:bg-[#5025d1]/20"
+                                        ? "bg-[#1D4ED8]/30"
+                                        : "bg-white/[0.05] group-hover/item:bg-[#1D4ED8]/20"
                                     }`}
-                                      style={active ? { boxShadow: "0 0 12px rgba(80,37,209,0.4)" } : {}}
+                                      style={active ? { boxShadow: "0 0 12px rgba(29,78,216,0.4)" } : {}}
                                     >
-                                      <Icon className={`h-4 w-4 transition-colors duration-200 ${active ? "text-[#a78bfa]" : "text-zinc-500 group-hover/item:text-[#a78bfa]"}`} />
+                                      <Icon className={`h-4 w-4 transition-colors duration-200 ${active ? "text-[#60A5FA]" : "text-zinc-500 group-hover/item:text-[#60A5FA]"}`} />
                                     </div>
                                     <span className="font-medium leading-tight">{item.label}</span>
                                   </Link>
@@ -220,12 +220,12 @@ export default function Header({ nav, AnchorLink }) {
               const active = isActive(n.href);
               const linkClass = `relative px-4 py-2 text-[13.5px] font-medium rounded-lg transition-all duration-200 ${
                 active
-                  ? "text-white bg-[#5025d1]/10"
+                  ? "text-white bg-[#1D4ED8]/10"
                   : "text-zinc-400 hover:text-white hover:bg-white/[0.05]"
               }`;
               const activeBar = active ? (
-                <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r from-[#5025d1] to-[#ba55d3]"
-                  style={{ boxShadow: "0 0 8px rgba(80,37,209,0.8)" }} />
+                <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r from-[#1D4ED8] to-[#23A6E8]"
+                  style={{ boxShadow: "0 0 8px rgba(29,78,216,0.8)" }} />
               ) : null;
 
               return n.href.startsWith("/") ? (
@@ -264,9 +264,9 @@ export default function Header({ nav, AnchorLink }) {
             {/* Get a Proposal — desktop */}
             {isDesktop && <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-4 py-2.5 text-[13px] font-semibold text-white transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-4 py-2.5 text-[13px] font-semibold text-white transition-all duration-300 hover:scale-105"
               style={{ boxShadow: "0 0 0 0 transparent", transition: "box-shadow 0.3s, transform 0.2s" }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 24px rgba(80,37,209,0.55)"}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 24px rgba(29,78,216,0.55)"}
               onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 0 0 transparent"}
             >
               Get a Proposal
@@ -276,7 +276,7 @@ export default function Header({ nav, AnchorLink }) {
             {/* Hamburger — mobile */}
             {!isDesktop && <button
               onClick={() => setIsMenuOpen(true)}
-              className="relative flex flex-col justify-center items-center w-10 h-10 rounded-xl border border-white/[0.08] bg-white/[0.04] hover:bg-[#5025d1]/15 hover:border-[#5025d1]/30 transition-all duration-200"
+              className="relative flex flex-col justify-center items-center w-10 h-10 rounded-xl border border-white/[0.08] bg-white/[0.04] hover:bg-[#1D4ED8]/15 hover:border-[#1D4ED8]/30 transition-all duration-200"
               aria-label="Open menu"
             >
               <span className="w-5 h-[1.5px] bg-white mb-[5px] rounded-full block" />
@@ -299,13 +299,13 @@ export default function Header({ nav, AnchorLink }) {
 
       {/* ── Off-canvas mobile menu ── */}
       <div
-        className={`fixed top-0 right-0 h-screen w-[88%] max-w-[360px] bg-[#09090e] transform transition-transform duration-350 ease-out z-[120] overflow-y-auto flex flex-col ${
+        className={`fixed top-0 right-0 h-screen w-[88%] max-w-[360px] bg-[#141A2E] transform transition-transform duration-350 ease-out z-[120] overflow-y-auto flex flex-col ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
-        style={{ borderLeft: "1px solid rgba(80,37,209,0.25)" }}
+        style={{ borderLeft: "1px solid rgba(29,78,216,0.25)" }}
       >
         {/* Left accent bar */}
-        <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-gradient-to-b from-[#5025d1] via-[#ba55d3]/60 to-transparent" />
+        <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-gradient-to-b from-[#1D4ED8] via-[#23A6E8]/60 to-transparent" />
         {/* Tech mesh in mobile menu */}
         <TechMeshBg variant="minimal" iconOpacityBase={0.03} />
 
@@ -313,7 +313,7 @@ export default function Header({ nav, AnchorLink }) {
           {/* Header row */}
           <div className="flex items-center justify-between mb-7">
             <Link to="/" onClick={() => setIsMenuOpen(false)}>
-              <img src={logo} alt="IT Meta Solutions" className="h-[36px] object-contain object-left" />
+              <img src={logo} alt="IT Meta Solutions" className="h-[52px] object-contain object-left" />
             </Link>
             <button
               onClick={() => setIsMenuOpen(false)}
@@ -325,7 +325,7 @@ export default function Header({ nav, AnchorLink }) {
           </div>
 
           {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-[#5025d1]/40 via-[#ba55d3]/30 to-transparent mb-6" />
+          <div className="h-px bg-gradient-to-r from-[#1D4ED8]/40 via-[#23A6E8]/30 to-transparent mb-6" />
 
           {/* Nav links */}
           <nav className="flex flex-col gap-0.5 flex-1">
@@ -338,7 +338,7 @@ export default function Header({ nav, AnchorLink }) {
                         to={n.href}
                         onClick={() => setIsMenuOpen(false)}
                         className={`flex-1 py-3 px-3 text-base rounded-xl transition-all ${
-                          isActive(n.href) ? "text-white bg-[#5025d1]/10" : "text-zinc-300 hover:text-white hover:bg-white/[0.05]"
+                          isActive(n.href) ? "text-white bg-[#1D4ED8]/10" : "text-zinc-300 hover:text-white hover:bg-white/[0.05]"
                         }`}
                       >
                         {n.label}
@@ -348,7 +348,7 @@ export default function Header({ nav, AnchorLink }) {
                         className="p-3 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.05] transition-all"
                         aria-label="Toggle services"
                       >
-                        <ChevronDown className={`h-4.5 w-4.5 transition-transform duration-300 ${isMobileServicesOpen ? "rotate-180 text-[#a78bfa]" : ""}`} />
+                        <ChevronDown className={`h-4.5 w-4.5 transition-transform duration-300 ${isMobileServicesOpen ? "rotate-180 text-[#60A5FA]" : ""}`} />
                       </button>
                     </div>
 
@@ -356,7 +356,7 @@ export default function Header({ nav, AnchorLink }) {
                     <div className={`overflow-hidden transition-all duration-350 ease-out ${
                       isMobileServicesOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
                     }`}>
-                      <div className="ml-3 pl-3 border-l border-[#5025d1]/25 mt-1 mb-2 grid grid-cols-2 gap-1">
+                      <div className="ml-3 pl-3 border-l border-[#1D4ED8]/25 mt-1 mb-2 grid grid-cols-2 gap-1">
                         {serviceSubMenu.map((item) => {
                           const Icon = item.icon;
                           const active = isActive(item.href);
@@ -367,14 +367,14 @@ export default function Header({ nav, AnchorLink }) {
                               onClick={() => setIsMenuOpen(false)}
                               className={`flex items-center gap-2 rounded-xl px-2.5 py-2.5 text-[13px] transition-all ${
                                 active
-                                  ? "bg-[#5025d1]/15 text-white border border-[#5025d1]/25"
+                                  ? "bg-[#1D4ED8]/15 text-white border border-[#1D4ED8]/25"
                                   : "text-zinc-400 hover:text-white hover:bg-white/[0.05] border border-transparent"
                               }`}
                             >
                               <div className={`h-6 w-6 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                                active ? "bg-[#5025d1]/30" : "bg-white/[0.05]"
+                                active ? "bg-[#1D4ED8]/30" : "bg-white/[0.05]"
                               }`}>
-                                <Icon className={`h-3 w-3 ${active ? "text-[#a78bfa]" : "text-zinc-500"}`} />
+                                <Icon className={`h-3 w-3 ${active ? "text-[#60A5FA]" : "text-zinc-500"}`} />
                               </div>
                               <span className="font-medium leading-tight">{item.label}</span>
                             </Link>
@@ -388,7 +388,7 @@ export default function Header({ nav, AnchorLink }) {
 
               const active = isActive(n.href);
               const cls = `py-3 px-3 text-base rounded-xl transition-all ${
-                active ? "text-white bg-[#5025d1]/10" : "text-zinc-300 hover:text-white hover:bg-white/[0.05]"
+                active ? "text-white bg-[#1D4ED8]/10" : "text-zinc-300 hover:text-white hover:bg-white/[0.05]"
               }`;
 
               return n.href.startsWith("/") ? (
@@ -416,8 +416,8 @@ export default function Header({ nav, AnchorLink }) {
             <Link
               to="/contact"
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full rounded-xl bg-gradient-to-r from-[#5025d1] to-purple-600 px-4 py-3.5 text-[14px] font-semibold text-white transition-all"
-              style={{ boxShadow: "0 0 20px rgba(80,37,209,0.3)" }}
+              className="flex items-center justify-center gap-2 w-full rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-4 py-3.5 text-[14px] font-semibold text-white transition-all"
+              style={{ boxShadow: "0 0 20px rgba(29,78,216,0.3)" }}
             >
               Get a Proposal
               <ArrowRight className="h-4 w-4" />
@@ -437,3 +437,4 @@ export default function Header({ nav, AnchorLink }) {
     </header>
   );
 }
+

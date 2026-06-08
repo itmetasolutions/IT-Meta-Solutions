@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
@@ -43,7 +43,7 @@ function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5025d1] via-purple-400 to-emerald-400 origin-left z-50"
+      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1D4ED8] via-sky-400 to-emerald-400 origin-left z-50"
       style={{ scaleX }}
     />
   );
@@ -221,10 +221,10 @@ export default function EkommartCaseStudy() {
               e-commerce experience focused on speed, trust, and conversion.
             </p>
 
-            <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-emerald-400/10 p-10">
+            <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-emerald-400/10 p-10">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="flex-shrink-0">
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#5025d1] to-purple-600 flex items-center justify-center">
+                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 flex items-center justify-center">
                     <Globe className="h-10 w-10 text-white" />
                   </div>
                 </div>
@@ -297,8 +297,8 @@ export default function EkommartCaseStudy() {
                 </a>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-pink-600/20 via-purple-500/15 to-orange-400/10 p-8">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 via-purple-500 to-orange-400 flex items-center justify-center mb-6">
+              <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-pink-600/20 via-blue-500/15 to-orange-400/10 p-8">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 via-blue-500 to-orange-400 flex items-center justify-center mb-6">
                   <svg className="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                   </svg>
@@ -312,7 +312,7 @@ export default function EkommartCaseStudy() {
                   href="https://www.instagram.com/ekommart.shop"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-purple-500 to-orange-400 text-white font-semibold hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-blue-500 to-orange-400 text-white font-semibold hover:opacity-90 transition-opacity"
                 >
                   Follow on Instagram
                   <ArrowRight className="h-4 w-4" />
@@ -385,7 +385,7 @@ export default function EkommartCaseStudy() {
         <section className="py-20 border-t border-white/10">
           <Container>
 
-            <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#5025d1]/20 to-emerald-400/10 p-10 text-center">
+            <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-emerald-400/10 p-10 text-center">
 
               <h2 className="text-3xl font-bold mb-6">
                 The Outcome
@@ -444,4 +444,5 @@ export default function EkommartCaseStudy() {
     </>
   );
 }
+
 
