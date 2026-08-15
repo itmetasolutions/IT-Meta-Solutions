@@ -1,9 +1,9 @@
-﻿import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, useInView } from "framer-motion";
 import {
   ArrowRight,
-  Sparkles,
   CheckCircle2,
   Mail,
   Phone,
@@ -31,197 +31,52 @@ import {
   Video,
   Search,
   Palette,
-  HelpCircle,
+  Sparkles,
 } from "lucide-react";
 import SeoContentFaq from "../../components/SeoContentFaq";
-import SubpageVisualLayer from "../../components/SubpageVisualLayer";
+import Container from "../../components/Container";
 
 /* ==================== HELPERS ==================== */
 
 const cx = (...classes) => classes.filter(Boolean).join(" ");
 
-function Container({ children, className }) {
-  return (
-    <div className={`mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12 ${className || ''}`}>
-      {children}
-    </div>
-  );
-}
-
-/* ==================== UI: HOME THEME PRIMITIVES ==================== */
-
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-0.5 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-[#23A6E8] to-[#3AC9F5]"
       style={{ scaleX: scrollYProgress }}
     />
   );
 }
 
-function GradientBlob({ className, color = "rgba(29,78,216,0.3)" }) {
+function Reveal({ children, delay = 0, className }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
   return (
-    <div
-      aria-hidden
-      className={cx("pointer-events-none absolute -z-10 blur-3xl", className)}
-      style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}
-    />
-  );
-}
-
-function Badge({ children, icon: Icon }) {
-  return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-white">
-      {Icon && <Icon className="h-4 w-4" />}
-      {children}
-    </span>
-  );
-}
-
-function GlowCard({ className, children }) {
-  return (
-    <div
-      className={cx(
-        "relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02]",
-        className
-      )}
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y: 16 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="relative">{children}</div>
-    </div>
+      {children}
+    </motion.div>
   );
 }
 
-function SectionHeading({ badge, title, description, centered = false }) {
-  return (
-    <div className={cx("mb-10 sm:mb-12", centered && "text-center")}>
-      {badge && (
-        <div className={cx("mb-4", centered && "flex justify-center")}>
-          <Badge icon={Sparkles}>{badge}</Badge>
-        </div>
-      )}
-      <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">{title}</h1>
-      {description && (
-        <p className={cx("mt-4 text-lg text-zinc-300 sm:text-xl max-w-3xl", centered && "mx-auto")}>
-          {description}
-        </p>
-      )}
-    </div>
-  );
-}
-
-const seoContent = {
-  kicker: "Contact Us",
-  title: "Talk to Salesforce, E-commerce, and Performance Marketing Experts",
-  subtitle:
-    "Get direct access to a SECP registered IT firm in Lahore for Salesforce implementation, LWC development, and high-converting Shopify and WooCommerce builds.",
-  paragraphs: [
-    "Tell us your goals and we will recommend the fastest path to revenue, whether that is a Salesforce Experience Cloud portal, CRM automation, or a performance-optimized ecommerce store.",
-    "We serve Pakistan and global clients in the UK and US with clear timelines, pricing, and measurable outcomes.",
-  ],
-  bullets: [
-    "Hire Salesforce developers for custom integration and automation",
-    "Performance marketing and Meta Ads strategy for scalable growth",
-    "Custom web app development and ecommerce conversion optimization",
-    "Local Lahore team with global delivery standards",
-  ],
-};
-
-const seoFaqs = [
-  {
-    q: "How fast can you start a Salesforce implementation?",
-    a: "Most Salesforce discovery and planning starts within 5 to 7 days after kickoff, followed by a clear implementation roadmap.",
-  },
-  {
-    q: "Can I hire Salesforce LWC developers only?",
-    a: "Yes. We offer dedicated LWC development services for custom components, portals, and integrations.",
-  },
-  {
-    q: "Do you build performance-optimized Shopify stores?",
-    a: "Yes. We build fast-loading Shopify and WooCommerce sites with conversion-focused UX and custom calculators.",
-  },
-  {
-    q: "Are you a Lahore-based SECP registered IT firm?",
-    a: "Yes. We are SECP and FBR registered and operate from City Star Plaza, Township, Lahore.",
-  },
-];
-
-/* ==================== UI: NEW CONTACT DESIGN COMPONENTS ==================== */
-
-function IconTile({ icon: Icon, title, desc }) {
-  return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 transition-all hover:border-[#1D4ED8]/50">
-      <div className="relative flex items-start gap-4">
-        <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-          <Icon className="h-6 w-6 text-white" />
-        </div>
-        <div className="min-w-0">
-          <div className="text-sm font-semibold text-white">{title}</div>
-          <div className="mt-1 text-sm text-zinc-300">{desc}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ContactMiniCard({ icon: Icon, label, value, href, copyText }) {
-  const [copied, setCopied] = useState(false);
-
-  return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6">
-      <div className="relative flex items-start justify-between gap-4 min-w-0">
-        <div className="flex items-start gap-4 min-w-0">
-          <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-            <Icon className="h-6 w-6 text-white" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs text-zinc-400">{label}</div>
-            <div className="mt-1 text-sm font-semibold text-white break-words [overflow-wrap:anywhere]">{value}</div>
-
-            {href ? (
-              <a
-                href={href}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1D4ED8] transition-all hover:scale-[1.02] sm:w-auto"
-              >
-                {label === "Email" ? "Send email" : label.includes("WhatsApp") ? "Chat on WhatsApp" : "Open"}
-                <ArrowRight className="h-4 w-4" />
-              </a>
-            ) : null}
-          </div>
-        </div>
-
-        {copyText ? (
-          <button
-            type="button"
-            onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(copyText);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 1200);
-              } catch {
-                // ignore
-              }
-            }}
-            className="shrink-0 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white hover:bg-white/10"
-          >
-            <Copy className="h-4 w-4" />
-            {copied ? "Copied" : "Copy"}
-          </button>
-        ) : null}
-      </div>
-    </div>
-  );
-}
+/* ==================== FORM COMPONENTS (light theme) ==================== */
 
 function Field({ label, error, children, optional = false }) {
   return (
-    <div className="min-w-0">
-      <label className="flex items-center justify-between text-sm font-medium text-white">
+    <div>
+      <label className="flex items-center justify-between text-sm font-semibold text-slate-700 mb-1.5">
         <span>{label}</span>
-        {optional ? <span className="text-xs font-medium text-zinc-400">(Optional)</span> : null}
+        {optional ? <span className="text-xs font-normal text-slate-400">(Optional)</span> : null}
       </label>
-      <div className="mt-2 min-w-0">{children}</div>
-      {error ? <p className="mt-1 text-sm text-red-400">{error}</p> : null}
+      {children}
+      {error ? <p className="mt-1 text-xs text-red-500">{error}</p> : null}
     </div>
   );
 }
@@ -235,8 +90,28 @@ function Input({ name, value, onChange, placeholder, type = "text", error }) {
       onChange={onChange}
       placeholder={placeholder}
       className={cx(
-        "w-full min-w-0 rounded-2xl border bg-white/5 px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2",
-        error ? "border-red-500/60 focus:ring-red-500" : "border-white/10 focus:ring-[#1D4ED8]"
+        "w-full rounded-xl border px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 bg-white focus:outline-none focus:ring-2 transition-all",
+        error
+          ? "border-red-300 focus:ring-red-200"
+          : "border-slate-200 focus:border-[#1D4ED8]/40 focus:ring-[#1D4ED8]/15"
+      )}
+    />
+  );
+}
+
+function TextArea({ name, value, onChange, placeholder, rows = 6, error }) {
+  return (
+    <textarea
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      rows={rows}
+      className={cx(
+        "w-full resize-none rounded-xl border px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 bg-white focus:outline-none focus:ring-2 transition-all",
+        error
+          ? "border-red-300 focus:ring-red-200"
+          : "border-slate-200 focus:border-[#1D4ED8]/40 focus:ring-[#1D4ED8]/15"
       )}
     />
   );
@@ -251,17 +126,17 @@ function Select({ name, value, onChange, options }) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#1D4ED8] flex items-center justify-between"
+        className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/15 flex items-center justify-between transition-all hover:border-[#1D4ED8]/30"
       >
-        <div className="flex items-center gap-3">
-          {selectedOption?.icon && React.createElement(selectedOption.icon, { className: "h-5 w-5 text-white/80" })}
+        <div className="flex items-center gap-2.5">
+          {selectedOption?.icon && React.createElement(selectedOption.icon, { className: "h-4 w-4 text-slate-400" })}
           <span>{selectedOption?.label}</span>
         </div>
-        <ChevronDown className="h-5 w-5 text-white/80" />
+        <ChevronDown className="h-4 w-4 text-slate-400" />
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 mt-1 w-full rounded-2xl border border-white/10 bg-zinc-950 shadow-lg">
+        <div className="absolute z-20 mt-1 w-full rounded-xl border border-slate-200 bg-white shadow-lg shadow-slate-100 overflow-hidden">
           {options.map((o) => (
             <button
               key={o.value}
@@ -270,9 +145,12 @@ function Select({ name, value, onChange, options }) {
                 onChange({ target: { name, value: o.value } });
                 setIsOpen(false);
               }}
-              className="w-full flex items-center gap-3 px-4 py-3 text-left text-white hover:bg-white/10 first:rounded-t-2xl last:rounded-b-2xl"
+              className={cx(
+                "w-full flex items-center gap-2.5 px-4 py-2.5 text-left text-sm transition hover:bg-[#F1F4F9]",
+                o.value === value ? "text-[#1D4ED8] font-semibold bg-[#F1F4F9]" : "text-slate-700"
+              )}
             >
-              {o.icon && React.createElement(o.icon, { className: "h-5 w-5 text-white/80" })}
+              {o.icon && React.createElement(o.icon, { className: "h-4 w-4 text-slate-400" })}
               <span>{o.label}</span>
             </button>
           ))}
@@ -282,21 +160,60 @@ function Select({ name, value, onChange, options }) {
   );
 }
 
-function TextArea({ name, value, onChange, placeholder, rows = 6, error }) {
+/* ==================== COPY BUTTON ==================== */
+
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false);
   return (
-    <textarea
-      name={name}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      rows={rows}
-      className={cx(
-        "w-full min-w-0 resize-none rounded-2xl border bg-white/5 px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2",
-        error ? "border-red-500/60 focus:ring-red-500" : "border-white/10 focus:ring-[#1D4ED8]"
-      )}
-    />
+    <button
+      type="button"
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1200);
+        } catch {}
+      }}
+      className="flex-shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-[#F1F4F9] px-2.5 py-1.5 text-xs font-medium text-slate-500 transition hover:border-[#1D4ED8]/30 hover:text-[#1D4ED8]"
+    >
+      <Copy className="h-3.5 w-3.5" />
+      {copied ? "Copied" : "Copy"}
+    </button>
   );
 }
+
+/* ==================== CONTACT INFO CARD ==================== */
+
+function ContactCard({ icon: Icon, color, label, value, href, copyText }) {
+  return (
+    <div className="premium-card rounded-2xl p-5">
+      <div className="flex items-start gap-4">
+        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl" style={{ backgroundColor: `${color}15` }}>
+          <Icon className="h-5 w-5" style={{ color }} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="text-xs font-medium text-slate-400 mb-0.5">{label}</div>
+          <div className="text-sm font-semibold text-slate-800 break-words [overflow-wrap:anywhere]">{value}</div>
+          {href && (
+            <a
+              href={href}
+              className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold transition hover:opacity-80"
+              style={{ color }}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+            >
+              {label.includes("WhatsApp") ? "Chat now" : label === "Email" ? "Send email" : "View"}
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          )}
+        </div>
+        {copyText && <CopyButton text={copyText} />}
+      </div>
+    </div>
+  );
+}
+
+/* ==================== API ==================== */
 
 async function submitContact(payload) {
   const response = await fetch("https://it-meta-solutions.onrender.com/api/contact", {
@@ -307,37 +224,55 @@ async function submitContact(payload) {
   return response;
 }
 
+/* ==================== SEO DATA ==================== */
+
+const seoContent = {
+  kicker: "Contact Us",
+  title: "Talk to Salesforce, E-commerce, and Performance Marketing Experts",
+  subtitle: "Get direct access to a SECP registered IT firm in Lahore for Salesforce implementation, LWC development, and high-converting Shopify and WooCommerce builds.",
+  paragraphs: [
+    "Tell us your goals and we will recommend the fastest path to revenue, whether that is a Salesforce Experience Cloud portal, CRM automation, or a performance-optimized ecommerce store.",
+    "We serve Pakistan and global clients in the UK and US with clear timelines, pricing, and measurable outcomes.",
+  ],
+  bullets: [
+    "Hire Salesforce developers for custom integration and automation",
+    "Performance marketing and Meta Ads strategy for scalable growth",
+    "Custom web app development and ecommerce conversion optimization",
+    "Local Lahore team with global delivery standards",
+  ],
+};
+
+const seoFaqs = [
+  { q: "How fast can you start a Salesforce implementation?", a: "Most Salesforce discovery and planning starts within 5 to 7 days after kickoff, followed by a clear implementation roadmap." },
+  { q: "Can I hire Salesforce LWC developers only?", a: "Yes. We offer dedicated LWC development services for custom components, portals, and integrations." },
+  { q: "Do you build performance-optimized Shopify stores?", a: "Yes. We build fast-loading Shopify and WooCommerce sites with conversion-focused UX and custom calculators." },
+  { q: "Are you a Lahore-based SECP registered IT firm?", a: "Yes. We are SECP and FBR registered and operate from City Star Plaza, Township, Lahore." },
+];
+
 /* ==================== PAGE ==================== */
 
 export default function Contact() {
+  const CONTACT = useMemo(() => ({
+    phoneRaw: "03271804037",
+    phoneTel: "+923271804037",
+    email: "info@itmetasolutions.com",
+    officeShort: "City Star Plaza, Township, Lahore",
+    officeFull: "Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700",
+    hours: "Monday – Saturday • 06:00 AM – 12:00 AM (PKT)",
+    website: "https://itmetasolutions.com",
+  }), []);
 
-  // ✅ Data from your previous contact page
-  const CONTACT = useMemo(
-    () => ({
-      phoneRaw: "03271804037",
-      phoneTel: "+923271804037",
-      email: "info@itmetasolutions.com",
-      officeShort: "City Star Plaza, Lahore",
-      officeFull: "Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700",
-      hours: "Monday – Saturday • 06:00 AM – 12:00 AM (PKT)",
-      website: "https://itmetasolutions.com",
-    }),
-    []
-  );
-
-  // form state
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
     service: "meta",
-    budget: "", // ✅ optional + fillable
+    budget: "",
     message: "",
   });
-
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const validateForm = () => {
@@ -356,22 +291,14 @@ export default function Contact() {
     const e = validateForm();
     setErrors(e);
     if (Object.keys(e).length) return;
-
     setStatus("sending");
-
     try {
-      const payload = {
-        ...form,
-        createdAt: new Date().toISOString(),
-        source: "contact-page",
-      };
-
+      const payload = { ...form, createdAt: new Date().toISOString(), source: "contact-page" };
       const res = await submitContact(payload);
       if (!res?.ok) {
         const data = await res.json().catch(() => ({ error: "Failed to send message" }));
         throw new Error(data?.error || "Failed to send message");
       }
-
       setStatus("success");
       setForm({ name: "", email: "", phone: "", company: "", service: "meta", budget: "", message: "" });
     } catch (err) {
@@ -384,188 +311,148 @@ export default function Contact() {
     <>
       <Helmet>
         <title>IT Meta Solutions - Contact Us | Get a Free Consultation</title>
-        <meta
-          name="description"
-          content="Contact our Lahore-based Salesforce and ecommerce team for LWC, Experience Cloud, Shopify, and performance marketing."
-        />
+        <meta name="description" content="Contact our Lahore-based Salesforce and ecommerce team for LWC, Experience Cloud, Shopify, and performance marketing." />
         <link rel="canonical" href="https://itmetasolutions.com/contact" />
       </Helmet>
 
-      <div className="itms-subpage text-zinc-100 relative min-h-screen overflow-hidden">
-        <SubpageVisualLayer />
+      <ScrollProgress />
 
-        <ScrollProgress />
+      {/* ==================== HERO (dark) ==================== */}
+      <section className="relative bg-[#141A2E] overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+        <div className="absolute inset-0 dot-grid-bg opacity-25 pointer-events-none" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-[#1D4ED8]/10 blur-[100px] pointer-events-none" />
 
-        {/* Background Elements */}
-
-        {/* ==================== NEW HERO (COMPLETELY DIFFERENT) ==================== */}
-        <section className="relative pt-28 pb-12 sm:pt-36 sm:pb-16">
-          <Container>
-            <motion.div className="relative">
-              {/* Split hero card */}
-              <GlowCard className="p-7 sm:p-10">
-                <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
-                  {/* Left: headline */}
-                  <div className="min-w-0">
-                    <Badge icon={Sparkles}>Free consultation • Quick response</Badge>
-
-                    <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                      Contact the team that
-                      <br />
-                      <span className="bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500 bg-clip-text text-transparent">
-                        builds + scales brands
-                      </span>
-                    </h1>
-
-                    <p className="mt-4 text-lg text-zinc-300 sm:text-xl max-w-2xl">
-                      Tell us what you want to build. We’ll reply with a clear plan, timeline, and next steps — no fluff.
-                    </p>
-
-                    {/* Feature tiles */}
-                    <div className="mt-7 grid gap-4 sm:grid-cols-2">
-                      <IconTile icon={Clock} title="Fast response" desc="WhatsApp + email replies quickly." />
-                      <IconTile icon={Shield} title="Privacy first" desc="Your data is only used to contact you." />
-                      <IconTile icon={Handshake} title="Clear scope" desc="Deliverables, timeline, and pricing." />
-                      <IconTile icon={Users} title="Trusted approach" desc="Process-driven delivery, not guesswork." />
-                    </div>
-                  </div>
-
-                  {/* Right: quick contact */}
-                  <div className="min-w-0">
-                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="text-sm font-semibold text-white">Quick contact</div>
-                          <div className="mt-1 text-sm text-zinc-300">Pick the fastest option</div>
-                        </div>
-                        <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                          <MessageCircle className="h-6 w-6 text-white" />
-                        </div>
-                      </div>
-
-                      <div className="mt-6 grid gap-4">
-                        <a
-                          href={`tel:${CONTACT.phoneRaw}`}
-                          className="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-3 min-w-0">
-                            <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
-                              <Phone className="h-5 w-5 text-white" />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="text-xs text-zinc-400">Call / WhatsApp</div>
-                              <div className="text-sm font-semibold text-white break-words [overflow-wrap:anywhere]">
-                                {CONTACT.phoneRaw}
-                              </div>
-                            </div>
-                          </div>
-                          <ArrowRight className="h-5 w-5 text-white/80 transition-transform group-hover:translate-x-1" />
-                        </a>
-
-                        <a
-                          href={`mailto:${CONTACT.email}`}
-                          className="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-3 min-w-0">
-                            <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
-                              <Mail className="h-5 w-5 text-white" />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="text-xs text-zinc-400">Email</div>
-                              <div className="text-sm font-semibold text-white break-words [overflow-wrap:anywhere]">
-                                {CONTACT.email}
-                              </div>
-                            </div>
-                          </div>
-                          <ArrowRight className="h-5 w-5 text-white/80 transition-transform group-hover:translate-x-1" />
-                        </a>
-
-                        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                          <div className="flex items-start gap-3">
-                            <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
-                              <Building2 className="h-5 w-5 text-white" />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="text-xs text-zinc-400">Office</div>
-                              <div className="text-sm font-semibold text-white break-words [overflow-wrap:anywhere]">
-                                {CONTACT.officeShort}
-                              </div>
-                              <div className="mt-1 text-xs text-zinc-300">{CONTACT.hours}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                        <a
-                          href={CONTACT.website}
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white hover:bg-white/10"
-                        >
-                          <Globe className="h-4 w-4" />
-                          Website
-                        </a>
-                        <a
-                          href={`tel:${CONTACT.phoneRaw}`}
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-[#1D4ED8] hover:opacity-95"
-                        >
-                          <Phone className="h-4 w-4" />
-                          Call Now
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </GlowCard>
+        <Container>
+          <div className="mx-auto max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-wrap gap-2 mb-8"
+            >
+              {[
+                { icon: MessageCircle, label: "Free consultation" },
+                { icon: BadgeCheck, label: "SECP registered firm" },
+                { icon: Clock, label: "Quick response" },
+              ].map((b) => (
+                <span key={b.label} className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.07] px-3 py-1.5 text-xs font-medium text-slate-300">
+                  <b.icon className="h-3.5 w-3.5 text-[#3AC9F5]" />
+                  {b.label}
+                </span>
+              ))}
             </motion.div>
-          </Container>
-        </section>
 
-        {/* ==================== MAIN (NEW LAYOUT) ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <div className="grid gap-10 lg:grid-cols-[0.95fr,1.05fr] lg:gap-14">
-              {/* LEFT: MINI CONTACT CARDS (copy + actions) */}
-              <div className="min-w-0">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold text-white">Direct contact</div>
-                    <div className="mt-1 text-sm text-zinc-300">Use these for urgent queries</div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Contact the team that
+              <br />
+              <span className="animated-gradient-text">builds + scales brands</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mt-6 text-lg text-slate-400 max-w-2xl"
+            >
+              Tell us what you want to build. We'll reply with a clear plan, timeline, and next steps — no fluff.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 max-w-lg"
+            >
+              {[
+                { value: "< 24h", label: "Response time" },
+                { value: "50+", label: "Projects done" },
+                { value: "5★", label: "Google rating" },
+              ].map((s) => (
+                <div key={s.label} className="bg-white/[0.04] px-5 py-4 text-center backdrop-blur-sm">
+                  <div className="text-xl font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>{s.value}</div>
+                  <div className="mt-0.5 text-xs text-slate-400">{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== CONTACT INFO + FORM (mist) ==================== */}
+      <section className="bg-[#F1F4F9] py-20 sm:py-28">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-[0.9fr,1.1fr] lg:gap-12">
+
+            {/* LEFT: contact cards + info */}
+            <div className="space-y-5">
+              <Reveal>
+                <div>
+                  <span className="kicker">Direct contact</span>
+                  <h2
+                    className="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    Reach us directly
+                  </h2>
+                  <p className="mt-2 text-slate-500">Use these for urgent queries — WhatsApp is fastest.</p>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.05}>
+                <ContactCard
+                  icon={Phone}
+                  color="#1D4ED8"
+                  label="Call / WhatsApp"
+                  value={CONTACT.phoneRaw}
+                  href={`https://wa.me/923271804037`}
+                  copyText={CONTACT.phoneRaw}
+                />
+              </Reveal>
+              <Reveal delay={0.08}>
+                <ContactCard
+                  icon={Mail}
+                  color="#23A6E8"
+                  label="Email"
+                  value={CONTACT.email}
+                  href={`mailto:${CONTACT.email}`}
+                  copyText={CONTACT.email}
+                />
+              </Reveal>
+              <Reveal delay={0.11}>
+                <ContactCard
+                  icon={MapPin}
+                  color="#3AC9F5"
+                  label="Office Address"
+                  value={CONTACT.officeFull}
+                  copyText={CONTACT.officeFull}
+                />
+              </Reveal>
+              <Reveal delay={0.14}>
+                <ContactCard
+                  icon={Clock}
+                  color="#1D4ED8"
+                  label="Working Hours"
+                  value={CONTACT.hours}
+                />
+              </Reveal>
+
+              {/* Social */}
+              <Reveal delay={0.17}>
+                <div className="premium-card rounded-2xl p-5">
+                  <div className="text-sm font-semibold text-slate-800 mb-3" style={{ fontFamily: "var(--font-heading)" }}>
+                    Follow Us
                   </div>
-                  <Badge icon={BadgeCheck}>Always online</Badge>
-                </div>
-
-                <div className="mt-6 grid gap-5">
-                  <ContactMiniCard
-                    icon={Phone}
-                    label="Call / WhatsApp"
-                    value={CONTACT.phoneRaw}
-                    href={`tel:${CONTACT.phoneRaw}`}
-                    copyText={CONTACT.phoneRaw}
-                  />
-                  <ContactMiniCard
-                    icon={Mail}
-                    label="Email"
-                    value={CONTACT.email}
-                    href={`mailto:${CONTACT.email}`}
-                    copyText={CONTACT.email}
-                  />
-                  <ContactMiniCard
-                    icon={MapPin}
-                    label="Office address"
-                    value={CONTACT.officeFull}
-                    href="#"
-                    copyText={CONTACT.officeFull}
-                  />
-                </div>
-
-                {/* Social links */}
-                <div className="mt-5 rounded-3xl border border-white/10 bg-white/5 p-6">
-                  <div className="mb-4 text-sm font-semibold text-white">Follow Us</div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-2.5">
                     {[
-                      { icon: Facebook, href: "https://web.facebook.com/itmetasolutions", label: "Facebook" },
-                      { icon: Instagram, href: "https://www.instagram.com/itmetasolutions.pvt.ltd/", label: "Instagram" },
-                      { icon: Linkedin, href: "https://www.linkedin.com/in/mehar-abdullah-khalid-375001331/", label: "LinkedIn" },
+                      { icon: Facebook, href: "https://web.facebook.com/itmetasolutions", label: "Facebook", color: "#1877F2" },
+                      { icon: Instagram, href: "https://www.instagram.com/itmetasolutions.pvt.ltd/", label: "Instagram", color: "#E1306C" },
+                      { icon: Linkedin, href: "https://www.linkedin.com/in/mehar-abdullah-khalid-375001331/", label: "LinkedIn", color: "#0A66C2" },
                     ].map((s) => (
                       <a
                         key={s.label}
@@ -573,268 +460,202 @@ export default function Contact() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={s.label}
-                        className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-400 transition-all duration-300 hover:border-[#1D4ED8]/30 hover:bg-[#1D4ED8]/20 hover:text-white"
+                        className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-all hover:scale-105 hover:shadow-md"
+                        style={{ "--hover-color": s.color }}
                       >
                         <s.icon className="h-4 w-4" />
                       </a>
                     ))}
                   </div>
                 </div>
+              </Reveal>
 
-                {/* Why share box */}
-                <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                      <Wand2 className="h-6 w-6 text-white" />
+              {/* What to include */}
+              <Reveal delay={0.2}>
+                <div className="premium-card rounded-2xl p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1D4ED8]/10">
+                      <Wand2 className="h-4 w-4 text-[#1D4ED8]" />
                     </div>
-                    <div className="min-w-0">
-                      <div className="text-lg font-bold text-white">What to include (recommended)</div>
-                      <ul className="mt-4 space-y-3 text-sm text-zinc-200">
-                        {[
-                          "Brand name + industry",
-                          "Target city/country and audience",
-                          "Goal (leads, sales, website, branding)",
-                          "Timeline + budget (if you have one)",
-                          "Reference links (competitors, style)",
-                        ].map((x) => (
-                          <li key={x} className="flex items-start gap-3">
-                            <div className="mt-0.5 rounded-xl bg-white/10 p-2">
-                              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                            </div>
-                            <span className="break-words [overflow-wrap:anywhere]">{x}</span>
-                          </li>
-                        ))}
-                      </ul>
+                    <div className="text-sm font-bold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>
+                      What to include (recommended)
                     </div>
+                  </div>
+                  <ul className="space-y-2">
+                    {[
+                      "Brand name + industry",
+                      "Target city/country and audience",
+                      "Goal (leads, sales, website, branding)",
+                      "Timeline + budget (if you have one)",
+                      "Reference links (competitors, style)",
+                    ].map((x) => (
+                      <li key={x} className="flex items-start gap-2 text-sm text-slate-600">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#1D4ED8]" />
+                        {x}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            </div>
+
+            {/* RIGHT: Form */}
+            <Reveal delay={0.05}>
+              <div className="premium-card rounded-3xl p-7 sm:p-8 shadow-xl shadow-slate-200/60">
+                <div className="flex items-start justify-between gap-4 mb-7">
+                  <div>
+                    <h2
+                      className="text-2xl font-bold text-slate-900"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      Request a proposal
+                    </h2>
+                    <p className="mt-1 text-sm text-slate-500">
+                      We'll reply with a scope + timeline. For urgent work, WhatsApp is fastest.
+                    </p>
+                  </div>
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[#1D4ED8]/10">
+                    <Send className="h-5 w-5 text-[#1D4ED8]" />
                   </div>
                 </div>
-              </div>
 
-              {/* RIGHT: FORM (NEW LOOK) */}
-              <div className="min-w-0">
-                <GlowCard className="p-6 sm:p-8">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                      <h2 className="text-2xl font-bold text-white">Request a proposal</h2>
-                      <p className="mt-2 text-zinc-300">
-                        We’ll reply with a scope + timeline. For urgent work, WhatsApp is fastest.
-                      </p>
+                {/* Service chips */}
+                <div className="grid grid-cols-2 gap-2 mb-7 sm:grid-cols-4">
+                  {[
+                    { icon: Laptop, label: "Web" },
+                    { icon: BarChart3, label: "Marketing" },
+                    { icon: Search, label: "SEO" },
+                    { icon: Cloud, label: "Salesforce" },
+                  ].map((chip) => (
+                    <div key={chip.label} className="flex items-center gap-2 rounded-xl border border-slate-100 bg-[#F1F4F9] px-3 py-2.5">
+                      <chip.icon className="h-4 w-4 text-[#1D4ED8]" />
+                      <span className="text-xs font-semibold text-slate-700">{chip.label}</span>
                     </div>
-                    <div className="shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                      <Send className="h-6 w-6 text-white" />
-                    </div>
+                  ))}
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <Field label="Full name *" error={errors.name}>
+                      <Input name="name" value={form.name} onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))} placeholder="Your name" error={errors.name} />
+                    </Field>
+                    <Field label="Email *" error={errors.email}>
+                      <Input type="email" name="email" value={form.email} onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))} placeholder="you@email.com" error={errors.email} />
+                    </Field>
                   </div>
-
-                  {/* Service chips (pure UI) */}
-                  <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                      <div className="flex items-center gap-3">
-                        <Laptop className="h-5 w-5 text-white/80" />
-                        <div>
-                          <div className="text-sm font-semibold text-white">Web</div>
-                          <div className="text-xs text-zinc-400">Sites & apps</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                      <div className="flex items-center gap-3">
-                        <BarChart3 className="h-5 w-5 text-white/80" />
-                        <div>
-                          <div className="text-sm font-semibold text-white">Marketing</div>
-                          <div className="text-xs text-zinc-400">Leads & sales</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                      <div className="flex items-center gap-3">
-                        <Search className="h-5 w-5 text-white/80" />
-                        <div>
-                          <div className="text-sm font-semibold text-white">SEO</div>
-                          <div className="text-xs text-zinc-400">Visibility</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                      <div className="flex items-center gap-3">
-                        <Cloud className="h-5 w-5 text-white/80" />
-                        <div>
-                          <div className="text-sm font-semibold text-white">Salesforce</div>
-                          <div className="text-xs text-zinc-400">Solutions</div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <Field label="Phone / WhatsApp *" error={errors.phone}>
+                      <Input name="phone" value={form.phone} onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))} placeholder="+92..." error={errors.phone} />
+                    </Field>
+                    <Field label="Company" optional>
+                      <Input name="company" value={form.company} onChange={(e) => setForm((s) => ({ ...s, company: e.target.value }))} placeholder="Business name" />
+                    </Field>
                   </div>
-
-                  <form onSubmit={handleSubmit} className="mt-8 space-y-6 min-w-0">
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <Field label="Full name *" error={errors.name}>
-                        <Input
-                          name="name"
-                          value={form.name}
-                          onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-                          placeholder="Your name"
-                          error={errors.name}
-                        />
-                      </Field>
-
-                      <Field label="Email *" error={errors.email}>
-                        <Input
-                          type="email"
-                          name="email"
-                          value={form.email}
-                          onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-                          placeholder="you@email.com"
-                          error={errors.email}
-                        />
-                      </Field>
-                    </div>
-
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <Field label="Phone / WhatsApp *" error={errors.phone}>
-                        <Input
-                          name="phone"
-                          value={form.phone}
-                          onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
-                          placeholder="+92..."
-                          error={errors.phone}
-                        />
-                      </Field>
-
-                      <Field label="Company" optional>
-                        <Input
-                          name="company"
-                          value={form.company}
-                          onChange={(e) => setForm((s) => ({ ...s, company: e.target.value }))}
-                          placeholder="Business name"
-                        />
-                      </Field>
-                    </div>
-
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <Field label="Service needed">
-                        <Select
-                          name="service"
-                          value={form.service}
-                          onChange={(e) => setForm((s) => ({ ...s, service: e.target.value }))}
-                          options={[
-                            { value: "meta", label: "Meta Ads", icon: Facebook },
-                            { value: "tiktok", label: "TikTok Ads", icon: Video },
-                            { value: "google", label: "Google Ads", icon: Search },
-                            { value: "seo", label: "SEO", icon: Search },
-                            { value: "web", label: "Website", icon: Laptop },
-                            { value: "social", label: "SMM", icon: Users },
-                            { value: "brand", label: "Brand Building", icon: Layers },
-                            { value: "design", label: "Graphic Design", icon: Palette },
-                            { value: "video", label: "Video Editing", icon: Video },
-                            { value: "salesforce", label: "Salesforce", icon: Cloud },
-                          ]}
-                        />
-                      </Field>
-
-                      {/* ✅ Budget: fillable + optional */}
-                      <Field label="Budget" optional>
-                        <Input
-                          name="budget"
-                          value={form.budget}
-                          onChange={(e) => setForm((s) => ({ ...s, budget: e.target.value }))}
-                          placeholder="e.g., 20k – 100k (optional)"
-                          type="text"
-                        />
-                      </Field>
-                    </div>
-
-                    <Field label="Project details *" error={errors.message}>
-                      <TextArea
-                        name="message"
-                        value={form.message}
-                        onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))}
-                        placeholder="Tell us what you want to achieve, any links, and your timeline..."
-                        rows={6}
-                        error={errors.message}
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <Field label="Service needed">
+                      <Select
+                        name="service"
+                        value={form.service}
+                        onChange={(e) => setForm((s) => ({ ...s, service: e.target.value }))}
+                        options={[
+                          { value: "meta", label: "Meta Ads", icon: Facebook },
+                          { value: "tiktok", label: "TikTok Ads", icon: Video },
+                          { value: "google", label: "Google Ads", icon: Search },
+                          { value: "seo", label: "SEO", icon: Search },
+                          { value: "web", label: "Website", icon: Laptop },
+                          { value: "social", label: "SMM", icon: Users },
+                          { value: "brand", label: "Brand Building", icon: Layers },
+                          { value: "design", label: "Graphic Design", icon: Palette },
+                          { value: "video", label: "Video Editing", icon: Video },
+                          { value: "salesforce", label: "Salesforce", icon: Cloud },
+                        ]}
                       />
                     </Field>
+                    <Field label="Budget" optional>
+                      <Input name="budget" value={form.budget} onChange={(e) => setForm((s) => ({ ...s, budget: e.target.value }))} placeholder="e.g., 20k – 100k" />
+                    </Field>
+                  </div>
+                  <Field label="Project details *" error={errors.message}>
+                    <TextArea name="message" value={form.message} onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))} placeholder="Tell us what you want to achieve, any links, and your timeline..." rows={5} error={errors.message} />
+                  </Field>
 
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <div className="inline-flex items-center gap-2 text-xs text-zinc-400">
-                        <Shield className="h-4 w-4 text-emerald-400" />
-                        Your info stays private and is only used to contact you.
-                      </div>
-
-                      <button
-                        type="submit"
-                        disabled={status === "sending"}
-                        className={cx(
-                          "w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl",
-                          "bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-4 text-lg font-semibold text-white",
-                          "shadow-lg shadow-[#1D4ED8]/40 transition-all",
-                          status === "sending"
-                            ? "opacity-50 cursor-not-allowed"
-                            : "hover:shadow-xl hover:shadow-[#1D4ED8]/50 hover:scale-[1.02]"
-                        )}
-                      >
-                        {status === "sending" ? "Submiting..." : "Submit"}
-                        <ArrowRight className="h-5 w-5" />
-                      </button>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                      <Shield className="h-3.5 w-3.5 text-emerald-500" />
+                      Your info stays private and is only used to contact you.
                     </div>
+                    <button
+                      type="submit"
+                      disabled={status === "sending"}
+                      className={cx(
+                        "inline-flex items-center justify-center gap-2 rounded-full bg-[#1D4ED8] px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/25 transition-all",
+                        status === "sending" ? "opacity-50 cursor-not-allowed" : "hover:bg-[#162f8f] hover:scale-105"
+                      )}
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      {status === "sending" ? "Submitting..." : "Submit Request"}
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
 
-                    {status === "success" && (
-                      <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-emerald-200">
-                        <div className="flex items-center gap-2 font-semibold">
-                          <CheckCircle2 className="h-5 w-5 text-emerald-300" />
-                          Message sent successfully!
-                        </div>
-                        <p className="mt-1 text-sm text-emerald-200/90">
-                          We’ll contact you shortly. If urgent, WhatsApp is fastest:{" "}
-                          <span className="font-semibold text-white">{CONTACT.phoneRaw}</span>
-                        </p>
+                  {status === "success" && (
+                    <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                      <div className="flex items-center gap-2 font-semibold text-emerald-800 text-sm">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                        Message sent successfully!
                       </div>
-                    )}
-
-                    {status === "error" && (
-                      <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-red-200">
-                        <p className="font-semibold">
-                          {errorMessage || "Failed to send message. Please try again or contact us directly."}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* bottom micro proof */}
-                    <div className="mt-2 grid gap-3 sm:grid-cols-3">
-                      {[
-                        { icon: Briefcase, text: "Clear proposal" },
-                        { icon: Shield, text: "Privacy-first" },
-                        { icon: BarChart3, text: "Growth-focused" },
-                      ].map((x) => (
-                        <div
-                          key={x.text}
-                          className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white"
-                        >
-                          <x.icon className="h-4 w-4 text-white/80" />
-                          {x.text}
-                        </div>
-                      ))}
+                      <p className="mt-1 text-xs text-emerald-700">
+                        We'll contact you shortly. If urgent, WhatsApp is fastest: <span className="font-semibold">{CONTACT.phoneRaw}</span>
+                      </p>
                     </div>
-                  </form>
-                </GlowCard>
+                  )}
+                  {status === "error" && (
+                    <div className="rounded-xl border border-red-200 bg-red-50 p-4">
+                      <p className="text-sm font-semibold text-red-800">
+                        {errorMessage || "Failed to send message. Please try again or contact us directly."}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-3 gap-3 pt-1">
+                    {[
+                      { icon: Briefcase, text: "Clear proposal" },
+                      { icon: Shield, text: "Privacy-first" },
+                      { icon: BarChart3, text: "Growth-focused" },
+                    ].map((x) => (
+                      <div key={x.text} className="flex items-center justify-center gap-2 rounded-xl border border-slate-100 bg-[#F1F4F9] px-3 py-2.5 text-xs font-semibold text-slate-600">
+                        <x.icon className="h-3.5 w-3.5 text-[#1D4ED8]" />
+                        {x.text}
+                      </div>
+                    ))}
+                  </div>
+                </form>
               </div>
-            </div>
-          </Container>
-        </section>
+            </Reveal>
+          </div>
+        </Container>
+      </section>
 
-        {/* ==================== MAP SECTION ==================== */}
-        <section className="py-10 sm:py-14">
-          <Container>
-            <div className="mb-8 text-center">
-              <Badge icon={MapPin}>Visit Our Office</Badge>
-              <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">Find Us in Lahore</h2>
-              <p className="mx-auto mt-3 max-w-2xl text-zinc-300">
-                Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700
-              </p>
-            </div>
+      {/* ==================== MAP (white) ==================== */}
+      <section className="bg-white py-20 sm:py-28">
+        <Container>
+          <Reveal className="mb-10 text-center">
+            <span className="kicker">Visit Our Office</span>
+            <h2
+              className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Find Us in Lahore
+            </h2>
+            <p className="mt-3 text-slate-500 max-w-xl mx-auto">
+              {CONTACT.officeFull}
+            </p>
+          </Reveal>
 
-            <div className="overflow-hidden rounded-3xl border border-white/10">
+          <Reveal delay={0.05}>
+            <div className="overflow-hidden rounded-3xl border border-slate-100 shadow-xl shadow-slate-100">
               <div className="grid lg:grid-cols-[1fr,360px]">
-                {/* Map iframe */}
+                {/* Map */}
                 <div className="relative min-h-[350px] sm:min-h-[450px]">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.1789751778897!2d74.31494959999999!3d31.4642625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391907f28acfe357%3A0x875d67a6a5a7aa3!2sIT%20Meta%20Solutions!5e0!3m2!1sen!2s!4v1772499535973!5m2!1sen!2s"
@@ -846,67 +667,30 @@ export default function Contact() {
                   />
                 </div>
 
-                {/* Side info panel */}
-                <div className="flex flex-col gap-6 border-t border-white/10 bg-white/5 p-6 sm:p-8 lg:border-l lg:border-t-0">
-                  <div>
-                    <div className="mb-3 flex items-center gap-3">
-                      <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                        <MapPin className="h-6 w-6 text-white" />
+                {/* Side panel */}
+                <div className="flex flex-col gap-6 border-t border-slate-100 bg-[#F1F4F9] p-7 lg:border-l lg:border-t-0">
+                  {[
+                    { icon: MapPin, color: "#1D4ED8", title: "Our Office", value: CONTACT.officeFull },
+                    { icon: Clock, color: "#23A6E8", title: "Working Hours", value: "Mon – Sat • 06:00 AM – 12:00 AM (PKT)" },
+                    { icon: Phone, color: "#3AC9F5", title: "Call / WhatsApp", value: "+92 327 180 4037" },
+                  ].map((item) => (
+                    <div key={item.title} className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${item.color}15` }}>
+                        <item.icon className="h-5 w-5" style={{ color: item.color }} />
                       </div>
-                      <div className="text-lg font-bold text-white">Our Office</div>
+                      <div>
+                        <div className="text-sm font-semibold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>{item.title}</div>
+                        <div className="mt-0.5 text-sm text-slate-500 leading-relaxed">{item.value}</div>
+                      </div>
                     </div>
-                    <p className="text-sm leading-relaxed text-zinc-300">
-                      Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700
-                    </p>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                      <Clock className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-white">Working Hours</div>
-                      <div className="mt-1 text-sm text-zinc-300">Mon – Sat • 06:00 AM – 12:00 AM (PKT)</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                      <Phone className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-white">Call / WhatsApp</div>
-                      <div className="mt-1 text-sm text-zinc-300">+92 327 180 4037</div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="mb-3 text-sm font-semibold text-white">Follow Us</div>
-                    <div className="flex gap-3">
-                      {[
-                        { icon: Facebook, href: "https://web.facebook.com/itmetasolutions", label: "Facebook" },
-                        { icon: Instagram, href: "https://www.instagram.com/itmetasolutions.pvt.ltd/", label: "Instagram" },
-                        { icon: Linkedin, href: "https://www.linkedin.com/in/mehar-abdullah-khalid-375001331/", label: "LinkedIn" },
-                      ].map((s) => (
-                        <a
-                          key={s.label}
-                          href={s.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={s.label}
-                          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-400 transition-all duration-300 hover:border-[#1D4ED8]/30 hover:bg-[#1D4ED8]/20 hover:text-white"
-                        >
-                          <s.icon className="h-4 w-4" />
-                        </a>
-                      ))}
-                    </div>
-                  </div>
+                  ))}
 
                   <a
                     href="https://www.google.com/maps/search/?api=1&query=31.4642625,74.31494959999999"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
+                    className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#1D4ED8] px-5 py-3 text-sm font-semibold text-white shadow-md shadow-[#1D4ED8]/20 transition-all hover:bg-[#162f8f] hover:scale-105"
+                    style={{ fontFamily: "var(--font-heading)" }}
                   >
                     <MapPin className="h-4 w-4" />
                     Get Directions
@@ -915,12 +699,14 @@ export default function Contact() {
                 </div>
               </div>
             </div>
-          </Container>
-        </section>
+          </Reveal>
+        </Container>
+      </section>
 
-        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
+      {/* ==================== SEO / FAQ (mist) ==================== */}
+      <div className="bg-[#F1F4F9]">
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} lightTheme={true} />
       </div>
     </>
   );
 }
-

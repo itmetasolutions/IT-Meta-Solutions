@@ -22,6 +22,8 @@ const LettingAgencyPortalCaseStudy = lazy(() => import("./pages/case-studies/Let
 const ShenCoinCaseStudy = lazy(() => import("./pages/case-studies/ShenCoinCaseStudy"));
 const ProcessPage = lazy(() => import("./pages/main/process"));
 const Contact = lazy(() => import("./pages/main/Contact"));
+const PrivacyPolicy = lazy(() => import("./pages/main/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/main/TermsAndConditions"));
 const NotFoundPage = lazy(() => import("./pages/main/404"));
 const SalesforceExpertise = lazy(() => import("./pages/expertise/SalesforceExpertise"));
 const WebDevelopmentExpertise = lazy(() => import("./pages/expertise/WebDevelopmentExpertise"));
@@ -297,6 +299,8 @@ function App() {
             <Route path="/custom-web-apps-expertise" element={<CustomWebAppsExpertise />} />
             <Route path="/process" element={<ProcessPage />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           </Suspense>

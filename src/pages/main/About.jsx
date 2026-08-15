@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll } from "framer-motion";
 import {
@@ -26,12 +26,14 @@ import {
   Cloud,
   Handshake,
   Layers,
+  Star,
+  TrendingUp,
+  Zap,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
 import GoogleReviewsSection from "../../components/GoogleReviewsSection";
 import SeoContentFaq from "../../components/SeoContentFaq";
-import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 
 // Import team member images
 import abdullahKhalidImg from "../../assets/img/Abdullah Khalid ITMS.webp";
@@ -64,229 +66,13 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-/* ==================== COMPONENTS ==================== */
-
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-0.5 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-[#23A6E8] to-[#3AC9F5]"
       style={{ scaleX: scrollYProgress }}
     />
-  );
-}
-
-function Badge({ children, icon: Icon }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
-      {Icon && <Icon className="h-4 w-4" />}
-      {children}
-    </span>
-  );
-}
-
-function StatCard({ icon: Icon, label, value, delay = 0 }) {
-  const reduced = usePrefersReducedMotion();
-
-  return (
-    <motion.div
-      initial={reduced ? false : { y: 16 }}
-      whileInView={reduced ? {} : { y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 backdrop-blur-sm"
-    >
-      <div className="flex items-center gap-3 sm:gap-4">
-        <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2.5 sm:p-3">
-          <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-        </div>
-        <div className="min-w-0">
-          <div className="text-lg sm:text-2xl font-bold text-white">{value}</div>
-          <div className="text-xs sm:text-sm text-zinc-400">{label}</div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function FeatureCard({ icon: Icon, title, description, features, delay = 0 }) {
-  const reduced = usePrefersReducedMotion();
-
-  return (
-    <motion.div
-      initial={reduced ? false : { y: 16 }}
-      whileInView={reduced ? {} : { y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
-      className="group h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm transition-all hover:border-[#1D4ED8]/50"
-    >
-      <div className="p-5 sm:p-6">
-        {/* Header */}
-        <div className="flex items-start gap-3 sm:gap-4">
-          <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2.5 sm:p-3">
-            <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h3 className="text-lg sm:text-xl font-bold text-white">{title}</h3>
-          </div>
-        </div>
-
-        {/* Description */}
-        <p className="mt-3 sm:mt-4 text-sm leading-relaxed text-zinc-300">{description}</p>
-
-        {/* Features */}
-        {features && features.length > 0 && (
-          <ul className="mt-5 sm:mt-6 space-y-2.5 sm:space-y-3">
-            {features.map((feature, idx) => (
-              <li key={idx} className="flex items-start gap-2.5">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
-                <span className="text-sm text-zinc-200">{feature}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </motion.div>
-  );
-}
-
-function TeamCard({ name, role, skills, image, delay = 0 }) {
-  const reduced = usePrefersReducedMotion();
-
-  return (
-    <motion.div
-      initial={reduced ? false : { y: 16, opacity: 0 }}
-      whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={reduced ? {} : { y: -8, transition: { duration: 0.25 } }}
-      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.08] via-white/[0.04] to-transparent backdrop-blur-md transition-all duration-300 hover:border-[#1D4ED8]/60 hover:shadow-2xl hover:shadow-[#1D4ED8]/20"
-    >
-      {/* Gradient Glow Effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1D4ED8]/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-      <div className="relative p-6 sm:p-8">
-        {/* Centered Image */}
-        <div className="flex justify-center">
-          <div className="relative">
-            {/* Decorative Ring */}
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1D4ED8] via-blue-500 to-pink-500 opacity-60 blur-sm transition-opacity duration-300 group-hover:opacity-100" />
-            <div className="relative rounded-full border-2 border-white/20 bg-zinc-900 p-1">
-              {image ? (
-                <img
-                  src={image}
-                  alt={name}
-                  className="h-28 w-28 sm:h-32 sm:w-32 rounded-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              ) : (
-                <div className="h-28 w-28 sm:h-32 sm:w-32 rounded-full border border-dashed border-white/20 bg-white/[0.02] grid place-items-center text-xs text-zinc-500">
-                  Photo
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Name */}
-        <h3 className="mt-5 text-center text-xl sm:text-2xl font-bold text-white tracking-tight">
-          {name}
-        </h3>
-
-        {/* Role Badges */}
-        <div className="mt-3 flex flex-wrap justify-center gap-2">
-          {role.split(" • ").map((r, idx) => (
-            <div
-              key={idx}
-              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#1D4ED8]/30 to-blue-600/30 px-3 py-1.5 text-xs font-semibold text-sky-200 ring-1 ring-inset ring-[#1D4ED8]/40"
-            >
-              <BriefcaseBusiness className="h-3.5 w-3.5" />
-              {r}
-            </div>
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div className="my-5 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-
-        {/* Skills */}
-        <ul className="space-y-2.5">
-          {skills.map((skill, idx) => (
-            <li key={idx} className="flex items-start gap-2.5">
-              <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/20">
-                <BadgeCheck className="h-3.5 w-3.5 text-emerald-400" />
-              </div>
-              <span className="text-sm text-zinc-300 leading-relaxed">{skill}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </motion.div>
-  );
-}
-
-function ContactCard() {
-  const reduced = usePrefersReducedMotion();
-
-  return (
-    <motion.div
-      initial={reduced ? false : { y: 16 }}
-      whileInView={reduced ? {} : { y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm"
-    >
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div className="max-w-2xl">
-          <div className="text-lg font-bold text-white">Get in Touch</div>
-          <div className="mt-4 grid gap-3 text-sm text-zinc-300">
-            <a
-              href="tel:+923271804037"
-              className="flex items-center gap-3 hover:text-white transition-colors"
-            >
-              <div className="rounded-lg bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
-                <Phone className="h-4 w-4 text-white" />
-              </div>
-              <span className="font-semibold text-white">+92 327 180 4037</span>
-            </a>
-            <a
-              href="mailto:info@itmetasolutions.com"
-              className="flex items-center gap-3 hover:text-white transition-colors"
-            >
-              <div className="rounded-lg bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
-                <Mail className="h-4 w-4 text-white" />
-              </div>
-              <span className="font-semibold text-white">info@itmetasolutions.com</span>
-            </a>
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
-                <MapPin className="h-4 w-4 text-white" />
-              </div>
-              <span>Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap gap-3">
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-105"
-          >
-            Get a Proposal
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <a
-            href="https://wa.me/923271804037"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10"
-          >
-            <Phone className="h-4 w-4" />
-            WhatsApp Now
-          </a>
-        </div>
-      </div>
-    </motion.div>
   );
 }
 
@@ -296,6 +82,7 @@ const teamMembers = [
   {
     name: "Abdullah Khalid",
     role: "Web Developer • SEO Expert",
+    color: "#1D4ED8",
     image: abdullahKhalidImg,
     skills: [
       "Conversion-focused website builds",
@@ -307,6 +94,7 @@ const teamMembers = [
   {
     name: "Moeez ul Haq",
     role: "Digital Marketer",
+    color: "#23A6E8",
     image: moeezUlHaqImg,
     skills: [
       "Meta Ads funnel strategy",
@@ -318,6 +106,7 @@ const teamMembers = [
   {
     name: "Abdul Moeez",
     role: "Salesforce Expert",
+    color: "#3AC9F5",
     image: abdulMoeezImg,
     skills: [
       "Salesforce implementation & customization",
@@ -329,6 +118,7 @@ const teamMembers = [
   {
     name: "Danish Ahmad",
     role: "Graphic Designer",
+    color: "#1D4ED8",
     image: danishAhmadImg,
     skills: [
       "Brand identity & social templates",
@@ -340,6 +130,7 @@ const teamMembers = [
   {
     name: "Hussain Ali",
     role: "Dropshipping Expert",
+    color: "#23A6E8",
     image: hussainAliImg,
     skills: [
       "Product research & validation",
@@ -351,6 +142,7 @@ const teamMembers = [
   {
     name: "Abdullah Abdul Razzaq",
     role: "Video Editor • Graphic Designer",
+    color: "#3AC9F5",
     image: abdullahAbdulRazzaqImg,
     skills: [
       "Video editing and production",
@@ -432,614 +224,791 @@ export default function AboutUsPage() {
         <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
       </Helmet>
 
-      <div className="itms-subpage overflow-hidden text-zinc-100 relative min-h-screen">
-        <SubpageVisualLayer />
+      <ScrollProgress />
 
-        <ScrollProgress />
+      {/* ==================== HERO ==================== */}
+      <section className="relative bg-[#141A2E] overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+        {/* Subtle grid */}
+        <div className="absolute inset-0 dot-grid-bg opacity-30 pointer-events-none" />
+        {/* Glow */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-[#1D4ED8]/10 blur-[100px] pointer-events-none" />
 
-        {/* ==================== HERO SECTION ==================== */}
-        <section className="relative pt-28 pb-12 sm:pt-36 sm:pb-16">
-          <Container>
-            <div className="mx-auto max-w-5xl text-center">
-              <motion.div
-                initial={reduced ? false : { y: 16 }}
-                animate={reduced ? {} : { y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="flex flex-wrap items-center justify-center gap-3"
-              >
-                <Badge icon={ShieldCheck}>Trust-First Execution</Badge>
-                <Badge icon={Target}>Performance-Driven</Badge>
-                <Badge icon={Globe}>Global Markets</Badge>
-              </motion.div>
+        <Container>
+          <div className="mx-auto max-w-4xl text-center">
+            <motion.div
+              initial={reduced ? false : { y: 12, opacity: 0 }}
+              animate={reduced ? {} : { y: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-wrap items-center justify-center gap-2 mb-6"
+            >
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.07] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm">
+                <ShieldCheck className="h-3.5 w-3.5 text-[#3AC9F5]" />
+                SECP &amp; FBR Registered
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.07] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm">
+                <Globe className="h-3.5 w-3.5 text-[#23A6E8]" />
+                PK · CA · UK · USA
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.07] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm">
+                <Star className="h-3.5 w-3.5 text-amber-400" />
+                5-Star Rated Agency
+              </span>
+            </motion.div>
 
-              <motion.h1
-                initial={reduced ? false : { y: 16 }}
-                animate={reduced ? {} : { y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl"
-              >
-                Building Brands &
-                <br />
-                <span className="bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500 bg-clip-text text-transparent">
-                  Growth Systems
-                </span>
-              </motion.h1>
+            <motion.h1
+              initial={reduced ? false : { y: 16, opacity: 0 }}
+              animate={reduced ? {} : { y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Building Brands &amp;
+              <br />
+              <span className="animated-gradient-text">Growth Systems</span>
+            </motion.h1>
 
-              <motion.p
-                initial={reduced ? false : { y: 16 }}
-                animate={reduced ? {} : { y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-6 text-xl text-zinc-300 sm:text-2xl max-w-3xl mx-auto"
-              >
-                We help businesses in Pakistan, Canada, UK, and USA build a premium digital presence
-                and scale with performance marketing — focused on conversion, trust, and measurable
-                results.
-              </motion.p>
+            <motion.p
+              initial={reduced ? false : { y: 16, opacity: 0 }}
+              animate={reduced ? {} : { y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mt-6 text-lg text-slate-400 sm:text-xl max-w-2xl mx-auto leading-relaxed"
+            >
+              We help businesses in Pakistan, Canada, UK, and USA build a premium digital presence
+              and scale with performance marketing — focused on conversion, trust, and measurable results.
+            </motion.p>
 
-              {/* Stats Grid */}
-              <motion.div
-                initial={reduced ? false : { y: 16 }}
-                animate={reduced ? {} : { y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="mt-10 grid gap-4 sm:grid-cols-3"
-              >
-                <StatCard icon={CalendarDays} label="Total Experience" value="5+ Years" delay={0.1} />
-                <StatCard icon={ShieldCheck} label="Professional" value="3+ Years" delay={0.2} />
-                <StatCard icon={Globe} label="Markets Served" value="PK • CA • UK • USA" delay={0.3} />
-              </motion.div>
+            <motion.div
+              initial={reduced ? false : { y: 16, opacity: 0 }}
+              animate={reduced ? {} : { y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-10 flex flex-wrap items-center justify-center gap-4"
+            >
+              <Link to="/contact" className="btn-primary">
+                Start a Project
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to="/work" className="btn-ghost-dark">
+                View Our Work
+              </Link>
+            </motion.div>
+
+            {/* Hero stats */}
+            <motion.div
+              initial={reduced ? false : { y: 16, opacity: 0 }}
+              animate={reduced ? {} : { y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="mt-14 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10"
+            >
+              {[
+                { value: "5+", label: "Years Experience" },
+                { value: "50+", label: "Projects Delivered" },
+                { value: "4 Markets", label: "Global Reach" },
+              ].map((s) => (
+                <div key={s.label} className="bg-white/[0.04] px-6 py-5 text-center backdrop-blur-sm">
+                  <div
+                    className="text-2xl font-bold text-white sm:text-3xl"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {s.value}
+                  </div>
+                  <div className="mt-1 text-xs text-slate-400">{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== CONTACT BAR ==================== */}
+      <section className="bg-white border-b border-slate-100 py-6">
+        <Container>
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-sm">
+            <a
+              href="tel:+923271804037"
+              className="flex items-center gap-2.5 text-slate-600 hover:text-[#1D4ED8] transition-colors"
+            >
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D4ED8]/10">
+                <Phone className="h-3.5 w-3.5 text-[#1D4ED8]" />
+              </div>
+              <span className="font-medium">+92 327 180 4037</span>
+            </a>
+            <a
+              href="mailto:info@itmetasolutions.com"
+              className="flex items-center gap-2.5 text-slate-600 hover:text-[#1D4ED8] transition-colors"
+            >
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D4ED8]/10">
+                <Mail className="h-3.5 w-3.5 text-[#1D4ED8]" />
+              </div>
+              <span className="font-medium">info@itmetasolutions.com</span>
+            </a>
+            <div className="flex items-center gap-2.5 text-slate-500">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D4ED8]/10">
+                <MapPin className="h-3.5 w-3.5 text-[#1D4ED8]" />
+              </div>
+              <span>City Star Plaza, Township, Lahore</span>
             </div>
-          </Container>
-        </section>
+          </div>
+        </Container>
+      </section>
 
-        {/* ==================== CONTACT CARD ==================== */}
-        <section className="py-8 sm:py-12">
-          <Container>
-            <ContactCard />
-          </Container>
-        </section>
-
-        {/* ==================== DELIVERY SNAPSHOT ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-              <motion.div
-                initial={reduced ? false : { x: -24, opacity: 0 }}
-                whileInView={reduced ? {} : { x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]"
-              >
+      {/* ==================== DELIVERY SNAPSHOT ==================== */}
+      <section className="bg-white py-20 sm:py-28">
+        <Container>
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            {/* Image */}
+            <motion.div
+              initial={reduced ? false : { x: -24, opacity: 0 }}
+              whileInView={reduced ? {} : { x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative"
+            >
+              <div className="relative overflow-hidden rounded-3xl shadow-2xl shadow-slate-200">
                 <img
                   src={aboutDeliveryImage}
                   alt="IT Meta Solutions team collaborating in office"
-                  className="h-[360px] w-full object-cover sm:h-[440px]"
+                  className="h-[380px] w-full object-cover sm:h-[460px]"
                   style={{ objectPosition: "center 74%" }}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F1628]/80 via-transparent to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/10 bg-zinc-950/80 p-4 backdrop-blur-md">
-                  <div className="text-sm font-semibold text-white">Strategy, design, development, and growth in one workflow</div>
-                  <div className="mt-1 text-xs text-zinc-400">Built for clear communication and reliable delivery.</div>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/95 p-4 shadow-lg backdrop-blur-sm border border-slate-100">
+                  <div className="text-sm font-semibold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>
+                    Strategy, design, development, and growth in one workflow
+                  </div>
+                  <div className="mt-1 text-xs text-slate-500">Built for clear communication and reliable delivery.</div>
                 </div>
-              </motion.div>
-
-              <motion.div
-                initial={reduced ? false : { x: 24, opacity: 0 }}
-                whileInView={reduced ? {} : { x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <Badge icon={Handshake}>How We Deliver</Badge>
-                <h2 className="mt-5 text-4xl font-bold text-white sm:text-5xl">
-                  A Team Built Around Complete Digital Execution
-                </h2>
-                <p className="mt-5 text-lg leading-relaxed text-zinc-300">
-                  We connect planning, creative, development, Salesforce, and marketing work into one
-                  organized process so every project moves with clarity from idea to launch.
-                </p>
-                <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                  {[
-                    "Discovery before design",
-                    "Weekly progress visibility",
-                    "Conversion-focused execution",
-                    "Launch and optimization support",
-                  ].map((item) => (
-                    <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-400" />
-                      <span className="text-sm font-medium text-zinc-200">{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link
-                  to="/process"
-                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:scale-105"
-                >
-                  View Our Process
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </motion.div>
-            </div>
-          </Container>
-        </section>
-
-        {/* ==================== VISION & MISSION ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <Badge icon={Sparkles}>Our Foundation</Badge>
-              <h2 className="mt-4 text-4xl font-bold text-white sm:text-5xl">
-                Vision & Mission
-              </h2>
-              <p className="mt-4 text-lg text-zinc-300 max-w-3xl mx-auto">
-                What drives us and what we aim to achieve for every client
-              </p>
+              </div>
+              {/* Floating badge */}
+              <div className="absolute -right-4 top-8 rounded-2xl bg-[#1D4ED8] px-4 py-3 shadow-xl shadow-[#1D4ED8]/30 hidden sm:block">
+                <div className="text-xs font-semibold text-white/80">Since</div>
+                <div className="text-xl font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>2020</div>
+              </div>
             </motion.div>
 
-            <div className="grid gap-6 lg:grid-cols-2">
-              <FeatureCard
-                icon={Wand2}
-                title="Our Vision"
-                description="To become a trusted global digital growth partner for businesses by building brands and marketing systems that deliver measurable results."
-                features={[
+            {/* Content */}
+            <motion.div
+              initial={reduced ? false : { x: 24, opacity: 0 }}
+              whileInView={reduced ? {} : { x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <span className="kicker">How We Deliver</span>
+              <h2
+                className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                A Team Built Around
+                <br />
+                <span className="text-[#1D4ED8]">Complete Digital Execution</span>
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-slate-600">
+                We connect planning, creative, development, Salesforce, and marketing into one organized
+                process so every project moves with clarity from idea to launch.
+              </p>
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {[
+                  "Discovery before design",
+                  "Weekly progress visibility",
+                  "Conversion-focused execution",
+                  "Launch and optimization support",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-[#F1F4F9] p-4"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#1D4ED8]" />
+                    <span className="text-sm font-medium text-slate-700">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <Link
+                to="/process"
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#1D4ED8] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/25 transition-all hover:bg-[#162f8f] hover:scale-105"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                View Our Process
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </motion.div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== STATS ==================== */}
+      <section className="bg-[#F1F4F9] py-16 sm:py-20">
+        <Container>
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            {[
+              { icon: CalendarDays, value: "5+", label: "Years Experience", color: "#1D4ED8" },
+              { icon: TrendingUp, value: "50+", label: "Projects Delivered", color: "#23A6E8" },
+              { icon: Globe, value: "4", label: "Markets Served", color: "#3AC9F5" },
+              { icon: Star, value: "5★", label: "Google Rating", color: "#1D4ED8" },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="premium-card rounded-2xl p-6 text-center"
+              >
+                <div
+                  className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl"
+                  style={{ backgroundColor: `${stat.color}15` }}
+                >
+                  <stat.icon className="h-6 w-6" style={{ color: stat.color }} />
+                </div>
+                <div
+                  className="text-3xl font-bold text-slate-900"
+                  style={{ fontFamily: "var(--font-heading)", color: stat.color }}
+                >
+                  {stat.value}
+                </div>
+                <div className="mt-1 text-sm text-slate-500">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== VISION & MISSION ==================== */}
+      <section className="bg-white py-20 sm:py-28">
+        <Container>
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-14"
+          >
+            <span className="kicker">Our Foundation</span>
+            <h2
+              className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Vision &amp; Mission
+            </h2>
+            <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
+              What drives us and what we aim to achieve for every client
+            </p>
+          </motion.div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            {[
+              {
+                icon: Wand2,
+                color: "#1D4ED8",
+                title: "Our Vision",
+                description:
+                  "To become a trusted global digital growth partner for businesses by building brands and marketing systems that deliver measurable results.",
+                features: [
                   "Premium brand experiences",
                   "International-quality execution",
                   "Trust-driven digital presence",
                   "Long-term growth systems",
-                ]}
-                delay={0.1}
-              />
-              <FeatureCard
-                icon={HeartHandshake}
-                title="Our Mission"
-                description="To help businesses grow through modern web development, creative production, and performance marketing — with clear communication, fast delivery, and honest reporting."
-                features={[
+                ],
+              },
+              {
+                icon: HeartHandshake,
+                color: "#23A6E8",
+                title: "Our Mission",
+                description:
+                  "To help businesses grow through modern web development, creative production, and performance marketing — with clear communication, fast delivery, and honest reporting.",
+                features: [
                   "Build conversion-first websites & stores",
                   "Create high-impact design & video",
                   "Run ads with tracking & optimization",
                   "Support clients with clear processes",
-                ]}
-                delay={0.2}
-              />
-            </div>
-          </Container>
-        </section>
-
-        {/* ==================== WHAT MAKES US DIFFERENT ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <Badge icon={Sparkles}>Why Choose Us</Badge>
-              <h2 className="mt-4 text-4xl font-bold text-white sm:text-5xl">
-                What Makes Us Different
-              </h2>
-              <p className="mt-4 text-lg text-zinc-300 max-w-3xl mx-auto">
-                We don't just 'post' or 'run ads' — we build complete systems
-              </p>
-            </motion.div>
-
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <FeatureCard
-                icon={ShieldCheck}
-                title="Strategy + Execution"
-                description="We don't just execute — we plan strategically and then deliver with precision."
-                features={[
-                  "Strategy + execution combined",
-                  "Conversion-first approach",
-                  "Creative testing mindset",
-                  "Transparent reporting",
-                ]}
-                delay={0.1}
-              />
-              <FeatureCard
-                icon={Handshake}
-                title="How We Work"
-                description="Simple approvals, fast iterations, and weekly updates keep you in the loop."
-                features={[
-                  "Discovery → plan → execution",
-                  "Weekly progress updates",
-                  "Clear deliverables",
-                  "Optimization & scaling roadmap",
-                ]}
-                delay={0.2}
-              />
-              <FeatureCard
-                icon={Globe}
-                title="Markets We Serve"
-                description="We understand local and international buyer behavior across multiple markets."
-                features={[
-                  "Pakistan (PKR, COD, local trust)",
-                  "Canada (service-first conversion)",
-                  "UK (premium minimal + compliance)",
-                  "USA (fast funnels + strong CTAs)",
-                ]}
-                delay={0.3}
-              />
-            </div>
-          </Container>
-        </section>
-
-        {/* ==================== WHAT WE DELIVER ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <Badge icon={Sparkles}>Our Services</Badge>
-              <h2 className="mt-4 text-4xl font-bold text-white sm:text-5xl">
-                A Complete System, Not Scattered Services
-              </h2>
-              <p className="mt-4 text-lg text-zinc-300 max-w-3xl mx-auto">
-                Whether you need a website, branding, ads, or full management — everything connects
-                into one growth engine
-              </p>
-            </motion.div>
-
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <FeatureCard
-                icon={Code2}
-                title="Web Development"
-                description="Business websites, landing pages, and e-commerce stores designed to convert."
-                features={[
-                  "Mobile-first UI",
-                  "WhatsApp / forms integration",
-                  "Speed optimization",
-                  "SEO-ready structure",
-                ]}
-                delay={0.1}
-              />
-              <FeatureCard
-                icon={Megaphone}
-                title="Performance Marketing"
-                description="Meta Ads systems built for leads and sales — with tracking & optimization."
-                features={[
-                  "Funnel campaigns",
-                  "Retargeting pools",
-                  "Creative testing",
-                  "Detailed reporting",
-                ]}
-                delay={0.2}
-              />
-              <FeatureCard
-                icon={Search}
-                title="SEO & Content"
-                description="Search optimization that drives qualified traffic and long-term visibility."
-                features={[
-                  "Technical SEO fixes",
-                  "On-page optimization",
-                  "Content strategy",
-                  "Local SEO structure",
-                ]}
-                delay={0.3}
-              />
-              <FeatureCard
-                icon={Palette}
-                title="Design & Video"
-                description="Modern creatives that make your brand look premium and improve ad performance."
-                features={[
-                  "Ad creatives",
-                  "Brand kits",
-                  "Reels editing",
-                  "Social templates",
-                ]}
-                delay={0.4}
-              />
-              <FeatureCard
-                icon={Layers}
-                title="Custom Web Apps"
-                description="Bespoke portals and business systems built around your exact workflows and team structure."
-                features={[
-                  "Role-based admin portals",
-                  "Next.js + PostgreSQL stack",
-                  "OTP auth & audit logs",
-                  "Dialer & API integrations",
-                ]}
-                delay={0.5}
-              />
-              <FeatureCard
-                icon={Cloud}
-                title="Salesforce"
-                description="Custom Salesforce solutions to streamline CRM, automate workflows, and power your sales team."
-                features={[
-                  "LWC development",
-                  "Experience Cloud portals",
-                  "Automation & flows",
-                  "CRM data management",
-                ]}
-                delay={0.6}
-              />
-            </div>
-
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-10 flex justify-center"
-            >
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/40 hover:scale-105"
-              >
-                View All Services
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-            </motion.div>
-          </Container>
-        </section>
-
-        {/* ==================== TEAM SECTION ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <Badge icon={Users}>Our Team</Badge>
-              <h2 className="mt-4 text-4xl font-bold text-white sm:text-5xl">
-                Skilled Specialists, One System
-              </h2>
-              <p className="mt-4 text-lg text-zinc-300 max-w-3xl mx-auto">
-                A focused team with clear roles — so design, development, SEO, and ads work together
-                seamlessly
-              </p>
-            </motion.div>
-
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {teamMembers.map((member, index) => (
-                <TeamCard
-                  key={member.name}
-                  name={member.name}
-                  role={member.role}
-                  image={member.image}
-                  skills={member.skills}
-                  delay={index * 0.1}
-                />
-              ))}
-            </div>
-          </Container>
-        </section>
-
-        {/* ==================== CERTIFICATIONS SECTION ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <Badge icon={Award}>Verified & Trusted</Badge>
-              <h2 className="mt-4 text-4xl font-bold text-white sm:text-5xl">
-                Registered & Certified
-              </h2>
-              <p className="mt-4 text-lg text-zinc-300 max-w-3xl mx-auto">
-                IT Meta Solutions is a legally registered company with the Government of Pakistan,
-                ensuring complete transparency and trust in our business operations.
-              </p>
-            </motion.div>
-
-            {/* Registration Info Cards */}
-            <div className="grid gap-6 md:grid-cols-2 mb-12">
-              {/* SECP Registration */}
+                ],
+              },
+            ].map((card, i) => (
               <motion.div
+                key={card.title}
                 initial={reduced ? false : { y: 16, opacity: 0 }}
                 whileInView={reduced ? {} : { y: 0, opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 sm:p-8 backdrop-blur-sm"
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="premium-card rounded-3xl p-8"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <img src={secpLogo} alt="SECP Logo" className="h-14 w-auto object-contain" />
-                  <div>
-                    <h3 className="text-xl font-bold text-white">SECP Registered</h3>
-                    <p className="text-sm text-zinc-400">Securities and Exchange Commission of Pakistan</p>
-                  </div>
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl mb-5"
+                  style={{ backgroundColor: `${card.color}15` }}
+                >
+                  <card.icon className="h-6 w-6" style={{ color: card.color }} />
                 </div>
-                <div className="rounded-xl bg-white/5 border border-white/10 p-4">
-                  <div className="text-xs font-medium uppercase tracking-wider text-zinc-500 mb-1">Company Registration Number</div>
-                  <div className="text-2xl font-bold text-white tracking-wide">N0298154</div>
-                </div>
+                <h3
+                  className="text-xl font-bold text-slate-900"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  {card.title}
+                </h3>
+                <p className="mt-3 text-slate-600 leading-relaxed">{card.description}</p>
+                <ul className="mt-6 space-y-2.5">
+                  {card.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: card.color }} />
+                      <span className="text-sm text-slate-700">{f}</span>
+                    </li>
+                  ))}
+                </ul>
               </motion.div>
+            ))}
+          </div>
+        </Container>
+      </section>
 
-              {/* FBR Registration */}
+      {/* ==================== TEAM ==================== */}
+      <section className="bg-[#F1F4F9] py-20 sm:py-28">
+        <Container>
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-14"
+          >
+            <span className="kicker">Our People</span>
+            <h2
+              className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Skilled Specialists, One System
+            </h2>
+            <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
+              A focused team with clear roles — so design, development, SEO, and ads work together seamlessly
+            </p>
+          </motion.div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {teamMembers.map((member, index) => (
               <motion.div
-                initial={reduced ? false : { y: 16, opacity: 0 }}
+                key={member.name}
+                initial={reduced ? false : { y: 20, opacity: 0 }}
                 whileInView={reduced ? {} : { y: 0, opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 sm:p-8 backdrop-blur-sm"
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
+                className="premium-card group rounded-3xl p-6 text-center"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <img src={fbrLogo} alt="FBR Logo" className="h-14 w-auto object-contain" />
-                  <div>
-                    <h3 className="text-xl font-bold text-white">FBR Tax Registered</h3>
-                    <p className="text-sm text-zinc-400">Federal Board of Revenue, Pakistan</p>
-                  </div>
-                </div>
-                <div className="rounded-xl bg-white/5 border border-white/10 p-4">
-                  <div className="text-xs font-medium uppercase tracking-wider text-zinc-500 mb-1">National Tax Number (NTN)</div>
-                  <div className="text-2xl font-bold text-white tracking-wide">G903294</div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Certificates Display */}
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-center mb-8"
-            >
-              <h3 className="text-2xl font-bold text-white mb-2">Official Certificates</h3>
-              <p className="text-zinc-400">View our registration certificates for complete transparency</p>
-            </motion.div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* SECP Certificate */}
-              <motion.div
-                initial={reduced ? false : { y: 16, opacity: 0 }}
-                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm overflow-hidden transition-all hover:border-[#1D4ED8]/50"
-              >
-                <div className="absolute inset-0 bg-gradient-to-b from-[#1D4ED8]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="relative">
-                  <div className="text-center mb-4">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#1D4ED8]/20 px-3 py-1.5 text-xs font-semibold text-sky-200">
-                      <ShieldCheck className="h-3.5 w-3.5" />
-                      SECP Certificate
-                    </span>
-                  </div>
-                  <div className="rounded-2xl overflow-hidden border border-white/10 bg-white">
-                    <img
-                      src={secpCertificate}
-                      alt="SECP Registration Certificate - IT Meta Solutions"
-                      className="w-full h-auto object-contain"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* FBR Certificate */}
-              <motion.div
-                initial={reduced ? false : { y: 16, opacity: 0 }}
-                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm overflow-hidden transition-all hover:border-[#1D4ED8]/50"
-              >
-                <div className="absolute inset-0 bg-gradient-to-b from-[#1D4ED8]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="relative">
-                  <div className="text-center mb-4">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold text-emerald-200">
-                      <ShieldCheck className="h-3.5 w-3.5" />
-                      FBR Certificate
-                    </span>
-                  </div>
-                  <div className="rounded-2xl overflow-hidden border border-white/10 bg-white">
-                    <img
-                      src={fbrCertificate}
-                      alt="FBR Tax Registration Certificate - IT Meta Solutions"
-                      className="w-full h-auto object-contain"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Trust Note */}
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="mt-10 text-center"
-            >
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
-                <CheckCircle2 className="h-4 w-4" />
-                Verified legal entity operating under Pakistan's corporate laws
-              </div>
-            </motion.div>
-          </Container>
-        </section>
-
-        <GoogleReviewsSection
-          title="Read Our Google Reviews"
-          description="Public Google reviews for IT Meta Solutions, pulled directly from our live Google Business Profile."
-        />
-
-        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
-
-        {/* ==================== CTA SECTION ==================== */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              whileInView={reduced ? {} : { y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-12 backdrop-blur-sm sm:p-16"
-            >
-              <div className="mx-auto max-w-3xl text-center">
-                <h2 className="text-4xl font-bold text-white sm:text-5xl">
-                  Ready to Build Something Strong?
-                </h2>
-                <p className="mt-6 text-xl text-zinc-300">
-                  If you want a premium website + marketing system that generates results, contact us
-                  and we'll share a clear plan.
-                </p>
-
-                {/* Trust Badges */}
-                <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                  {[
-                    { icon: ShieldCheck, title: "Trust-First", desc: "Clear communication and honest reporting" },
-                    { icon: Target, title: "Performance", desc: "Focused on leads, sales, and ROAS" },
-                    { icon: Rocket, title: "Fast Delivery", desc: "Quick execution with clean approvals" },
-                  ].map((item) => (
-                    <div
-                      key={item.title}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm"
-                    >
-                      <div className="flex items-center justify-center gap-3">
-                        <div className="rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-2">
-                          <item.icon className="h-5 w-5 text-white" />
-                        </div>
-                        <div className="text-left">
-                          <div className="text-sm font-semibold text-white">{item.title}</div>
-                          <div className="text-xs text-zinc-400">{item.desc}</div>
-                        </div>
+                {/* Photo */}
+                <div className="mx-auto mb-5 relative w-fit">
+                  <div
+                    className="absolute -inset-1 rounded-full blur-md opacity-40 group-hover:opacity-70 transition-opacity"
+                    style={{ background: `linear-gradient(135deg, ${member.color}, ${member.color}88)` }}
+                  />
+                  <div className="relative h-24 w-24 overflow-hidden rounded-full ring-2 ring-white shadow-lg">
+                    {member.image ? (
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-slate-100 grid place-items-center text-slate-400 text-xs">
+                        Photo
                       </div>
-                    </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Name */}
+                <h3
+                  className="text-lg font-bold text-slate-900"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  {member.name}
+                </h3>
+
+                {/* Role pill */}
+                <div className="mt-2 flex flex-wrap justify-center gap-1.5">
+                  {member.role.split(" • ").map((r) => (
+                    <span
+                      key={r}
+                      className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold"
+                      style={{ backgroundColor: `${member.color}15`, color: member.color }}
+                    >
+                      <BriefcaseBusiness className="h-3 w-3" />
+                      {r}
+                    </span>
                   ))}
                 </div>
 
-                <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-105"
-                  >
-                    Request a Proposal
-                    <ArrowRight className="h-5 w-5" />
-                  </Link>
+                {/* Divider */}
+                <div className="my-4 h-px bg-slate-100" />
 
-                  <a
-                    href="https://wa.me/923271804037"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/20 bg-white/5 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10"
-                  >
-                    <Phone className="h-5 w-5" />
-                    WhatsApp Us
-                  </a>
+                {/* Skills */}
+                <ul className="space-y-2 text-left">
+                  {member.skills.map((skill) => (
+                    <li key={skill} className="flex items-start gap-2">
+                      <BadgeCheck className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: member.color }} />
+                      <span className="text-sm text-slate-600">{skill}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== WHY CHOOSE US ==================== */}
+      <section className="bg-white py-20 sm:py-28">
+        <Container>
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-14"
+          >
+            <span className="kicker">Why Choose Us</span>
+            <h2
+              className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              What Makes Us Different
+            </h2>
+            <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
+              We don't just 'post' or 'run ads' — we build complete systems
+            </p>
+          </motion.div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              {
+                icon: ShieldCheck,
+                color: "#1D4ED8",
+                title: "Strategy + Execution",
+                description: "We don't just execute — we plan strategically and deliver with precision.",
+                points: ["Strategy + execution combined", "Conversion-first approach", "Creative testing mindset", "Transparent reporting"],
+              },
+              {
+                icon: Handshake,
+                color: "#23A6E8",
+                title: "How We Work",
+                description: "Simple approvals, fast iterations, and weekly updates keep you in the loop.",
+                points: ["Discovery → plan → execution", "Weekly progress updates", "Clear deliverables", "Optimization & scaling roadmap"],
+              },
+              {
+                icon: Globe,
+                color: "#3AC9F5",
+                title: "Markets We Serve",
+                description: "We understand local and international buyer behavior across multiple markets.",
+                points: ["Pakistan (PKR, COD, local trust)", "Canada (service-first conversion)", "UK (premium minimal + compliance)", "USA (fast funnels + strong CTAs)"],
+              },
+            ].map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="premium-card rounded-3xl p-7"
+              >
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl mb-5"
+                  style={{ backgroundColor: `${card.color}15` }}
+                >
+                  <card.icon className="h-6 w-6" style={{ color: card.color }} />
                 </div>
-              </div>
-            </motion.div>
-          </Container>
-        </section>
+                <h3
+                  className="text-lg font-bold text-slate-900 mb-3"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  {card.title}
+                </h3>
+                <p className="text-sm text-slate-600 mb-5 leading-relaxed">{card.description}</p>
+                <ul className="space-y-2">
+                  {card.points.map((p) => (
+                    <li key={p} className="flex items-start gap-2">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: card.color }} />
+                      <span className="text-sm text-slate-600">{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== SERVICES OVERVIEW ==================== */}
+      <section className="bg-[#F1F4F9] py-20 sm:py-28">
+        <Container>
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-14"
+          >
+            <span className="kicker">What We Do</span>
+            <h2
+              className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              A Complete System, Not Scattered Services
+            </h2>
+            <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
+              Whether you need a website, branding, ads, or full management — everything connects into one growth engine
+            </p>
+          </motion.div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { icon: Code2, color: "#1D4ED8", title: "Web Development", desc: "Business websites, landing pages, and e-commerce stores designed to convert.", points: ["Mobile-first UI", "WhatsApp / forms integration", "Speed optimization", "SEO-ready structure"] },
+              { icon: Megaphone, color: "#23A6E8", title: "Performance Marketing", desc: "Meta Ads systems built for leads and sales — with tracking & optimization.", points: ["Funnel campaigns", "Retargeting pools", "Creative testing", "Detailed reporting"] },
+              { icon: Search, color: "#3AC9F5", title: "SEO & Content", desc: "Search optimization that drives qualified traffic and long-term visibility.", points: ["Technical SEO fixes", "On-page optimization", "Content strategy", "Local SEO structure"] },
+              { icon: Palette, color: "#1D4ED8", title: "Design & Video", desc: "Modern creatives that make your brand look premium and improve ad performance.", points: ["Ad creatives", "Brand kits", "Reels editing", "Social templates"] },
+              { icon: Layers, color: "#23A6E8", title: "Custom Web Apps", desc: "Bespoke portals and business systems built around your exact workflows.", points: ["Role-based admin portals", "Next.js + PostgreSQL stack", "OTP auth & audit logs", "Dialer & API integrations"] },
+              { icon: Cloud, color: "#3AC9F5", title: "Salesforce", desc: "Custom Salesforce solutions to streamline CRM, automate workflows, and power your team.", points: ["LWC development", "Experience Cloud portals", "Automation & flows", "CRM data management"] },
+            ].map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+                className="premium-card rounded-3xl p-6"
+              >
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-xl mb-4"
+                  style={{ backgroundColor: `${card.color}15` }}
+                >
+                  <card.icon className="h-5 w-5" style={{ color: card.color }} />
+                </div>
+                <h3 className="font-bold text-slate-900 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                  {card.title}
+                </h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-4">{card.desc}</p>
+                <ul className="space-y-1.5">
+                  {card.points.map((p) => (
+                    <li key={p} className="flex items-center gap-2 text-xs text-slate-600">
+                      <div className="h-1 w-1 rounded-full flex-shrink-0" style={{ backgroundColor: card.color }} />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-10 text-center"
+          >
+            <Link
+              to="/services"
+              className="inline-flex items-center gap-2 rounded-full bg-[#1D4ED8] px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/25 transition-all hover:bg-[#162f8f] hover:scale-105"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              View All Services
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </motion.div>
+        </Container>
+      </section>
+
+      {/* ==================== CERTIFICATIONS ==================== */}
+      <section className="bg-white py-20 sm:py-28">
+        <Container>
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-14"
+          >
+            <span className="kicker">Verified &amp; Trusted</span>
+            <h2
+              className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Registered &amp; Certified
+            </h2>
+            <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
+              IT Meta Solutions is a legally registered company with the Government of Pakistan,
+              ensuring complete transparency and trust in our business operations.
+            </p>
+          </motion.div>
+
+          {/* Registration Info */}
+          <div className="grid gap-6 md:grid-cols-2 mb-10">
+            {[
+              { logo: secpLogo, alt: "SECP Logo", title: "SECP Registered", subtitle: "Securities and Exchange Commission of Pakistan", label: "Company Registration Number", number: "N0298154", color: "#1D4ED8" },
+              { logo: fbrLogo, alt: "FBR Logo", title: "FBR Tax Registered", subtitle: "Federal Board of Revenue, Pakistan", label: "National Tax Number (NTN)", number: "G903294", color: "#23A6E8" },
+            ].map((reg, i) => (
+              <motion.div
+                key={reg.title}
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="premium-card rounded-3xl p-6 sm:p-8"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <img src={reg.logo} alt={reg.alt} className="h-14 w-auto object-contain" />
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>
+                      {reg.title}
+                    </h3>
+                    <p className="text-sm text-slate-500">{reg.subtitle}</p>
+                  </div>
+                </div>
+                <div
+                  className="rounded-2xl p-4"
+                  style={{ backgroundColor: `${reg.color}08`, border: `1px solid ${reg.color}20` }}
+                >
+                  <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">{reg.label}</div>
+                  <div
+                    className="text-2xl font-bold tracking-wide"
+                    style={{ fontFamily: "var(--font-heading)", color: reg.color }}
+                  >
+                    {reg.number}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Certificate images */}
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-8"
+          >
+            <h3 className="text-xl font-bold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>
+              Official Certificates
+            </h3>
+            <p className="mt-1 text-sm text-slate-500">View our registration certificates for complete transparency</p>
+          </motion.div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {[
+              { src: secpCertificate, alt: "SECP Registration Certificate - IT Meta Solutions", label: "SECP Certificate", color: "#1D4ED8" },
+              { src: fbrCertificate, alt: "FBR Tax Registration Certificate - IT Meta Solutions", label: "FBR Certificate", color: "#23A6E8" },
+            ].map((cert, i) => (
+              <motion.div
+                key={cert.label}
+                initial={reduced ? false : { y: 16, opacity: 0 }}
+                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="premium-card rounded-3xl p-4"
+              >
+                <div className="mb-3 text-center">
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold"
+                    style={{ backgroundColor: `${cert.color}15`, color: cert.color }}
+                  >
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    {cert.label}
+                  </span>
+                </div>
+                <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white">
+                  <img src={cert.src} alt={cert.alt} className="w-full h-auto object-contain" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-8 text-center"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-700">
+              <CheckCircle2 className="h-4 w-4" />
+              Verified legal entity operating under Pakistan's corporate laws
+            </div>
+          </motion.div>
+        </Container>
+      </section>
+
+      {/* ==================== REVIEWS ==================== */}
+      <div className="bg-[#F1F4F9]">
+        <GoogleReviewsSection
+          title="Read Our Google Reviews"
+          description="Public Google reviews for IT Meta Solutions, pulled directly from our live Google Business Profile."
+          lightTheme={true}
+        />
+      </div>
+
+      {/* ==================== CTA BANNER ==================== */}
+      <section className="bg-[#141A2E] py-20 sm:py-28">
+        <Container>
+          <motion.div
+            initial={reduced ? false : { y: 16, opacity: 0 }}
+            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl text-center"
+          >
+            <span className="kicker" style={{ borderColor: "rgba(255,255,255,0.15)", backgroundColor: "rgba(255,255,255,0.07)", color: "#93c5fd" }}>
+              Let's Work Together
+            </span>
+            <h2
+              className="mt-6 text-4xl font-bold text-white sm:text-5xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Ready to Build Something Strong?
+            </h2>
+            <p className="mt-5 text-lg text-slate-400 max-w-xl mx-auto">
+              If you want a premium website + marketing system that generates results, contact us and we'll share a clear plan.
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                { icon: ShieldCheck, title: "Trust-First", desc: "Clear communication and honest reporting" },
+                { icon: Target, title: "Performance", desc: "Focused on leads, sales, and ROAS" },
+                { icon: Zap, title: "Fast Delivery", desc: "Quick execution with clean approvals" },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"
+                >
+                  <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#1D4ED8]/30">
+                    <item.icon className="h-4 w-4 text-[#93c5fd]" />
+                  </div>
+                  <div className="text-sm font-semibold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+                    {item.title}
+                  </div>
+                  <div className="mt-1 text-xs text-slate-500">{item.desc}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Link to="/contact" className="btn-primary">
+                Get a Proposal
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <a
+                href="https://wa.me/923271804037"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost-dark"
+              >
+                <Phone className="h-4 w-4" />
+                WhatsApp Now
+              </a>
+            </div>
+          </motion.div>
+        </Container>
+      </section>
+
+      {/* ==================== SEO / FAQ ==================== */}
+      <div className="bg-white">
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} lightTheme={true} />
       </div>
     </>
   );
 }
-

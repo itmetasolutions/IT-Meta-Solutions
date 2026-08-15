@@ -94,7 +94,7 @@ export default function Header({ nav, AnchorLink }) {
               alt="IT Meta Solutions"
               className="h-[48px] sm:h-[60px] w-auto object-contain object-left transition-all duration-300 group-hover:scale-[1.04]"
               style={{ filter: "drop-shadow(0 0 0px transparent)", transition: "filter 0.3s" }}
-              onMouseEnter={e => e.currentTarget.style.filter = "drop-shadow(0 0 12px rgba(29,78,216,0.5))"}
+              onMouseEnter={e => e.currentTarget.style.filter = "drop-shadow(0 0 12px rgba(29,78,216,0.45))"}
               onMouseLeave={e => e.currentTarget.style.filter = "drop-shadow(0 0 0px transparent)"}
             />
           </Link>
@@ -112,11 +112,12 @@ export default function Header({ nav, AnchorLink }) {
                   >
                     <Link
                       to={n.href}
-                      className={`relative flex items-center gap-1 px-4 py-2 text-[13.5px] font-medium rounded-lg transition-all duration-200 ${
+                      className={`relative flex items-center gap-1 px-4 py-2 text-[13.5px] rounded-lg transition-all duration-200 ${
                         isActive(n.href)
                           ? "text-white bg-[#1D4ED8]/10"
                           : "text-zinc-400 hover:text-white hover:bg-white/[0.05]"
                       }`}
+                      style={{ fontFamily: "var(--font-heading)", fontWeight: 500 }}
                     >
                       {isActive(n.href) && (
                         <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r from-[#1D4ED8] to-[#23A6E8]"
@@ -218,23 +219,24 @@ export default function Header({ nav, AnchorLink }) {
 
               /* Normal nav link */
               const active = isActive(n.href);
-              const linkClass = `relative px-4 py-2 text-[13.5px] font-medium rounded-lg transition-all duration-200 ${
+              const linkClass = `relative px-4 py-2 text-[13.5px] rounded-lg transition-all duration-200 ${
                 active
                   ? "text-white bg-[#1D4ED8]/10"
                   : "text-zinc-400 hover:text-white hover:bg-white/[0.05]"
               }`;
+              // Font applied inline since Tailwind doesn't include custom font families here
               const activeBar = active ? (
                 <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r from-[#1D4ED8] to-[#23A6E8]"
                   style={{ boxShadow: "0 0 8px rgba(29,78,216,0.8)" }} />
               ) : null;
 
               return n.href.startsWith("/") ? (
-                <Link key={n.href} to={n.href} className={linkClass}>
+                <Link key={n.href} to={n.href} className={linkClass} style={{ fontFamily: "var(--font-heading)", fontWeight: 500 }}>
                   {activeBar}
                   {n.label}
                 </Link>
               ) : (
-                <AnchorLink key={n.href} href={n.href} className={linkClass}>
+                <AnchorLink key={n.href} href={n.href} className={linkClass} style={{ fontFamily: "var(--font-heading)", fontWeight: 500 }}>
                   {n.label}
                 </AnchorLink>
               );
@@ -264,9 +266,14 @@ export default function Header({ nav, AnchorLink }) {
             {/* Get a Proposal — desktop */}
             {isDesktop && <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-4 py-2.5 text-[13px] font-semibold text-white transition-all duration-300 hover:scale-105"
-              style={{ boxShadow: "0 0 0 0 transparent", transition: "box-shadow 0.3s, transform 0.2s" }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 24px rgba(29,78,216,0.55)"}
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-4 py-2.5 text-[13px] text-white transition-all duration-300 hover:scale-105"
+              style={{
+                fontFamily: "var(--font-heading)",
+                fontWeight: 600,
+                boxShadow: "0 0 0 0 transparent",
+                transition: "box-shadow 0.3s, transform 0.2s"
+              }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 22px rgba(29,78,216,0.50)"}
               onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 0 0 transparent"}
             >
               Get a Proposal

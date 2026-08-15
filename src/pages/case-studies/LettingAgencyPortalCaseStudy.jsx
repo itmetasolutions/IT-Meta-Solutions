@@ -1,994 +1,358 @@
-﻿import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion, useScroll, useInView } from "framer-motion";
+import {
+  ArrowRight, CheckCircle2, Layers, Database, KeyRound, Users, Phone, Settings,
+  ShieldCheck, BarChart3, Cog, MessageSquare, Workflow, Lock, Search, Target,
+  ChevronRight, ExternalLink, MousePointerClick,
+} from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
-import { motion, useScroll, useSpring } from "framer-motion";
-import {
-    ArrowRight,
-    BarChart3,
-    ExternalLink,
-    Building2,
-    CheckCircle2,
-    ChevronRight,
-    Cog,
-    Database,
-    FileText,
-    Gauge,
-    Home,
-    KeyRound,
-    Layers,
-    LayoutGrid,
-    LineChart,
-    Lock,
-    MessageSquare,
-    Network,
-    Phone,
-    Search,
-    Settings,
-    ShieldCheck,
-    Sparkles,
-    Target,
-    Users,
-    Wallet,
-    Workflow,
-    Wrench,
-} from "lucide-react";
-import SubpageVisualLayer from "../../components/SubpageVisualLayer";
+import Container from "../../components/Container";
 
-/* ==================== IMAGE IMPORTS ==================== */
 import lettingAgencyBannerImg from "../../assets/img/Banner Image.png";
 import adminControlCenterImg from "../../assets/img/Admin Control Center.png";
-import agentWorkspaceImg from "../../assets/img/Agent Workspace \u2014 Property Lifecycle.png";
-import dialerSuiteImg from "../../assets/img/Dialer Suite \u2014 Dialpad & Call History.png";
-import dialerLabelsImg from "../../assets/img/Dialer \u2014 Labels, Notes & Recordings.png";
-import teamCommunicationImg from "../../assets/img/Team Communication \u2014 Embedded Chat.png";
+import agentWorkspaceImg from "../../assets/img/Agent Workspace — Property Lifecycle.png";
+import dialerSuiteImg from "../../assets/img/Dialer Suite — Dialpad & Call History.png";
+import dialerLabelsImg from "../../assets/img/Dialer — Labels, Notes & Recordings.png";
+import teamCommunicationImg from "../../assets/img/Team Communication — Embedded Chat.png";
 import revenueDashboardImg from "../../assets/img/Revenue & Commission Dashboard.png";
 import otpLoginImg from "../../assets/img/OTP Login & Authentication.png";
-import auditLogImg from "../../assets/img/Audit Log \u2014 Platform Governance.png";
+import auditLogImg from "../../assets/img/Audit Log — Platform Governance.png";
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
-/* ==================== HOOKS ==================== */
-function usePrefersReducedMotion() {
-    const [reduced, setReduced] = useState(false);
-    useEffect(() => {
-        const m = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-        if (!m) return;
-        const onChange = () => setReduced(!!m.matches);
-        onChange();
-        m.addEventListener?.("change", onChange);
-        return () => m.removeEventListener?.("change", onChange);
-    }, []);
-    return reduced;
-}
-
-/* ==================== UI ATOMS ==================== */
-function Container({ children, className }) {
-    return <div className={cx("mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12", className)}>{children}</div>;
-}
-
-function AnchorLink({ href, children, className }) {
-    return (
-        <a
-            href={href}
-            onClick={(e) => {
-                if (href?.startsWith?.("#")) {
-                    e.preventDefault();
-                    document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
-                }
-            }}
-            className={className}
-        >
-            {children}
-        </a>
-    );
-}
-
-function GradientBlob({ className, color = "rgba(29,78,216,0.22)" }) {
-    return (
-        <div
-            aria-hidden
-            className={cx("pointer-events-none absolute -z-10 blur-3xl", className)}
-            style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}
-        />
-    );
-}
-
 function ScrollProgress() {
-    const { scrollYProgress } = useScroll();
-    const s = useSpring(scrollYProgress, { stiffness: 120, damping: 18, mass: 0.5 });
-    return (
-        <motion.div
-            aria-hidden
-            className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
-            style={{ scaleX: s }}
-        />
-    );
-}
-
-function Badge({ children, icon: Icon }) {
-    return (
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
-            {Icon ? <Icon className="h-4 w-4" /> : null}
-            {children}
-        </span>
-    );
+  const { scrollYProgress } = useScroll();
+  return <motion.div aria-hidden className="fixed left-0 top-0 z-50 h-0.5 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-[#23A6E8] to-[#3AC9F5]" style={{ scaleX: scrollYProgress }} />;
 }
 
 function Reveal({ children, delay = 0, className }) {
-    const reduced = usePrefersReducedMotion();
-    return (
-        <motion.div
-            className={className}
-            initial={reduced ? false : { y: 16 }}
-            whileInView={reduced ? {} : { y: 0 }}
-            viewport={{ once: true, margin: "-90px" }}
-            transition={{ duration: 0.6, ease: "easeOut", delay }}
-        >
-            {children}
-        </motion.div>
-    );
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 18 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}>
+      {children}
+    </motion.div>
+  );
 }
 
-function Pill({ icon: Icon, children }) {
-    return (
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-zinc-100 backdrop-blur-sm">
-            {Icon ? <Icon className="h-3.5 w-3.5 flex-shrink-0 opacity-90" /> : null}
-            {children}
-        </span>
-    );
+function AnchorLink({ href, children, className }) {
+  return <a href={href} onClick={(e) => { if (href?.startsWith?.("#")) { e.preventDefault(); document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" }); } }} className={className}>{children}</a>;
 }
 
-function SectionHeading({ badge, title, description, centered = false }) {
-    return (
-        <div className={cx("mb-12", centered && "text-center")}>
-            {badge ? (
-                <div className={cx("mb-4", centered && "flex justify-center")}>
-                    <Badge icon={Sparkles}>{badge}</Badge>
-                </div>
-            ) : null}
-            <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">{title}</h2>
-            {description ? (
-                <p className={cx("mt-4 text-base text-zinc-300 sm:text-lg max-w-3xl", centered && "mx-auto")}>{description}</p>
-            ) : null}
+function LightCard({ icon: Icon, color = "#1D4ED8", title, desc, bullets, delay = 0 }) {
+  return (
+    <Reveal delay={delay}>
+      <div className="premium-card h-full rounded-2xl p-6">
+        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl" style={{ backgroundColor: `${color}15` }}>
+          <Icon className="h-5 w-5" style={{ color }} />
         </div>
-    );
+        <h3 className="mb-2 text-base font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>{title}</h3>
+        {desc && <p className="text-sm text-slate-600 leading-relaxed mb-3">{desc}</p>}
+        {bullets?.length ? (
+          <ul className="space-y-2">{bullets.map((b, i) => <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color }} />{b}</li>)}</ul>
+        ) : null}
+      </div>
+    </Reveal>
+  );
 }
 
-/* ==================== CARDS ==================== */
-function StatCard({ icon: Icon, value, label, delay = 0 }) {
-    const reduced = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={reduced ? false : { y: 16 }}
-            whileInView={reduced ? {} : { y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay }}
-            className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-sm h-full"
-        >
-            <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                    <Icon className="h-6 w-6 flex-shrink-0 text-white" />
-                </div>
-                <div className="min-w-0">
-                    <div className="text-2xl font-bold text-white sm:text-3xl">{value}</div>
-                    <div className="mt-1 text-sm text-zinc-400">{label}</div>
-                </div>
-            </div>
-        </motion.div>
-    );
+function SideItem({ icon: Icon, color = "#1D4ED8", title, desc }) {
+  return (
+    <div className="premium-card flex items-start gap-4 rounded-2xl p-5">
+      <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl" style={{ backgroundColor: `${color}15` }}>
+        <Icon className="h-5 w-5" style={{ color }} />
+      </div>
+      <div>
+        <div className="text-sm font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>{title}</div>
+        <div className="mt-1 text-sm text-slate-600 leading-relaxed">{desc}</div>
+      </div>
+    </div>
+  );
 }
 
-function FeatureCard({ icon: Icon, title, desc, bullets, delay = 0 }) {
-    const reduced = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={reduced ? false : { y: 16 }}
-            whileInView={reduced ? {} : { y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay }}
-            whileHover={reduced ? {} : { y: -8, transition: { duration: 0.2 } }}
-            className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm"
-        >
-            <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 blur-3xl transition-all group-hover:scale-150" />
-            <div className="relative flex h-full flex-col">
-                <div className="mb-4 flex items-center gap-3">
-                    <div className="flex-shrink-0 inline-flex rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                        <Icon className="h-5 w-5 flex-shrink-0 text-white" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-white">{title}</h3>
-                </div>
-                <p className="text-sm leading-relaxed text-zinc-300">{desc}</p>
-                {bullets?.length ? (
-                    <ul className="mt-5 space-y-2 text-sm text-zinc-200">
-                        {bullets.map((b, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
-                                <span className="opacity-90">{b}</span>
-                            </li>
-                        ))}
-                    </ul>
-                ) : null}
-                <div className="mt-auto pt-4" />
-            </div>
-        </motion.div>
-    );
-}
-
-function Divider() {
-    return <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />;
-}
-
-/* ==================== SCREENSHOT CARD ==================== */
-function Screenshot({ src, title, comment }) {
-    return (
-        <div className="group rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-4 backdrop-blur-sm h-full">
-            <div className="overflow-hidden rounded-2xl border border-white/10">
-                <img
-                    src={src}
-                    alt={title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-            </div>
-            <div className="mt-4 px-2">
-                <div className="text-sm font-semibold text-white">{title}</div>
-                {comment && <div className="mt-1 text-sm text-zinc-400">{comment}</div>}
-            </div>
-        </div>
-    );
-}
-
-/* ==================== MODULE DETAIL BLOCK ==================== */
 function ModuleBlock({ icon: Icon, number, title, desc, fields, delay = 0 }) {
-    const reduced = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={reduced ? false : { y: 16 }}
-            whileInView={reduced ? {} : { y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay }}
-            className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 sm:p-8 backdrop-blur-sm"
-        >
-            <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-[#1D4ED8]/15 to-blue-600/15 blur-3xl" />
-            <div className="relative flex flex-col gap-5 md:flex-row md:gap-8">
-                <div className="flex items-center gap-4 md:flex-col md:items-start md:gap-3 md:w-56 md:flex-shrink-0">
-                    <div className="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-blue-600 p-3">
-                        <Icon className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                        <div className="text-xs font-semibold uppercase tracking-widest text-sky-400">Module {number}</div>
-                        <h3 className="text-xl font-bold text-white">{title}</h3>
-                    </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                    <p className="text-sm leading-relaxed text-zinc-300">{desc}</p>
-                    {fields?.length ? (
-                        <div className="mt-5 grid gap-2 sm:grid-cols-2">
-                            {fields.map((f, i) => (
-                                <div key={i} className="flex items-start gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                                    <ChevronRight className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-sky-400" />
-                                    <span className="text-xs text-zinc-200">{f}</span>
-                                </div>
-                            ))}
-                        </div>
-                    ) : null}
-                </div>
-            </div>
-        </motion.div>
-    );
+  return (
+    <Reveal delay={delay}>
+      <div className="premium-card rounded-2xl p-6 sm:p-8">
+        <div className="flex flex-col gap-5 md:flex-row md:gap-8">
+          <div className="flex items-center gap-4 md:flex-col md:items-start md:gap-3 md:w-52 md:flex-shrink-0">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl" style={{ backgroundColor: "#1D4ED815" }}><Icon className="h-5 w-5 text-[#1D4ED8]" /></div>
+            <div><div className="text-xs font-semibold uppercase tracking-widest text-[#23A6E8]">Module {number}</div><h3 className="text-lg font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>{title}</h3></div>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm leading-relaxed text-slate-600 mb-4">{desc}</p>
+            {fields?.length ? (
+              <div className="grid gap-2 sm:grid-cols-2">
+                {fields.map((f, i) => (
+                  <div key={i} className="flex items-start gap-2 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2.5">
+                    <ChevronRight className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#1D4ED8]" />
+                    <span className="text-xs text-slate-700">{f}</span>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
 }
 
-/* ==================== NAV ==================== */
-const inPageNav = [
-    { label: "Overview", href: "#overview" },
-    { label: "Modules", href: "#modules" },
-    { label: "Architecture", href: "#architecture" },
-    { label: "Screenshots", href: "#screens" },
-    { label: "Impact", href: "#impact" },
+function StickyNav({ items }) {
+  const [active, setActive] = useState("");
+  useEffect(() => {
+    const obs = new IntersectionObserver((e) => e.forEach((en) => { if (en.isIntersecting) setActive(`#${en.target.id}`); }), { rootMargin: "-20% 0px -70% 0px" });
+    items.forEach(({ href }) => { const el = document.querySelector(href); if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, [items]);
+  return (
+    <div className="sticky top-[64px] z-40 border-b border-slate-100 bg-white/95 backdrop-blur-sm shadow-sm">
+      <Container className="py-3">
+        <div className="flex items-center justify-between gap-3">
+          <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-slate-500"><Layers className="h-3.5 w-3.5 text-[#1D4ED8]" />Next.js 14 · PostgreSQL · TypeScript · SIP.js</div>
+          <div className="flex flex-wrap items-center gap-2">
+            {items.map((item) => <AnchorLink key={item.href} href={item.href} className={cx("rounded-full border px-3 py-1.5 text-xs font-medium transition", active === item.href ? "border-[#1D4ED8] bg-[#1D4ED8] text-white" : "border-slate-200 bg-[#F1F4F9] text-slate-600 hover:border-[#1D4ED8]/40 hover:text-[#1D4ED8]")}>{item.label}</AnchorLink>)}
+          </div>
+        </div>
+      </Container>
+    </div>
+  );
+}
+
+const nav = [
+  { label: "Overview", href: "#overview" },
+  { label: "Modules", href: "#modules" },
+  { label: "Architecture", href: "#architecture" },
+  { label: "Screenshots", href: "#screens" },
+  { label: "Impact", href: "#impact" },
 ];
 
-function StickySubnav() {
-    return (
-        <div className="sticky top-[72px] z-40 border-b border-white/10 bg-white/5 backdrop-blur-lg">
-            <Container className="py-3">
-                <div className="flex items-center justify-between gap-3">
-                    <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-300">
-                        <Layers className="h-4 w-4 text-[#1D4ED8]" />
-                        Next.js 14 • PostgreSQL • TypeScript • SIP.js
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2 justify-end">
-                        {inPageNav.map((n) => (
-                            <AnchorLink
-                                key={n.href}
-                                href={n.href}
-                                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-200 hover:bg-white/10"
-                            >
-                                {n.label}
-                            </AnchorLink>
-                        ))}
-                    </div>
-                </div>
-            </Container>
-        </div>
-    );
-}
-
-/* ==================== SEO DATA ==================== */
 const seoContent = {
-    kicker: "Case Study",
-    title: "MHG Portal — Custom Letting Agency Operations Platform",
-    subtitle:
-        "Custom Next.js web application built for More Homes Group — a centralised portal for letting operations with role-based access, OTP login, an integrated dialer suite, and full audit governance.",
-    paragraphs: [
-        "We designed and delivered a bespoke operations portal for More Homes Group, replacing fragmented tools with a single unified platform covering landlord onboarding, property lifecycle management, sales tracking, tenant records, and an integrated SIP dialer.",
-        "The platform is built on Next.js 14, TypeScript, and PostgreSQL via Prisma ORM, with a two-tier role model (Admin and Agent), OTP-protected login with rate limiting, platform-wide audit logs, and a built-in dialer suite ready for SIP/LINKUS integration.",
-    ],
-    bullets: [
-        "Custom Next.js portal replacing disconnected letting agency tools",
-        "Role-based access for Admin and Agent users with OTP-secured login",
-        "Integrated SIP dialer with call history, labels, notes, and intercalling",
-        "Unified data model: landlords, properties, sales, tenants, and users",
-        "Governance through platform-wide audit logs and secure session management",
-    ],
+  kicker: "Case Study",
+  title: "MHG Portal — Custom Letting Agency Operations Platform",
+  subtitle: "Custom Next.js web application built for More Homes Group — a centralised portal for letting operations with role-based access, OTP login, an integrated dialer suite, and full audit governance.",
+  paragraphs: [
+    "We designed and delivered a bespoke operations portal for More Homes Group, replacing fragmented tools with a single unified platform covering landlord onboarding, property lifecycle management, sales tracking, tenant records, and an integrated SIP dialer.",
+    "The platform is built on Next.js 14, TypeScript, and PostgreSQL via Prisma ORM, with a two-tier role model, OTP-protected login with rate limiting, platform-wide audit logs, and a built-in dialer suite ready for SIP/LINKUS integration.",
+  ],
+  bullets: [
+    "Custom Next.js portal replacing disconnected letting agency tools",
+    "Role-based access for Admin and Agent users with OTP-secured login",
+    "Integrated SIP dialer with call history, labels, notes, and intercalling",
+    "Unified data model: landlords, properties, sales, tenants, and users",
+    "Governance through platform-wide audit logs and secure session management",
+  ],
 };
 
 const seoFaqs = [
-    {
-        q: "What technology was used to build the MHG letting agency portal?",
-        a: "The portal is built on Next.js 14, React 18, and TypeScript with a PostgreSQL database managed through Prisma ORM. The dialer suite integrates via SIP.js and is LINKUS-ready. Deployment is Vercel/Docker-compatible.",
-    },
-    {
-        q: "Does the MHG portal support multiple user roles?",
-        a: "Yes. The system has two core roles — Admin and Agent. Admins manage users, commissions, dialer settings, and audit logs. Agents handle day-to-day landlord, property, sales, and tenant workflows.",
-    },
-    {
-        q: "How does the login security work?",
-        a: "The portal uses an OTP-protected login flow with rate limiting and secure session management to prevent unauthorised access and ensure auditability.",
-    },
-    {
-        q: "What does the integrated dialer include?",
-        a: "The dialer suite includes a live-status dialpad, contacts management, call history, internal intercalling (extension-to-extension), labels, favourites, contact and call notes, and recording URL support.",
-    },
-    {
-        q: "Can you build a similar custom letting agency portal for our business?",
-        a: "Absolutely. We build bespoke web applications tailored to letting and estate agency workflows. Contact us to discuss your requirements.",
-    },
+  { q: "What technology was used to build the MHG letting agency portal?", a: "The portal is built on Next.js 14, React 18, and TypeScript with a PostgreSQL database managed through Prisma ORM. The dialer suite integrates via SIP.js and is LINKUS-ready. Deployment is Vercel/Docker-compatible." },
+  { q: "Does the MHG portal support multiple user roles?", a: "Yes. The system has two core roles — Admin and Agent. Admins manage users, commissions, dialer settings, and audit logs. Agents handle day-to-day landlord, property, sales, and tenant workflows." },
+  { q: "How does the login security work?", a: "The portal uses an OTP-protected login flow with rate limiting and secure session management to prevent unauthorised access and ensure auditability." },
+  { q: "What does the integrated dialer include?", a: "The dialer suite includes a live-status dialpad, contacts management, call history, internal intercalling (extension-to-extension), labels, favourites, contact and call notes, and recording URL support." },
+  { q: "Can you build a similar custom letting agency portal for our business?", a: "Absolutely. We build bespoke web applications tailored to letting and estate agency workflows. Contact us to discuss your requirements." },
 ];
 
-/* ==================== PAGE ==================== */
 export default function LettingAgencyPortalCaseStudy() {
-    const year = useMemo(() => new Date().getFullYear(), []);
-    const heroRef = useRef(null);
+  return (
+    <>
+      <Helmet>
+        <title>MHG Portal — Custom Letting Agency Web Application | Case Study | IT Meta Solutions</title>
+        <meta name="description" content="Custom Next.js letting agency portal for More Homes Group — role-based access, OTP login, integrated SIP dialer, landlord & property management, sales tracking, and full audit logs." />
+        <meta property="og:title" content="MHG Portal — Custom Letting Agency Web Application | Case Study" />
+        <meta property="og:description" content="Bespoke letting agency operations portal built on Next.js 14 with PostgreSQL, SIP dialer integration, OTP-secured login, admin and agent workspaces, and platform-wide audit governance." />
+        <meta property="og:type" content="article" />
+        <link rel="canonical" href="https://itmetasolutions.com/case-study/letting-agency-portal" />
+      </Helmet>
+      <ScrollProgress />
 
-    return (
-        <>
-            <Helmet>
-                <title>MHG Portal — Custom Letting Agency Web Application | Case Study | IT Meta Solutions</title>
-                <meta
-                    name="description"
-                    content="Custom Next.js letting agency portal for More Homes Group — role-based access, OTP login, integrated SIP dialer, landlord & property management, sales tracking, and full audit logs."
-                />
-                <meta
-                    name="keywords"
-                    content="letting agency portal, custom web application, Next.js CRM, More Homes Group, SIP dialer, role-based access, OTP login, property management, IT Meta Solutions"
-                />
-                <meta property="og:title" content="MHG Portal — Custom Letting Agency Web Application | Case Study" />
-                <meta
-                    property="og:description"
-                    content="Bespoke letting agency operations portal built on Next.js 14 with PostgreSQL, SIP dialer integration, OTP-secured login, admin and agent workspaces, and platform-wide audit governance."
-                />
-                <meta property="og:type" content="article" />
-                <link rel="canonical" href="https://itmetasolutions.com/case-study/letting-agency-portal" />
-                <meta property="og:url" content="https://itmetasolutions.com/case-study/letting-agency-portal" />
-                <meta property="og:image" content="https://itmetasolutions.com/favicon.webp" />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="MHG Portal — Custom Letting Agency Web Application | Case Study" />
-                <meta
-                    name="twitter:description"
-                    content="Bespoke letting agency operations portal built on Next.js 14 with PostgreSQL, SIP dialer integration, OTP-secured login, admin and agent workspaces, and platform-wide audit governance."
-                />
-                <meta name="twitter:image" content="https://itmetasolutions.com/favicon.webp" />
-            </Helmet>
-
-            <div className="itms-subpage relative min-h-screen overflow-hidden text-zinc-100">
-              <SubpageVisualLayer />
-
-        <ScrollProgress />
-
-<GradientBlob className="left-[-120px] top-[-120px] h-[620px] w-[620px]" color="rgba(29,78,216,0.20)" />
-                <GradientBlob className="right-[-180px] top-[180px] h-[720px] w-[720px]" color="rgba(35,166,232,0.14)" />
-                <GradientBlob className="bottom-[-160px] left-[25%] h-[760px] w-[760px]" color="rgba(29,78,216,0.16)" />
-
-                {/* ==================== HERO ==================== */}
-                <section ref={heroRef} className="relative pt-24 pb-10 sm:pt-32 sm:pb-16">
-                    <Container>
-                        <motion.div>
-                            <Reveal>
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <Pill icon={Layers}>Next.js 14</Pill>
-                                    <Pill icon={Database}>PostgreSQL</Pill>
-                                    <Pill icon={FileText}>TypeScript</Pill>
-                                    <Pill icon={Phone}>SIP Dialer</Pill>
-                                    <Pill icon={Users}>Role-Based Access</Pill>
-                                    <Pill icon={KeyRound}>OTP Login</Pill>
-                                    <Pill icon={Settings}>Admin Controls</Pill>
-                                    <Pill icon={ShieldCheck}>Audit Logs</Pill>
-                                </div>
-                            </Reveal>
-
-                            <Reveal delay={0.06}>
-                                <h1 className="mt-7 max-w-5xl text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                                    MHG Portal —{" "}
-                                    <span className="bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500 bg-clip-text text-transparent">
-                                        Custom Letting Agency App
-                                    </span>
-                                </h1>
-                            </Reveal>
-
-                            <Reveal delay={0.12}>
-                                <p className="mt-5 max-w-3xl text-sm leading-relaxed text-zinc-300 sm:text-base">
-                                    A bespoke operations portal built for More Homes Group — replacing disconnected tools with a single platform for
-                                    landlord onboarding, property lifecycle management, sales tracking, tenant records, an integrated SIP dialer suite,
-                                    team chat, and full audit governance. Built on Next.js 14, TypeScript, and PostgreSQL.
-                                </p>
-                            </Reveal>
-
-                            <Reveal delay={0.14}>
-                                <div className="mt-8 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02]">
-                                    <img
-                                        src={lettingAgencyBannerImg}
-                                        alt="MHG Portal banner"
-                                        className="h-full w-full object-cover"
-                                    />
-                                </div>
-                            </Reveal>
-                            {/* KPI cards */}
-                            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                                <StatCard icon={Layers} label="Core Modules" value="5 Modules" delay={0.05} />
-                                <StatCard icon={Users} label="User Roles" value="Admin + Agent" delay={0.1} />
-                                <StatCard icon={Phone} label="Dialer" value="SIP Integrated" delay={0.15} />
-                                <StatCard icon={ShieldCheck} label="Security" value="OTP + Audit" delay={0.2} />
-                            </div>
-
-                            <Reveal delay={0.18}>
-                                <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm">
-                                    <div className="flex flex-col gap-4">
-                                        <div className="max-w-2xl">
-                                            <div className="text-sm font-semibold text-white">Project summary</div>
-                                            <div className="mt-1 text-sm text-zinc-300">
-                                                End-to-end custom web portal for More Homes Group — combining CRM-style letting workflows, an integrated
-                                                dialer suite, team communication, and compliance governance in one secure, role-based platform.
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-wrap items-center gap-3">
-                                            <a
-                                                href="https://portal.morehomesgroup.co.uk/"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/[0.12] hover:scale-[1.02]"
-                                            >
-                                                Visit Live Site
-                                                <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                                            </a>
-                                            <a
-                                                href="/contact"
-                                                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/40 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/55 hover:scale-[1.02]"
-                                            >
-                                                Build Your Portal
-                                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-6 grid gap-4 md:grid-cols-3">
-                                        {[
-                                            { icon: Settings, title: "Admin Control Center", desc: "Agent management, commission config, dialer domain setup, audit logs, and full portfolio visibility." },
-                                            { icon: Users, title: "Agent Workspace", desc: "Daily execution for landlord onboarding, property lifecycle tracking, sales closure, and tenant records." },
-                                            { icon: Phone, title: "Dialer Suite", desc: "SIP/LINKUS-ready dialpad with call history, intercalling, contacts, labels, notes, and recording URLs." },
-                                        ].map((b) => (
-                                            <div key={b.title} className="rounded-2xl border border-white/10 bg-white/5 p-4 flex flex-col justify-center">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                                                        <b.icon className="h-5 w-5 text-white/85" />
-                                                    </div>
-                                                    <div>
-                                                        <div className="text-sm font-semibold text-white">{b.title}</div>
-                                                        <div className="mt-1 text-sm text-zinc-300">{b.desc}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </Reveal>
-                        </motion.div>
-                    </Container>
-                </section>
-
-                <StickySubnav />
-
-                {/* ==================== OVERVIEW ==================== */}
-                <section id="overview" className="scroll-mt-24 py-16 sm:py-20">
-                    <Container>
-                        <Reveal>
-                            <SectionHeading
-                                badge="Overview"
-                                title={
-                                    <>
-                                        One platform to run{" "}
-                                        <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
-                                            all letting operations
-                                        </span>
-                                    </>
-                                }
-                                description="More Homes Group needed a single platform to run day-to-day agency operations without switching between disconnected tools. We built a centralised portal combining business workflows, communication, and compliance in one system."
-                            />
-                        </Reveal>
-
-                        <div className="grid gap-6 lg:grid-cols-3">
-                            <FeatureCard
-                                icon={Search}
-                                title="The problem"
-                                desc="Fragmented tools, limited visibility, and weak communication flow between teams."
-                                bullets={[
-                                    "Landlord, property, sales, and tenant records stored separately",
-                                    "Limited visibility across admin and agent activity",
-                                    "Weak communication flow between teams",
-                                    "No structured dialer workflow for calling operations",
-                                    "Insufficient login security and no audit trail",
-                                ]}
-                                delay={0.05}
-                            />
-                            <FeatureCard
-                                icon={Target}
-                                title="The solution"
-                                desc="A centralised Next.js operations portal combining workflows, communication, and compliance."
-                                bullets={[
-                                    "Role-based architecture for Admin and Agent users",
-                                    "OTP-protected login with rate limiting and secure sessions",
-                                    "Unified data model for landlords, properties, sales, tenants",
-                                    "Integrated SIP/LINKUS-ready dialer suite",
-                                    "Platform-wide audit logs for full governance",
-                                ]}
-                                delay={0.1}
-                            />
-                            <FeatureCard
-                                icon={ShieldCheck}
-                                title="Delivered outcomes"
-                                desc="A fully operational letting portal serving admin and agent users from a single secure system."
-                                bullets={[
-                                    "Single source of truth for core letting operations",
-                                    "Faster admin oversight with cleaner ownership controls",
-                                    "Stronger security via OTP and role-aware access",
-                                    "Improved agent productivity with integrated dialer + CRM",
-                                    "Compliance readiness through persistent audit trails",
-                                ]}
-                                delay={0.15}
-                            />
-                        </div>
-                    </Container>
-                </section>
-
-                <Container><Divider /></Container>
-
-                {/* ==================== MODULES ==================== */}
-                <section id="modules" className="scroll-mt-24 py-16 sm:py-20">
-                    <Container>
-                        <Reveal>
-                            <SectionHeading
-                                badge="Core Modules"
-                                title={
-                                    <>
-                                        Every part of the portal,{" "}
-                                        <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
-                                            in detail
-                                        </span>
-                                    </>
-                                }
-                                description="The system is organised into five core modules. Each handles a distinct area of the letting business — from admin oversight and agent workflows through the dialer suite, team communication, and revenue reporting."
-                            />
-                        </Reveal>
-
-                        <div className="flex flex-col gap-6">
-                            <ModuleBlock
-                                icon={Cog}
-                                number="01"
-                                title="Admin Control Center"
-                                desc="The admin-only hub for managing the entire platform. Admins control agents, configure commission structures, set dialer domain settings, review audit logs, and maintain full visibility across the portfolio and operations."
-                                fields={[
-                                    "Agent account creation, editing & deactivation",
-                                    "Commission rate configuration per agent / deal type",
-                                    "Dialer domain & SIP extension management",
-                                    "Platform-wide audit log (all user actions & changes)",
-                                    "Full portfolio visibility (landlords, properties, sales, tenants)",
-                                    "Role assignment and permission management",
-                                    "System settings and configuration panel",
-                                    "User session management and security oversight",
-                                ]}
-                                delay={0.05}
-                            />
-
-                            <ModuleBlock
-                                icon={Users}
-                                number="02"
-                                title="Agent Workspace"
-                                desc="The day-to-day operational hub for agents. From a single workspace, agents handle every core letting workflow — onboarding landlords, managing property lifecycles, closing sales, maintaining tenant records, and updating their own profiles."
-                                fields={[
-                                    "Landlord onboarding and profile management",
-                                    "Property lifecycle tracking (listing → active → closed)",
-                                    "Sales record creation, progression, and closure",
-                                    "Tenant record management and status tracking",
-                                    "Agent profile and settings management",
-                                    "Assigned portfolio view per agent",
-                                    "Activity log and notes per record",
-                                    "Commission earned and payment status view",
-                                ]}
-                                delay={0.07}
-                            />
-
-                            <ModuleBlock
-                                icon={Phone}
-                                number="03"
-                                title="Dialer Suite"
-                                desc="A fully integrated calling workflow built directly into the portal. The dialer suite is SIP/LINKUS-ready and covers the complete calling experience — from live-status dial to post-call notes and recording management."
-                                fields={[
-                                    "Dialpad with live call status indicator",
-                                    "Contacts management (import, create, organise)",
-                                    "Full call history management (inbound & outbound)",
-                                    "Intercalling — internal extension-to-extension calls",
-                                    "Labels for categorising calls and contacts",
-                                    "Favourites for quick-access contacts",
-                                    "Per-contact and per-call notes",
-                                    "Recording URL support for call review",
-                                ]}
-                                delay={0.09}
-                            />
-
-                            <ModuleBlock
-                                icon={MessageSquare}
-                                number="04"
-                                title="Team Communication"
-                                desc="An embedded chat system built into the portal for fast internal coordination between users. Agents and admins can message each other directly without switching to external tools, keeping communication in context and on record."
-                                fields={[
-                                    "Direct messaging between portal users",
-                                    "Real-time message delivery",
-                                    "Conversation history and message persistence",
-                                    "User presence and online status",
-                                    "Message notifications and unread indicators",
-                                    "Accessible to both Admin and Agent roles",
-                                ]}
-                                delay={0.11}
-                            />
-
-                            <ModuleBlock
-                                icon={BarChart3}
-                                number="05"
-                                title="Revenue & Performance"
-                                desc="Sales and commission dashboards give admins and agents clear visibility into financial performance. Operational reporting views cover deal volumes, revenue earned, commission calculations, and overall portfolio activity."
-                                fields={[
-                                    "Sales dashboard with deal volume and status breakdown",
-                                    "Commission dashboard per agent (earned vs paid)",
-                                    "Revenue overview for admin users",
-                                    "Operational reporting views for activity monitoring",
-                                    "Agent performance summaries",
-                                    "Filterable date-range reporting",
-                                    "Portfolio-level financial snapshot",
-                                    "Export-ready reports (proposed next phase)",
-                                ]}
-                                delay={0.13}
-                            />
-                        </div>
-                    </Container>
-                </section>
-
-                <Container><Divider /></Container>
-
-                {/* ==================== ARCHITECTURE ==================== */}
-                <section id="architecture" className="scroll-mt-24 py-16 sm:py-20">
-                    <Container>
-                        <Reveal>
-                            <SectionHeading
-                                badge="Architecture"
-                                title={
-                                    <>
-                                        Built on a modern{" "}
-                                        <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
-                                            full-stack foundation
-                                        </span>
-                                    </>
-                                }
-                                description="The portal is built on Next.js 14 with a PostgreSQL database managed through Prisma ORM. SIP.js powers the integrated dialer, Zod handles validation, and the system is deployable on Vercel or Docker."
-                            />
-                        </Reveal>
-
-                        <div className="grid gap-6 lg:grid-cols-3">
-                            <FeatureCard
-                                icon={Layers}
-                                title="Next.js 14 + React 18"
-                                desc="The frontend and API layer are built on Next.js 14 with React 18 and TypeScript throughout."
-                                bullets={[
-                                    "App Router with server and client components",
-                                    "TypeScript for type-safe development",
-                                    "Server Actions for form and mutation handling",
-                                    "Optimised rendering and page performance",
-                                    "Vercel-ready deployment model",
-                                ]}
-                                delay={0.05}
-                            />
-                            <FeatureCard
-                                icon={Database}
-                                title="Prisma ORM + PostgreSQL"
-                                desc="Prisma provides a type-safe ORM layer over PostgreSQL with a clean, structured data model."
-                                bullets={[
-                                    "Unified schema for landlords, properties, sales, tenants",
-                                    "Relational integrity with typed queries",
-                                    "Migration management with Prisma Migrate",
-                                    "Zod validation on all inputs and API boundaries",
-                                    "Docker-compatible database setup",
-                                ]}
-                                delay={0.1}
-                            />
-                            <FeatureCard
-                                icon={Phone}
-                                title="SIP.js Dialer Integration"
-                                desc="The dialer suite integrates SIP.js for browser-based calling, ready for LINKUS and SIP server connections."
-                                bullets={[
-                                    "SIP.js for WebRTC-based call handling",
-                                    "LINKUS-ready architecture for enterprise PBX",
-                                    "Live call status and session management",
-                                    "Extension-to-extension intercalling support",
-                                    "Call recording URL capture and storage",
-                                ]}
-                                delay={0.15}
-                            />
-                        </div>
-
-                        <div className="mt-6 grid gap-6 md:grid-cols-2">
-                            <FeatureCard
-                                icon={Lock}
-                                title="Security & Authentication"
-                                desc="OTP-protected login with rate limiting, secure sessions, and a two-tier role model."
-                                bullets={[
-                                    "OTP-based login flow with expiry and rate limiting",
-                                    "Secure session management (server-side)",
-                                    "Two-tier role model: Admin and Agent",
-                                    "Role-aware route protection and UI rendering",
-                                    "Sensitive operations gated behind admin access",
-                                    "Platform-wide audit log for all user actions",
-                                ]}
-                                delay={0.05}
-                            />
-                            <FeatureCard
-                                icon={Workflow}
-                                title="Roadmap — Next Phase"
-                                desc="The proposed next phase adds scheduling, notifications, automation, and advanced reporting."
-                                bullets={[
-                                    "Scheduling: callbacks, follow-ups, and call plans",
-                                    "Notification engine: missed calls, due reminders, assignments",
-                                    "Workflow automation: rule-based triggers and escalation logic",
-                                    "Advanced reporting: export-ready, role-specific dashboards",
-                                    "Optional integrations: calendar, telephony analytics, BI tools",
-                                ]}
-                                delay={0.1}
-                            />
-                        </div>
-
-                        <Reveal delay={0.16}>
-                            <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 backdrop-blur-sm">
-                                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                                    <div className="max-w-2xl">
-                                        <div className="text-sm font-semibold text-white">Full tech stack</div>
-                                        <div className="mt-1 text-sm text-zinc-300">
-                                            Next.js 14 • React 18 • TypeScript • Prisma ORM • PostgreSQL •
-                                            Zod • SIP.js • Vercel / Docker
-                                        </div>
-                                    </div>
-                                    <div className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-200">
-                                        <ShieldCheck className="h-4 w-4" />
-                                        OTP + Audit secured
-                                    </div>
-                                </div>
-                            </div>
-                        </Reveal>
-                    </Container>
-                </section>
-
-                <Container><Divider /></Container>
-
-                {/* ==================== SCREENSHOTS ==================== */}
-                <section id="screens" className="scroll-mt-24 py-16 sm:py-20">
-                    <Container>
-                        <Reveal>
-                            <SectionHeading
-                                badge="Project Screenshots"
-                                title={
-                                    <>
-                                        See the portal{" "}
-                                        <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
-                                            in action
-                                        </span>
-                                    </>
-                                }
-                                description="Screenshots of all major modules — admin control center, agent workspace, dialer suite, team chat, and revenue dashboards."
-                            />
-                        </Reveal>
-
-                        {/* Row 1 - 2 wide */}
-                        <div className="grid gap-6 lg:grid-cols-2">
-                            <Reveal delay={0.05}>
-                                <Screenshot
-                                    src={adminControlCenterImg}
-                                    title="Admin Control Center"
-                                    comment="Agent management, commission config, dialer domain settings, and audit log overview"
-                                />
-                            </Reveal>
-                            <Reveal delay={0.1}>
-                                <Screenshot
-                                    src={agentWorkspaceImg}
-                                    title="Agent Workspace - Property Lifecycle"
-                                    comment="Agent view showing landlord onboarding, property status tracking, and sales records"
-                                />
-                            </Reveal>
-                        </div>
-
-                        {/* Row 2 - 2 wide */}
-                        <div className="mt-6 grid gap-6 lg:grid-cols-2">
-                            <Reveal delay={0.05}>
-                                <Screenshot
-                                    src={dialerSuiteImg}
-                                    title="Dialer Suite - Dialpad & Call History"
-                                    comment="Live-status dialpad, call history log, contacts list, and intercalling interface"
-                                />
-                            </Reveal>
-                            <Reveal delay={0.1}>
-                                <Screenshot
-                                    src={dialerLabelsImg}
-                                    title="Dialer - Labels, Notes & Recordings"
-                                    comment="Call labelling, per-call notes, favourites, and recording URL management"
-                                />
-                            </Reveal>
-                        </div>
-
-                        {/* Row 3 - full width */}
-                        <div className="mt-6">
-                            <Reveal delay={0.05}>
-                                <Screenshot
-                                    src={teamCommunicationImg}
-                                    title="Team Communication - Embedded Chat"
-                                    comment="In-portal direct messaging between admin and agent users with conversation history"
-                                />
-                            </Reveal>
-                        </div>
-
-                        {/* Row 4 - 3 columns */}
-                        <div className="mt-6 grid gap-6 lg:grid-cols-3">
-                            <Reveal delay={0.05}>
-                                <Screenshot
-                                    src={revenueDashboardImg}
-                                    title="Revenue & Commission Dashboard"
-                                    comment="Sales and commission overview with deal volumes and agent performance summaries"
-                                />
-                            </Reveal>
-                            <Reveal delay={0.1}>
-                                <Screenshot
-                                    src={otpLoginImg}
-                                    title="OTP Login & Authentication"
-                                    comment="Secure OTP-protected login flow with rate limiting and session management"
-                                />
-                            </Reveal>
-                            <Reveal delay={0.15}>
-                                <Screenshot
-                                    src={auditLogImg}
-                                    title="Audit Log - Platform Governance"
-                                    comment="Admin-accessible audit trail showing all user actions and record changes across the portal"
-                                />
-                            </Reveal>
-                        </div>
-                    </Container>
-                </section>
-
-                <Container><Divider /></Container>
-
-                {/* ==================== IMPACT ==================== */}
-                <section id="impact" className="scroll-mt-24 py-16 sm:py-20 pb-24">
-                    <Container>
-                        <Reveal>
-                            <SectionHeading
-                                badge="Impact"
-                                title={
-                                    <>
-                                        One portal, zero friction,{" "}
-                                        <span className="bg-gradient-to-r from-[#1D4ED8] to-blue-500 bg-clip-text text-transparent">
-                                            full control
-                                        </span>
-                                    </>
-                                }
-                                description="The MHG portal replaced fragmented, disconnected tools with a single secure platform — delivering faster operations, stronger security, and better agent productivity across every letting workflow."
-                                centered
-                            />
-                        </Reveal>
-
-                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                            <StatCard icon={Layers} label="Operations" value="Centralised" delay={0.05} />
-                            <StatCard icon={Phone} label="Dialer" value="Integrated" delay={0.1} />
-                            <StatCard icon={KeyRound} label="Security" value="OTP + Audit" delay={0.15} />
-                            <StatCard icon={BarChart3} label="Revenue" value="Dashboarded" delay={0.2} />
-                        </div>
-
-                        <div className="mt-8 grid gap-6 md:grid-cols-2">
-                            <Reveal delay={0.05}>
-                                <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 h-full">
-                                    <h3 className="text-lg font-bold text-white">Operational outcomes</h3>
-                                    <ul className="mt-5 space-y-3 text-sm text-zinc-200">
-                                        {[
-                                            "Single source of truth for landlords, properties, sales, and tenants",
-                                            "Faster admin oversight with cleaner ownership and control boundaries",
-                                            "Agents work from a unified workspace without switching tools",
-                                            "Integrated dialer reduces context switching during calling workflows",
-                                            "Embedded team chat keeps communication in-platform and on record",
-                                            "Persistent audit trails support compliance and accountability",
-                                        ].map((item, i) => (
-                                            <li key={i} className="flex items-start gap-3">
-                                                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
-                                                <span>{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </Reveal>
-
-                            <Reveal delay={0.1}>
-                                <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 h-full">
-                                    <h3 className="text-lg font-bold text-white">Technical deliverables</h3>
-                                    <ul className="mt-5 space-y-3 text-sm text-zinc-200">
-                                        {[
-                                            "Next.js 14 + TypeScript portal with App Router and Server Actions",
-                                            "PostgreSQL database managed via Prisma ORM with typed queries",
-                                            "Zod validation layer across all inputs and API boundaries",
-                                            "SIP.js dialer suite with intercalling and recording URL support",
-                                            "OTP login with rate limiting, secure sessions, and role-aware routing",
-                                            "Platform-wide audit logging for admin governance and compliance",
-                                        ].map((item, i) => (
-                                            <li key={i} className="flex items-start gap-3">
-                                                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-sky-400" />
-                                                <span>{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </Reveal>
-                        </div>
-
-                        <Reveal delay={0.15}>
-                            <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#1D4ED8]/20 to-blue-600/20 p-7 backdrop-blur-sm">
-                                <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-                                    <div className="max-w-2xl">
-                                        <div className="text-sm font-semibold text-white">Skills & deliverables</div>
-                                        <div className="mt-1 text-sm text-zinc-300">
-                                            Next.js 14 • React 18 • TypeScript • Prisma ORM • PostgreSQL •
-                                            Zod • SIP.js • OTP Auth • Audit Logs • Vercel / Docker
-                                        </div>
-                                    </div>
-                                    <a
-                                        href="/contact"
-                                        className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-[1.02]"
-                                    >
-                                        Build Your Portal
-                                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                    </a>
-                                </div>
-                            </div>
-                        </Reveal>
-
-                        <div className="mt-10 text-center text-xs text-zinc-500">
-                            © {year} • MHG Portal case study • IT Meta Solutions
-                        </div>
-                    </Container>
-                </section>
-
-                <SeoContentFaq content={seoContent} faqs={seoFaqs} />
+      {/* HERO */}
+      <section className="relative bg-[#141A2E] overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+        <div className="absolute inset-0 dot-grid-bg opacity-25 pointer-events-none" />
+        <div className="absolute -top-32 right-0 w-[600px] h-[500px] rounded-full bg-[#1D4ED8]/10 blur-[120px] pointer-events-none" />
+        <Container>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="flex flex-wrap gap-2 mb-8">
+              {[{ icon: Layers, label: "Next.js 14" }, { icon: Database, label: "PostgreSQL" }, { icon: KeyRound, label: "OTP Login" }, { icon: Phone, label: "SIP Dialer" }, { icon: Users, label: "Role-Based" }, { icon: ShieldCheck, label: "Audit Logs" }].map((b) => (
+                <span key={b.label} className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.07] px-3 py-1.5 text-xs font-medium text-slate-300"><b.icon className="h-3.5 w-3.5 text-[#3AC9F5]" />{b.label}</span>
+              ))}
             </div>
-        </>
-    );
-}
+            <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl max-w-5xl" style={{ fontFamily: "var(--font-heading)" }}>
+              MHG Portal — <span className="animated-gradient-text">Custom Letting Agency App</span>
+            </h1>
+            <p className="mt-6 text-lg text-slate-400 max-w-3xl leading-relaxed">A bespoke operations portal built for More Homes Group — replacing disconnected tools with a single platform for landlord onboarding, property lifecycle management, sales tracking, tenant records, an integrated SIP dialer suite, team chat, and full audit governance.</p>
+            <div className="mt-8 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]">
+              <img src={lettingAgencyBannerImg} alt="MHG Portal" className="h-full w-full object-cover" loading="lazy" />
+            </div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-4 max-w-3xl">
+              {[{ icon: Layers, label: "Core Modules", value: "5 Modules", color: "#1D4ED8" }, { icon: Users, label: "User Roles", value: "Admin + Agent", color: "#23A6E8" }, { icon: Phone, label: "Dialer", value: "SIP Integrated", color: "#3AC9F5" }, { icon: ShieldCheck, label: "Security", value: "OTP + Audit", color: "#1D4ED8" }].map((s) => (
+                <div key={s.label} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 backdrop-blur-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: `${s.color}30` }}><s.icon className="h-4 w-4" style={{ color: s.color }} /></div>
+                    <div><div className="text-base font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>{s.value}</div><div className="text-xs text-slate-400">{s.label}</div></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="https://portal.morehomesgroup.co.uk/" target="_blank" rel="noreferrer" className="btn-primary">Visit Live Site <ExternalLink className="h-4 w-4" /></a>
+              <Link to="/contact" className="btn-ghost-dark">Build Your Portal <MousePointerClick className="h-4 w-4" /></Link>
+            </div>
+          </motion.div>
+        </Container>
+      </section>
 
+      <StickyNav items={nav} />
+
+      {/* OVERVIEW */}
+      <section id="overview" className="scroll-mt-28 bg-white py-20 sm:py-28">
+        <Container>
+          <Reveal className="mb-12">
+            <span className="kicker">Overview</span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl" style={{ fontFamily: "var(--font-heading)" }}>One Platform to Run All Letting Operations</h2>
+            <p className="mt-4 text-lg text-slate-500 max-w-2xl">More Homes Group needed a single platform to run day-to-day agency operations without switching between disconnected tools. We built a centralised portal combining business workflows, communication, and compliance in one system.</p>
+          </Reveal>
+          <div className="grid gap-5 md:grid-cols-3">
+            <LightCard color="#1D4ED8" icon={Search} title="The Problem" desc="Fragmented tools, limited visibility, and weak communication flow between teams." bullets={["Landlord, property, sales, and tenant records stored separately", "Limited visibility across admin and agent activity", "No structured dialer workflow", "Insufficient login security and no audit trail"]} />
+            <LightCard color="#23A6E8" icon={Target} title="The Solution" desc="A centralised Next.js operations portal combining workflows, communication, and compliance." bullets={["Role-based architecture for Admin and Agent", "OTP-protected login with rate limiting", "Unified data model: landlords, properties, sales, tenants", "SIP/LINKUS-ready integrated dialer suite", "Platform-wide audit logs for governance"]} delay={0.05} />
+            <LightCard color="#3AC9F5" icon={ShieldCheck} title="Delivered Outcomes" desc="A fully operational letting portal serving admin and agent users from a single secure system." bullets={["Single source of truth for operations", "Faster admin oversight", "Stronger security via OTP and role access", "Improved agent productivity with integrated dialer", "Compliance readiness through audit trails"]} delay={0.1} />
+          </div>
+        </Container>
+      </section>
+
+      {/* MODULES */}
+      <section id="modules" className="scroll-mt-28 bg-[#F1F4F9] py-20 sm:py-28">
+        <Container>
+          <Reveal className="mb-12">
+            <span className="kicker">Core Modules</span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl" style={{ fontFamily: "var(--font-heading)" }}>Every Part of the Portal, in Detail</h2>
+            <p className="mt-4 text-lg text-slate-500 max-w-2xl">The system is organised into five core modules, each handling a distinct area of the letting business — from admin oversight and agent workflows through the dialer suite, team communication, and revenue reporting.</p>
+          </Reveal>
+          <div className="flex flex-col gap-5">
+            <ModuleBlock icon={Cog} number="01" title="Admin Control Center" desc="The admin-only hub for managing the entire platform. Admins control agents, configure commission structures, set dialer domain settings, review audit logs, and maintain full visibility across the portfolio and operations." fields={["Agent account creation, editing & deactivation", "Commission rate configuration per agent / deal type", "Dialer domain & SIP extension management", "Platform-wide audit log (all user actions & changes)", "Full portfolio visibility (landlords, properties, sales, tenants)", "Role assignment and permission management", "System settings and configuration panel", "User session management and security oversight"]} />
+            <ModuleBlock icon={Users} number="02" title="Agent Workspace" desc="The day-to-day operational hub for agents. From a single workspace, agents handle every core letting workflow — onboarding landlords, managing property lifecycles, closing sales, maintaining tenant records, and updating their own profiles." fields={["Landlord onboarding and profile management", "Property lifecycle tracking (listing → active → closed)", "Sales record creation, progression, and closure", "Tenant record management and status tracking", "Agent profile and settings management", "Assigned portfolio view per agent", "Activity log and notes per record", "Commission earned and payment status view"]} delay={0.05} />
+            <ModuleBlock icon={Phone} number="03" title="Dialer Suite" desc="A fully integrated calling workflow built directly into the portal. The dialer suite is SIP/LINKUS-ready and covers the complete calling experience — from live-status dial to post-call notes and recording management." fields={["Dialpad with live call status indicator", "Contacts management (import, create, organise)", "Full call history management (inbound & outbound)", "Intercalling — internal extension-to-extension calls", "Labels for categorising calls and contacts", "Favourites for quick-access contacts", "Per-contact and per-call notes", "Recording URL support for call review"]} delay={0.1} />
+            <ModuleBlock icon={MessageSquare} number="04" title="Team Communication" desc="An embedded chat system built into the portal for fast internal coordination between users. Agents and admins can message each other directly without switching to external tools, keeping communication in context and on record." fields={["Direct messaging between portal users", "Real-time message delivery", "Conversation history and message persistence", "User presence and online status", "Message notifications and unread indicators", "Accessible to both Admin and Agent roles"]} delay={0.15} />
+            <ModuleBlock icon={BarChart3} number="05" title="Revenue & Performance" desc="Sales and commission dashboards give admins and agents clear visibility into financial performance. Operational reporting views cover deal volumes, revenue earned, commission calculations, and overall portfolio activity." fields={["Sales dashboard with deal volume and status breakdown", "Commission dashboard per agent (earned vs paid)", "Revenue overview for admin users", "Operational reporting views for activity monitoring", "Agent performance summaries", "Filterable date-range reporting", "Portfolio-level financial snapshot"]} delay={0.2} />
+          </div>
+        </Container>
+      </section>
+
+      {/* ARCHITECTURE */}
+      <section id="architecture" className="scroll-mt-28 bg-white py-20 sm:py-28">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
+            <Reveal>
+              <span className="kicker">Architecture</span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl" style={{ fontFamily: "var(--font-heading)" }}>Built on a Modern Full-Stack Foundation</h2>
+              <p className="mt-4 text-lg text-slate-500">Next.js 14 with PostgreSQL via Prisma ORM, SIP.js for the integrated dialer, Zod for validation, and deployable on Vercel or Docker.</p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {["Next.js 14", "React 18", "TypeScript", "Prisma ORM", "PostgreSQL", "Zod", "SIP.js", "Vercel / Docker"].map((tag) => (
+                  <span key={tag} className="rounded-full border border-[#1D4ED8]/20 bg-[#1D4ED8]/5 px-3 py-1 text-xs font-semibold text-[#1D4ED8]">{tag}</span>
+                ))}
+              </div>
+            </Reveal>
+            <Reveal delay={0.1} className="space-y-4">
+              <SideItem color="#1D4ED8" icon={Layers} title="Next.js 14 + React 18" desc="App Router with server and client components, TypeScript throughout, Server Actions for mutations, Vercel-ready deployment." />
+              <SideItem color="#23A6E8" icon={Database} title="Prisma ORM + PostgreSQL" desc="Type-safe ORM over PostgreSQL with a clean unified data model, migration management with Prisma Migrate, and Zod validation." />
+              <SideItem color="#3AC9F5" icon={Phone} title="SIP.js Dialer" desc="Browser-based calling via SIP.js, LINKUS-ready architecture for enterprise PBX, live call status and extension-to-extension intercalling." />
+              <SideItem color="#1D4ED8" icon={Lock} title="Security & Authentication" desc="OTP-based login with expiry and rate limiting, secure server-side sessions, two-tier role model with role-aware route protection and audit logs." />
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* SCREENSHOTS */}
+      <section id="screens" className="scroll-mt-28 bg-[#F1F4F9] py-20 sm:py-28">
+        <Container>
+          <Reveal className="mb-12">
+            <span className="kicker">Project Screenshots</span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl" style={{ fontFamily: "var(--font-heading)" }}>See the Portal in Action</h2>
+            <p className="mt-4 text-lg text-slate-500 max-w-2xl">Screenshots of all major modules — admin control center, agent workspace, dialer suite, team chat, and revenue dashboards.</p>
+          </Reveal>
+          <div className="grid gap-5 lg:grid-cols-2">
+            {[{ src: adminControlCenterImg, title: "Admin Control Center", comment: "Agent management, commission config, dialer domain settings, and audit log overview" }, { src: agentWorkspaceImg, title: "Agent Workspace — Property Lifecycle", comment: "Agent view showing landlord onboarding, property status tracking, and sales records" }].map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.05}>
+                <div className="group premium-card rounded-2xl p-4 h-full">
+                  <div className="overflow-hidden rounded-xl border border-slate-100">
+                    <img src={s.src} alt={s.title} loading="lazy" className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                  </div>
+                  <div className="mt-3 px-1"><p className="text-sm font-bold text-slate-900">{s.title}</p><p className="mt-0.5 text-xs text-slate-500">{s.comment}</p></div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            {[{ src: dialerSuiteImg, title: "Dialer Suite — Dialpad & Call History", comment: "Live-status dialpad, call history log, contacts list, and intercalling interface" }, { src: dialerLabelsImg, title: "Dialer — Labels, Notes & Recordings", comment: "Call labelling, per-call notes, favourites, and recording URL management" }].map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.05}>
+                <div className="group premium-card rounded-2xl p-4 h-full">
+                  <div className="overflow-hidden rounded-xl border border-slate-100">
+                    <img src={s.src} alt={s.title} loading="lazy" className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                  </div>
+                  <div className="mt-3 px-1"><p className="text-sm font-bold text-slate-900">{s.title}</p><p className="mt-0.5 text-xs text-slate-500">{s.comment}</p></div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.05} className="mt-5">
+            <div className="group premium-card rounded-2xl p-4">
+              <div className="overflow-hidden rounded-xl border border-slate-100">
+                <img src={teamCommunicationImg} alt="Team Communication" loading="lazy" className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+              </div>
+              <div className="mt-3 px-1"><p className="text-sm font-bold text-slate-900">Team Communication — Embedded Chat</p><p className="mt-0.5 text-xs text-slate-500">In-portal direct messaging between admin and agent users with conversation history</p></div>
+            </div>
+          </Reveal>
+          <div className="mt-5 grid gap-5 lg:grid-cols-3">
+            {[{ src: revenueDashboardImg, title: "Revenue & Commission Dashboard", comment: "Sales and commission overview with deal volumes and agent performance" }, { src: otpLoginImg, title: "OTP Login & Authentication", comment: "Secure OTP-protected login flow with rate limiting and session management" }, { src: auditLogImg, title: "Audit Log — Platform Governance", comment: "Admin-accessible audit trail showing all user actions and record changes" }].map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.05}>
+                <div className="group premium-card rounded-2xl p-4 h-full">
+                  <div className="overflow-hidden rounded-xl border border-slate-100">
+                    <img src={s.src} alt={s.title} loading="lazy" className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                  </div>
+                  <div className="mt-3 px-1"><p className="text-sm font-bold text-slate-900">{s.title}</p><p className="mt-0.5 text-xs text-slate-500">{s.comment}</p></div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* IMPACT */}
+      <section id="impact" className="scroll-mt-28 bg-[#141A2E] py-20 sm:py-28">
+        <Container>
+          <Reveal className="text-center mb-12">
+            <span className="kicker" style={{ borderColor: "rgba(255,255,255,0.15)", backgroundColor: "rgba(255,255,255,0.07)", color: "#93c5fd" }}>Impact</span>
+            <h2 className="mt-6 text-3xl font-extrabold text-white sm:text-4xl" style={{ fontFamily: "var(--font-heading)" }}>One Portal, Zero Friction, Full Control</h2>
+            <p className="mt-4 text-slate-400 max-w-2xl mx-auto">The MHG portal replaced fragmented, disconnected tools with a single secure platform — delivering faster operations, stronger security, and better agent productivity across every letting workflow.</p>
+          </Reveal>
+          <div className="grid gap-5 md:grid-cols-4 mb-10">
+            {[{ icon: Layers, label: "Operations", value: "Centralised", color: "#1D4ED8" }, { icon: Phone, label: "Dialer", value: "Integrated", color: "#23A6E8" }, { icon: KeyRound, label: "Security", value: "OTP + Audit", color: "#3AC9F5" }, { icon: BarChart3, label: "Revenue", value: "Dashboarded", color: "#1D4ED8" }].map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.08}>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl" style={{ backgroundColor: `${s.color}30` }}><s.icon className="h-5 w-5" style={{ color: s.color }} /></div>
+                    <div><div className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>{s.value}</div><div className="text-sm text-slate-400">{s.label}</div></div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.2}>
+            <div className="rounded-2xl border border-[#1D4ED8]/30 bg-[#1D4ED8]/10 p-7">
+              <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+                <div className="max-w-2xl">
+                  <div className="text-base font-bold text-white mb-1" style={{ fontFamily: "var(--font-heading)" }}>Want a similar portal built for your agency?</div>
+                  <div className="text-sm text-slate-400">Next.js 14 · React 18 · TypeScript · Prisma ORM · PostgreSQL · Zod · SIP.js · OTP Auth · Audit Logs</div>
+                </div>
+                <Link to="/contact" className="inline-flex flex-shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1D4ED8] shadow-lg transition-all hover:scale-105" style={{ fontFamily: "var(--font-heading)" }}>Build Your Portal <ArrowRight className="h-4 w-4" /></Link>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      <div className="bg-[#F1F4F9]"><SeoContentFaq content={seoContent} faqs={seoFaqs} lightTheme={true} /></div>
+    </>
+  );
+}

@@ -1,9 +1,8 @@
-﻿import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion, useScroll, useInView } from "framer-motion";
 import {
   ArrowRight,
-  BadgeCheck,
   BarChart3,
   Building2,
   Calculator,
@@ -17,7 +16,6 @@ import {
   Globe,
   Home,
   LayoutGrid,
-  LineChart,
   Megaphone,
   Package,
   Search,
@@ -35,7 +33,6 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
-import SubpageVisualLayer from "../../components/SubpageVisualLayer";
 import Container from "../../components/Container";
 
 /* ==================== HELPERS ==================== */
@@ -55,13 +52,11 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-/* ==================== COMPONENTS ==================== */
-
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed left-0 top-0 z-50 h-1 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-blue-500 to-pink-500"
+      className="fixed left-0 top-0 z-50 h-0.5 w-full origin-left bg-gradient-to-r from-[#1D4ED8] via-[#23A6E8] to-[#3AC9F5]"
       style={{ scaleX: scrollYProgress }}
     />
   );
@@ -74,9 +69,9 @@ function Reveal({ children, delay = 0, className }) {
     <motion.div
       ref={ref}
       className={className}
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
@@ -105,34 +100,31 @@ function CountUp({ target, suffix, reduced }) {
 }
 
 function FilterChip({ active, onClick, icon: Icon, label }) {
-  const reduced = usePrefersReducedMotion();
   return (
-    <motion.button
+    <button
       type="button"
       onClick={onClick}
-      whileHover={reduced ? {} : { scale: 1.04 }}
-      whileTap={reduced ? {} : { scale: 0.96 }}
       className={cx(
         "inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-all",
         active
-          ? "border-[#1D4ED8] bg-gradient-to-r from-[#1D4ED8] to-blue-600 text-white shadow-md shadow-[#1D4ED8]/30"
-          : "border-white/10 bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
+          ? "border-[#1D4ED8] bg-[#1D4ED8] text-white shadow-md shadow-[#1D4ED8]/20"
+          : "border-slate-200 bg-white text-slate-600 hover:border-[#1D4ED8]/40 hover:text-[#1D4ED8]"
       )}
+      style={{ fontFamily: "var(--font-heading)" }}
     >
       {Icon && <Icon className="h-3.5 w-3.5" />}
       {label}
-    </motion.button>
+    </button>
   );
 }
 
 function ProjectCard({ project, delay = 0 }) {
-  const reduced = usePrefersReducedMotion();
   const Icon = project.icon;
 
   return (
     <Reveal delay={delay}>
       <Link to={project.href} className="group block h-full">
-        <div className="relative h-full overflow-hidden rounded-2xl border border-white/[0.07] bg-[#111118] transition-all duration-300 hover:border-white/20 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#1D4ED8]/10">
+        <div className="premium-card relative h-full overflow-hidden rounded-2xl transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-[#1D4ED8]/10 group-hover:border-[#1D4ED8]/30">
           {/* Image */}
           {project.image && (
             <div className="relative h-48 overflow-hidden">
@@ -142,36 +134,37 @@ function ProjectCard({ project, delay = 0 }) {
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111118]/90 via-[#111118]/20 to-transparent" />
-              <div className="absolute bottom-3 left-3">
-                <div
-                  className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-[#1c1a3a]/90 backdrop-blur-sm"
-                  style={{ boxShadow: "0 0 14px rgba(29,78,216,0.35)" }}
-                >
-                  <Icon className="h-4 w-4 text-[#60A5FA]" />
-                </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/10 to-transparent" />
+              {/* Icon badge */}
+              <div className="absolute bottom-3 left-3 flex h-8 w-8 items-center justify-center rounded-xl bg-[#1D4ED8] shadow-lg">
+                <Icon className="h-4 w-4 text-white" />
+              </div>
+              {/* Industry badge */}
+              <div className="absolute top-3 right-3">
+                <span className="rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-slate-700 backdrop-blur-sm">
+                  {project.industry.split(" • ")[0]}
+                </span>
               </div>
             </div>
           )}
 
           {/* Content */}
-          <div className="p-6">
-            <div className="mb-1 text-xs font-medium text-[#60A5FA]">{project.industry}</div>
-            <h3 className="mb-2 text-base font-bold text-white leading-snug group-hover:text-[#60A5FA] transition-colors">
+          <div className="p-5">
+            <h3 className="mb-2 text-base font-bold text-slate-900 leading-snug group-hover:text-[#1D4ED8] transition-colors" style={{ fontFamily: "var(--font-heading)" }}>
               {project.title}
             </h3>
-            <p className="text-xs text-zinc-500 leading-relaxed line-clamp-3">{project.summary}</p>
+            <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">{project.summary}</p>
 
             {/* Tags */}
-            <div className="mt-4 flex flex-wrap gap-1.5">
+            <div className="mt-3.5 flex flex-wrap gap-1.5">
               {(project.tags || []).slice(0, 3).map((t) => (
-                <span key={t} className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] text-zinc-400">
+                <span key={t} className="rounded-full border border-slate-100 bg-[#F1F4F9] px-2.5 py-0.5 text-[10px] font-medium text-slate-500">
                   {t}
                 </span>
               ))}
             </div>
 
-            <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#1D4ED8] group-hover:text-[#60A5FA] transition-colors">
+            <div className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-[#1D4ED8] transition-colors">
               View Case Study
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </div>
@@ -182,14 +175,12 @@ function ProjectCard({ project, delay = 0 }) {
   );
 }
 
-/* ==================== FEATURED CASE STUDY CARD ==================== */
-
 function FeaturedCard({ project, reversed = false }) {
   const Icon = project.icon;
   return (
     <Reveal>
       <div className={cx(
-        "grid gap-0 overflow-hidden rounded-3xl border border-white/[0.07] bg-[#0f0f17]",
+        "premium-card grid overflow-hidden rounded-3xl",
         "lg:grid-cols-2"
       )}>
         {/* Image */}
@@ -200,50 +191,41 @@ function FeaturedCard({ project, reversed = false }) {
             className="h-full w-full object-cover"
             loading="lazy"
           />
-          <div className={cx(
-            "absolute inset-0",
-            reversed
-              ? "bg-gradient-to-l from-transparent to-[#0f0f17] hidden lg:block"
-              : "bg-gradient-to-r from-transparent to-[#0f0f17] hidden lg:block"
-          )} />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f17]/80 via-transparent to-transparent lg:hidden" />
-          {/* Industry badge on image */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent lg:hidden" />
+          {/* Industry badge */}
           <div className="absolute top-4 left-4">
-            <span className="rounded-full border border-white/20 bg-[#141A2E]/80 backdrop-blur-sm px-3 py-1.5 text-[10px] font-medium text-zinc-300">
-              {project.industry}
+            <span className="rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-semibold text-slate-700 shadow backdrop-blur-sm">
+              {project.industry.split(" • ")[0]}
             </span>
           </div>
         </div>
 
         {/* Content */}
-        <div className={cx("flex flex-col justify-center p-8 lg:p-10", reversed && "lg:pr-4")}>
-          <div
-            className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-[#1c1a3a]"
-            style={{ boxShadow: "0 0 20px rgba(29,78,216,0.35)" }}
-          >
-            <Icon className="h-5 w-5 text-[#60A5FA]" />
+        <div className="flex flex-col justify-center p-8 lg:p-10 bg-white">
+          <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1D4ED8]/10">
+            <Icon className="h-6 w-6 text-[#1D4ED8]" />
           </div>
-          <h3 className="mb-3 text-xl font-extrabold text-white leading-snug">{project.title}</h3>
-          <p className="mb-6 text-sm text-zinc-400 leading-relaxed">{project.summary}</p>
+          <h3 className="mb-3 text-xl font-extrabold text-slate-900 leading-snug" style={{ fontFamily: "var(--font-heading)" }}>
+            {project.title}
+          </h3>
+          <p className="mb-6 text-sm text-slate-600 leading-relaxed">{project.summary}</p>
 
           {/* Key results */}
           {project.stats?.length > 0 && (
             <div className="mb-6 grid grid-cols-3 gap-3">
-              {project.stats.slice(0, 3).map((s, i) => {
-                const SIcon = s.icon;
-                return (
-                  <div key={i} className="rounded-xl border border-white/[0.07] bg-white/5 p-3 text-center">
-                    <div className="text-sm font-bold text-white">{s.value}</div>
-                    <div className="mt-0.5 text-[10px] text-zinc-500">{s.label}</div>
-                  </div>
-                );
-              })}
+              {project.stats.slice(0, 3).map((s, i) => (
+                <div key={i} className="rounded-xl border border-slate-100 bg-[#F1F4F9] p-3 text-center">
+                  <div className="text-sm font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>{s.value}</div>
+                  <div className="mt-0.5 text-[10px] text-slate-500">{s.label}</div>
+                </div>
+              ))}
             </div>
           )}
 
           <Link
             to={project.href}
-            className="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-[#1D4ED8]/30 hover:scale-105"
+            className="inline-flex items-center gap-2 self-start rounded-full bg-[#1D4ED8] px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#1D4ED8]/20 transition-all hover:bg-[#162f8f] hover:scale-105"
+            style={{ fontFamily: "var(--font-heading)" }}
           >
             View Case Study
             <ArrowRight className="h-4 w-4" />
@@ -287,14 +269,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.SALES_CLOUD, SUB_CATEGORIES.SERVICE_CLOUD],
     summary:
       "Built Salesforce components that prevent and identify duplicate records while validating entries before record creation and updates. Result: cleaner CRM data, fewer operational issues, and more reliable reporting.",
-    scope: ["Duplicate prevention rules", "Pre-save validation logic", "Match rule configuration", "User warning systems", "Admin-friendly tuning"],
-    highlights: ["Reduced duplicate records", "Cleaner CRM data", "Improved reporting accuracy", "Reusable components"],
     stats: [
       { icon: ShieldCheck, label: "Data Quality", value: "Cleaner records" },
       { icon: Target, label: "Validation", value: "Pre-save gates" },
       { icon: Users, label: "Teams", value: "Sales + Service" },
     ],
-    platforms: [{ label: "Sales Cloud", icon: Cloud }, { label: "Service Cloud", icon: Globe }],
     href: "/case-study/salesforce-duplicate-check",
   },
   {
@@ -307,15 +286,12 @@ const PROJECTS = [
     category: CATEGORIES.SALESFORCE,
     subCategories: [SUB_CATEGORIES.EXPERIENCE_CLOUD, SUB_CATEGORIES.SERVICE_CLOUD],
     summary:
-      "Developed a user-friendly customer portal on Salesforce Experience Cloud (Government Cloud context) to help citizens report environmental concerns, manage property details, process service payments, and track request status in real-time — improving transparency and trust.",
-    scope: ["Complaint management", "Request tracking", "Payments integration", "Property management", "Security & access control", "Lightning UI"],
-    highlights: ["Guided complaint submission", "Real-time status updates", "Secure payment flow", "Property profiles", "Better transparency"],
+      "Developed a user-friendly customer portal on Salesforce Experience Cloud (Government Cloud) to help citizens report environmental concerns, manage property details, process service payments, and track request status in real-time.",
     stats: [
       { icon: Ticket, label: "Complaints", value: "Managed" },
       { icon: CreditCard, label: "Payments", value: "Integrated" },
       { icon: Home, label: "Properties", value: "Tracked" },
     ],
-    platforms: [{ label: "Experience Cloud", icon: Globe }, { label: "Government Cloud", icon: ShieldCheck }],
     href: "/case-study/salesforce-experience-cloud-government-cloud",
   },
   {
@@ -328,15 +304,12 @@ const PROJECTS = [
     category: CATEGORIES.SALESFORCE,
     subCategories: [SUB_CATEGORIES.SERVICE_CLOUD, SUB_CATEGORIES.SALES_CLOUD, SUB_CATEGORIES.EXPERIENCE_CLOUD],
     summary:
-      "Developed a Salesforce Lightning Web Components application using Sales Cloud and Experience Cloud, integrated with an automation engine that uses real-time property data to generate qualified Leads or Potential Buyers. Agents can track opportunities through intuitive dashboards, role-based access, and seamless integration with external property listing systems.",
-    scope: ["Case management", "Lead generation", "Automation engine", "LWC app", "Real-time property data", "Role-based access"],
-    highlights: ["Qualified lead generation", "Real-time property data", "LWC components", "Role-based access", "Agent dashboards"],
+      "Developed a Salesforce LWC application using Sales Cloud and Experience Cloud, integrated with an automation engine that uses real-time property data to generate qualified Leads or Potential Buyers.",
     stats: [
       { icon: Zap, label: "Core", value: "Case Mgmt" },
       { icon: Target, label: "Automation", value: "Qualified Leads" },
       { icon: LayoutGrid, label: "Agents", value: "Dashboards" },
     ],
-    platforms: [{ label: "Service Cloud", icon: Cloud }, { label: "Sales Cloud", icon: Cloud }, { label: "Experience Cloud", icon: Globe }],
     href: "/case-study/salesforce-service-cloud-implementation",
   },
   {
@@ -349,15 +322,12 @@ const PROJECTS = [
     category: CATEGORIES.CUSTOM_WEB_APPS,
     subCategories: [SUB_CATEGORIES.PORTALS],
     summary:
-      "Bespoke letting agency platform for More Homes Group built on Next.js 14, TypeScript, Prisma ORM, and PostgreSQL. Features a two-tier Admin/Agent system, embedded SIP dialer (LINKUS), intercalling, call recordings, team chat, OTP login, audit logs, and a revenue & performance dashboard.",
-    scope: ["Admin Control Center & team management", "Agent Workspace with property pipeline", "SIP Dialer Suite", "Team Communication (embedded chat)", "Revenue & Performance dashboard", "OTP-protected login"],
-    highlights: ["5 fully-featured modules", "Admin + Agent two-tier roles", "SIP.js / LINKUS dialer integration", "OTP auth with audit logging"],
+      "Bespoke letting agency platform for More Homes Group built on Next.js 14, TypeScript, Prisma ORM, and PostgreSQL. Features a two-tier Admin/Agent system, embedded SIP dialer, team chat, OTP login, audit logs, and revenue dashboards.",
     stats: [
       { icon: LayoutGrid, label: "Modules", value: "5 built" },
       { icon: Users, label: "Roles", value: "Admin + Agent" },
       { icon: ShieldCheck, label: "Security", value: "OTP + Audit" },
     ],
-    platforms: [{ label: "Next.js 14", icon: Code2 }, { label: "PostgreSQL", icon: Database }, { label: "SIP.js Dialer", icon: Globe }],
     href: "/case-study/letting-agency-portal",
   },
   {
@@ -370,15 +340,12 @@ const PROJECTS = [
     category: CATEGORIES.CUSTOM_WEB_APPS,
     subCategories: [SUB_CATEGORIES.PORTALS],
     summary:
-      "Full-stack crypto platform connecting a React + Vite SPA to an Express.js REST API backed by Prisma ORM and Neon Serverless PostgreSQL. Solana wallet payments via Phantom and Solflare deep links — users sign on-chain, submit the TX hash to the API, and admins verify on-chain before crediting wallet balances.",
-    scope: ["React + Vite SPA with wallet detection", "Phantom & Solflare deep link / in-app browser", "On-chain transaction signing (Solana)", "Express.js REST API with JWT admin routes"],
-    highlights: ["React + Vite frontend SPA", "Phantom & Solflare wallet support", "On-chain TX signing & hash submission", "Admin on-chain TX verification"],
+      "Full-stack crypto platform connecting a React + Vite SPA to an Express.js REST API backed by Prisma ORM. Solana wallet payments via Phantom and Solflare — users sign on-chain, submit the TX hash to the API, and admins verify before crediting balances.",
     stats: [
       { icon: Globe, label: "Frontend", value: "React + Vite" },
       { icon: Database, label: "Database", value: "Neon PG" },
       { icon: Wallet, label: "Wallets", value: "Phantom + Solflare" },
     ],
-    platforms: [{ label: "React + Vite", icon: Globe }, { label: "Express.js", icon: Code2 }, { label: "Solana", icon: Wallet }],
     href: "/case-study/shencoin",
   },
   {
@@ -392,14 +359,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.ECOMMERCE],
     summary:
       "Built a logic-driven storefront for flooring, worktops and home interiors with custom calculators for area-to-pack conversion, real-time pricing, and survey-based estimates — all without paid apps.",
-    scope: ["Custom calculators", "Product logic", "Real-time pricing", "Survey forms", "Category policies"],
-    highlights: ["Area → packs conversion", "Real-time pricing", "Survey-based estimates", "No paid apps"],
     stats: [
       { icon: Calculator, label: "Calculators", value: "Custom built" },
       { icon: Package, label: "Pack logic", value: "Auto-round up" },
       { icon: Truck, label: "Policies", value: "By category" },
     ],
-    platforms: [{ label: "Shopify", icon: ShoppingCart }],
     href: "/case-study/inhomes-direct",
   },
   {
@@ -413,14 +377,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.ECOMMERCE],
     summary:
       "Developed a modern e-commerce platform for ESahulat Mart, featuring product catalog, shopping cart, payment integration, and order management system.",
-    scope: ["Product catalog", "Shopping cart", "Payment integration", "Order management", "Inventory tracking"],
-    highlights: ["Modern storefront", "Secure payments", "Order management", "Inventory tracking"],
     stats: [
       { icon: ShoppingCart, label: "Products", value: "Listed" },
       { icon: CreditCard, label: "Payments", value: "Integrated" },
       { icon: Package, label: "Orders", value: "Managed" },
     ],
-    platforms: [{ label: "E-commerce", icon: ShoppingCart }],
     href: "/case-study/esahulat-mart",
   },
   {
@@ -434,14 +395,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.PLATFORMS],
     summary:
       "Developed a comprehensive property management platform for More Homes Group, featuring property listings, tenant management, maintenance tracking, and financial reporting.",
-    scope: ["Property listings", "Tenant management", "Maintenance tracking", "Financial reporting", "Admin dashboard"],
-    highlights: ["Streamlined operations", "Better tenant experience", "Real-time tracking", "Comprehensive reporting"],
     stats: [
       { icon: Building2, label: "Properties", value: "Managed" },
       { icon: Users, label: "Tenants", value: "Tracked" },
       { icon: BarChart3, label: "Reports", value: "Automated" },
     ],
-    platforms: [{ label: "Web App", icon: Code2 }],
     href: "/case-study/more-homes-group",
   },
   {
@@ -455,14 +413,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.PLATFORMS],
     summary:
       "Built a comprehensive data analytics platform for Multidatum, featuring advanced data visualization, real-time reporting, and business intelligence dashboards.",
-    scope: ["Data visualization", "Real-time reporting", "Business intelligence", "Dashboard development", "Data integration"],
-    highlights: ["Advanced analytics", "Real-time insights", "Interactive dashboards", "Data integration"],
     stats: [
       { icon: Database, label: "Data", value: "Analyzed" },
       { icon: BarChart3, label: "Reports", value: "Automated" },
       { icon: Target, label: "Insights", value: "Real-time" },
     ],
-    platforms: [{ label: "Web App", icon: Code2 }, { label: "Analytics", icon: BarChart3 }],
     href: "/case-study/multidatum",
   },
   {
@@ -476,14 +431,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.PLATFORMS],
     summary:
       "Built a comprehensive healthcare platform for Hikmabiotics, featuring patient management, appointment scheduling, medical records, and telemedicine capabilities.",
-    scope: ["Patient management", "Appointment scheduling", "Medical records", "Telemedicine", "Admin dashboard"],
-    highlights: ["Patient management", "Appointment system", "Medical records", "Telemedicine ready"],
     stats: [
       { icon: Users, label: "Patients", value: "Managed" },
       { icon: Calendar, label: "Appointments", value: "Scheduled" },
       { icon: ShieldCheck, label: "Records", value: "Secured" },
     ],
-    platforms: [{ label: "Healthcare", icon: ShieldCheck }],
     href: "/case-study/hikmabiotics",
   },
   {
@@ -497,14 +449,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.BRAND_BUILDING, SUB_CATEGORIES.DIGITAL_MARKETING, SUB_CATEGORIES.SOCIAL_MEDIA],
     summary:
       "Complete transformation for Ekommart including brand identity, WordPress store development, social media presence, and performance marketing campaigns that generated thousands of purchases.",
-    scope: ["Brand identity", "WordPress store", "Social media", "Performance marketing", "Content creation"],
-    highlights: ["Brand built from scratch", "E-commerce store launched", "Social media presence", "Performance campaigns"],
     stats: [
       { icon: ShoppingCart, label: "Purchases", value: "3,300+" },
       { icon: Target, label: "CPA", value: "164 PKR" },
       { icon: Megaphone, label: "Campaigns", value: "5 Months" },
     ],
-    platforms: [{ label: "WordPress", icon: Code2 }, { label: "Meta Ads", icon: Target }],
     href: "/case-study/ekommart",
   },
   {
@@ -518,14 +467,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.BRAND_BUILDING, SUB_CATEGORIES.DIGITAL_MARKETING, SUB_CATEGORIES.SOCIAL_MEDIA],
     summary:
       "Complete brand transformation for Halla Gulla including logo design, brand guidelines, website development, and comprehensive digital marketing strategy.",
-    scope: ["Brand identity", "Logo design", "Website development", "Digital marketing", "Social media setup"],
-    highlights: ["Complete brand overhaul", "Modern website", "Social media presence", "Marketing strategy"],
     stats: [
       { icon: Sparkles, label: "Brand", value: "Transformed" },
       { icon: Globe, label: "Website", value: "Launched" },
       { icon: Megaphone, label: "Marketing", value: "Implemented" },
     ],
-    platforms: [{ label: "WordPress", icon: Code2 }, { label: "Social Media", icon: Users }],
     href: "/case-study/halla-gulla",
   },
   {
@@ -539,14 +485,11 @@ const PROJECTS = [
     subCategories: [SUB_CATEGORIES.BRAND_BUILDING, SUB_CATEGORIES.DIGITAL_MARKETING, SUB_CATEGORIES.SOCIAL_MEDIA],
     summary:
       "Comprehensive brand building and digital marketing campaign for United Muslim Travels, including brand identity, website development, and performance marketing.",
-    scope: ["Brand identity", "Website development", "Digital marketing", "Social media", "Content creation"],
-    highlights: ["Brand identity created", "Website launched", "Marketing campaigns", "Social presence built"],
     stats: [
       { icon: Sparkles, label: "Brand", value: "Built" },
       { icon: Globe, label: "Website", value: "Developed" },
       { icon: Target, label: "Marketing", value: "Executed" },
     ],
-    platforms: [{ label: "WordPress", icon: Code2 }, { label: "Meta Ads", icon: Target }],
     href: "/case-studies/united-muslim-travels-brand-build",
   },
 ];
@@ -555,10 +498,10 @@ const FEATURED_KEYS = ["ekommart", "letting-agency-portal", "salesforce-experien
 const FEATURED_PROJECTS = FEATURED_KEYS.map((k) => PROJECTS.find((p) => p.key === k)).filter(Boolean);
 
 const WORK_STATS = [
-  { value: 50, suffix: "+", label: "Projects Completed" },
-  { value: 40, suffix: "+", label: "Happy Clients" },
-  { value: 5, suffix: "+", label: "Industries Served" },
-  { value: 100, suffix: "%", label: "Client Satisfaction" },
+  { value: 50, suffix: "+", label: "Projects Completed", color: "#1D4ED8" },
+  { value: 40, suffix: "+", label: "Happy Clients", color: "#23A6E8" },
+  { value: 5, suffix: "+", label: "Industries Served", color: "#3AC9F5" },
+  { value: 100, suffix: "%", label: "Client Satisfaction", color: "#1D4ED8" },
 ];
 
 const seoContent = {
@@ -668,233 +611,254 @@ export default function WorkPage() {
         <link rel="canonical" href="https://itmetasolutions.com/work" />
       </Helmet>
 
-      <div className="itms-subpage min-h-screen bg-[#141A2E] text-white">
-        <SubpageVisualLayer />
-        {!reduced && <ScrollProgress />}
+      {!reduced && <ScrollProgress />}
 
-        {/* ==================== HERO ==================== */}
-        <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
-          <div className="absolute inset-0 -z-10">
-            <img
-              src="https://images.unsplash.com/photo-1553028826-f4804a6dba3b?w=1800&q=80"
-              alt=""
-              className="h-full w-full object-cover opacity-15"
-              loading="eager"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#141A2E]/60 via-[#141A2E]/70 to-[#141A2E]" />
+      {/* ==================== HERO (dark) ==================== */}
+      <section className="relative bg-[#141A2E] overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+        <div className="absolute inset-0 dot-grid-bg opacity-25 pointer-events-none" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#1D4ED8]/10 blur-[100px] pointer-events-none" />
+
+        <Container>
+          <div className="mx-auto max-w-4xl text-center">
+            <motion.div
+              initial={reduced ? false : { opacity: 0, y: 16 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.07] px-4 py-2 text-sm font-medium text-slate-300"
+            >
+              <Sparkles className="h-4 w-4 text-[#3AC9F5]" />
+              Our Portfolio
+            </motion.div>
+
+            <motion.h1
+              initial={reduced ? false : { opacity: 0, y: 20 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Real Projects,
+              <br />
+              <span className="animated-gradient-text">Real Results</span>
+            </motion.h1>
+
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 16 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mt-6 text-lg text-slate-400 sm:text-xl max-w-2xl mx-auto"
+            >
+              Explore case studies across Salesforce, web development, digital marketing, and brand building — each one a story of measurable growth.
+            </motion.p>
+
+            <motion.div
+              initial={reduced ? false : { opacity: 0, y: 16 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-8 flex flex-wrap items-center justify-center gap-3"
+            >
+              {mainTabs.slice(1).map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => { setMainTab(tab.key); setSubFilter("all"); document.getElementById("all-projects")?.scrollIntoView({ behavior: "smooth" }); }}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-sm font-medium text-slate-300 transition-all hover:border-[#23A6E8]/40 hover:text-white"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  <tab.icon className="h-3.5 w-3.5" />
+                  {tab.label}
+                </button>
+              ))}
+            </motion.div>
           </div>
-          <div className="pointer-events-none absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-[#1D4ED8]/20 blur-[120px] -z-10" />
+        </Container>
+      </section>
 
-          <Container>
-            <div className="mx-auto max-w-4xl text-center">
-              <motion.div
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#1D4ED8]/40 bg-[#1D4ED8]/10 px-4 py-2 text-sm font-medium text-[#60A5FA]"
-              >
-                <Sparkles className="h-4 w-4" />
-                Our Portfolio
-              </motion.div>
+      {/* ==================== STATS (mist) ==================== */}
+      <section className="bg-[#F1F4F9] py-16">
+        <Container>
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
+            {WORK_STATS.map((stat, i) => (
+              <Reveal key={stat.label} delay={i * 0.07}>
+                <div className="premium-card rounded-2xl p-6 text-center">
+                  <div
+                    className="text-3xl font-black sm:text-4xl"
+                    style={{ fontFamily: "var(--font-heading)", color: stat.color }}
+                  >
+                    <CountUp target={stat.value} suffix={stat.suffix} reduced={reduced} />
+                  </div>
+                  <p className="mt-1 text-sm text-slate-500">{stat.label}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
 
-              <motion.h1
-                initial={reduced ? false : { opacity: 0, y: 24 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
-              >
-                Real Projects,
-                <br />
-                <span className="animated-gradient-text">Real Results</span>
-              </motion.h1>
+      {/* ==================== FEATURED CASE STUDIES (white) ==================== */}
+      <section className="bg-white py-20 sm:py-28">
+        <Container>
+          <Reveal className="text-center mb-14">
+            <span className="kicker">Featured Work</span>
+            <h2
+              className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Highlighted Case Studies
+            </h2>
+            <p className="mt-4 text-slate-500 max-w-xl mx-auto">
+              In-depth looks at some of our most impactful projects.
+            </p>
+          </Reveal>
 
-              <motion.p
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-6 text-lg text-zinc-400 sm:text-xl max-w-2xl mx-auto"
-              >
-                Explore case studies across Salesforce, web development, digital marketing, and brand building — each one a story of measurable growth.
-              </motion.p>
+          <div className="space-y-8">
+            {FEATURED_PROJECTS.map((p, i) => (
+              <FeaturedCard key={p.key} project={p} reversed={i % 2 === 1} />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ==================== ALL PROJECTS (mist) ==================== */}
+      <section id="all-projects" className="bg-[#F1F4F9] py-20 sm:py-28">
+        <Container>
+          <Reveal className="text-center mb-12">
+            <span className="kicker">Full Portfolio</span>
+            <h2
+              className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              All Projects
+            </h2>
+          </Reveal>
+
+          {/* Filter panel */}
+          <div className="mb-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            {/* Search */}
+            <div className="relative mb-5">
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search projects..."
+                className="w-full rounded-xl border border-slate-200 bg-[#F1F4F9] py-3 pl-11 pr-4 text-sm text-slate-800 placeholder:text-slate-400 focus:border-[#1D4ED8]/40 focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 transition-all"
+              />
+              {query && (
+                <button onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
-          </Container>
-        </section>
 
-        {/* ==================== SUCCESS METRICS ==================== */}
-        <section className="py-14 bg-[#0F1628]">
-          <Container>
-            <div className="relative rounded-3xl border border-white/[0.07] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1D4ED8]/10 via-transparent to-[#23A6E8]/5" />
-              <div className="relative grid grid-cols-2 divide-x divide-y divide-white/[0.06] lg:grid-cols-4 lg:divide-y-0">
-                {WORK_STATS.map((stat, i) => (
-                  <Reveal key={stat.label} delay={i * 0.1}>
-                    <div className="flex flex-col items-center justify-center py-10 px-6 text-center">
-                      <div className="text-4xl font-black text-white mb-1.5">
-                        <CountUp target={stat.value} suffix={stat.suffix} reduced={reduced} />
-                      </div>
-                      <p className="text-sm text-zinc-500">{stat.label}</p>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </Container>
-        </section>
-
-        {/* ==================== FEATURED CASE STUDIES ==================== */}
-        <section className="py-20 sm:py-28">
-          <Container>
-            <Reveal className="text-center mb-14">
-              <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">Featured Work</p>
-              <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">Highlighted Case Studies</h2>
-              <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
-                In-depth looks at some of our most impactful projects.
-              </p>
-            </Reveal>
-
-            <div className="space-y-8">
-              {FEATURED_PROJECTS.map((p, i) => (
-                <FeaturedCard key={p.key} project={p} reversed={i % 2 === 1} />
+            {/* Main tabs */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {mainTabs.map((tab) => (
+                <FilterChip
+                  key={tab.key}
+                  active={mainTab === tab.key}
+                  onClick={() => { setMainTab(tab.key); setSubFilter("all"); }}
+                  icon={tab.icon}
+                  label={tab.label}
+                />
               ))}
             </div>
-          </Container>
-        </section>
 
-        {/* ==================== ALL PROJECTS ==================== */}
-        <section className="py-20 sm:py-24 bg-[#0F1628]">
-          <Container>
-            <Reveal className="text-center mb-12">
-              <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-3">Full Portfolio</p>
-              <h2 className="text-3xl font-extrabold sm:text-4xl">All Projects</h2>
-            </Reveal>
-
-            {/* Filters */}
-            <div className="mb-10 rounded-2xl border border-white/[0.07] bg-[#111118] p-6">
-              {/* Search */}
-              <div className="relative mb-5">
-                <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search projects..."
-                  className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/50"
-                />
-                {query && (
-                  <button onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white">
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-
-              {/* Main tabs */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {mainTabs.map((tab) => (
-                  <FilterChip
-                    key={tab.key}
-                    active={mainTab === tab.key}
-                    onClick={() => { setMainTab(tab.key); setSubFilter("all"); }}
-                    icon={tab.icon}
-                    label={tab.label}
-                  />
+            {/* Sub-filters */}
+            {activeSubFilters && (
+              <div className="flex flex-wrap gap-2 border-t border-slate-100 pt-4">
+                {activeSubFilters.map((f) => (
+                  <FilterChip key={f.key} active={subFilter === f.key} onClick={() => setSubFilter(f.key)} icon={f.icon} label={f.label} />
                 ))}
-              </div>
-
-              {/* Sub-filters */}
-              {activeSubFilters && (
-                <div className="flex flex-wrap gap-2 border-t border-white/[0.06] pt-4">
-                  {activeSubFilters.map((f) => (
-                    <FilterChip key={f.key} active={subFilter === f.key} onClick={() => setSubFilter(f.key)} icon={f.icon} label={f.label} />
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Results header */}
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-zinc-500">
-                Showing <span className="text-white font-medium">{filtered.length}</span> {filtered.length === 1 ? "project" : "projects"}
-              </p>
-              {(mainTab !== "all" || subFilter !== "all" || query) && (
-                <button
-                  onClick={() => { setQuery(""); setMainTab("all"); setSubFilter("all"); }}
-                  className="text-xs text-[#60A5FA] hover:text-white transition-colors"
-                >
-                  Clear filters
-                </button>
-              )}
-            </div>
-
-            {/* Grid */}
-            {filtered.length > 0 ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {filtered.map((project, i) => (
-                  <ProjectCard key={project.key} project={project} delay={i * 0.05} />
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-white/[0.07] bg-[#111118] p-16 text-center">
-                <Search className="mx-auto h-12 w-12 text-zinc-700 mb-4" />
-                <h3 className="text-lg font-bold text-white mb-2">No projects found</h3>
-                <p className="text-sm text-zinc-500 mb-6">Try adjusting your search or filters.</p>
-                <button
-                  onClick={() => { setQuery(""); setMainTab("all"); setSubFilter("all"); }}
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-5 py-2.5 text-sm font-semibold text-white"
-                >
-                  Clear filters <ArrowRight className="h-4 w-4" />
-                </button>
               </div>
             )}
-          </Container>
-        </section>
+          </div>
 
-        <SeoContentFaq content={seoContent} faqs={seoFaqs} />
+          {/* Results header */}
+          <div className="mb-6 flex items-center justify-between">
+            <p className="text-sm text-slate-500">
+              Showing <span className="font-semibold text-slate-800">{filtered.length}</span> {filtered.length === 1 ? "project" : "projects"}
+            </p>
+            {(mainTab !== "all" || subFilter !== "all" || query) && (
+              <button
+                onClick={() => { setQuery(""); setMainTab("all"); setSubFilter("all"); }}
+                className="text-xs font-medium text-[#1D4ED8] hover:text-[#162f8f] transition-colors"
+              >
+                Clear filters
+              </button>
+            )}
+          </div>
 
-        {/* ==================== CTA ==================== */}
-        <section className="py-20 sm:py-28">
-          <Container>
-            <Reveal>
-              <div className="relative overflow-hidden rounded-3xl border border-white/10">
-                <div className="absolute inset-0 -z-10">
-                  <img
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=80"
-                    alt=""
-                    className="h-full w-full object-cover opacity-15"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#1D4ED8]/40 via-[#141A2E]/80 to-[#23A6E8]/20" />
-                </div>
-                <div className="relative py-16 px-8 sm:py-20 sm:px-16 text-center">
-                  <p className="text-sm font-semibold uppercase tracking-widest text-[#60A5FA] mb-4">Start Your Project</p>
-                  <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl text-white max-w-2xl mx-auto leading-tight">
-                    Ready to Add Your Project to This List?
-                  </h2>
-                  <p className="mt-5 text-zinc-400 text-lg max-w-xl mx-auto">
-                    Let's discuss your goals and build something you're proud to showcase.
-                  </p>
-                  <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                    <Link
-                      to="/contact"
-                      className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3.5 text-base font-bold text-[#141A2E] shadow-lg transition-all hover:scale-105"
-                    >
-                      Start a Project
-                      <ArrowRight className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      to="/services"
-                      className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-white/10"
-                    >
-                      Our Services
-                      <ChevronRight className="h-5 w-5" />
-                    </Link>
-                  </div>
+          {/* Grid */}
+          {filtered.length > 0 ? (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((project, i) => (
+                <ProjectCard key={project.key} project={project} delay={i * 0.04} />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-slate-200 bg-white p-16 text-center shadow-sm">
+              <Search className="mx-auto h-12 w-12 text-slate-300 mb-4" />
+              <h3 className="text-lg font-bold text-slate-900 mb-2" style={{ fontFamily: "var(--font-heading)" }}>No projects found</h3>
+              <p className="text-sm text-slate-500 mb-6">Try adjusting your search or filters.</p>
+              <button
+                onClick={() => { setQuery(""); setMainTab("all"); setSubFilter("all"); }}
+                className="inline-flex items-center gap-2 rounded-full bg-[#1D4ED8] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#162f8f]"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Clear filters <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+        </Container>
+      </section>
+
+      {/* ==================== SEO / FAQ (white) ==================== */}
+      <div className="bg-white">
+        <SeoContentFaq content={seoContent} faqs={seoFaqs} lightTheme={true} />
+      </div>
+
+      {/* ==================== CTA (dark) ==================== */}
+      <section className="bg-[#141A2E] py-20 sm:py-28">
+        <Container>
+          <Reveal>
+            <div className="relative overflow-hidden rounded-3xl border border-white/10">
+              <div className="absolute inset-0 -z-10">
+                <img
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=80"
+                  alt=""
+                  className="h-full w-full object-cover opacity-10"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#1D4ED8]/50 via-[#141A2E]/80 to-[#23A6E8]/20" />
+              </div>
+              <div className="relative py-16 px-8 sm:py-20 sm:px-16 text-center">
+                <span className="kicker" style={{ borderColor: "rgba(255,255,255,0.15)", backgroundColor: "rgba(255,255,255,0.07)", color: "#93c5fd" }}>
+                  Start Your Project
+                </span>
+                <h2
+                  className="mt-6 text-3xl font-extrabold text-white sm:text-4xl md:text-5xl max-w-2xl mx-auto leading-tight"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Ready to Add Your Project to This List?
+                </h2>
+                <p className="mt-5 text-slate-400 text-lg max-w-xl mx-auto">
+                  Let's discuss your goals and build something you're proud to showcase.
+                </p>
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                  <Link to="/contact" className="btn-primary">
+                    Start a Project
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link to="/services" className="btn-ghost-dark">
+                    Our Services
+                    <ChevronRight className="h-4 w-4" />
+                  </Link>
                 </div>
               </div>
-            </Reveal>
-          </Container>
-        </section>
-      </div>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
     </>
   );
 }
-

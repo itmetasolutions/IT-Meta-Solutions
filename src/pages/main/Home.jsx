@@ -1,12 +1,15 @@
-﻿import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   ArrowRight, ArrowUpRight, TrendingUp, Users, Zap, Code2, Palette,
   Megaphone, Star, Rocket, Shield, Award, Globe, PlayCircle, Cloud,
   Search, LayoutGrid, Target, CheckCircle2, Sparkles, Database,
+  ShoppingBag, BarChart2, Briefcase, Building2, HeartHandshake,
+  ChevronRight,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
+import { motion } from "framer-motion";
 import Container from "../../components/Container";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import TechMeshBg from "../../components/TechMeshBg";
@@ -28,31 +31,6 @@ const clientSliderData = [
   { name: "SHEN",              logo: shenLogo },
 ];
 
-/* ─── HELPERS ─── */
-
-const cx = (...classes) => classes.filter(Boolean).join(" ");
-
-const strippedMotionProps = new Set([
-  "animate","exit","initial","layout","transition","variants",
-  "viewport","whileHover","whileInView","whileTap",
-]);
-
-function createStaticMotionComponent(Tag) {
-  return React.forwardRef(function StaticMotionComponent(props, ref) {
-    const cleanProps = {};
-    Object.entries(props).forEach(([k, v]) => {
-      if (!strippedMotionProps.has(k)) cleanProps[k] = v;
-    });
-    return <Tag ref={ref} {...cleanProps} />;
-  });
-}
-
-const motion = {
-  div: createStaticMotionComponent("div"),
-  h1:  createStaticMotionComponent("h1"),
-  p:   createStaticMotionComponent("p"),
-};
-
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
@@ -61,11 +39,11 @@ function usePrefersReducedMotion() {
     if (!m && !mobile) return;
     const onChange = () => setReduced(!!m?.matches || !!mobile?.matches);
     onChange();
-    m.addEventListener?.("change", onChange);
-    mobile?.addEventListener?.("change", onChange);
+    m?.addEventListener("change", onChange);
+    mobile?.addEventListener("change", onChange);
     return () => {
-      m.removeEventListener?.("change", onChange);
-      mobile?.removeEventListener?.("change", onChange);
+      m?.removeEventListener("change", onChange);
+      mobile?.removeEventListener("change", onChange);
     };
   }, []);
   return reduced;
@@ -80,8 +58,8 @@ function useDesktopViewport() {
     if (!media) return;
     const onChange = () => setIsDesktop(media.matches);
     onChange();
-    media.addEventListener?.("change", onChange);
-    return () => media.removeEventListener?.("change", onChange);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
   }, []);
   return isDesktop;
 }
@@ -103,7 +81,7 @@ function DeferredRender({ children, minHeight = 420 }) {
           observer.disconnect();
         }
       },
-      { rootMargin: "1000px 0px" }
+      { rootMargin: "800px 0px" }
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -145,40 +123,20 @@ function ScrollProgress() {
 /* ─── DATA ─── */
 
 const stats = [
-  { icon: Rocket,     value: "50+",  label: "Projects Launched" },
-  { icon: Users,      value: "40+",  label: "Happy Clients" },
-  { icon: TrendingUp, value: "200%", label: "Avg. Growth Rate" },
-  { icon: Award,      value: "100%", label: "Client Satisfaction" },
+  { icon: Rocket,     value: "50+",  label: "Projects Delivered",   color: "#1D4ED8" },
+  { icon: Users,      value: "40+",  label: "Happy Clients",         color: "#23A6E8" },
+  { icon: TrendingUp, value: "200%", label: "Avg. Growth Rate",      color: "#1D4ED8" },
+  { icon: Award,      value: "100%", label: "Client Satisfaction",   color: "#3AC9F5" },
 ];
 
 const services = [
   {
     icon: Code2,
     title: "Web Development",
-    description: "Fast, conversion-optimized websites and storefronts built with modern technology.",
+    description: "Fast, conversion-optimized websites and storefronts built for growth.",
     image: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&auto=format&fit=crop&q=80",
     link: "/web-development-expertise",
-  },
-  {
-    icon: Palette,
-    title: "Graphic Design",
-    description: "Stunning brand visuals that capture attention and build lasting recognition.",
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&auto=format&fit=crop&q=80",
-    link: "/graphic-designing-expertise",
-  },
-  {
-    icon: Megaphone,
-    title: "Digital Marketing",
-    description: "Data-driven campaigns that generate qualified leads and drive measurable ROI.",
-    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&auto=format&fit=crop&q=80",
-    link: "/digital-marketing-expertise",
-  },
-  {
-    icon: Search,
-    title: "SEO",
-    description: "Technical SEO, on-page optimization, and content strategy to dominate rankings.",
-    image: "https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?w=600&auto=format&fit=crop&q=80",
-    link: "/seo-expertise",
+    tag: "Development",
   },
   {
     icon: Cloud,
@@ -186,13 +144,39 @@ const services = [
     description: "Expert CRM implementation, LWC development, and workflow automation.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80",
     link: "/salesforce-expertise",
+    tag: "CRM",
+  },
+  {
+    icon: Megaphone,
+    title: "Digital Marketing",
+    description: "Data-driven campaigns that generate qualified leads and measurable ROI.",
+    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&auto=format&fit=crop&q=80",
+    link: "/digital-marketing-expertise",
+    tag: "Marketing",
+  },
+  {
+    icon: Search,
+    title: "SEO",
+    description: "Technical SEO, on-page optimization, and content strategy to dominate rankings.",
+    image: "https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?w=600&auto=format&fit=crop&q=80",
+    link: "/seo-expertise",
+    tag: "Search",
+  },
+  {
+    icon: Palette,
+    title: "Graphic Design",
+    description: "Stunning brand visuals that capture attention and build lasting recognition.",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&auto=format&fit=crop&q=80",
+    link: "/graphic-designing-expertise",
+    tag: "Design",
   },
   {
     icon: LayoutGrid,
     title: "Custom Web Apps",
-    description: "Bespoke portals, dashboards, and business platforms built for your workflow.",
+    description: "Bespoke portals, dashboards, and business platforms for your workflow.",
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&auto=format&fit=crop&q=80",
     link: "/custom-web-apps-expertise",
+    tag: "Development",
   },
 ];
 
@@ -204,29 +188,49 @@ const featuredWork = [
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&auto=format&fit=crop&q=80",
     tags: ["Shopify", "E-commerce", "CRO"],
     link: "/case-study/inhomes-direct",
+    metric: "+40% conversion",
   },
   {
-    title: "More Homes Group CRM",
-    category: "Salesforce",
+    title: "More Homes Group Portal",
+    category: "Salesforce CRM",
     description: "CRM-style letting operations portal with agent workflows, property records, dialer tools, and audit logs.",
     image: "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&auto=format&fit=crop&q=80",
     tags: ["Salesforce", "CRM", "Real Estate"],
     link: "/case-study/letting-agency-portal",
+    metric: "3× faster workflows",
   },
   {
     title: "Ekommart",
     category: "Digital Marketing",
-    description: "Complete brand transformation — store build, social presence, and Meta Ads campaigns.",
+    description: "Complete brand transformation — store build, social presence, and Meta Ads campaigns delivering growth.",
     image: "https://images.unsplash.com/photo-1661956602153-23384936a1d3?w=800&auto=format&fit=crop&q=80",
     tags: ["Meta Ads", "Branding", "E-commerce"],
     link: "/case-study/ekommart",
+    metric: "5× ROAS achieved",
   },
 ];
 
 const whyFeatures = [
-  { icon: Rocket, title: "Launch Fast",         description: "From idea to live product in weeks, not months. We move at the speed of your ambition.",                   accent: "#1D4ED8" },
-  { icon: Target, title: "Results Focused",     description: "Every pixel, campaign, and line of code is optimized for conversions and measurable growth.",              accent: "#23A6E8" },
-  { icon: Zap,    title: "Always Innovating",   description: "We stay ahead of trends so you stay ahead of competition. Cutting-edge solutions, always.",                accent: "#3AC9F5" },
+  {
+    icon: Rocket,
+    title: "Launch Fast",
+    description: "From idea to live product in weeks, not months. We move at the speed of your ambition.",
+  },
+  {
+    icon: Target,
+    title: "Results Focused",
+    description: "Every pixel, campaign, and line of code is optimized for conversions and measurable growth.",
+  },
+  {
+    icon: Zap,
+    title: "Always Innovating",
+    description: "We stay ahead of trends so you stay ahead of competition — cutting-edge solutions, always.",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Partnership Mindset",
+    description: "We don't just deliver and disappear. We're invested in your long-term success.",
+  },
 ];
 
 const processSteps = [
@@ -234,6 +238,17 @@ const processSteps = [
   { step: "02", title: "Strategy",      description: "Based on our findings, we craft a tailored strategy and roadmap aligned to your objectives." },
   { step: "03", title: "Create",        description: "Our team brings the strategy to life with stunning design and flawless execution." },
   { step: "04", title: "Launch & Grow", description: "We launch your project and continuously optimize for maximum performance and growth." },
+];
+
+const industries = [
+  { icon: ShoppingBag, label: "E-commerce" },
+  { icon: Building2,   label: "Real Estate" },
+  { icon: Cloud,       label: "SaaS & Tech" },
+  { icon: BarChart2,   label: "Finance" },
+  { icon: HeartHandshake, label: "Healthcare" },
+  { icon: Briefcase,   label: "Professional Services" },
+  { icon: Globe,       label: "Travel & Hospitality" },
+  { icon: Sparkles,    label: "Retail & Fashion" },
 ];
 
 const seoContent = {
@@ -258,10 +273,12 @@ export default function Home() {
   const reduced   = usePrefersReducedMotion();
   const isDesktop = useDesktopViewport();
 
+  const rv = (props) => reduced ? {} : props;
+
   return (
     <>
       <Helmet>
-        <title>IT Meta Solutions - Premium Web Development &amp; Digital Marketing</title>
+        <title>IT Meta Solutions - Premium Web Development &amp; Digital Marketing Agency</title>
         <meta name="description" content="Salesforce implementation partners delivering LWC, Experience Cloud, Shopify, and performance marketing for high-converting growth." />
         <link rel="canonical" href="https://itmetasolutions.com/" />
       </Helmet>
@@ -270,43 +287,40 @@ export default function Home() {
         <ScrollProgress />
 
         {/* ════════════════════════════════════════
-            HERO
+            HERO — Dark, premium
         ════════════════════════════════════════ */}
-        <section className="relative bg-[#141A2E] pt-28 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
-          {/* Subtle real-world BG image */}
-          <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <section className="relative bg-[#141A2E] pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden">
+          {/* Subtle office BG */}
+          <div className="absolute inset-0 pointer-events-none" aria-hidden>
             <img
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&auto=format&fit=crop&q=40"
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&auto=format&fit=crop&q=30"
               alt=""
               className="w-full h-full object-cover"
               style={{ opacity: 0.04 }}
             />
           </div>
-
-          <TechMeshBg variant="full" iconOpacityBase={0.04} />
-          <div className="absolute inset-0 dot-grid-bg opacity-60 pointer-events-none" />
+          <TechMeshBg variant="full" iconOpacityBase={0.032} />
+          <div className="absolute inset-0 dot-grid-bg opacity-55 pointer-events-none" />
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(29,78,216,0.14) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(ellipse 75% 55% at 50% 0%, rgba(29,78,216,0.13) 0%, transparent 70%)" }}
           />
 
           <Container>
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
-              {/* ── LEFT ── */}
-              <motion.div>
-                {/* Premium badge */}
+              {/* LEFT */}
+              <div>
                 <motion.div
-                  initial={reduced ? false : { y: 16, opacity: 0 }}
-                  animate={reduced ? {} : { y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6 }}
+                  {...rv({ initial: { y: 16, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.6 } })}
                 >
                   <span
                     className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-semibold text-white"
                     style={{
+                      fontFamily: "var(--font-heading)",
                       background: "rgba(29,78,216,0.12)",
-                      border: "1px solid rgba(29,78,216,0.40)",
-                      boxShadow: "0 0 24px rgba(29,78,216,0.18)",
+                      border: "1px solid rgba(29,78,216,0.38)",
+                      boxShadow: "0 0 20px rgba(29,78,216,0.16)",
                     }}
                   >
                     <Sparkles className="h-3.5 w-3.5 text-[#60A5FA]" />
@@ -314,56 +328,39 @@ export default function Home() {
                   </span>
                 </motion.div>
 
-                {/* Headline */}
                 <motion.h1
-                  initial={reduced ? false : { y: 16, opacity: 0 }}
-                  animate={reduced ? {} : { y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-[72px] leading-[1.05]"
+                  {...rv({ initial: { y: 16, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.6, delay: 0.1 } })}
+                  className="mt-6 text-[2.6rem] sm:text-5xl lg:text-6xl xl:text-[68px] font-extrabold tracking-tight text-white leading-[1.04]"
+                  style={{ fontFamily: "var(--font-heading)" }}
                 >
                   Build. Grow.
                   <br />
                   <span className="animated-gradient-text">Dominate.</span>
                 </motion.h1>
 
-                {/* Subtext */}
                 <motion.p
-                  initial={reduced ? false : { y: 16, opacity: 0 }}
-                  animate={reduced ? {} : { y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
+                  {...rv({ initial: { y: 16, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.6, delay: 0.18 } })}
                   className="mt-5 text-base text-zinc-400 sm:text-lg max-w-[440px] leading-relaxed"
                 >
                   We craft high-converting websites, launch powerful marketing campaigns, and build brands that stand out in the digital world.
                 </motion.p>
 
-                {/* CTAs */}
                 <motion.div
-                  initial={reduced ? false : { y: 16, opacity: 0 }}
-                  animate={reduced ? {} : { y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
+                  {...rv({ initial: { y: 16, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.6, delay: 0.26 } })}
                   className="mt-8 flex flex-col gap-3 sm:flex-row"
                 >
-                  <Link
-                    to="/contact"
-                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#1D4ED8]/40 transition-all hover:shadow-xl hover:shadow-[#1D4ED8]/60 hover:scale-105"
-                  >
+                  <Link to="/contact" className="btn-primary">
                     Start Your Project
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
-                  <Link
-                    to="/work"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.04] px-7 py-3.5 text-base font-semibold text-white transition-all hover:bg-white/[0.08] hover:border-white/25"
-                  >
+                  <Link to="/work" className="btn-ghost-dark">
                     <PlayCircle className="h-4 w-4" />
                     View Our Work
                   </Link>
                 </motion.div>
 
-                {/* Trust indicators */}
                 <motion.div
-                  initial={reduced ? false : { y: 8, opacity: 0 }}
-                  animate={reduced ? {} : { y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  {...rv({ initial: { y: 8, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.6, delay: 0.36 } })}
                   className="mt-10 flex flex-wrap items-center gap-5 text-sm text-zinc-500"
                 >
                   {[
@@ -372,26 +369,22 @@ export default function Home() {
                     { icon: Award,        color: "text-yellow-400",  label: "SECP Registered"   },
                   ].map(({ icon: Icon, color, label }, i) => (
                     <div key={i} className="flex items-center gap-1.5">
-                      <Icon className={cx("h-4 w-4", color)} />
+                      <Icon className={`h-4 w-4 ${color}`} />
                       <span>{label}</span>
                     </div>
                   ))}
                 </motion.div>
-              </motion.div>
+              </div>
 
-              {/* ── RIGHT: Interactive browser + mobile mockup ── */}
+              {/* RIGHT — Browser + mobile mockup */}
               {isDesktop && (
                 <motion.div
-                  initial={reduced ? false : { x: 50, opacity: 0 }}
-                  animate={reduced ? {} : { x: 0, opacity: 1 }}
-                  transition={{ duration: 0.9, delay: 0.25, ease: "easeOut" }}
+                  {...rv({ initial: { x: 48, opacity: 0 }, animate: { x: 0, opacity: 1 }, transition: { duration: 0.9, delay: 0.22, ease: "easeOut" } })}
                   className="relative flex items-center justify-center"
                 >
                   <div className="relative w-full max-w-[480px]">
-
                     {/* Browser Window */}
-                    <div className="rounded-2xl border border-white/10 bg-zinc-900/90 backdrop-blur-xl shadow-2xl shadow-[#1D4ED8]/25 overflow-hidden">
-
+                    <div className="rounded-2xl border border-white/10 bg-zinc-900/90 backdrop-blur-xl shadow-2xl shadow-[#1D4ED8]/20 overflow-hidden">
                       {/* Chrome bar */}
                       <div className="flex items-center gap-3 px-4 py-3 bg-zinc-800/80 border-b border-white/10">
                         <div className="flex gap-1.5 shrink-0">
@@ -409,14 +402,13 @@ export default function Home() {
 
                       {/* Dashboard content */}
                       <div className="p-4 space-y-3 bg-[#0d0d14]">
-
-                        {/* Service status row */}
+                        {/* Status row */}
                         <div className="grid grid-cols-4 gap-2">
                           {[
-                            { label: "Website",   value: "Live",     icon: Globe,      badge: "✓", glow: "from-emerald-500/10", iconColor: "text-emerald-400", badgeColor: "text-emerald-400" },
-                            { label: "SEO",       value: "94/100",   icon: Search,     badge: "↑", glow: "from-blue-500/10",  iconColor: "text-sky-400",  badgeColor: "text-sky-400"  },
-                            { label: "Web App",   value: "v2.1",     icon: LayoutGrid, badge: "●", glow: "from-blue-500/10",    iconColor: "text-blue-400",    badgeColor: "text-blue-400"    },
-                            { label: "Marketing", value: "3 Active", icon: Megaphone,  badge: "↗", glow: "from-pink-500/10",    iconColor: "text-pink-400",    badgeColor: "text-pink-400"    },
+                            { label: "Website",   value: "Live",     icon: Globe,      glow: "from-emerald-500/10", iconColor: "text-emerald-400", badge: "✓", badgeColor: "text-emerald-400" },
+                            { label: "SEO",       value: "94/100",   icon: Search,     glow: "from-blue-500/10",    iconColor: "text-sky-400",     badge: "↑", badgeColor: "text-sky-400" },
+                            { label: "Web App",   value: "v2.1",     icon: LayoutGrid, glow: "from-blue-500/10",    iconColor: "text-blue-400",    badge: "●", badgeColor: "text-blue-400" },
+                            { label: "Marketing", value: "3 Active", icon: Megaphone,  glow: "from-pink-500/10",    iconColor: "text-pink-400",    badge: "↗", badgeColor: "text-pink-400" },
                           ].map((s) => {
                             const Icon = s.icon;
                             return (
@@ -434,7 +426,6 @@ export default function Home() {
 
                         {/* Middle panels */}
                         <div className="grid grid-cols-2 gap-2">
-                          {/* Website wireframe */}
                           <div className="rounded-xl bg-white/[0.04] border border-white/10 p-2.5">
                             <div className="text-[10px] font-semibold text-zinc-400 mb-2 uppercase tracking-wide flex items-center gap-1">
                               <Globe className="h-2.5 w-2.5" /> Website
@@ -451,7 +442,7 @@ export default function Home() {
                               <div className="h-1 w-10 rounded bg-white/10 mb-1.5" />
                               <div className="h-3 w-10 rounded-full bg-[#1D4ED8]/80" />
                             </div>
-                            <div className="grid grid-cols-3 gap-1 mb-1.5">
+                            <div className="grid grid-cols-3 gap-1">
                               {["#1D4ED8","#23A6E8","#3b82f6"].map((c,i) => (
                                 <div key={i} className="rounded p-1" style={{background:`${c}18`,border:`1px solid ${c}30`}}>
                                   <div className="h-2 w-2 rounded-sm mb-0.5" style={{background:`${c}50`}} />
@@ -461,7 +452,6 @@ export default function Home() {
                             </div>
                           </div>
 
-                          {/* SEO rankings */}
                           <div className="rounded-xl bg-white/[0.04] border border-white/10 p-2.5">
                             <div className="text-[10px] font-semibold text-zinc-400 mb-2 uppercase tracking-wide flex items-center gap-1">
                               <Search className="h-2.5 w-2.5" /> SEO Rankings
@@ -473,9 +463,7 @@ export default function Home() {
                               {kw:"crm development",   pos:7,chg:"+3"},
                             ].map(r => (
                               <div key={r.kw} className="flex items-center gap-1.5 mb-1.5 last:mb-0">
-                                <span className={`text-[10px] font-bold w-4 text-center shrink-0 ${r.pos===1?"text-yellow-400":r.pos<=3?"text-emerald-400":"text-zinc-500"}`}>
-                                  #{r.pos}
-                                </span>
+                                <span className={`text-[10px] font-bold w-4 text-center shrink-0 ${r.pos===1?"text-yellow-400":r.pos<=3?"text-emerald-400":"text-zinc-500"}`}>#{r.pos}</span>
                                 <span className="text-[10px] text-zinc-400 flex-1 truncate">{r.kw}</span>
                                 <span className="text-[9px] text-emerald-400 shrink-0">↑{r.chg}</span>
                               </div>
@@ -489,7 +477,6 @@ export default function Home() {
 
                         {/* Bottom panels */}
                         <div className="grid grid-cols-2 gap-2">
-                          {/* Marketing campaigns */}
                           <div className="rounded-xl bg-white/[0.04] border border-white/10 p-2.5">
                             <div className="text-[10px] font-semibold text-zinc-400 mb-2 uppercase tracking-wide flex items-center gap-1">
                               <Megaphone className="h-2.5 w-2.5" /> Marketing
@@ -497,7 +484,7 @@ export default function Home() {
                             {[
                               {name:"Google Ads",pct:82,color:"bg-blue-500"},
                               {name:"Meta Ads",  pct:67,color:"bg-pink-500"},
-                              {name:"Email",     pct:91,color:"bg-blue-500"},
+                              {name:"Email",     pct:91,color:"bg-[#1D4ED8]"},
                             ].map(c => (
                               <div key={c.name} className="mb-1.5 last:mb-0">
                                 <div className="flex justify-between mb-0.5">
@@ -511,7 +498,6 @@ export default function Home() {
                             ))}
                           </div>
 
-                          {/* CRM pipeline */}
                           <div className="rounded-xl bg-white/[0.04] border border-white/10 p-2.5">
                             <div className="text-[10px] font-semibold text-zinc-400 mb-2 uppercase tracking-wide flex items-center gap-1">
                               <Database className="h-2.5 w-2.5" /> CRM Pipeline
@@ -534,7 +520,7 @@ export default function Home() {
                     </div>
 
                     {/* Floating Mobile Mockup */}
-                    <div className="absolute -bottom-10 -right-10 w-[108px] rounded-[20px] border-[3px] border-zinc-700 bg-[#0d0d14] shadow-2xl shadow-[#1D4ED8]/30 overflow-hidden">
+                    <div className="absolute -bottom-10 -right-10 w-[108px] rounded-[20px] border-[3px] border-zinc-700 bg-[#0d0d14] shadow-2xl shadow-[#1D4ED8]/25 overflow-hidden">
                       <div className="h-3 bg-zinc-800 flex items-center justify-center">
                         <div className="h-1 w-10 rounded-full bg-zinc-600" />
                       </div>
@@ -551,20 +537,6 @@ export default function Home() {
                           <div className="h-1 w-8 rounded bg-white/10 mb-1.5" />
                           <div className="h-3 w-9 rounded-full bg-[#1D4ED8]/80" />
                         </div>
-                        <div className="grid grid-cols-2 gap-1">
-                          {[
-                            {label:"SEO",color:"#1D4ED8"},
-                            {label:"Ads",color:"#23A6E8"},
-                            {label:"CRM",color:"#3b82f6"},
-                            {label:"Web",color:"#10b981"},
-                          ].map(pill => (
-                            <div key={pill.label} className="rounded px-1 py-0.5 flex items-center gap-0.5"
-                              style={{background:`${pill.color}20`,border:`1px solid ${pill.color}35`}}>
-                              <div className="h-1 w-1 rounded-full" style={{background:pill.color}} />
-                              <span style={{fontSize:"7px",color:"#ccc"}}>{pill.label}</span>
-                            </div>
-                          ))}
-                        </div>
                         <div className="flex items-center gap-1 rounded-md bg-emerald-500/15 border border-emerald-500/25 px-1.5 py-1">
                           <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                           <span style={{fontSize:"7px"}} className="text-emerald-300 font-medium">Mobile Ready</span>
@@ -572,13 +544,13 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Floating achievement badges */}
+                    {/* Floating badges */}
                     <div
                       className="absolute -top-5 -left-6 flex items-center gap-2 rounded-full border border-white/10 bg-zinc-900/90 backdrop-blur-sm px-3 py-2 shadow-xl shadow-black/40"
                       style={{ animation: "floatY 3s ease-in-out infinite" }}
                     >
                       <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
-                      <span className="text-xs font-semibold text-white">+127% Traffic Growth</span>
+                      <span className="text-xs font-semibold text-white" style={{fontFamily:"var(--font-heading)"}}>+127% Traffic Growth</span>
                     </div>
 
                     <div
@@ -586,7 +558,7 @@ export default function Home() {
                       style={{ animation: "floatYReverse 3.5s ease-in-out infinite" }}
                     >
                       <Star className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
-                      <span className="text-xs font-semibold text-white">98% Client Satisfaction</span>
+                      <span className="text-xs font-semibold text-white" style={{fontFamily:"var(--font-heading)"}}>98% Client Satisfaction</span>
                     </div>
 
                     <div
@@ -594,7 +566,7 @@ export default function Home() {
                       style={{ animation: "floatY 4s ease-in-out infinite" }}
                     >
                       <Rocket className="h-3.5 w-3.5 text-sky-400" />
-                      <span className="text-xs font-semibold text-white">40+ Projects Delivered</span>
+                      <span className="text-xs font-semibold text-white" style={{fontFamily:"var(--font-heading)"}}>50+ Projects Delivered</span>
                     </div>
                   </div>
                 </motion.div>
@@ -604,23 +576,23 @@ export default function Home() {
         </section>
 
         {/* ════════════════════════════════════════
-            CLIENT LOGOS — compact trust strip
+            CLIENT LOGOS — trust strip
         ════════════════════════════════════════ */}
-        <section className="py-10 sm:py-14 bg-[#141A2E] relative overflow-hidden border-y border-white/[0.06]">
+        <section className="py-10 sm:py-14 bg-[#141A2E] relative overflow-hidden border-b border-white/[0.06]">
           <Container>
-            <p className="text-center text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-zinc-600 mb-8">
+            <p className="text-center text-[11px] sm:text-xs font-semibold uppercase tracking-[0.26em] text-zinc-600 mb-8">
               Trusted by 40+ growing businesses worldwide
             </p>
           </Container>
           <div style={{ overflow: "hidden" }}>
-            <Marquee speed={38} pauseOnHover gradient gradientColor="#141A2E" gradientWidth={100}>
+            <Marquee speed={36} pauseOnHover gradient gradientColor="#141A2E" gradientWidth={100}>
               {[...clientSliderData, ...clientSliderData, ...clientSliderData].map((client, i) => (
                 <div key={i} className="group mx-10 flex-shrink-0 flex items-center justify-center">
                   {client.logo && (
                     <img
                       src={client.logo}
                       alt={`${client.name} logo`}
-                      className="h-[44px] w-auto object-contain opacity-35 transition-all duration-300 group-hover:opacity-75"
+                      className="h-[42px] w-auto object-contain opacity-30 transition-all duration-300 group-hover:opacity-70"
                       style={{ filter: "brightness(1.1)" }}
                       loading="lazy"
                       decoding="async"
@@ -633,39 +605,43 @@ export default function Home() {
         </section>
 
         {/* ════════════════════════════════════════
-            STATS
+            STATS — Light section
         ════════════════════════════════════════ */}
-        <section className="bg-[#0F1628] py-16 sm:py-20 relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.03} />
-          <div className="absolute inset-0 dot-grid-bg opacity-40 pointer-events-none" />
+        <section className="bg-white py-16 sm:py-20 relative overflow-hidden">
+          <div className="absolute inset-0 light-grid-bg opacity-70 pointer-events-none" />
           <Container>
-            <div className="grid grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
               {stats.map((stat, i) => {
                 const Icon = stat.icon;
                 return (
                   <motion.div
                     key={i}
-                    initial={reduced ? false : { y: 20, opacity: 0 }}
-                    whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className={cx(
-                      "text-center px-6 py-10 relative",
-                      i % 2 !== 0 ? "border-l border-white/[0.07]" : "",
-                      i >= 2 ? "border-t border-white/[0.07] lg:border-t-0" : "",
-                      i !== 0 ? "lg:border-l lg:border-white/[0.07]" : ""
-                    )}
+                    {...rv({ initial: { y: 20, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5, delay: i * 0.1 } })}
+                    className={`text-center px-6 py-10 relative ${
+                      i % 2 !== 0 ? "border-l border-slate-100" : ""
+                    } ${
+                      i >= 2 ? "border-t border-slate-100 lg:border-t-0" : ""
+                    } ${
+                      i !== 0 ? "lg:border-l lg:border-slate-100" : ""
+                    }`}
                   >
                     <div
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#1c1a3a] mb-4 mx-auto"
-                      style={{ boxShadow: "0 0 20px rgba(29,78,216,0.25)" }}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-xl mb-4 mx-auto"
+                      style={{ background: `${stat.color}15`, boxShadow: `0 0 18px ${stat.color}20` }}
                     >
-                      <Icon className="h-5 w-5 text-[#60A5FA]" />
+                      <Icon className="h-5 w-5" style={{ color: stat.color }} />
                     </div>
-                    <div className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white neon-stat">
+                    <div
+                      className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#141A2E]"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
                       {stat.value}
                     </div>
-                    <div className="mt-2 text-sm text-zinc-500">{stat.label}</div>
+                    <div className="mt-2 text-sm text-slate-500">{stat.label}</div>
+                    <div
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-full"
+                      style={{ background: `linear-gradient(90deg, transparent, ${stat.color}, transparent)` }}
+                    />
                   </motion.div>
                 );
               })}
@@ -674,29 +650,23 @@ export default function Home() {
         </section>
 
         {/* ════════════════════════════════════════
-            SERVICES — image-based cards
+            SERVICES — Mist section
         ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#141A2E] relative overflow-hidden">
-          <TechMeshBg variant="devtech" iconColor="#1D4ED8" iconOpacityBase={0.035} />
-          <div className="absolute inset-0 hex-grid-bg opacity-50 pointer-events-none" />
-
+        <section className="bg-[#F1F4F9] py-20 sm:py-28 relative overflow-hidden">
           <Container>
             <motion.div
-              initial={reduced ? false : { y: 20, opacity: 0 }}
-              whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              {...rv({ initial: { y: 20, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5 } })}
               className="text-center mb-14"
             >
-              <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#1D4ED8] mb-4">
-                What We Do Best
-              </p>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-                Services That{" "}
-                <span className="animated-gradient-text">Transform</span>
+              <p className="kicker mb-4">What We Do Best</p>
+              <h2
+                className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#141A2E] leading-tight"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Services That <span className="gradient-text">Transform</span>
               </h2>
-              <p className="mt-4 text-zinc-400 max-w-xl mx-auto text-sm sm:text-base">
-                End-to-end digital solutions designed to scale your business.
+              <p className="mt-4 text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
+                End-to-end digital solutions designed to scale your business and deliver measurable results.
               </p>
             </motion.div>
 
@@ -706,20 +676,18 @@ export default function Home() {
                 return (
                   <motion.div
                     key={i}
-                    initial={reduced ? false : { y: 20, opacity: 0 }}
-                    whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.45, delay: i * 0.07, ease: "easeOut" }}
+                    {...rv({ initial: { y: 20, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true, margin: "-40px" }, transition: { duration: 0.45, delay: i * 0.07 } })}
                     className="h-full"
                   >
                     <Link
                       to={service.link}
-                      className="group relative block h-full rounded-2xl overflow-hidden border border-white/[0.07] bg-[#0d0d18] hover:border-[#1D4ED8]/45 transition-all duration-300 neon-card"
+                      className="group relative flex flex-col h-full rounded-2xl overflow-hidden bg-white border border-slate-100 transition-all duration-300 hover:shadow-xl hover:shadow-[#1D4ED8]/08 hover:border-[#1D4ED8]/25 hover:-translate-y-1"
+                      style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 6px 20px rgba(0,0,0,0.04)" }}
                     >
-                      {/* Top hover accent line */}
-                      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#1D4ED8]/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                      {/* Top accent on hover */}
+                      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#1D4ED8] to-[#3AC9F5] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-                      {/* Cover image */}
+                      {/* Image */}
                       <div className="relative h-48 overflow-hidden">
                         <img
                           src={service.image}
@@ -727,21 +695,30 @@ export default function Home() {
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d18] via-[#0d0d18]/40 to-transparent" />
-                        {/* Icon badge overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
+                        <div className="absolute top-4 left-4">
+                          <span className="inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm border border-slate-100 px-2.5 py-1 text-[11px] font-semibold text-[#1D4ED8]">
+                            {service.tag}
+                          </span>
+                        </div>
                         <div
-                          className="absolute bottom-4 left-4 h-10 w-10 rounded-xl bg-[#1c1a3a]/95 backdrop-blur-sm flex items-center justify-center"
-                          style={{ boxShadow: "0 0 18px rgba(29,78,216,0.40)" }}
+                          className="absolute bottom-4 left-4 h-10 w-10 rounded-xl bg-white flex items-center justify-center"
+                          style={{ boxShadow: "0 4px 16px rgba(29,78,216,0.18)" }}
                         >
-                          <Icon className="h-5 w-5 text-[#60A5FA]" />
+                          <Icon className="h-5 w-5 text-[#1D4ED8]" />
                         </div>
                       </div>
 
-                      {/* Text content */}
-                      <div className="p-5">
-                        <h3 className="text-lg font-bold text-white">{service.title}</h3>
-                        <p className="mt-2 text-sm text-zinc-400 leading-relaxed">{service.description}</p>
-                        <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] group-hover:text-[#60A5FA] group-hover:gap-3 transition-all duration-200">
+                      {/* Content */}
+                      <div className="p-5 flex flex-col flex-1">
+                        <h3
+                          className="text-lg font-bold text-[#141A2E]"
+                          style={{ fontFamily: "var(--font-heading)" }}
+                        >
+                          {service.title}
+                        </h3>
+                        <p className="mt-2 text-sm text-slate-500 leading-relaxed flex-1">{service.description}</p>
+                        <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-[#1D4ED8] group-hover:gap-2.5 transition-all duration-200">
                           <span>Learn more</span>
                           <ArrowRight className="h-4 w-4" />
                         </div>
@@ -753,16 +730,10 @@ export default function Home() {
             </div>
 
             <motion.div
-              initial={reduced ? false : { y: 16, opacity: 0 }}
-              whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              {...rv({ initial: { y: 16, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5 } })}
               className="mt-12 text-center"
             >
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 rounded-full bg-[#1D4ED8] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:bg-[#1D4ED8]/90 hover:scale-105"
-              >
+              <Link to="/services" className="btn-primary">
                 Explore All Services
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -771,32 +742,132 @@ export default function Home() {
         </section>
 
         {/* ════════════════════════════════════════
-            FEATURED WORK
+            WHY CHOOSE US — White, side-by-side
         ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#0F1628] relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.03} />
-          <div className="absolute inset-0 dot-grid-bg opacity-35 pointer-events-none" />
+        <section className="bg-white py-20 sm:py-28 relative overflow-hidden">
+          <Container>
+            <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
 
+              {/* Left: image */}
+              <motion.div
+                {...rv({ initial: { x: -30, opacity: 0 }, whileInView: { x: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.7 } })}
+                className="relative"
+              >
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-[#1D4ED8]/10">
+                  <img
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80"
+                    alt="IT Meta Solutions team collaborating"
+                    className="w-full h-[380px] sm:h-[480px] object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#141A2E]/30 via-transparent to-transparent" />
+                  {/* Brand overlay frame */}
+                  <div
+                    className="absolute -inset-[1px] rounded-2xl pointer-events-none"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(29,78,216,0.4) 0%, transparent 50%, rgba(58,201,245,0.18) 100%)",
+                      padding: "1px",
+                      WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                      WebkitMaskComposite: "xor",
+                      maskComposite: "exclude",
+                    }}
+                  />
+                </div>
+
+                {/* Floating badges */}
+                <div
+                  className="absolute top-5 -right-4 sm:-right-6 flex items-center gap-2 rounded-xl border border-[#1D4ED8]/20 bg-white px-4 py-2.5 shadow-lg"
+                  style={{ animation: "floatY 3s ease-in-out infinite" }}
+                >
+                  <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-sm font-semibold text-[#141A2E]" style={{fontFamily:"var(--font-heading)"}}>SECP Registered</span>
+                </div>
+
+                <div
+                  className="absolute bottom-5 -left-4 sm:-left-6 flex items-center gap-2 rounded-xl border border-[#1D4ED8]/20 bg-white px-4 py-2.5 shadow-lg"
+                  style={{ animation: "floatYReverse 3.5s ease-in-out infinite" }}
+                >
+                  <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                  <span className="text-sm font-semibold text-[#141A2E]" style={{fontFamily:"var(--font-heading)"}}>5+ Years of Excellence</span>
+                </div>
+              </motion.div>
+
+              {/* Right: features */}
+              <motion.div
+                {...rv({ initial: { x: 30, opacity: 0 }, whileInView: { x: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.7, delay: 0.15 } })}
+              >
+                <p className="kicker mb-5">Why Brands Choose Us</p>
+                <h2
+                  className="text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold text-[#141A2E] leading-tight"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Creativity meets
+                  <br />
+                  <span className="gradient-text">strategy & results</span>
+                </h2>
+                <p className="mt-5 text-base text-slate-500 leading-relaxed">
+                  Join 40+ brands growing with us. We don't just build websites — we build engines for business growth that compound over time.
+                </p>
+
+                <div className="mt-8 space-y-4">
+                  {whyFeatures.map((item, i) => (
+                    <motion.div
+                      key={i}
+                      {...rv({ initial: { x: 20, opacity: 0 }, whileInView: { x: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.4, delay: 0.1 + i * 0.08 } })}
+                      className="flex gap-4 rounded-2xl border border-slate-100 bg-[#F8FAFD] p-4 hover:border-[#1D4ED8]/25 hover:bg-white transition-all duration-200"
+                      style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}
+                    >
+                      <div
+                        className="flex-shrink-0 h-10 w-10 rounded-xl bg-[#1D4ED8]/10 flex items-center justify-center"
+                      >
+                        <item.icon className="h-5 w-5 text-[#1D4ED8]" />
+                      </div>
+                      <div>
+                        <h4
+                          className="text-base font-bold text-[#141A2E]"
+                          style={{ fontFamily: "var(--font-heading)" }}
+                        >
+                          {item.title}
+                        </h4>
+                        <p className="mt-1 text-sm text-slate-500 leading-relaxed">{item.description}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Link to="/contact" className="btn-primary">
+                    Let's Talk
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link to="/work" className="btn-ghost-light">
+                    See Our Work
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
+          </Container>
+        </section>
+
+        {/* ════════════════════════════════════════
+            FEATURED WORK — Mist section
+        ════════════════════════════════════════ */}
+        <section className="bg-[#F1F4F9] py-20 sm:py-28 relative overflow-hidden">
           <Container>
             <motion.div
-              initial={reduced ? false : { y: 20, opacity: 0 }}
-              whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              {...rv({ initial: { y: 20, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5 } })}
               className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12"
             >
               <div>
-                <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#60A5FA] mb-3">
-                  Our Work
-                </p>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+                <p className="kicker mb-3">Our Work</p>
+                <h2
+                  className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#141A2E]"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
                   Featured Projects
                 </h2>
               </div>
-              <Link
-                to="/work"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#7c6fcd] hover:text-[#60A5FA] hover:gap-3 transition-all shrink-0"
-              >
+              <Link to="/work" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1D4ED8] hover:gap-3 transition-all shrink-0">
                 View all projects
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -806,14 +877,12 @@ export default function Home() {
               {featuredWork.map((work, i) => (
                 <motion.div
                   key={i}
-                  initial={reduced ? false : { y: 20, opacity: 0 }}
-                  whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.45, delay: i * 0.1, ease: "easeOut" }}
+                  {...rv({ initial: { y: 20, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true, margin: "-40px" }, transition: { duration: 0.45, delay: i * 0.1 } })}
                 >
                   <Link
                     to={work.link}
-                    className="group block rounded-2xl overflow-hidden border border-white/[0.07] hover:border-[#1D4ED8]/45 transition-all duration-300 neon-card"
+                    className="group flex flex-col h-full rounded-2xl overflow-hidden bg-white border border-slate-100 transition-all duration-300 hover:shadow-xl hover:shadow-[#1D4ED8]/08 hover:border-[#1D4ED8]/25 hover:-translate-y-1"
+                    style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 6px 20px rgba(0,0,0,0.04)" }}
                   >
                     {/* Project image */}
                     <div className="relative h-52 overflow-hidden">
@@ -823,27 +892,34 @@ export default function Home() {
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#141A2E]/70 via-transparent to-transparent" />
                       {/* Category pill */}
-                      <div className="absolute top-4 left-4 rounded-full bg-[#1D4ED8]/80 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white border border-[#1D4ED8]/30">
+                      <div className="absolute top-4 left-4 rounded-full bg-[#1D4ED8] px-3 py-1 text-xs font-semibold text-white">
                         {work.category}
                       </div>
-                      {/* Arrow reveal */}
-                      <div
-                        className="absolute top-4 right-4 h-8 w-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:-translate-y-0.5 transition-all"
-                        style={{ border: "1px solid rgba(255,255,255,0.2)" }}
-                      >
+                      {/* Arrow */}
+                      <div className="absolute top-4 right-4 h-8 w-8 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:-translate-y-0.5 transition-all border border-white/25">
                         <ArrowUpRight className="h-4 w-4 text-white" />
+                      </div>
+                      {/* Metric badge */}
+                      <div className="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full bg-black/50 backdrop-blur-sm px-3 py-1">
+                        <TrendingUp className="h-3 w-3 text-emerald-400" />
+                        <span className="text-[11px] font-semibold text-white">{work.metric}</span>
                       </div>
                     </div>
 
                     {/* Card body */}
-                    <div className="bg-[#0d0d18] p-5">
-                      <h3 className="text-lg font-bold text-white">{work.title}</h3>
-                      <p className="mt-2 text-sm text-zinc-400 leading-relaxed line-clamp-2">{work.description}</p>
+                    <div className="p-5 flex flex-col flex-1">
+                      <h3
+                        className="text-lg font-bold text-[#141A2E]"
+                        style={{ fontFamily: "var(--font-heading)" }}
+                      >
+                        {work.title}
+                      </h3>
+                      <p className="mt-2 text-sm text-slate-500 leading-relaxed line-clamp-2 flex-1">{work.description}</p>
                       <div className="mt-3 flex flex-wrap gap-1.5">
                         {work.tags.map(tag => (
-                          <span key={tag} className="rounded-full bg-[#1c1a3a] px-2.5 py-0.5 text-[11px] font-medium text-[#60A5FA]">
+                          <span key={tag} className="rounded-full bg-[#1D4ED8]/08 border border-[#1D4ED8]/15 px-2.5 py-0.5 text-[11px] font-semibold text-[#1D4ED8]">
                             {tag}
                           </span>
                         ))}
@@ -857,160 +933,31 @@ export default function Home() {
         </section>
 
         {/* ════════════════════════════════════════
-            WHY CHOOSE US
+            PROCESS — Dark section
         ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#141A2E] relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.035} />
-          <div className="absolute inset-0 hex-grid-bg opacity-35 pointer-events-none" />
-
-          <Container>
-            <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
-
-              {/* Left: Agency image */}
-              <motion.div
-                initial={reduced ? false : { x: -30, opacity: 0 }}
-                whileInView={reduced ? {} : { x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
-                className="relative"
-              >
-                <div
-                  className="relative rounded-2xl overflow-hidden"
-                  style={{ boxShadow: "0 0 60px rgba(29,78,216,0.22), 0 0 120px rgba(29,78,216,0.08)" }}
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80"
-                    alt="IT Meta Solutions team collaborating"
-                    className="w-full h-[380px] sm:h-[460px] object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#141A2E]/55 via-transparent to-transparent" />
-                  {/* Neon border frame */}
-                  <div
-                    className="absolute -inset-[1px] rounded-2xl pointer-events-none"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(29,78,216,0.55) 0%, transparent 50%, rgba(58,201,245,0.22) 100%)",
-                      padding: "1px",
-                      WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                      WebkitMaskComposite: "xor",
-                      maskComposite: "exclude",
-                    }}
-                  />
-                </div>
-
-                {/* Floating badges */}
-                <div
-                  className="absolute top-5 -right-4 sm:-right-5 flex items-center gap-2 rounded-xl border border-[#1D4ED8]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
-                  style={{ boxShadow: "0 0 20px rgba(29,78,216,0.28)", animation: "floatY 3s ease-in-out infinite" }}
-                >
-                  <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-sm font-semibold text-white">SECP Registered</span>
-                </div>
-
-                <div
-                  className="absolute bottom-5 -left-4 sm:-left-5 flex items-center gap-2 rounded-xl border border-[#1D4ED8]/40 bg-zinc-900/95 backdrop-blur-sm px-4 py-3 shadow-xl"
-                  style={{ boxShadow: "0 0 20px rgba(29,78,216,0.22)", animation: "floatYReverse 3.5s ease-in-out infinite" }}
-                >
-                  <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-                  <span className="text-sm font-semibold text-white">5+ Years Excellence</span>
-                </div>
-              </motion.div>
-
-              {/* Right: Features */}
-              <motion.div
-                initial={reduced ? false : { x: 30, opacity: 0 }}
-                whileInView={reduced ? {} : { x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.15 }}
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#1D4ED8] mb-5">
-                  Why Brands Choose Us
-                </p>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-                  Creativity meets
-                  <span className="block animated-gradient-text mt-1">strategy & results</span>
-                </h2>
-                <p className="mt-5 text-base text-zinc-400 leading-relaxed">
-                  Join 40+ brands growing with us. We don't just build websites — we build engines for business growth.
-                </p>
-
-                <div className="mt-8 space-y-4">
-                  {whyFeatures.map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex gap-4 rounded-2xl border border-white/[0.07] bg-zinc-900/40 p-5 glass-card hover:border-[#1D4ED8]/35 transition-all duration-200"
-                    >
-                      <div
-                        className="flex-shrink-0 h-11 w-11 rounded-xl bg-[#1c1a3a] flex items-center justify-center"
-                        style={{ boxShadow: `0 0 20px ${item.accent}35` }}
-                      >
-                        <item.icon className="h-5 w-5" style={{ color: item.accent }} />
-                      </div>
-                      <div>
-                        <h4 className="text-base font-bold text-white">{item.title}</h4>
-                        <p className="mt-1 text-sm text-zinc-400 leading-relaxed">{item.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:scale-105 hover:shadow-xl"
-                  >
-                    Let's Talk
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    to="/work"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.04] px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-white/[0.08]"
-                  >
-                    See Our Work
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
-          </Container>
-        </section>
-
-        {/* ════════════════════════════════════════
-            PROCESS — 4 steps
-        ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#0F1628] relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.035} />
+        <section className="bg-[#141A2E] py-20 sm:py-28 relative overflow-hidden">
+          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.025} />
           <div className="absolute inset-0 dot-grid-bg opacity-35 pointer-events-none" />
-          {/* Subtle top BG image */}
-          <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <img
-              src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1800&auto=format&fit=crop&q=30"
-              alt=""
-              className="w-full h-full object-cover"
-              style={{ opacity: 0.03 }}
-            />
-          </div>
 
           <Container>
             <motion.div
-              initial={reduced ? false : { y: 20, opacity: 0 }}
-              whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              {...rv({ initial: { y: 20, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5 } })}
               className="text-center mb-16"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#60A5FA] mb-4">
-                Our Process
-              </p>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+              <p className="kicker mb-4 text-[#60A5FA]" style={{ color: "#60A5FA" }}>Our Process</p>
+              <h2
+                className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
                 How We Bring Your Vision to Life
               </h2>
               <p className="mt-4 text-zinc-400 max-w-xl mx-auto text-sm sm:text-base">
-                A proven 4-step process that delivers results every time.
+                A proven 4-step process that delivers results every time — on time, on budget.
               </p>
             </motion.div>
 
             <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6 sm:gap-x-8">
-              {/* Horizontal connector line */}
+              {/* Connector line */}
               <div className="absolute top-[38px] left-[calc(12.5%+19px)] right-[calc(12.5%+19px)] hidden lg:block">
                 <div className="h-px w-full shimmer-border" />
               </div>
@@ -1018,35 +965,36 @@ export default function Home() {
               {processSteps.map((step, i) => (
                 <motion.div
                   key={i}
-                  initial={reduced ? false : { y: 20, opacity: 0 }}
-                  whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.45, delay: i * 0.12, ease: "easeOut" }}
+                  {...rv({ initial: { y: 20, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true, margin: "-40px" }, transition: { duration: 0.45, delay: i * 0.12 } })}
                   className="flex flex-col items-center text-center"
                 >
                   <div
                     className="relative z-10 flex h-[76px] w-[76px] flex-shrink-0 items-center justify-center rounded-full bg-[#13122a] border border-[#2d2a5e]"
-                    style={{ boxShadow: "0 0 20px rgba(29,78,216,0.30), 0 0 40px rgba(29,78,216,0.10)" }}
+                    style={{ boxShadow: "0 0 18px rgba(29,78,216,0.28), 0 0 36px rgba(29,78,216,0.08)" }}
                   >
-                    <span className="text-2xl font-extrabold text-[#60A5FA] leading-none">{step.step}</span>
+                    <span
+                      className="text-2xl font-extrabold text-[#60A5FA] leading-none"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      {step.step}
+                    </span>
                   </div>
-                  <h4 className="mt-6 text-base sm:text-lg font-bold text-white">{step.title}</h4>
+                  <h4
+                    className="mt-6 text-base sm:text-lg font-bold text-white"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {step.title}
+                  </h4>
                   <p className="mt-2.5 text-sm text-zinc-400 leading-relaxed max-w-[200px]">{step.description}</p>
                 </motion.div>
               ))}
             </div>
 
             <motion.div
-              initial={reduced ? false : { y: 16, opacity: 0 }}
-              whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.35 }}
+              {...rv({ initial: { y: 16, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5, delay: 0.3 } })}
               className="mt-14 text-center"
             >
-              <Link
-                to="/process"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#60A5FA] hover:gap-3 transition-all"
-              >
+              <Link to="/process" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#60A5FA] hover:gap-3 transition-all">
                 Learn more about our process
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -1055,76 +1003,106 @@ export default function Home() {
         </section>
 
         {/* ════════════════════════════════════════
-            GOOGLE REVIEWS
+            INDUSTRIES — White section
         ════════════════════════════════════════ */}
-        <DeferredRender minHeight={400}>
-          {() => (
-            <React.Suspense fallback={<div className="py-20 bg-[#141A2E]" />}>
-              <GoogleReviewsSection
-                title="See What Clients Say On Google"
-                description="Latest public Google feedback from our business profile."
-              />
-            </React.Suspense>
-          )}
-        </DeferredRender>
-
-        {/* ════════════════════════════════════════
-            CTA BANNER — full-width with image
-        ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 bg-[#141A2E] relative overflow-hidden">
-          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.03} />
+        <section className="bg-white py-16 sm:py-20 relative overflow-hidden">
           <Container>
             <motion.div
-              initial={reduced ? false : { y: 16, opacity: 0 }}
-              whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="relative overflow-hidden rounded-2xl"
-              style={{ boxShadow: "0 0 80px rgba(29,78,216,0.20), 0 0 0 1px rgba(29,78,216,0.22)" }}
+              {...rv({ initial: { y: 20, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5 } })}
+              className="text-center mb-10"
             >
-              {/* Background image */}
+              <p className="kicker mb-3">Industries We Serve</p>
+              <h2
+                className="text-2xl sm:text-3xl font-extrabold text-[#141A2E]"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Solutions for Every Industry
+              </h2>
+            </motion.div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+              {industries.map((industry, i) => {
+                const Icon = industry.icon;
+                return (
+                  <motion.div
+                    key={i}
+                    {...rv({ initial: { scale: 0.9, opacity: 0 }, whileInView: { scale: 1, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.35, delay: i * 0.05 } })}
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#F8FAFD] border border-slate-100 hover:border-[#1D4ED8]/25 hover:bg-white transition-all duration-200 group cursor-default"
+                  >
+                    <div className="h-9 w-9 rounded-lg bg-[#1D4ED8]/10 flex items-center justify-center group-hover:bg-[#1D4ED8]/15 transition-colors">
+                      <Icon className="h-4.5 w-4.5 text-[#1D4ED8]" />
+                    </div>
+                    <span className="text-xs font-semibold text-slate-600 text-center leading-tight">{industry.label}</span>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
+
+        {/* ════════════════════════════════════════
+            GOOGLE REVIEWS — Mist section
+        ════════════════════════════════════════ */}
+        <div className="bg-[#F1F4F9]">
+          <DeferredRender minHeight={400}>
+            {() => (
+              <React.Suspense fallback={<div className="py-20 bg-[#F1F4F9]" />}>
+                <GoogleReviewsSection
+                  title="What Our Clients Say"
+                  description="Real feedback from our Google Business profile."
+                  lightTheme={true}
+                />
+              </React.Suspense>
+            )}
+          </DeferredRender>
+        </div>
+
+        {/* ════════════════════════════════════════
+            CTA BANNER — Dark, dramatic
+        ════════════════════════════════════════ */}
+        <section className="py-20 sm:py-28 bg-[#141A2E] relative overflow-hidden">
+          <TechMeshBg variant="marketing" iconColor="#1D4ED8" iconOpacityBase={0.028} />
+          <Container>
+            <motion.div
+              {...rv({ initial: { y: 16, opacity: 0 }, whileInView: { y: 0, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5 } })}
+              className="relative overflow-hidden rounded-3xl"
+              style={{ boxShadow: "0 0 70px rgba(29,78,216,0.18), 0 0 0 1px rgba(29,78,216,0.20)" }}
+            >
+              {/* Background */}
               <div className="absolute inset-0">
                 {showcaseBannerImage
                   ? <img src={showcaseBannerImage} alt="" className="h-full w-full object-cover" loading="lazy" />
-                  : <img
-                      src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&auto=format&fit=crop&q=50"
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
+                  : <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&auto=format&fit=crop&q=50" alt="" className="h-full w-full object-cover" />
                 }
               </div>
               <div className="absolute inset-0 bg-black/65 z-[5]" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#141A2E]/88 via-[#1D4ED8]/30 to-transparent z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#141A2E]/90 via-[#1D4ED8]/25 to-transparent z-10" />
+
               {/* Corner accents */}
               <div className="absolute top-0 left-0 w-24 h-24 z-20 pointer-events-none"
-                style={{ background: "linear-gradient(135deg, rgba(29,78,216,0.4) 0%, transparent 50%)" }} />
+                style={{ background: "linear-gradient(135deg, rgba(29,78,216,0.35) 0%, transparent 50%)" }} />
               <div className="absolute bottom-0 right-0 w-32 h-32 z-20 pointer-events-none"
-                style={{ background: "linear-gradient(315deg, rgba(58,201,245,0.1) 0%, transparent 50%)" }} />
+                style={{ background: "linear-gradient(315deg, rgba(58,201,245,0.10) 0%, transparent 50%)" }} />
 
-              <div className="relative z-20 h-[380px] sm:h-[440px] flex items-center px-8 sm:px-12 lg:px-16">
+              <div className="relative z-20 h-[360px] sm:h-[420px] flex items-center px-8 sm:px-12 lg:px-16">
                 <div className="max-w-lg">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#60A5FA] mb-4">
-                    Ready to Grow?
-                  </p>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#60A5FA] mb-4">Ready to Grow?</p>
+                  <h3
+                    className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
                     Let's build something
                     <span className="block animated-gradient-text">extraordinary together.</span>
                   </h3>
-                  <p className="mt-5 text-base text-white/70 leading-relaxed max-w-md">
-                    Join 40+ businesses that trust IT Meta Solutions to deliver digital results that matter.
+                  <p className="mt-5 text-base text-white/65 leading-relaxed max-w-md">
+                    Join 40+ businesses that trust IT Meta Solutions to deliver digital results that actually matter.
                   </p>
                   <div className="mt-7 flex flex-wrap gap-3">
-                    <Link
-                      to="/contact"
-                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8] to-blue-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#1D4ED8]/40 transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#1D4ED8]/60"
-                    >
+                    <Link to="/contact" className="btn-primary">
                       Start Your Project
                       <ArrowRight className="h-4 w-4" />
                     </Link>
-                    <Link
-                      to="/work"
-                      className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur-sm px-7 py-3.5 text-base font-semibold text-white transition-all hover:bg-white/20"
-                    >
+                    <Link to="/work" className="btn-ghost-dark">
                       View Our Work
                     </Link>
                   </div>
@@ -1136,8 +1114,13 @@ export default function Home() {
                       { value: "100%", label: "Satisfaction" },
                     ].map((s, i) => (
                       <div key={i}>
-                        <div className="text-2xl sm:text-3xl font-bold text-white neon-stat">{s.value}</div>
-                        <div className="text-xs text-white/50 mt-0.5">{s.label}</div>
+                        <div
+                          className="text-2xl sm:text-3xl font-extrabold text-white"
+                          style={{ fontFamily: "var(--font-heading)" }}
+                        >
+                          {s.value}
+                        </div>
+                        <div className="text-xs text-white/45 mt-0.5">{s.label}</div>
                       </div>
                     ))}
                   </div>
@@ -1148,10 +1131,11 @@ export default function Home() {
         </section>
 
         {/* SEO content block */}
-        <SeoContentFaq content={seoContent} />
+        <div className="bg-white">
+          <SeoContentFaq content={seoContent} lightTheme={true} />
+        </div>
 
       </div>
     </>
   );
 }
-
