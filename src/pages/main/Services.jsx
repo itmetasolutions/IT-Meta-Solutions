@@ -143,7 +143,7 @@ const services = [
       "Motion graphics & animations",
       "YouTube channel optimization",
     ],
-    image: "https://images.unsplash.com/photo-1536240478700-b869ad10e128?w=700&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=700&auto=format&fit=crop&q=80",
     link: "/video-editing-expertise",
     color: "#23A6E8",
   },

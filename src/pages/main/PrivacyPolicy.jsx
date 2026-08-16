@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
 import SubpageVisualLayer from "../../components/SubpageVisualLayer";
+import { PHONE_NUMBERS, OFFICE_ADDRESS, EMAIL } from "../../lib/contact";
 
 const sections = [
   {
@@ -19,7 +20,7 @@ const sections = [
       "We may collect the following types of information:",
     ],
     bullets: [
-      "Contact details you provide through forms, email, phone, or WhatsApp, such as your name, email address, and phone number.",
+      "Contact details you provide through forms, email, phone, or live chat, such as your name, email address, and phone number.",
       "Project or business information you share when requesting a proposal or consultation.",
       "Technical data such as IP address, browser type, device information, and pages visited, collected automatically via cookies and analytics tools.",
       "Communications you send us, including messages, feedback, and support requests.",
@@ -88,9 +89,9 @@ const sections = [
       "If you have questions about this Privacy Policy or how we handle your data, contact us:",
     ],
     bullets: [
-      "Email: info@itmetasolutions.com",
-      "Phone: +92 327 180 4037",
-      "Address: Office No M32 1st Floor, City Star Plaza, Township Block 1, Lahore 54700, Pakistan",
+      `Email: ${EMAIL}`,
+      ...PHONE_NUMBERS.map((p) => `Phone (${p.region}): ${p.display}`),
+      `Address: ${OFFICE_ADDRESS}`,
     ],
   },
 ];

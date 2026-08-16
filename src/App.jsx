@@ -35,10 +35,13 @@ const BrandBuildingExpertise = lazy(() => import("./pages/expertise/BrandBuildin
 const SeoExpertise = lazy(() => import("./pages/expertise/SeoExpertise"));
 const CustomWebAppsExpertise = lazy(() => import("./pages/expertise/CustomWebAppsExpertise"));
 const Footer = lazy(() => import("./components/Footer"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 
 import Header from "./components/Header";
 import CursorEffect from "./components/CursorEffect";
 import Container from "./components/Container";
+import LiveChat from "./components/LiveChat";
 import codeIcon from "./assets/img/Code.png";
 import rocketIcon from "./assets/img/Rocket.png";
 import sparkleIcon from "./assets/img/sparkle.png";
@@ -81,7 +84,7 @@ function GoToTopButton() {
     <button
       onClick={scrollToTop}
       aria-label="Go to top"
-      className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-[#1D4ED8] to-blue-600 text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:scale-110 hover:shadow-xl hover:shadow-[#1D4ED8]/40"
+      className="fixed bottom-24 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-[#1D4ED8] to-blue-600 text-white shadow-lg shadow-[#1D4ED8]/30 transition-all hover:scale-110 hover:shadow-xl hover:shadow-[#1D4ED8]/40"
     >
       <ChevronUp className="h-6 w-6" />
     </button>
@@ -265,51 +268,67 @@ function App() {
 
         <BrowserRouter>
           <ScrollToTop />
-          {!isMobile && <CursorEffect />}
 
-          <Header nav={nav} AnchorLink={AnchorLink} />
-
-          <Suspense fallback={<div className="min-h-screen" />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/work" element={<Work />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/case-study/inhomes-direct" element={<InHomesDirectCaseStudy />} />
-            <Route path="/case-study/more-homes-group" element={<MoreHomesGroupCaseStudy />} />
-            <Route path="/case-study/halla-gulla" element={<HallaGullaCaseStudy />} />
-            <Route path="/case-studies/united-muslim-travels-brand-build" element={<UnitedMuslimTravelsCaseStudy />} />
-            <Route path="/case-study/esahulat-mart" element={<ESahulatMartCaseStudy />} />
-            <Route path="/case-study/hikmabiotics" element={<HikmabioticsCaseStudy />} />
-            <Route path="/case-study/ekommart" element={<EkommartCaseStudy />} />
-            <Route path="/case-study/multidatum" element={<MultidatumCaseStudy />} />
-            <Route path="/case-study/salesforce-duplicate-check" element={<SalesforceDuplicateCheckCaseStudy />} />
-            <Route path="/case-study/salesforce-experience-cloud-government-cloud" element={<SalesforceExperienceCloudGovernmentCloud />} />
-            <Route path="/case-study/salesforce-service-cloud-implementation" element={<SalesforceServiceCloudImplementation />} />
-            <Route path="/case-study/letting-agency-portal" element={<LettingAgencyPortalCaseStudy />} />
-            <Route path="/case-study/shencoin" element={<ShenCoinCaseStudy />} />
-            <Route path="/salesforce-expertise" element={<SalesforceExpertise />} />
-            <Route path="/web-development-expertise" element={<WebDevelopmentExpertise />} />
-            <Route path="/digital-marketing-expertise" element={<DigitalMarketingExpertise />} />
-            <Route path="/social-media-expertise" element={<SocialMediaExpertise />} />
-            <Route path="/graphic-designing-expertise" element={<GraphicDesigningExpertise />} />
-            <Route path="/video-editing-expertise" element={<VideoEditingExpertise />} />
-            <Route path="/brand-building-expertise" element={<BrandBuildingExpertise />} />
-            <Route path="/seo-expertise" element={<SeoExpertise />} />
-            <Route path="/custom-web-apps-expertise" element={<CustomWebAppsExpertise />} />
-            <Route path="/process" element={<ProcessPage />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-          </Suspense>
-
-          <GoToTopButton />
-          <DeferredFooter nav={nav} year={year} AnchorLink={AnchorLink} Container={Container} />
+          <SiteRoutes nav={nav} year={year} isMobile={isMobile} />
         </BrowserRouter>
       </div>
     </HelmetProvider>
+  );
+}
+
+function SiteRoutes({ nav, year, isMobile }) {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  return (
+    <>
+      {!isAdminRoute && !isMobile && <CursorEffect />}
+      {!isAdminRoute && <Header nav={nav} AnchorLink={AnchorLink} />}
+
+      <Suspense fallback={<div className="min-h-screen" />}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/work" element={<Work />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/case-study/inhomes-direct" element={<InHomesDirectCaseStudy />} />
+        <Route path="/case-study/more-homes-group" element={<MoreHomesGroupCaseStudy />} />
+        <Route path="/case-study/halla-gulla" element={<HallaGullaCaseStudy />} />
+        <Route path="/case-studies/united-muslim-travels-brand-build" element={<UnitedMuslimTravelsCaseStudy />} />
+        <Route path="/case-study/esahulat-mart" element={<ESahulatMartCaseStudy />} />
+        <Route path="/case-study/hikmabiotics" element={<HikmabioticsCaseStudy />} />
+        <Route path="/case-study/ekommart" element={<EkommartCaseStudy />} />
+        <Route path="/case-study/multidatum" element={<MultidatumCaseStudy />} />
+        <Route path="/case-study/salesforce-duplicate-check" element={<SalesforceDuplicateCheckCaseStudy />} />
+        <Route path="/case-study/salesforce-experience-cloud-government-cloud" element={<SalesforceExperienceCloudGovernmentCloud />} />
+        <Route path="/case-study/salesforce-service-cloud-implementation" element={<SalesforceServiceCloudImplementation />} />
+        <Route path="/case-study/letting-agency-portal" element={<LettingAgencyPortalCaseStudy />} />
+        <Route path="/case-study/shencoin" element={<ShenCoinCaseStudy />} />
+        <Route path="/salesforce-expertise" element={<SalesforceExpertise />} />
+        <Route path="/web-development-expertise" element={<WebDevelopmentExpertise />} />
+        <Route path="/digital-marketing-expertise" element={<DigitalMarketingExpertise />} />
+        <Route path="/social-media-expertise" element={<SocialMediaExpertise />} />
+        <Route path="/graphic-designing-expertise" element={<GraphicDesigningExpertise />} />
+        <Route path="/video-editing-expertise" element={<VideoEditingExpertise />} />
+        <Route path="/brand-building-expertise" element={<BrandBuildingExpertise />} />
+        <Route path="/seo-expertise" element={<SeoExpertise />} />
+        <Route path="/custom-web-apps-expertise" element={<CustomWebAppsExpertise />} />
+        <Route path="/process" element={<ProcessPage />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+      </Suspense>
+
+      {!isAdminRoute && <GoToTopButton />}
+      {!isAdminRoute && <LiveChat />}
+      {!isAdminRoute && (
+        <DeferredFooter nav={nav} year={year} AnchorLink={AnchorLink} Container={Container} />
+      )}
+    </>
   );
 }
 

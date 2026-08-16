@@ -1,5 +1,5 @@
 ﻿import {
-  ArrowRight, ChevronDown, X, Phone,
+  ArrowRight, ChevronDown, X, Phone, MessageCircle,
   Code2, LayoutGrid, Cloud, Megaphone, Search, Palette,
   PlayCircle, Sparkles, Users,
 } from "lucide-react";
@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import TechMeshBg from "./TechMeshBg";
 import logo from "../assets/img/IT Meta Solutions Logo Updated.webp";
+import { PRIMARY_PHONE } from "../lib/contact";
+import { openLiveChat } from "../lib/liveChat";
 
 const serviceSubMenu = [
   { label: "Web Development",   href: "/web-development-expertise",   icon: Code2      },
@@ -19,9 +21,6 @@ const serviceSubMenu = [
   { label: "Video Editing",     href: "/video-editing-expertise",      icon: PlayCircle },
   { label: "Brand Building",    href: "/brand-building-expertise",     icon: Sparkles   },
 ];
-
-const WHATSAPP_NUMBER  = "923271804037";
-const WHATSAPP_MESSAGE = "Hi! I'm interested in your services.";
 
 function useDesktopViewport() {
   const [isDesktop, setIsDesktop] = useState(() =>
@@ -62,8 +61,6 @@ export default function Header({ nav, AnchorLink }) {
   /* Close mobile menu on route change */
   useEffect(() => { setIsMenuOpen(false); }, [location.pathname]);
   useEffect(() => { if (isDesktop) setIsMenuOpen(false); }, [isDesktop]);
-
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
   const isActive = (href) =>
     href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
@@ -246,22 +243,16 @@ export default function Header({ nav, AnchorLink }) {
           {/* ── Right CTAs ── */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
 
-            {/* WhatsApp */}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366]/90 hover:bg-[#25D366] px-3 sm:px-4 py-2 sm:py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
-              style={{ boxShadow: "0 0 0 0 transparent", transition: "box-shadow 0.3s, transform 0.2s, background 0.2s" }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 20px rgba(37,211,102,0.35)"}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 0 0 transparent"}
-              aria-label="Chat on WhatsApp"
+            {/* Live Chat */}
+            <button
+              type="button"
+              onClick={openLiveChat}
+              className="flex items-center justify-center gap-2 rounded-xl border border-[#1D4ED8]/30 bg-[#1D4ED8]/10 hover:bg-[#1D4ED8]/18 px-3 sm:px-4 py-2 sm:py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
+              aria-label="Open live chat"
             >
-              <svg className="h-4 w-4 sm:h-4.5 sm:w-4.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              <span className="hidden sm:inline text-[13px]">WhatsApp</span>
-            </a>
+              <MessageCircle className="h-4 w-4 sm:h-4.5 sm:w-4.5 shrink-0 text-[#60A5FA]" />
+              <span className="hidden sm:inline text-[13px]">Live Chat</span>
+            </button>
 
             {/* Get a Proposal — desktop */}
             {isDesktop && <Link
@@ -408,18 +399,14 @@ export default function Header({ nav, AnchorLink }) {
 
           {/* Mobile CTA */}
           <div className="pt-5 mt-4 space-y-3 border-t border-white/[0.07]">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setIsMenuOpen(false)}
-              className="flex items-center justify-center gap-3 w-full rounded-xl bg-[#25D366] px-4 py-3.5 text-[14px] font-semibold text-white transition-all"
+            <button
+              type="button"
+              onClick={() => { setIsMenuOpen(false); openLiveChat(); }}
+              className="flex items-center justify-center gap-3 w-full rounded-xl border border-[#1D4ED8]/30 bg-[#1D4ED8]/10 px-4 py-3.5 text-[14px] font-semibold text-white transition-all"
             >
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Chat on WhatsApp
-            </a>
+              <MessageCircle className="h-5 w-5 text-[#60A5FA]" />
+              Live Chat
+            </button>
             <Link
               to="/contact"
               onClick={() => setIsMenuOpen(false)}
@@ -430,11 +417,11 @@ export default function Header({ nav, AnchorLink }) {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
-              href="tel:+923271804037"
+              href={`tel:${PRIMARY_PHONE.tel}`}
               className="flex items-center justify-center gap-2 text-sm text-zinc-500 hover:text-white transition-colors py-1"
             >
               <Phone className="h-3.5 w-3.5" />
-              +92 327 180 4037
+              {PRIMARY_PHONE.display}
             </a>
           </div>
         </div>

@@ -12,7 +12,7 @@ const routes = [];
 let match = routeRegex.exec(appSource);
 while (match) {
   const route = match[1];
-  if (route && route !== "*") {
+  if (route && route !== "*" && !route.startsWith("/admin")) {
     routes.push(route);
   }
   match = routeRegex.exec(appSource);

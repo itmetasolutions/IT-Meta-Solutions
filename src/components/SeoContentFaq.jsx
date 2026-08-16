@@ -12,14 +12,19 @@ import {
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
-function FAQItem({ q, a }) {
+function FAQItem({ q, a, lightTheme }) {
   return (
-    <details className="group rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+    <details
+      className={cx(
+        "group rounded-3xl border p-6",
+        lightTheme ? "border-slate-200 bg-white" : "border-white/10 bg-white/[0.04]"
+      )}
+    >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
-        <div className="text-sm font-semibold text-white">{q}</div>
-        <ChevronRight className="h-4 w-4 flex-shrink-0 text-zinc-300 transition group-open:rotate-90" />
+        <div className={cx("text-sm font-semibold", lightTheme ? "text-slate-900" : "text-white")}>{q}</div>
+        <ChevronRight className={cx("h-4 w-4 flex-shrink-0 transition group-open:rotate-90", lightTheme ? "text-slate-400" : "text-zinc-300")} />
       </summary>
-      <div className="mt-3 text-sm text-zinc-300 leading-relaxed">{a}</div>
+      <div className={cx("mt-3 text-sm leading-relaxed", lightTheme ? "text-slate-600" : "text-zinc-300")}>{a}</div>
     </details>
   );
 }
@@ -81,7 +86,7 @@ function AttractiveVisual() {
   );
 }
 
-export default function SeoContentFaq({ content, faqs, className }) {
+export default function SeoContentFaq({ content, faqs, className, lightTheme = false }) {
   if (!content && !faqs?.length) return null;
 
   const {
@@ -142,20 +147,23 @@ export default function SeoContentFaq({ content, faqs, className }) {
 
       {/* FAQ Section - Displayed Below if FAQs exist */}
       {faqs?.length ? (
-        <section className="py-16 sm:py-24 border-t border-white/5">
+        <section className={cx("py-16 sm:py-24 border-t", lightTheme ? "bg-white border-slate-200" : "border-white/5")}>
           <Container>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs uppercase tracking-wide text-zinc-200">
+            <div className={cx(
+              "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs uppercase tracking-wide",
+              lightTheme ? "border-slate-200 bg-slate-50 text-slate-600" : "border-white/15 bg-white/5 text-zinc-200"
+            )}>
               <Sparkles className="h-3.5 w-3.5" />
               FAQ
             </div>
-            <h3 className="mt-4 text-2xl font-semibold text-white sm:text-3xl">
+            <h3 className={cx("mt-4 text-2xl font-semibold sm:text-3xl", lightTheme ? "text-slate-900" : "text-white")}>
               Common questions answered
             </h3>
-            <p className="mt-2 text-zinc-400">Quick answers about our services and process.</p>
+            <p className={cx("mt-2", lightTheme ? "text-slate-500" : "text-zinc-400")}>Quick answers about our services and process.</p>
 
             <div className="mt-8 grid gap-3">
               {faqs.map((item, i) => (
-                <FAQItem key={i} q={item.q} a={item.a} />
+                <FAQItem key={i} q={item.q} a={item.a} lightTheme={lightTheme} />
               ))}
             </div>
           </Container>

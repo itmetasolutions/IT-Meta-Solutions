@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
 import SubpageVisualLayer from "../../components/SubpageVisualLayer";
+import { PHONE_NUMBERS, OFFICE_ADDRESS, EMAIL } from "../../lib/contact";
 
 const sections = [
   {
@@ -98,9 +99,9 @@ const sections = [
     title: "14. Contact Us",
     body: ["For any questions about these Terms, contact us:"],
     bullets: [
-      "Email: info@itmetasolutions.com",
-      "Phone: +92 327 180 4037",
-      "Address: Office No M32 1st Floor, City Star Plaza, Township Block 1, Lahore 54700, Pakistan",
+      `Email: ${EMAIL}`,
+      ...PHONE_NUMBERS.map((p) => `Phone (${p.region}): ${p.display}`),
+      `Address: ${OFFICE_ADDRESS}`,
     ],
   },
 ];

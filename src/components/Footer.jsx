@@ -1,12 +1,12 @@
 import {
-  ArrowRight, BadgeCheck,
+  ArrowRight, BadgeCheck, MessageCircle,
   Facebook, Globe, Instagram, Linkedin,
   Mail, MapPin, Phone, Zap, Shield,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo    from "../assets/img/IT Meta Solutions Logo Updated.webp";
-import secpLogo from "../assets/img/SECP Logo ITMS.webp";
-import fbrLogo  from "../assets/img/FBR Logo ITMS.webp";
+import { PHONE_NUMBERS, OFFICE_ADDRESS, EMAIL } from "../lib/contact";
+import { openLiveChat } from "../lib/liveChat";
 
 const services = [
   { label: "Web Development",   href: "/web-development-expertise"  },
@@ -26,18 +26,7 @@ const socialLinks = [
   { icon: Facebook,  href: "https://web.facebook.com/itmetasolutions",                     label: "Facebook",  color: "#1877F2" },
 ];
 
-const WHATSAPP_NUMBER  = "923271804037";
-const WHATSAPP_MESSAGE = "Hi! I'm interested in your services.";
-
-const WA_ICON = () => (
-  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
-);
-
 export default function Footer({ year, nav, AnchorLink, Container }) {
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
-
   return (
     <footer className="relative overflow-hidden bg-[#0D1222]">
       {/* Top gradient border */}
@@ -98,16 +87,15 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                     Start a Project
                     <ArrowRight className="h-4 w-4" />
                   </Link>
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] hover:bg-[#20c05c] px-6 py-3.5 text-sm text-white transition-all duration-200 hover:scale-[1.02]"
+                  <button
+                    type="button"
+                    onClick={openLiveChat}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/[0.16] border border-white/20 px-6 py-3.5 text-sm text-white transition-all duration-200 hover:scale-[1.02]"
                     style={{ fontFamily: "var(--font-heading)", fontWeight: 600 }}
                   >
-                    <WA_ICON />
-                    WhatsApp Us
-                  </a>
+                    <MessageCircle className="h-5 w-5" />
+                    Live Chat
+                  </button>
                 </div>
               </div>
             </div>
@@ -241,30 +229,44 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                 Get in Touch
               </h4>
               <div className="space-y-3">
-                {[
-                  { href: "mailto:info@itmetasolutions.com", Icon: Mail,  label: "info@itmetasolutions.com" },
-                  { href: "tel:+923271804037",               Icon: Phone, label: "+92 327 180 4037"        },
-                  { href: "https://www.itmetasolutions.com", Icon: Globe, label: "www.itmetasolutions.com", ext: true },
-                ].map(({ href, Icon, label, ext }) => (
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="group flex items-center gap-3 text-sm text-zinc-500 hover:text-white transition-colors"
+                >
+                  <span className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/[0.06] bg-white/[0.02] group-hover:bg-[#1D4ED8]/18 group-hover:border-[#1D4ED8]/28 transition-all shrink-0">
+                    <Mail className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="text-[13px] truncate">{EMAIL}</span>
+                </a>
+                {PHONE_NUMBERS.map((p) => (
                   <a
-                    key={href}
-                    href={href}
-                    target={ext ? "_blank" : undefined}
-                    rel={ext ? "noopener noreferrer" : undefined}
+                    key={p.tel}
+                    href={`tel:${p.tel}`}
                     className="group flex items-center gap-3 text-sm text-zinc-500 hover:text-white transition-colors"
                   >
                     <span className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/[0.06] bg-white/[0.02] group-hover:bg-[#1D4ED8]/18 group-hover:border-[#1D4ED8]/28 transition-all shrink-0">
-                      <Icon className="h-3.5 w-3.5" />
+                      <Phone className="h-3.5 w-3.5" />
                     </span>
-                    <span className="text-[13px] truncate">{label}</span>
+                    <span className="text-[13px] truncate">{p.display} <span className="text-zinc-600">({p.region})</span></span>
                   </a>
                 ))}
+                <a
+                  href="https://www.itmetasolutions.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 text-sm text-zinc-500 hover:text-white transition-colors"
+                >
+                  <span className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/[0.06] bg-white/[0.02] group-hover:bg-[#1D4ED8]/18 group-hover:border-[#1D4ED8]/28 transition-all shrink-0">
+                    <Globe className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="text-[13px] truncate">www.itmetasolutions.com</span>
+                </a>
                 <div className="flex items-start gap-3 text-sm text-zinc-600">
                   <span className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/[0.06] bg-white/[0.02] shrink-0 mt-0.5">
                     <MapPin className="h-3.5 w-3.5" />
                   </span>
                   <span className="text-[12px] leading-relaxed">
-                    Office No M32 1st Floor, City Star Plaza,<br />Township Block 1, Lahore 54700
+                    {OFFICE_ADDRESS}
                   </span>
                 </div>
               </div>
@@ -275,68 +277,36 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
         {/* ── Bottom bar ── */}
         <div className="border-t border-white/[0.05]">
           <Container className="py-6">
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col items-center gap-5 text-center">
 
-              {/* Registration badges */}
-              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-                <div
-                  className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3"
-                >
-                  <img src={secpLogo} alt="SECP" className="h-8 w-auto object-contain" />
-                  <div>
-                    <div className="text-[9px] font-semibold uppercase tracking-widest text-zinc-600">SECP Registered</div>
-                    <div
-                      className="text-[11px] font-bold text-zinc-300"
-                      style={{ fontFamily: "var(--font-heading)" }}
+              {/* Trust badges */}
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+                {[
+                  { label: "Trusted Delivery", Icon: BadgeCheck, color: "#1D4ED8" },
+                  { label: "Fast & Modern",    Icon: Zap,        color: "#23A6E8" },
+                  { label: "Secure Solutions", Icon: Shield,     color: "#10b981" },
+                ].map(({ label, Icon, color }) => (
+                  <span key={label} className="inline-flex items-center gap-1.5 text-[11px] text-zinc-600">
+                    <span
+                      className="flex items-center justify-center w-5 h-5 rounded-full"
+                      style={{ background: `${color}14` }}
                     >
-                      No. N0298154
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3"
-                >
-                  <img src={fbrLogo} alt="FBR" className="h-8 w-auto object-contain" />
-                  <div>
-                    <div className="text-[9px] font-semibold uppercase tracking-widest text-zinc-600">FBR Tax Registered</div>
-                    <div
-                      className="text-[11px] font-bold text-zinc-300"
-                      style={{ fontFamily: "var(--font-heading)" }}
-                    >
-                      NTN: G903294
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-
-              {/* Copyright row */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="text-[12px] text-zinc-600 text-center sm:text-left">
-                  © {year} IT Meta Solutions (Pvt) Ltd. All rights reserved.
-                </p>
-                <div className="flex flex-wrap items-center justify-center sm:justify-end gap-4 sm:gap-5">
-                  {[
-                    { label: "Trusted Delivery", Icon: BadgeCheck, color: "#1D4ED8" },
-                    { label: "Fast & Modern",    Icon: Zap,        color: "#23A6E8" },
-                    { label: "Secure Solutions", Icon: Shield,     color: "#10b981" },
-                  ].map(({ label, Icon, color }) => (
-                    <span key={label} className="inline-flex items-center gap-1.5 text-[11px] text-zinc-600">
-                      <span
-                        className="flex items-center justify-center w-5 h-5 rounded-full"
-                        style={{ background: `${color}14` }}
-                      >
-                        <Icon className="h-3 w-3" style={{ color }} />
-                      </span>
-                      {label}
+                      <Icon className="h-3 w-3" style={{ color }} />
                     </span>
-                  ))}
-                </div>
+                    {label}
+                  </span>
+                ))}
               </div>
+
+              <div className="h-px w-full max-w-xs bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+
+              {/* Copyright */}
+              <p className="text-[12px] text-zinc-600">
+                © {year} IT Meta Solutions (Pvt) Ltd. All rights reserved.
+              </p>
 
               {/* Legal links */}
-              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-white/[0.05] pt-5">
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-white/[0.05] pt-5 w-full">
                 <Link to="/privacy-policy" className="text-[12px] text-zinc-600 hover:text-white transition-colors duration-200">
                   Privacy Policy
                 </Link>

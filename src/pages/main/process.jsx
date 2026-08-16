@@ -34,6 +34,7 @@ import {
 import { Helmet } from "react-helmet-async";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import Container from "../../components/Container";
+import { openLiveChat } from "../../lib/liveChat";
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -381,15 +382,14 @@ export default function ProcessPage() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="mt-8 flex flex-wrap gap-3"
             >
-              <a
-                href="https://wa.me/923271804037"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={openLiveChat}
                 className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#141A2E] shadow-lg transition-all hover:scale-105"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                WhatsApp Us <Phone className="h-4 w-4" />
-              </a>
+                Live Chat <Phone className="h-4 w-4" />
+              </button>
               <Link
                 to="/contact"
                 className="btn-ghost-dark"
@@ -608,15 +608,14 @@ export default function ProcessPage() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <a
-                    href="https://wa.me/923271804037"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={openLiveChat}
                     className="inline-flex items-center gap-2 rounded-full bg-[#1D4ED8] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#162f8f] hover:scale-105"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
-                    WhatsApp Us <Phone className="h-4 w-4" />
-                  </a>
+                    Live Chat <Phone className="h-4 w-4" />
+                  </button>
                   <Link
                     to="/contact"
                     className="inline-flex items-center gap-2 rounded-full border border-[#1D4ED8]/30 px-5 py-2.5 text-sm font-semibold text-[#1D4ED8] transition-all hover:bg-[#1D4ED8]/10"
@@ -689,14 +688,9 @@ export default function ProcessPage() {
                 <Link to="/contact" className="btn-primary">
                   Get a Proposal <ArrowRight className="h-4 w-4" />
                 </Link>
-                <a
-                  href="https://wa.me/923271804037"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-ghost-dark"
-                >
-                  <Phone className="h-4 w-4" /> WhatsApp Us
-                </a>
+                <button type="button" onClick={openLiveChat} className="btn-ghost-dark">
+                  <Phone className="h-4 w-4" /> Live Chat
+                </button>
               </div>
             </Reveal>
           </div>

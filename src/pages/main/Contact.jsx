@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import Container from "../../components/Container";
+import { PHONE_NUMBERS, PRIMARY_PHONE, OFFICE_ADDRESS, OFFICE_HOURS, EMAIL } from "../../lib/contact";
 
 /* ==================== HELPERS ==================== */
 
@@ -202,7 +203,7 @@ function ContactCard({ icon: Icon, color, label, value, href, copyText }) {
               target={href.startsWith("http") ? "_blank" : undefined}
               rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
             >
-              {label.includes("WhatsApp") ? "Chat now" : label === "Email" ? "Send email" : "View"}
+              {label.startsWith("Call") ? "Call now" : label === "Email" ? "Send email" : "View"}
               <ArrowRight className="h-3.5 w-3.5" />
             </a>
           )}
@@ -246,19 +247,18 @@ const seoFaqs = [
   { q: "How fast can you start a Salesforce implementation?", a: "Most Salesforce discovery and planning starts within 5 to 7 days after kickoff, followed by a clear implementation roadmap." },
   { q: "Can I hire Salesforce LWC developers only?", a: "Yes. We offer dedicated LWC development services for custom components, portals, and integrations." },
   { q: "Do you build performance-optimized Shopify stores?", a: "Yes. We build fast-loading Shopify and WooCommerce sites with conversion-focused UX and custom calculators." },
-  { q: "Are you a Lahore-based SECP registered IT firm?", a: "Yes. We are SECP and FBR registered and operate from City Star Plaza, Township, Lahore." },
+  { q: "Which countries do you serve?", a: "We work with clients across the UK, US, Canada, and Pakistan, with regional phone numbers for each." },
 ];
 
 /* ==================== PAGE ==================== */
 
 export default function Contact() {
   const CONTACT = useMemo(() => ({
-    phoneRaw: "03271804037",
-    phoneTel: "+923271804037",
-    email: "info@itmetasolutions.com",
-    officeShort: "City Star Plaza, Township, Lahore",
-    officeFull: "Office No M32 1st Floor, City Star Plaza, Maulana Shaukat Ali Rd, Township Block 1 Sector B 1 Lahore, 54700",
-    hours: "Monday – Saturday • 06:00 AM – 12:00 AM (PKT)",
+    phones: PHONE_NUMBERS,
+    primaryPhone: PRIMARY_PHONE,
+    email: EMAIL,
+    officeFull: OFFICE_ADDRESS,
+    hours: OFFICE_HOURS,
     website: "https://itmetasolutions.com",
   }), []);
 
@@ -280,7 +280,7 @@ export default function Contact() {
     if (!form.name.trim()) e.name = "Name is required";
     if (!form.email.trim()) e.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = "Email is invalid";
-    if (!form.phone.trim()) e.phone = "Phone / WhatsApp is required";
+    if (!form.phone.trim()) e.phone = "Phone number is required";
     if (!form.message.trim() || form.message.trim().length < 20) e.message = "Please add details (min 20 characters)";
     return e;
   };
@@ -303,7 +303,7 @@ export default function Contact() {
       setForm({ name: "", email: "", phone: "", company: "", service: "meta", budget: "", message: "" });
     } catch (err) {
       setStatus("error");
-      setErrorMessage(err?.message || "Something went wrong. Please try again or WhatsApp us directly.");
+      setErrorMessage(err?.message || "Something went wrong. Please try again or use live chat / call us directly.");
     }
   };
 
@@ -400,20 +400,22 @@ export default function Contact() {
                   >
                     Reach us directly
                   </h2>
-                  <p className="mt-2 text-slate-500">Use these for urgent queries — WhatsApp is fastest.</p>
+                  <p className="mt-2 text-slate-500">Use these for urgent queries — live chat is fastest.</p>
                 </div>
               </Reveal>
 
-              <Reveal delay={0.05}>
-                <ContactCard
-                  icon={Phone}
-                  color="#1D4ED8"
-                  label="Call / WhatsApp"
-                  value={CONTACT.phoneRaw}
-                  href={`https://wa.me/923271804037`}
-                  copyText={CONTACT.phoneRaw}
-                />
-              </Reveal>
+              {CONTACT.phones.map((p, i) => (
+                <Reveal key={p.tel} delay={0.05 + i * 0.02}>
+                  <ContactCard
+                    icon={Phone}
+                    color="#1D4ED8"
+                    label={`Call — ${p.region}`}
+                    value={p.display}
+                    href={`tel:${p.tel}`}
+                    copyText={p.display}
+                  />
+                </Reveal>
+              ))}
               <Reveal delay={0.08}>
                 <ContactCard
                   icon={Mail}
@@ -511,7 +513,7 @@ export default function Contact() {
                       Request a proposal
                     </h2>
                     <p className="mt-1 text-sm text-slate-500">
-                      We'll reply with a scope + timeline. For urgent work, WhatsApp is fastest.
+                      We'll reply with a scope + timeline. For urgent work, live chat is fastest.
                     </p>
                   </div>
                   <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[#1D4ED8]/10">
@@ -544,8 +546,8 @@ export default function Contact() {
                     </Field>
                   </div>
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <Field label="Phone / WhatsApp *" error={errors.phone}>
-                      <Input name="phone" value={form.phone} onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))} placeholder="+92..." error={errors.phone} />
+                    <Field label="Phone Number *" error={errors.phone}>
+                      <Input name="phone" value={form.phone} onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))} placeholder="+44..." error={errors.phone} />
                     </Field>
                     <Field label="Company" optional>
                       <Input name="company" value={form.company} onChange={(e) => setForm((s) => ({ ...s, company: e.target.value }))} placeholder="Business name" />
@@ -605,7 +607,7 @@ export default function Contact() {
                         Message sent successfully!
                       </div>
                       <p className="mt-1 text-xs text-emerald-700">
-                        We'll contact you shortly. If urgent, WhatsApp is fastest: <span className="font-semibold">{CONTACT.phoneRaw}</span>
+                        We'll contact you shortly. If urgent, live chat is fastest, or call <span className="font-semibold">{CONTACT.primaryPhone.display}</span>
                       </p>
                     </div>
                   )}
@@ -645,7 +647,7 @@ export default function Contact() {
               className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl"
               style={{ fontFamily: "var(--font-heading)" }}
             >
-              Find Us in Lahore
+              Find Our Office
             </h2>
             <p className="mt-3 text-slate-500 max-w-xl mx-auto">
               {CONTACT.officeFull}
@@ -658,7 +660,7 @@ export default function Contact() {
                 {/* Map */}
                 <div className="relative min-h-[350px] sm:min-h-[450px]">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.1789751778897!2d74.31494959999999!3d31.4642625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391907f28acfe357%3A0x875d67a6a5a7aa3!2sIT%20Meta%20Solutions!5e0!3m2!1sen!2s!4v1772499535973!5m2!1sen!2s"
+                    src={`https://www.google.com/maps?q=${encodeURIComponent(CONTACT.officeFull)}&output=embed`}
                     style={{ border: 0, position: "absolute", inset: 0, width: "100%", height: "100%" }}
                     allowFullScreen=""
                     loading="lazy"
@@ -669,24 +671,38 @@ export default function Contact() {
 
                 {/* Side panel */}
                 <div className="flex flex-col gap-6 border-t border-slate-100 bg-[#F1F4F9] p-7 lg:border-l lg:border-t-0">
-                  {[
-                    { icon: MapPin, color: "#1D4ED8", title: "Our Office", value: CONTACT.officeFull },
-                    { icon: Clock, color: "#23A6E8", title: "Working Hours", value: "Mon – Sat • 06:00 AM – 12:00 AM (PKT)" },
-                    { icon: Phone, color: "#3AC9F5", title: "Call / WhatsApp", value: "+92 327 180 4037" },
-                  ].map((item) => (
-                    <div key={item.title} className="flex items-start gap-3">
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${item.color}15` }}>
-                        <item.icon className="h-5 w-5" style={{ color: item.color }} />
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: "#1D4ED815" }}>
+                      <MapPin className="h-5 w-5" style={{ color: "#1D4ED8" }} />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>Our Office</div>
+                      <div className="mt-0.5 text-sm text-slate-500 leading-relaxed">{CONTACT.officeFull}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: "#23A6E815" }}>
+                      <Clock className="h-5 w-5" style={{ color: "#23A6E8" }} />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>Working Hours</div>
+                      <div className="mt-0.5 text-sm text-slate-500 leading-relaxed">{CONTACT.hours}</div>
+                    </div>
+                  </div>
+                  {CONTACT.phones.map((p) => (
+                    <div key={p.tel} className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: "#3AC9F515" }}>
+                        <Phone className="h-5 w-5" style={{ color: "#3AC9F5" }} />
                       </div>
                       <div>
-                        <div className="text-sm font-semibold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>{item.title}</div>
-                        <div className="mt-0.5 text-sm text-slate-500 leading-relaxed">{item.value}</div>
+                        <div className="text-sm font-semibold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>Call — {p.region}</div>
+                        <div className="mt-0.5 text-sm text-slate-500 leading-relaxed">{p.display}</div>
                       </div>
                     </div>
                   ))}
 
                   <a
-                    href="https://www.google.com/maps/search/?api=1&query=31.4642625,74.31494959999999"
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.officeFull)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#1D4ED8] px-5 py-3 text-sm font-semibold text-white shadow-md shadow-[#1D4ED8]/20 transition-all hover:bg-[#162f8f] hover:scale-105"

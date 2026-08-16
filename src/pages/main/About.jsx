@@ -4,7 +4,6 @@ import { motion, useScroll } from "framer-motion";
 import {
   ArrowRight,
   Award,
-  BadgeCheck,
   CalendarDays,
   CheckCircle2,
   Code2,
@@ -22,7 +21,6 @@ import {
   Search,
   Users,
   Wand2,
-  BriefcaseBusiness,
   Cloud,
   Handshake,
   Layers,
@@ -34,20 +32,8 @@ import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
 import GoogleReviewsSection from "../../components/GoogleReviewsSection";
 import SeoContentFaq from "../../components/SeoContentFaq";
-
-// Import team member images
-import abdullahKhalidImg from "../../assets/img/Abdullah Khalid ITMS.webp";
-import moeezUlHaqImg from "../../assets/img/Moeez Ul Haq ITMS.webp";
-import danishAhmadImg from "../../assets/img/Danish Ahmad ITMS.webp";
-import hussainAliImg from "../../assets/img/Hussain Ali ITMS.webp";
-import abdullahAbdulRazzaqImg from "../../assets/img/Abdullah Abdul Razzaq ITMS.webp";
-import abdulMoeezImg from "../../assets/img/Abdul Moeez ITMS.webp";
-
-// Import certificates and registration logos
-import secpCertificate from "../../assets/img/SECP Certificate ITMS.png";
-import fbrCertificate from "../../assets/img/FBR Certificate ITMS.png";
-import secpLogo from "../../assets/img/SECP Logo ITMS.webp";
-import fbrLogo from "../../assets/img/FBR Logo ITMS.webp";
+import { PHONE_NUMBERS, OFFICE_ADDRESS, EMAIL } from "../../lib/contact";
+import { openLiveChat } from "../../lib/liveChat";
 
 const aboutDeliveryImage = "/assets/img/lyubomyr-reverchuk-rtD_lcsN6_U-unsplash.jpg";
 
@@ -78,81 +64,6 @@ function ScrollProgress() {
 
 /* ==================== DATA ==================== */
 
-const teamMembers = [
-  {
-    name: "Abdullah Khalid",
-    role: "Web Developer • SEO Expert",
-    color: "#1D4ED8",
-    image: abdullahKhalidImg,
-    skills: [
-      "Conversion-focused website builds",
-      "Technical SEO structure",
-      "Speed + mobile optimization",
-      "Landing pages for ads",
-    ],
-  },
-  {
-    name: "Moeez ul Haq",
-    role: "Digital Marketer",
-    color: "#23A6E8",
-    image: moeezUlHaqImg,
-    skills: [
-      "Meta Ads funnel strategy",
-      "Audience targeting + retargeting",
-      "Creative testing & scaling",
-      "Lead + sales optimization",
-    ],
-  },
-  {
-    name: "Abdul Moeez",
-    role: "Salesforce Expert",
-    color: "#3AC9F5",
-    image: abdulMoeezImg,
-    skills: [
-      "Salesforce implementation & customization",
-      "Sales Cloud & Service Cloud",
-      "Lightning Web Components",
-      "Workflow automation & integrations",
-    ],
-  },
-  {
-    name: "Danish Ahmad",
-    role: "Graphic Designer",
-    color: "#1D4ED8",
-    image: danishAhmadImg,
-    skills: [
-      "Brand identity & social templates",
-      "Ad creatives for performance",
-      "Packaging & print-ready designs",
-      "Modern UI visuals",
-    ],
-  },
-  {
-    name: "Hussain Ali",
-    role: "Dropshipping Expert",
-    color: "#23A6E8",
-    image: hussainAliImg,
-    skills: [
-      "Product research & validation",
-      "Store setup + optimization",
-      "Offer strategy & positioning",
-      "Order flow + scaling basics",
-    ],
-  },
-  {
-    name: "Abdullah Abdul Razzaq",
-    role: "Video Editor • Graphic Designer",
-    color: "#3AC9F5",
-    image: abdullahAbdulRazzaqImg,
-    skills: [
-      "Video editing and production",
-      "Graphic design for social media",
-      "Motion graphics",
-      "Brand visuals",
-    ],
-  },
-];
-
 const seoContent = {
   kicker: "About Us",
   title: "A Lahore-Based Salesforce and Ecommerce Growth Team",
@@ -172,8 +83,8 @@ const seoContent = {
 
 const seoFaqs = [
   {
-    q: "Are you a SECP registered IT firm in Lahore?",
-    a: "Yes. We are SECP and FBR registered and operate from City Star Plaza, Township, Lahore.",
+    q: "Are you a SECP registered IT firm?",
+    a: "Yes. We are SECP and FBR registered, with our registered office in London and a delivery team in Lahore.",
   },
   {
     q: "Do you specialize in Salesforce implementation?",
@@ -241,10 +152,6 @@ export default function AboutUsPage() {
               transition={{ duration: 0.5 }}
               className="flex flex-wrap items-center justify-center gap-2 mb-6"
             >
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.07] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm">
-                <ShieldCheck className="h-3.5 w-3.5 text-[#3AC9F5]" />
-                SECP &amp; FBR Registered
-              </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.07] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm">
                 <Globe className="h-3.5 w-3.5 text-[#23A6E8]" />
                 PK · CA · UK · USA
@@ -323,29 +230,32 @@ export default function AboutUsPage() {
       <section className="bg-white border-b border-slate-100 py-6">
         <Container>
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-sm">
+            {PHONE_NUMBERS.map((p) => (
+              <a
+                key={p.tel}
+                href={`tel:${p.tel}`}
+                className="flex items-center gap-2.5 text-slate-600 hover:text-[#1D4ED8] transition-colors"
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D4ED8]/10">
+                  <Phone className="h-3.5 w-3.5 text-[#1D4ED8]" />
+                </div>
+                <span className="font-medium">{p.display}</span>
+              </a>
+            ))}
             <a
-              href="tel:+923271804037"
-              className="flex items-center gap-2.5 text-slate-600 hover:text-[#1D4ED8] transition-colors"
-            >
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D4ED8]/10">
-                <Phone className="h-3.5 w-3.5 text-[#1D4ED8]" />
-              </div>
-              <span className="font-medium">+92 327 180 4037</span>
-            </a>
-            <a
-              href="mailto:info@itmetasolutions.com"
+              href={`mailto:${EMAIL}`}
               className="flex items-center gap-2.5 text-slate-600 hover:text-[#1D4ED8] transition-colors"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D4ED8]/10">
                 <Mail className="h-3.5 w-3.5 text-[#1D4ED8]" />
               </div>
-              <span className="font-medium">info@itmetasolutions.com</span>
+              <span className="font-medium">{EMAIL}</span>
             </a>
             <div className="flex items-center gap-2.5 text-slate-500">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D4ED8]/10">
                 <MapPin className="h-3.5 w-3.5 text-[#1D4ED8]" />
               </div>
-              <span>City Star Plaza, Township, Lahore</span>
+              <span>{OFFICE_ADDRESS}</span>
             </div>
           </div>
         </Container>
@@ -558,100 +468,6 @@ export default function AboutUsPage() {
         </Container>
       </section>
 
-      {/* ==================== TEAM ==================== */}
-      <section className="bg-[#F1F4F9] py-20 sm:py-28">
-        <Container>
-          <motion.div
-            initial={reduced ? false : { y: 16, opacity: 0 }}
-            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-14"
-          >
-            <span className="kicker">Our People</span>
-            <h2
-              className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Skilled Specialists, One System
-            </h2>
-            <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-              A focused team with clear roles — so design, development, SEO, and ads work together seamlessly
-            </p>
-          </motion.div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={reduced ? false : { y: 20, opacity: 0 }}
-                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                whileHover={reduced ? {} : { y: -6, transition: { duration: 0.2 } }}
-                className="premium-card group rounded-3xl p-6 text-center"
-              >
-                {/* Photo */}
-                <div className="mx-auto mb-5 relative w-fit">
-                  <div
-                    className="absolute -inset-1 rounded-full blur-md opacity-40 group-hover:opacity-70 transition-opacity"
-                    style={{ background: `linear-gradient(135deg, ${member.color}, ${member.color}88)` }}
-                  />
-                  <div className="relative h-24 w-24 overflow-hidden rounded-full ring-2 ring-white shadow-lg">
-                    {member.image ? (
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-slate-100 grid place-items-center text-slate-400 text-xs">
-                        Photo
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Name */}
-                <h3
-                  className="text-lg font-bold text-slate-900"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  {member.name}
-                </h3>
-
-                {/* Role pill */}
-                <div className="mt-2 flex flex-wrap justify-center gap-1.5">
-                  {member.role.split(" • ").map((r) => (
-                    <span
-                      key={r}
-                      className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold"
-                      style={{ backgroundColor: `${member.color}15`, color: member.color }}
-                    >
-                      <BriefcaseBusiness className="h-3 w-3" />
-                      {r}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Divider */}
-                <div className="my-4 h-px bg-slate-100" />
-
-                {/* Skills */}
-                <ul className="space-y-2 text-left">
-                  {member.skills.map((skill) => (
-                    <li key={skill} className="flex items-start gap-2">
-                      <BadgeCheck className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: member.color }} />
-                      <span className="text-sm text-slate-600">{skill}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
       {/* ==================== WHY CHOOSE US ==================== */}
       <section className="bg-white py-20 sm:py-28">
         <Container>
@@ -813,126 +629,6 @@ export default function AboutUsPage() {
         </Container>
       </section>
 
-      {/* ==================== CERTIFICATIONS ==================== */}
-      <section className="bg-white py-20 sm:py-28">
-        <Container>
-          <motion.div
-            initial={reduced ? false : { y: 16, opacity: 0 }}
-            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-14"
-          >
-            <span className="kicker">Verified &amp; Trusted</span>
-            <h2
-              className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Registered &amp; Certified
-            </h2>
-            <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-              IT Meta Solutions is a legally registered company with the Government of Pakistan,
-              ensuring complete transparency and trust in our business operations.
-            </p>
-          </motion.div>
-
-          {/* Registration Info */}
-          <div className="grid gap-6 md:grid-cols-2 mb-10">
-            {[
-              { logo: secpLogo, alt: "SECP Logo", title: "SECP Registered", subtitle: "Securities and Exchange Commission of Pakistan", label: "Company Registration Number", number: "N0298154", color: "#1D4ED8" },
-              { logo: fbrLogo, alt: "FBR Logo", title: "FBR Tax Registered", subtitle: "Federal Board of Revenue, Pakistan", label: "National Tax Number (NTN)", number: "G903294", color: "#23A6E8" },
-            ].map((reg, i) => (
-              <motion.div
-                key={reg.title}
-                initial={reduced ? false : { y: 16, opacity: 0 }}
-                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="premium-card rounded-3xl p-6 sm:p-8"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <img src={reg.logo} alt={reg.alt} className="h-14 w-auto object-contain" />
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>
-                      {reg.title}
-                    </h3>
-                    <p className="text-sm text-slate-500">{reg.subtitle}</p>
-                  </div>
-                </div>
-                <div
-                  className="rounded-2xl p-4"
-                  style={{ backgroundColor: `${reg.color}08`, border: `1px solid ${reg.color}20` }}
-                >
-                  <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">{reg.label}</div>
-                  <div
-                    className="text-2xl font-bold tracking-wide"
-                    style={{ fontFamily: "var(--font-heading)", color: reg.color }}
-                  >
-                    {reg.number}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Certificate images */}
-          <motion.div
-            initial={reduced ? false : { y: 16, opacity: 0 }}
-            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-8"
-          >
-            <h3 className="text-xl font-bold text-slate-800" style={{ fontFamily: "var(--font-heading)" }}>
-              Official Certificates
-            </h3>
-            <p className="mt-1 text-sm text-slate-500">View our registration certificates for complete transparency</p>
-          </motion.div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {[
-              { src: secpCertificate, alt: "SECP Registration Certificate - IT Meta Solutions", label: "SECP Certificate", color: "#1D4ED8" },
-              { src: fbrCertificate, alt: "FBR Tax Registration Certificate - IT Meta Solutions", label: "FBR Certificate", color: "#23A6E8" },
-            ].map((cert, i) => (
-              <motion.div
-                key={cert.label}
-                initial={reduced ? false : { y: 16, opacity: 0 }}
-                whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="premium-card rounded-3xl p-4"
-              >
-                <div className="mb-3 text-center">
-                  <span
-                    className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold"
-                    style={{ backgroundColor: `${cert.color}15`, color: cert.color }}
-                  >
-                    <ShieldCheck className="h-3.5 w-3.5" />
-                    {cert.label}
-                  </span>
-                </div>
-                <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white">
-                  <img src={cert.src} alt={cert.alt} className="w-full h-auto object-contain" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={reduced ? false : { y: 16, opacity: 0 }}
-            whileInView={reduced ? {} : { y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-8 text-center"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-700">
-              <CheckCircle2 className="h-4 w-4" />
-              Verified legal entity operating under Pakistan's corporate laws
-            </div>
-          </motion.div>
-        </Container>
-      </section>
-
       {/* ==================== REVIEWS ==================== */}
       <div className="bg-[#F1F4F9]">
         <GoogleReviewsSection
@@ -991,15 +687,10 @@ export default function AboutUsPage() {
                 Get a Proposal
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <a
-                href="https://wa.me/923271804037"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-ghost-dark"
-              >
+              <button type="button" onClick={openLiveChat} className="btn-ghost-dark">
                 <Phone className="h-4 w-4" />
-                WhatsApp Now
-              </a>
+                Live Chat Now
+              </button>
             </div>
           </motion.div>
         </Container>
