@@ -35,7 +35,7 @@ import {
 } from "lucide-react";
 import SeoContentFaq from "../../components/SeoContentFaq";
 import Container from "../../components/Container";
-import { PHONE_NUMBERS, PRIMARY_PHONE, OFFICE_ADDRESS, OFFICE_HOURS, EMAIL } from "../../lib/contact";
+import { PHONE_NUMBERS, PRIMARY_PHONE, OFFICE_ADDRESS, OFFICE_HOURS, EMAIL, OFFICE_MAP_EMBED_URL, OFFICE_MAP_DIRECTIONS_URL } from "../../lib/contact";
 
 /* ==================== HELPERS ==================== */
 
@@ -660,11 +660,11 @@ export default function Contact() {
                 {/* Map */}
                 <div className="relative min-h-[350px] sm:min-h-[450px]">
                   <iframe
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(CONTACT.officeFull)}&output=embed`}
+                    src={OFFICE_MAP_EMBED_URL}
                     style={{ border: 0, position: "absolute", inset: 0, width: "100%", height: "100%" }}
                     allowFullScreen=""
                     loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
+                    referrerPolicy="strict-origin-when-cross-origin"
                     title="IT Meta Solutions Office Location"
                   />
                 </div>
@@ -702,7 +702,7 @@ export default function Contact() {
                   ))}
 
                   <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.officeFull)}`}
+                    href={OFFICE_MAP_DIRECTIONS_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#1D4ED8] px-5 py-3 text-sm font-semibold text-white shadow-md shadow-[#1D4ED8]/20 transition-all hover:bg-[#162f8f] hover:scale-105"

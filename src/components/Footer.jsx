@@ -276,11 +276,27 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
 
         {/* ── Bottom bar ── */}
         <div className="border-t border-white/[0.05]">
-          <Container className="py-6">
-            <div className="flex flex-col items-center gap-5 text-center">
+          <Container className="py-6 lg:pr-24">
+            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 sm:gap-3 text-center">
 
-              {/* Trust badges */}
-              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+              {/* Copyright — left */}
+              <p className="text-[12px] text-zinc-600 order-1 sm:text-left">
+                © {year} IT Meta Solutions (Pvt) Ltd. All rights reserved.
+              </p>
+
+              {/* Legal links — center */}
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 order-3 sm:order-2">
+                <Link to="/privacy-policy" className="text-[12px] text-zinc-600 hover:text-white transition-colors duration-200">
+                  Privacy Policy
+                </Link>
+                <span className="text-zinc-800">•</span>
+                <Link to="/terms-and-conditions" className="text-[12px] text-zinc-600 hover:text-white transition-colors duration-200">
+                  Terms &amp; Conditions
+                </Link>
+              </div>
+
+              {/* Trust badges — right */}
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 order-2 sm:order-3 sm:justify-end">
                 {[
                   { label: "Trusted Delivery", Icon: BadgeCheck, color: "#1D4ED8" },
                   { label: "Fast & Modern",    Icon: Zap,        color: "#23A6E8" },
@@ -296,24 +312,6 @@ export default function Footer({ year, nav, AnchorLink, Container }) {
                     {label}
                   </span>
                 ))}
-              </div>
-
-              <div className="h-px w-full max-w-xs bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-
-              {/* Copyright */}
-              <p className="text-[12px] text-zinc-600">
-                © {year} IT Meta Solutions (Pvt) Ltd. All rights reserved.
-              </p>
-
-              {/* Legal links */}
-              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-white/[0.05] pt-5 w-full">
-                <Link to="/privacy-policy" className="text-[12px] text-zinc-600 hover:text-white transition-colors duration-200">
-                  Privacy Policy
-                </Link>
-                <span className="text-zinc-800">•</span>
-                <Link to="/terms-and-conditions" className="text-[12px] text-zinc-600 hover:text-white transition-colors duration-200">
-                  Terms &amp; Conditions
-                </Link>
               </div>
             </div>
           </Container>

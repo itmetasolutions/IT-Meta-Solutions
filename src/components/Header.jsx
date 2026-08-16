@@ -70,7 +70,7 @@ export default function Header({ nav, AnchorLink }) {
       id="site-header"
       className={`fixed top-0 left-0 right-0 z-[9998] transition-all duration-500 ${
         scrolled
-          ? "bg-[#141A2E]/92 backdrop-blur-2xl border-b border-[#1D4ED8]/35"
+          ? "bg-[#141A2E] border-b border-[#1D4ED8]/35"
           : "bg-[#141A2E]/75 backdrop-blur-lg border-b border-white/[0.06]"
       }`}
       style={scrolled ? { boxShadow: "0 4px 40px rgba(29,78,216,0.12), 0 1px 0 rgba(29,78,216,0.25)" } : {}}

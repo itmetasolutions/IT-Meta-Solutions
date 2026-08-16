@@ -58,7 +58,7 @@ html, body {
   border: 1.5px solid var(--brand);
   border-radius: 999px;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 999999;
   will-change: transform;
   transition: width .12s ease, height .12s ease, border-color .12s ease;
   box-shadow: 0 0 14px rgba(29,78,216,0.35);
