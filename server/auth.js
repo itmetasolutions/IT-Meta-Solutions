@@ -28,15 +28,6 @@ export function requireAdmin(req, res, next) {
   }
 }
 
-export function verifyAdminToken(token) {
-  try {
-    const payload = jwt.verify(token, JWT_SECRET);
-    return payload.role === 'admin' ? payload : null;
-  } catch {
-    return null;
-  }
-}
-
 export function checkAdminCredentials(username, password) {
   const validUsername = process.env.ADMIN_USERNAME;
   const validPassword = process.env.ADMIN_PASSWORD;

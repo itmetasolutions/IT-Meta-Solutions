@@ -6,7 +6,6 @@ import {
   Send, RefreshCw, X, Clock,
 } from "lucide-react";
 import { adminFetch, getAdminToken, clearAdminToken } from "../../lib/adminAuth";
-import { getChatSocket } from "../../lib/chatClient";
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -165,6 +164,9 @@ function SubmissionsTab() {
 
 /* ==================== LIVE CHAT ==================== */
 
+const CONVERSATIONS_POLL_MS = 4000;
+const THREAD_POLL_MS = 2500;
+
 function ChatTab() {
   const [conversations, setConversations] = useState([]);
   const [activeId, setActiveId] = useState(null);
@@ -173,8 +175,6 @@ function ChatTab() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const listRef = useRef(null);
-  const activeIdRef = useRef(null);
-  activeIdRef.current = activeId;
 
   const loadConversations = async () => {
     try {
@@ -190,45 +190,51 @@ function ChatTab() {
 
   useEffect(() => {
     loadConversations();
-    const socket = getChatSocket();
-    socket.emit("admin:auth", getAdminToken());
-
-    const onMessage = (message) => {
-      setConversations((prev) => {
-        const idx = prev.findIndex((c) => c.id === message.conversation_id);
-        if (idx === -1) return prev;
-        const updated = [...prev];
-        updated[idx] = { ...updated[idx], last_message: message.body, last_message_at: message.created_at };
-        return updated.sort((a, b) => new Date(b.last_message_at) - new Date(a.last_message_at));
-      });
-      if (message.conversation_id === activeIdRef.current) {
-        setMessages((prev) => (prev.some((m) => m.id === message.id) ? prev : [...prev, message]));
-      }
-    };
-    socket.on("message:new", onMessage);
-    return () => socket.off("message:new", onMessage);
+    const interval = setInterval(loadConversations, CONVERSATIONS_POLL_MS);
+    return () => clearInterval(interval);
   }, []);
 
   const openConversation = async (id) => {
     setActiveId(id);
-    getChatSocket().emit("admin:join-conversation", { conversationId: id });
     const res = await adminFetch(`/api/admin/conversations/${id}/messages`);
     if (res.ok) setMessages(await res.json());
   };
 
   useEffect(() => {
+    if (!activeId) return;
+    const poll = async () => {
+      const res = await adminFetch(`/api/admin/conversations/${activeId}/messages`);
+      if (res.ok) {
+        const latest = await res.json();
+        setMessages((prev) => {
+          const known = new Set(prev.map((m) => m.id));
+          const additions = latest.filter((m) => !known.has(m.id));
+          return additions.length ? [...prev, ...additions] : prev;
+        });
+      }
+    };
+    const interval = setInterval(poll, THREAD_POLL_MS);
+    return () => clearInterval(interval);
+  }, [activeId]);
+
+  useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
-  const sendReply = (e) => {
+  const sendReply = async (e) => {
     e.preventDefault();
     if (!input.trim() || !activeId) return;
-    getChatSocket().emit("admin:message", {
-      conversationId: activeId,
-      text: input.trim(),
-      token: getAdminToken(),
-    });
+    const text = input.trim();
     setInput("");
+    const res = await adminFetch(`/api/admin/conversations/${activeId}/messages`, {
+      method: "POST",
+      body: JSON.stringify({ text }),
+    });
+    if (res.ok) {
+      const message = await res.json();
+      setMessages((prev) => [...prev, message]);
+      loadConversations();
+    }
   };
 
   if (error) {

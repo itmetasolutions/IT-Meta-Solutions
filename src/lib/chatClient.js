@@ -1,4 +1,3 @@
-import { io } from "socket.io-client";
 import { API_BASE_URL } from "./api";
 
 const VISITOR_ID_KEY = "itms_chat_visitor_id";
@@ -12,15 +11,6 @@ export function getVisitorId() {
   return id;
 }
 
-let socket = null;
-
-export function getChatSocket() {
-  if (!socket) {
-    socket = io(API_BASE_URL, { autoConnect: true, transports: ["websocket", "polling"] });
-  }
-  return socket;
-}
-
 export async function startChatSession(visitorId) {
   const res = await fetch(`${API_BASE_URL}/api/chat/session`, {
     method: "POST",
@@ -28,5 +18,22 @@ export async function startChatSession(visitorId) {
     body: JSON.stringify({ visitorId }),
   });
   if (!res.ok) throw new Error("Live chat is temporarily unavailable");
+  return res.json();
+}
+
+export async function fetchMessages(conversationId, visitorId) {
+  const params = new URLSearchParams({ conversationId, visitorId });
+  const res = await fetch(`${API_BASE_URL}/api/chat/messages?${params}`);
+  if (!res.ok) throw new Error("Failed to load messages");
+  return res.json();
+}
+
+export async function sendVisitorMessage(visitorId, conversationId, text) {
+  const res = await fetch(`${API_BASE_URL}/api/chat/messages`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ visitorId, conversationId, text }),
+  });
+  if (!res.ok) throw new Error("Failed to send message");
   return res.json();
 }

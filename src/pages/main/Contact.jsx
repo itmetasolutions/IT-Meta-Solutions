@@ -36,6 +36,7 @@ import {
 import SeoContentFaq from "../../components/SeoContentFaq";
 import Container from "../../components/Container";
 import { PHONE_NUMBERS, PRIMARY_PHONE, OFFICE_ADDRESS, OFFICE_HOURS, EMAIL, OFFICE_MAP_EMBED_URL, OFFICE_MAP_DIRECTIONS_URL } from "../../lib/contact";
+import { API_BASE_URL } from "../../lib/api";
 
 /* ==================== HELPERS ==================== */
 
@@ -217,7 +218,7 @@ function ContactCard({ icon: Icon, color, label, value, href, copyText }) {
 /* ==================== API ==================== */
 
 async function submitContact(payload) {
-  const response = await fetch("https://it-meta-solutions.onrender.com/api/contact", {
+  const response = await fetch(`${API_BASE_URL}/api/contact`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

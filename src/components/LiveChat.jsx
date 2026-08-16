@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Send, Phone } from "lucide-react";
-import { getVisitorId, getChatSocket, startChatSession } from "../lib/chatClient";
+import { getVisitorId, startChatSession, fetchMessages, sendVisitorMessage } from "../lib/chatClient";
 import { LIVE_CHAT_OPEN_EVENT } from "../lib/liveChat";
 import { PRIMARY_PHONE } from "../lib/contact";
 
 const QUICK_REPLIES = ["General enquiry", "Get a quote", "Project support"];
+const POLL_INTERVAL_MS = 2500;
 
 function isOfficeHoursNow() {
   const parts = new Intl.DateTimeFormat("en-GB", {
@@ -16,6 +17,12 @@ function isOfficeHoursNow() {
   const weekday = parts.find((p) => p.type === "weekday")?.value;
   const hour = Number(parts.find((p) => p.type === "hour")?.value);
   return !["Sat", "Sun"].includes(weekday) && hour >= 9 && hour < 18;
+}
+
+function mergeMessages(prev, incoming) {
+  const known = new Set(prev.map((m) => m.id));
+  const additions = incoming.filter((m) => !known.has(m.id));
+  return additions.length ? [...prev, ...additions] : prev;
 }
 
 export default function LiveChat() {
@@ -35,6 +42,7 @@ export default function LiveChat() {
     return () => window.removeEventListener(LIVE_CHAT_OPEN_EVENT, onOpenEvent);
   }, []);
 
+  // Start (or resume) the chat session once, the first time the widget opens.
   useEffect(() => {
     if (!open || startedRef.current) return;
     startedRef.current = true;
@@ -49,15 +57,6 @@ export default function LiveChat() {
         setConversation(convo);
         setMessages(history);
         setStatus("ready");
-
-        const socket = getChatSocket();
-        socket.emit("visitor:join", { visitorId: visitorIdRef.current });
-
-        socket.on("message:new", (message) => {
-          if (message.conversation_id !== convo.id) return;
-          setMessages((prev) => (prev.some((m) => m.id === message.id) ? prev : [...prev, message]));
-          if (message.sender !== "visitor" && !document.hasFocus()) setHasUnread(true);
-        });
       })
       .catch(() => {
         if (!cancelled) setStatus("error");
@@ -68,6 +67,27 @@ export default function LiveChat() {
     };
   }, [open]);
 
+  // Poll for new messages while the panel is open.
+  useEffect(() => {
+    if (!open || status !== "ready" || !conversation) return;
+
+    const poll = async () => {
+      try {
+        const latest = await fetchMessages(conversation.id, visitorIdRef.current);
+        setMessages((prev) => {
+          const merged = mergeMessages(prev, latest);
+          if (merged !== prev && !document.hasFocus()) setHasUnread(true);
+          return merged;
+        });
+      } catch {
+        // transient network hiccup — next poll will retry
+      }
+    };
+
+    const interval = setInterval(poll, POLL_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [open, status, conversation]);
+
   useEffect(() => {
     if (open) setHasUnread(false);
   }, [open]);
@@ -76,15 +96,16 @@ export default function LiveChat() {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = (text) => {
+  const sendMessage = async (text) => {
     const trimmed = text.trim();
     if (!trimmed || !conversation) return;
-    getChatSocket().emit("visitor:message", {
-      visitorId: visitorIdRef.current,
-      conversationId: conversation.id,
-      text: trimmed,
-    });
     setInput("");
+    try {
+      const { messages: added } = await sendVisitorMessage(visitorIdRef.current, conversation.id, trimmed);
+      setMessages((prev) => mergeMessages(prev, added));
+    } catch {
+      setInput(trimmed);
+    }
   };
 
   const online = isOfficeHoursNow();

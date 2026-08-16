@@ -10,8 +10,7 @@
     "preview": "vite preview",
     "start": "node server/server.js",
     "server": "node server/server.js",
-    "sitemap": "node scripts/generate-sitemap.mjs",
-    "reviews:refresh": "python scripts/scrape_google_reviews.py"
+    "sitemap": "node scripts/generate-sitemap.mjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -27,9 +26,7 @@
     "react-fast-marquee": "^1.6.5",
     "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.28.0",
-    "resend": "^4.0.1",
-    "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "resend": "^4.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ExternalLink, LoaderCircle, Star, Quote, ThumbsUp } from "lucide-react";
 import Container from "./Container";
 import TechMeshBg from "./TechMeshBg";
+import { API_BASE_URL } from "../lib/api";
 
 function GoogleLogo({ className = "" }) {
   return (
@@ -15,18 +16,7 @@ function GoogleLogo({ className = "" }) {
   );
 }
 
-const DEFAULT_API_BASE_URL = "https://it-meta-solutions.onrender.com";
 const FALLBACK_GOOGLE_MAPS_URL = "https://maps.app.goo.gl/5LmmNhuWXgWUiA1L6";
-
-function getApiBaseUrl() {
-  const envBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "");
-  if (envBaseUrl) return envBaseUrl;
-  if (typeof window !== "undefined") {
-    const host = window.location.hostname;
-    if (host === "localhost" || host === "127.0.0.1") return "http://localhost:3001";
-  }
-  return DEFAULT_API_BASE_URL;
-}
 
 function formatReviewDate(value) {
   if (!value) return "";
@@ -140,7 +130,7 @@ export default function GoogleReviewsSection({
     let mounted = true;
     async function load() {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/api/google-reviews`);
+        const res = await fetch(`${API_BASE_URL}/api/google-reviews`);
         if (!res.ok) throw new Error("API error");
         const data = await res.json();
         if (mounted) setState({ loading: false, error: null, data });
