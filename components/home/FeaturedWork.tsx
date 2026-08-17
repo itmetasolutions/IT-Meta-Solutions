@@ -1,11 +1,113 @@
+"use client";
+
+import { useRef } from "react";
 import Link from "next/link";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useGSAP } from "@gsap/react";
 import { projects } from "@/content/projects";
 import { ProjectVisual } from "@/components/work/ProjectVisual";
 import { SplitTextReveal } from "@/components/motion/SplitTextReveal";
 import { MagneticButton } from "@/components/motion/MagneticButton";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import styles from "./FeaturedWork.module.scss";
 
+// Scroll distance the pinned section consumes per card transition, and the
+// vertical peek offset between stacked cards — tuned per breakpoint so the
+// interaction stays proportional on smaller screens rather than just
+// shrinking the same numbers.
+const DESKTOP = { scrollPerCard: 700, stackGap: 26 };
+const TABLET = { scrollPerCard: 480, stackGap: 16 };
+
 export function FeaturedWork() {
+  const stackWrapRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<HTMLElement[]>([]);
+  const reducedMotion = useReducedMotion();
+
+  useGSAP(
+    () => {
+      if (reducedMotion || !stackWrapRef.current) return;
+      const cards = cardRefs.current.filter(Boolean);
+      if (cards.length < 2) return;
+
+      const mm = gsap.matchMedia();
+
+      // matchMedia().add() only fires its callback immediately if at least
+      // one condition currently matches — isDesktop closes the gap so the
+      // default (widest) viewport isn't silently skipped on load.
+      mm.add(
+        {
+          isMobile: "(max-width: 767px)",
+          isTablet: "(min-width: 768px) and (max-width: 1023px)",
+          isDesktop: "(min-width: 1024px)",
+        },
+        (context) => {
+          const { isMobile, isTablet } = context.conditions as {
+            isMobile: boolean;
+            isTablet: boolean;
+          };
+
+          // Mobile: normal scrolling flow, no pin — clear any transforms a
+          // previous (wider) breakpoint may have left behind.
+          if (isMobile) {
+            gsap.set(cards, { clearProps: "all" });
+            return;
+          }
+
+          const { scrollPerCard, stackGap } = isTablet ? TABLET : DESKTOP;
+
+          const header = document.querySelector("header");
+          const headerOffset = (header?.getBoundingClientRect().height ?? 80) + 24;
+          const cardHeight = cards[0]!.offsetHeight;
+          // +24px so the frontmost card's box-shadow isn't clipped by the
+          // overflow:hidden that keeps waiting cards from bleeding into view.
+          const shadowBuffer = 24;
+
+          gsap.set(stackWrapRef.current, {
+            height: cardHeight + stackGap * (cards.length - 1) + shadowBuffer,
+          });
+          gsap.set(cards, { zIndex: (i: number) => i + 1 });
+          gsap.set(cards[0]!, { y: 0 });
+          gsap.set(cards.slice(1), { y: "100%" });
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: stackWrapRef.current,
+              start: () => `top ${headerOffset}px`,
+              end: () => `+=${(cards.length - 1) * scrollPerCard}`,
+              pin: true,
+              // Exact (no lag) scrub: the pin only releases once the raw
+              // scroll position reaches the end, so unpinning must coincide
+              // exactly with the last card's tween reaching its final
+              // value — any smoothing lag here would let the pin release
+              // a few pixels before the card visually finishes settling.
+              scrub: true,
+              invalidateOnRefresh: true,
+              anticipatePin: 1,
+            },
+          });
+
+          cards.slice(1).forEach((card, idx) => {
+            const i = idx + 1;
+            tl.fromTo(card, { y: "100%" }, { y: i * stackGap, duration: 1, ease: "none" });
+          });
+
+          return () => {
+            gsap.set(cards, { clearProps: "all" });
+          };
+        }
+      );
+
+      const onLoad = () => ScrollTrigger.refresh();
+      window.addEventListener("load", onLoad);
+
+      return () => {
+        window.removeEventListener("load", onLoad);
+        mm.revert();
+      };
+    },
+    { dependencies: [reducedMotion], scope: stackWrapRef }
+  );
+
   return (
     <section className={styles.section}>
       <div className={styles.intro}>
@@ -18,17 +120,20 @@ export function FeaturedWork() {
         />
       </div>
 
-      <div className={styles.list}>
+      <div className={styles.stackWrap} ref={stackWrapRef}>
         {projects.map((project, i) => (
           <article
             key={project.slug}
-            className={`${styles.row} ${i % 2 === 1 ? styles.rowReverse : ""}`}
+            className={styles.card}
+            ref={(el) => {
+              if (el) cardRefs.current[i] = el;
+            }}
           >
-            <div className={styles.visual}>
-              <ProjectVisual project={project} />
+            <div className={styles.cardVisual}>
+              <ProjectVisual project={project} reveal={false} />
             </div>
 
-            <div className={styles.info}>
+            <div className={styles.cardInfo}>
               <span className={styles.index}>{String(i + 1).padStart(2, "0")}</span>
               <h3 className={styles.title}>{project.title}</h3>
               <div className={styles.tags}>

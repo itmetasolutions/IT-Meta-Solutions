@@ -26,43 +26,67 @@
   line-height: 1.04;
 }
 
-.list {
+// Mobile: normal flowing stack, one full-width card after another — no
+// pin, no overlap. Tablet/desktop switch to absolute-positioned cards
+// whose height and stacked offsets are driven by FeaturedWork.tsx's
+// GSAP ScrollTrigger (pin + scrub), see DESKTOP/TABLET constants there.
+.stackWrap {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: t.$space-9;
+  gap: t.$space-6;
+  margin-top: t.$space-2;
+
+  @include m.bp(md) {
+    display: block;
+    // Cards waiting their turn sit just below the stack at y:100% — this
+    // clips them so they don't visually bleed into view before their
+    // slide-up animation starts.
+    overflow: hidden;
+  }
 }
 
-.row {
+.card {
+  position: static;
   display: grid;
   grid-template-columns: 1fr;
-  gap: t.$space-6;
-  align-items: center;
+  background: var(--bg-white);
+  border: 1px solid t.$border-subtle;
+  border-radius: t.$radius-md;
+  box-shadow: 0 20px 50px rgba(17, 17, 17, 0.08);
+  overflow: hidden;
+
+  @include m.bp(md) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20rem;
+    will-change: transform;
+  }
 
   @include m.bp(lg) {
     grid-template-columns: 1.1fr 0.9fr;
-    gap: t.$space-8;
+    height: 24rem;
   }
 }
 
-.rowReverse {
-  @include m.bp(lg) {
-    direction: rtl;
+.cardVisual {
+  position: relative;
+  min-height: 14rem;
 
-    > * {
-      direction: ltr;
-    }
+  @include m.bp(md) {
+    min-height: 0;
   }
 }
 
-.visual {
-  aspect-ratio: 5 / 4;
-}
-
-.info {
+.cardInfo {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
   gap: t.$space-3;
+  padding: t.$space-6;
 }
 
 .index {
