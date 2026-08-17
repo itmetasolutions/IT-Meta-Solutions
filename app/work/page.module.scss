@@ -1,0 +1,28 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.page {
+  @include m.container;
+  padding-top: t.$space-9;
+  padding-bottom: t.$space-9;
+}
+
+.header {
+  max-width: 40rem;
+  margin-bottom: t.$space-7;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-3;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h1;
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+}
