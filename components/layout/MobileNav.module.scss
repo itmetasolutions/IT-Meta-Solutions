@@ -1,0 +1,64 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: t.$z-mobile-nav;
+  background: t.$bg-dark;
+  color: t.$text-on-dark;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(t.$space-9) t.$container-pad t.$space-6;
+  overflow-y: auto;
+
+  @include m.bp(lg) {
+    display: none !important;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-2;
+
+  a {
+    font-family: var(--font-heading);
+    font-size: clamp(2.25rem, 8vw, 3.25rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    display: inline-block;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: t.$space-3;
+  padding-top: t.$space-6;
+  border-top: 1px solid t.$border-subtle-dark;
+}
+
+.cta {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: t.$purple;
+}
+
+.detail {
+  font-size: t.$fs-body;
+  color: t.$text-on-dark-secondary;
+}
+
+.social {
+  display: flex;
+  gap: t.$space-4;
+  margin-top: t.$space-2;
+
+  a {
+    font-size: t.$fs-small;
+    color: t.$text-on-dark-secondary;
+  }
+}

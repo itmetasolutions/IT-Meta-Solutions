@@ -1,0 +1,23 @@
+@use "@/styles/tokens" as t;
+
+.magnetic {
+  display: inline-block;
+}
+
+.hitArea {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-2;
+  will-change: transform;
+}
+
+.arrow {
+  display: inline-block;
+  will-change: transform;
+}

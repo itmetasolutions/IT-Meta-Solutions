@@ -1,0 +1,97 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.section {
+  @include m.container;
+  padding-block: t.$space-9;
+}
+
+.intro {
+  max-width: 36rem;
+  margin-bottom: t.$space-8;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-3;
+}
+
+.intro h2 {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h2;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.timeline {
+  position: relative;
+}
+
+.lineTrack {
+  display: none;
+
+  @include m.bp(lg) {
+    display: block;
+    position: relative;
+    height: 1px;
+    background: t.$border-subtle;
+    margin-bottom: t.$space-6;
+  }
+}
+
+.lineFill {
+  position: absolute;
+  inset: 0;
+  background: t.$purple;
+  transform: scaleX(0);
+}
+
+.stages {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-6;
+
+  @include m.bp(lg) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: t.$space-5;
+  }
+}
+
+.stage {
+  padding-top: t.$space-4;
+  border-top: 1px solid t.$border-subtle;
+  opacity: 0.4;
+  transition: opacity t.$dur-base t.$ease-smooth;
+
+  @include m.bp(lg) {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin-block: t.$space-2;
+  }
+
+  p {
+    font-size: t.$fs-body;
+    color: t.$text-secondary;
+    line-height: 1.5;
+  }
+}
+
+.stageActive {
+  opacity: 1;
+}
+
+.stageIndex {
+  font-size: t.$fs-small;
+  color: t.$purple;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,148 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.section {
+  @include m.container;
+  padding-block: t.$space-9;
+}
+
+.intro {
+  max-width: 40rem;
+  margin-bottom: t.$space-8;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-3;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h1;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.04;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-9;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-6;
+  align-items: center;
+
+  @include m.bp(lg) {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: t.$space-8;
+  }
+}
+
+.rowReverse {
+  @include m.bp(lg) {
+    direction: rtl;
+
+    > * {
+      direction: ltr;
+    }
+  }
+}
+
+.visual {
+  aspect-ratio: 5 / 4;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: t.$space-3;
+}
+
+.index {
+  font-size: t.$fs-small;
+  color: t.$text-secondary;
+  font-variant-numeric: tabular-nums;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h2;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-2;
+
+  span {
+    @include m.eyebrow;
+    color: t.$text-secondary;
+    border: 1px solid t.$border-subtle;
+    border-radius: t.$radius-full;
+    padding: 4px t.$space-3;
+  }
+}
+
+.summary {
+  font-family: var(--font-body);
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  max-width: 30rem;
+  line-height: 1.5;
+}
+
+.results {
+  display: flex;
+  gap: t.$space-6;
+  margin-top: t.$space-2;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.resultValue {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.resultLabel {
+  font-size: t.$fs-small;
+  color: t.$text-secondary;
+}
+
+.link {
+  margin-top: t.$space-3;
+
+  a {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    border-bottom: 1px solid t.$text-primary;
+    padding-bottom: 2px;
+  }
+}
+
+.footer {
+  margin-top: t.$space-9;
+  text-align: center;
+}
+
+.viewAll {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.125rem;
+  border-bottom: 1px solid t.$text-primary;
+  padding-bottom: 2px;
+}

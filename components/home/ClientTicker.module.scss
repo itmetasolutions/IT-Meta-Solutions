@@ -1,0 +1,42 @@
+@use "@/styles/tokens" as t;
+
+.ticker {
+  border-top: 1px solid t.$border-subtle;
+  border-bottom: 1px solid t.$border-subtle;
+  overflow: hidden;
+  padding-block: t.$space-4;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: scroll 32s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.item {
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: t.$text-secondary;
+  white-space: nowrap;
+  padding-inline: t.$space-6;
+
+  &::after {
+    content: "—";
+    margin-left: t.$space-6;
+    color: t.$border-subtle;
+  }
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

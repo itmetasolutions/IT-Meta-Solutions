@@ -1,0 +1,53 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.section {
+  @include m.container;
+  background: t.$bg-dark;
+  color: t.$text-on-dark;
+  max-width: none;
+  padding-block: t.$space-9;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$text-on-dark-secondary;
+  display: block;
+  margin-bottom: t.$space-6;
+  max-width: t.$container-max;
+  margin-inline: auto;
+}
+
+.grid {
+  max-width: t.$container-max;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-7;
+
+  @include m.bp(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-2;
+  border-top: 1px solid t.$border-subtle-dark;
+  padding-top: t.$space-4;
+}
+
+.value {
+  font-family: var(--font-heading);
+  font-size: t.$fs-stat;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.label {
+  font-size: t.$fs-body;
+  color: t.$text-on-dark-secondary;
+  max-width: 14rem;
+}

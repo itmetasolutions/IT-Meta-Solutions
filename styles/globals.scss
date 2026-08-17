@@ -1,0 +1,112 @@
+@use "tokens" as t;
+
+:root {
+  --bg-cream: #{t.$bg-cream};
+  --bg-white: #{t.$bg-white};
+  --bg-dark: #{t.$bg-dark};
+  --text-primary: #{t.$text-primary};
+  --text-secondary: #{t.$text-secondary};
+  --purple: #{t.$purple};
+  --purple-deep: #{t.$purple-deep};
+  --border-subtle: #{t.$border-subtle};
+
+  // Overridden per-project by inline style where a section needs its own accent
+  --project-accent: #{t.$purple};
+
+  --ease-smooth: #{t.$ease-smooth};
+  --ease-expo: #{t.$ease-expo};
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--bg-cream);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 3px;
+}
+
+// Desktop-only custom cursor hides the native one; touch/coarse pointers
+// (mobile, tablets) always keep the native cursor.
+@media (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

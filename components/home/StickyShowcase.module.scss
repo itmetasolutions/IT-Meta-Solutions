@@ -1,0 +1,112 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.section {
+  @include m.container;
+  padding-block: t.$space-9;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-7;
+
+  @include m.bp(lg) {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: t.$space-9;
+  }
+}
+
+.sticky {
+  @include m.bp(lg) {
+    position: sticky;
+    top: 7rem;
+    align-self: start;
+    height: fit-content;
+  }
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: block;
+  margin-bottom: t.$space-4;
+}
+
+.panel {
+  border-radius: t.$radius-md;
+  padding: t.$space-6;
+  min-height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  height: 2.5rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.stageLabel {
+  display: flex;
+  align-items: baseline;
+  gap: t.$space-3;
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.stageIndex {
+  font-size: t.$fs-small;
+  font-weight: 500;
+  color: t.$text-secondary;
+}
+
+.cta {
+  margin-top: t.$space-5;
+
+  a {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    border-bottom: 1px solid t.$text-primary;
+    padding-bottom: 2px;
+  }
+}
+
+.stages {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: t.$space-3;
+  opacity: 0.35;
+  transition: opacity t.$dur-base t.$ease-smooth;
+  max-width: 34rem;
+
+  p {
+    font-family: var(--font-body);
+    font-size: t.$fs-body-lg;
+    line-height: 1.55;
+    color: t.$text-secondary;
+  }
+}
+
+.stageActive {
+  opacity: 1;
+
+  p {
+    color: t.$text-primary;
+  }
+}
+
+.stageEyebrow {
+  @include m.eyebrow;
+  color: t.$text-secondary;
+}

@@ -1,0 +1,137 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.hero {
+  @include m.container;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: t.$space-7;
+  padding-top: t.$space-9;
+  padding-bottom: t.$space-7;
+  position: relative;
+
+  @include m.bp(lg) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.text {
+  max-width: 44rem;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-4;
+}
+
+.headline {
+  font-family: var(--font-heading);
+  font-size: t.$fs-display;
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: t.$text-primary;
+}
+
+.sub {
+  font-family: var(--font-body);
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  max-width: 32rem;
+  margin-top: t.$space-5;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: t.$space-4;
+  margin-top: t.$space-6;
+}
+
+.primaryCta a {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-2;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  background: t.$text-primary;
+  padding: t.$space-3 t.$space-5;
+  border-radius: t.$radius-full;
+}
+
+.secondaryCta a {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  color: t.$text-primary;
+  padding: t.$space-3 t.$space-5;
+  border-radius: t.$radius-full;
+  border: 1px solid t.$border-subtle;
+}
+
+.visual {
+  position: relative;
+  display: none;
+  width: 24rem;
+  height: 28rem;
+  flex-shrink: 0;
+
+  @include m.bp(lg) {
+    display: block;
+  }
+}
+
+.card {
+  position: absolute;
+  width: 15rem;
+  height: 10rem;
+  border-radius: t.$radius-md;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: t.$space-4;
+  box-shadow: 0 30px 60px rgba(17, 17, 17, 0.12);
+  will-change: transform;
+
+  // Staggered enough that no card's top (logo) area sits under the card
+  // in front of it — only a slim edge overlaps, not the content.
+  &:nth-child(1) {
+    top: 0;
+    right: 0;
+  }
+  &:nth-child(2) {
+    top: 8.5rem;
+    right: 5rem;
+  }
+  &:nth-child(3) {
+    top: 17rem;
+    right: -2rem;
+  }
+}
+
+.cardLogo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+
+.cardTitle {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.cardCategory {
+  @include m.eyebrow;
+  color: t.$text-secondary;
+}
