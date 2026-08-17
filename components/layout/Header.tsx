@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 import { MegaMenu } from "./MegaMenu";
 import { MobileNav } from "./MobileNav";
 import { MagneticButton } from "@/components/motion/MagneticButton";
@@ -47,19 +48,23 @@ export function Header() {
 
   return (
     <>
-      <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
+      <header
+        className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}
+        onMouseLeave={scheduleClose}
+      >
         <div className={styles.bar}>
           <Link href="/" className={styles.logo} onClick={() => setMegaOpen(false)}>
             <Image src="/brand/itms-logo.webp" alt="IT Meta Solutions" width={400} height={100} priority />
           </Link>
 
-          <nav className={styles.nav} onMouseLeave={scheduleClose}>
+          <nav className={styles.nav}>
             <ul>
               {primaryNav.map((item) =>
                 item.label === "Services" ? (
                   <li key={item.href} onMouseEnter={openMega} onFocus={openMega}>
-                    <Link href={item.href} aria-haspopup="true" aria-expanded={megaOpen}>
+                    <Link href={item.href} aria-haspopup="true" aria-expanded={megaOpen} className={styles.hasDropdown}>
                       {item.label}
+                      <ChevronDown size={14} className={`${styles.chevron} ${megaOpen ? styles.chevronOpen : ""}`} />
                     </Link>
                   </li>
                 ) : (
@@ -69,8 +74,9 @@ export function Header() {
                 )
               )}
             </ul>
-            <MegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} />
           </nav>
+
+          <MegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} />
 
           <div className={styles.actions}>
             <MagneticButton href="/contact" className={styles.cta} arrow>

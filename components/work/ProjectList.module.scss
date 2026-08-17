@@ -81,7 +81,9 @@
   aspect-ratio: 4 / 3;
   border-radius: t.$radius-md;
   overflow: hidden;
-  transform: translate(-50%, -50%);
+  // Centering (xPercent/yPercent) and live tracking (x/y) are both set via
+  // GSAP in ProjectList.tsx — no CSS transform here, so GSAP owns it fully
+  // from a clean, unambiguous starting point.
   pointer-events: none;
   opacity: 0;
   transition: opacity t.$dur-fast t.$ease-smooth;

@@ -1,6 +1,9 @@
 @use "@/styles/tokens" as t;
 @use "@/styles/mixins" as m;
 
+// position: fixed here also serves as the containing block for MegaMenu's
+// position: absolute — it needs to span/center on the full header width,
+// not the narrow <nav> element it's triggered from.
 .header {
   position: fixed;
   top: 0;
@@ -49,7 +52,6 @@
 }
 
 .nav {
-  position: relative;
   display: none;
 
   @include m.bp(lg) {
@@ -84,6 +86,20 @@
       right: 0;
     }
   }
+}
+
+.hasDropdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chevron {
+  transition: transform t.$dur-fast t.$ease-smooth;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
 }
 
 .actions {

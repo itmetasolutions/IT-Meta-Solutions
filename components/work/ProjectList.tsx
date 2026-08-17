@@ -15,13 +15,20 @@ export function ProjectList() {
   const canHover = useMediaQuery("(pointer: fine)");
   const quick = useRef<{ x: (v: number) => void; y: (v: number) => void } | null>(null);
 
-  useGSAP(() => {
-    if (!previewRef.current) return;
-    quick.current = {
-      x: gsap.quickTo(previewRef.current, "x", { duration: 0.5, ease: "power3.out" }),
-      y: gsap.quickTo(previewRef.current, "y", { duration: 0.5, ease: "power3.out" }),
-    };
-  }, []);
+  useGSAP(
+    () => {
+      if (!previewRef.current) return;
+      // xPercent/yPercent handle the centering-on-cursor offset as a
+      // separate transform component from the animated x/y translation,
+      // so quickTo's per-frame `x`/`y` writes don't clobber it.
+      gsap.set(previewRef.current, { xPercent: -50, yPercent: -50 });
+      quick.current = {
+        x: gsap.quickTo(previewRef.current, "x", { duration: 0.5, ease: "power3.out" }),
+        y: gsap.quickTo(previewRef.current, "y", { duration: 0.5, ease: "power3.out" }),
+      };
+    },
+    { dependencies: [canHover] }
+  );
 
   const onMouseMove = (e: React.MouseEvent) => {
     quick.current?.x(e.clientX);
