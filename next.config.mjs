@@ -18,4 +18,10 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:30
+        destination: "http://localhost:3001/api/:path*",
+      },
+    ];
+  },
+};
+
+export default nextConfig;

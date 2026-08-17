@@ -1,0 +1,123 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.section {
+  @include m.container;
+  padding-block: t.$space-9;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: t.$space-3;
+  margin-bottom: t.$space-7;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+}
+
+.googleLink {
+  font-size: t.$fs-small;
+  font-weight: 600;
+  border-bottom: 1px solid t.$text-primary;
+  padding-bottom: 2px;
+}
+
+.stage {
+  max-width: 46rem;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  color: #f5a623;
+  margin-bottom: t.$space-5;
+}
+
+.quote {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: t.$text-primary;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: t.$space-3;
+  margin-top: t.$space-6;
+
+  strong {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  span {
+    font-size: t.$fs-small;
+    color: t.$text-secondary;
+  }
+}
+
+.avatar {
+  border-radius: t.$radius-full;
+  object-fit: cover;
+}
+
+.avatarFallback {
+  width: 48px;
+  height: 48px;
+  border-radius: t.$radius-full;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$purple;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: t.$space-7;
+  padding-top: t.$space-5;
+  border-top: 1px solid t.$border-subtle;
+  max-width: 46rem;
+}
+
+.counter {
+  font-size: t.$fs-small;
+  color: t.$text-secondary;
+  font-variant-numeric: tabular-nums;
+}
+
+.arrows {
+  display: flex;
+  gap: t.$space-2;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: t.$radius-full;
+    border: 1px solid t.$border-subtle;
+    transition: background t.$dur-fast t.$ease-smooth, border-color t.$dur-fast t.$ease-smooth;
+
+    &:hover {
+      background: t.$bg-dark;
+      border-color: t.$bg-dark;
+      color: #fff;
+    }
+  }
+}

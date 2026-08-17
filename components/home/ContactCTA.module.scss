@@ -1,0 +1,50 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.section {
+  background: t.$purple;
+  color: #fff;
+}
+
+.inner {
+  @include m.container;
+  padding-block: t.$space-8;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: t.$space-4;
+
+  @include m.bp(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: rgba(255, 255, 255, 0.7);
+  display: block;
+  margin-bottom: t.$space-2;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h2;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-2;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  background: #fff;
+  color: t.$purple;
+  padding: t.$space-3 t.$space-5;
+  border-radius: t.$radius-full;
+  white-space: nowrap;
+}

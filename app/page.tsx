@@ -6,6 +6,9 @@ import { ServiceShowcase } from "@/components/home/ServiceShowcase";
 import { Process } from "@/components/home/Process";
 import { Results } from "@/components/home/Results";
 import { ProjectSlider } from "@/components/home/ProjectSlider";
+import { Testimonials } from "@/components/home/Testimonials";
+import { AboutPreview } from "@/components/home/AboutPreview";
+import { ContactCTA } from "@/components/home/ContactCTA";
 
 export default function HomePage() {
   return (
@@ -18,6 +21,9 @@ export default function HomePage() {
       <Process />
       <Results />
       <ProjectSlider />
+      <Testimonials />
+      <AboutPreview />
+      <ContactCTA />
     </>
   );
 }

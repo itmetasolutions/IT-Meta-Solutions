@@ -1,0 +1,48 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.section {
+  @include m.container;
+  padding-block: t.$space-9;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-6;
+
+  @include m.bp(lg) {
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: t.$space-8;
+  }
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h1;
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-4;
+  align-self: end;
+
+  p {
+    font-size: t.$fs-body-lg;
+    color: t.$text-secondary;
+    line-height: 1.5;
+  }
+}
+
+.link {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  width: fit-content;
+  border-bottom: 1px solid t.$text-primary;
+  padding-bottom: 2px;
+}
