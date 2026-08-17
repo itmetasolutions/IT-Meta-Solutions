@@ -5,12 +5,12 @@ import type { Project } from "./types";
 // pages). Numeric results are only shown where a project genuinely has
 // concrete figures; everything else stays qualitative rather than invented.
 //
-// Real product screenshots don't exist yet for any of these six — only two
-// (More Homes Group, Multidatum) have a proven-working Unsplash photo carried
-// over from the current site. The rest render a typographic project panel
-// (logo + theme colour) instead of a photo, so nothing here misrepresents
-// stock imagery as real client work. Swap in real screenshots as they become
-// available — that's the only thing `images` needs updating for.
+// Real product screenshots don't exist yet for any of these six, so every
+// `images` entry here is curated stock (verified working Unsplash URLs,
+// each isPlaceholder: true) chosen to match the project's real industry —
+// never a fabricated "screenshot" standing in for actual client work.
+// Swap in real screenshots as they become available; that's the only thing
+// `images` needs updating for.
 
 export const projects: Project[] = [
   {
@@ -33,7 +33,14 @@ export const projects: Project[] = [
     themeColor: "#1D4ED8",
     themeColorSoft: "#E9EEFC",
     logo: "/brand/clients/inhomes-direct.webp",
-    images: [],
+    images: [
+      {
+        src: "https://images.unsplash.com/photo-1604039619887-415341e31b58?q=80&w=1600&auto=format&fit=crop",
+        alt: "Brown wooden parquet flooring inside a home",
+        kind: "hero",
+        isPlaceholder: true,
+      },
+    ],
     stack: ["Shopify", "Liquid", "Custom JS calculators", "On-page SEO"],
     liveUrl: "https://inhomesdirect.co.uk",
   },
@@ -87,7 +94,14 @@ export const projects: Project[] = [
     themeColor: "#1D4ED8",
     themeColorSoft: "#FBE9F3",
     logo: "/brand/clients/united-muslim-travels.webp",
-    images: [],
+    images: [
+      {
+        src: "https://images.unsplash.com/photo-1784400340561-270c9c240613?q=80&w=1600&auto=format&fit=crop",
+        alt: "Grand mosque arches reflecting on a polished marble floor",
+        kind: "hero",
+        isPlaceholder: true,
+      },
+    ],
     stack: ["Website", "Meta Business Manager", "Meta Pixel", "WhatsApp", "Instagram/Facebook"],
     liveUrl: "https://unitedmuslimtravels.com",
   },
@@ -111,7 +125,14 @@ export const projects: Project[] = [
     themeColor: "#1D4ED8",
     themeColorSoft: "#E4F6FC",
     logo: "/brand/clients/halla-gulla.webp",
-    images: [],
+    images: [
+      {
+        src: "https://images.unsplash.com/photo-1634633989623-69c2398928de?q=80&w=1600&auto=format&fit=crop",
+        alt: "Travellers at Saif-ul-Malook Lake in northern Pakistan",
+        kind: "hero",
+        isPlaceholder: true,
+      },
+    ],
     stack: ["Website", "Meta Business Manager", "WhatsApp lead forms", "Instagram/Facebook"],
     liveUrl: "https://hallagulla.pk",
   },
@@ -165,7 +186,14 @@ export const projects: Project[] = [
     themeColor: "#1D4ED8",
     themeColorSoft: "#E9F7EF",
     logo: "/brand/clients/hikmabiotics.webp",
-    images: [],
+    images: [
+      {
+        src: "https://images.unsplash.com/photo-1704694671866-f83e0b91df09?q=80&w=1600&auto=format&fit=crop",
+        alt: "Row of natural supplement and vitamin bottles",
+        kind: "hero",
+        isPlaceholder: true,
+      },
+    ],
     stack: ["Ecommerce (PK + UK)", "Meta Pixel", "Purchase-event tracking"],
     liveUrl: "https://hikmabiotics.com",
   },

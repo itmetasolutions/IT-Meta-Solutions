@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { MegaMenu } from "./MegaMenu";
 import { MobileNav } from "./MobileNav";
 import { MagneticButton } from "@/components/motion/MagneticButton";
@@ -48,8 +49,8 @@ export function Header() {
     <>
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
         <div className={styles.bar}>
-          <Link href="/" className={styles.wordmark} onClick={() => setMegaOpen(false)}>
-            IT META
+          <Link href="/" className={styles.logo} onClick={() => setMegaOpen(false)}>
+            <Image src="/brand/itms-logo.webp" alt="IT Meta Solutions" width={400} height={100} priority />
           </Link>
 
           <nav className={styles.nav} onMouseLeave={scheduleClose}>

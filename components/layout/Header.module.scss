@@ -20,30 +20,32 @@
   justify-content: space-between;
   padding: t.$space-2 t.$space-2 t.$space-2 t.$space-4;
   border-radius: t.$radius-full;
-  background: transparent;
-  border: 1px solid transparent;
+  background: rgba(17, 17, 17, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid t.$border-subtle-dark;
+  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.14);
   transition:
     background t.$dur-base t.$ease-smooth,
-    border-color t.$dur-base t.$ease-smooth,
     box-shadow t.$dur-base t.$ease-smooth,
     max-width t.$dur-base t.$ease-smooth;
 }
 
 .scrolled .bar {
-  background: rgba(244, 242, 238, 0.78);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-color: t.$border-subtle;
-  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.08);
+  background: rgba(17, 17, 17, 0.92);
+  box-shadow: 0 16px 40px rgba(17, 17, 17, 0.28);
   max-width: 1100px;
 }
 
-.wordmark {
-  font-family: var(--font-heading);
-  font-size: 1.0625rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: t.$text-primary;
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  img {
+    height: 30px;
+    width: auto;
+  }
 }
 
 .nav {
@@ -63,7 +65,7 @@
   a {
     font-size: t.$fs-small;
     font-weight: 500;
-    color: t.$text-primary;
+    color: t.$text-on-dark;
     padding: t.$space-1 0;
     position: relative;
 
@@ -116,7 +118,8 @@
   width: 42px;
   height: 42px;
   border-radius: t.$radius-full;
-  background: t.$bg-dark;
+  background: rgba(244, 242, 238, 0.1);
+  border: 1px solid t.$border-subtle-dark;
 
   @include m.bp(lg) {
     display: none;

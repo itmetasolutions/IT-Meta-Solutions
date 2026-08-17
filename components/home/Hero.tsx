@@ -81,14 +81,25 @@ export function Hero() {
               zIndex: stack.length - i,
             }}
           >
-            {project.logo ? (
+            {project.images[0] ? (
+              <Image
+                src={project.images[0].src}
+                alt={project.images[0].alt}
+                fill
+                sizes="260px"
+                className={styles.cardImage}
+              />
+            ) : project.logo ? (
               <Image src={project.logo} alt="" width={140} height={40} className={styles.cardLogo} />
             ) : (
               <span className={styles.cardTitle} style={{ color: project.themeColor }}>
                 {project.title}
               </span>
             )}
-            <span className={styles.cardCategory}>{project.category[0]}</span>
+            <span className={styles.cardLabel}>
+              <strong>{project.title}</strong>
+              <span>{project.category[0]}</span>
+            </span>
           </div>
         ))}
       </div>

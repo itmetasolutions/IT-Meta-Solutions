@@ -34,33 +34,32 @@
 }
 
 .panel {
+  position: relative;
   border-radius: t.$radius-md;
-  padding: t.$space-6;
-  min-height: 20rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.logo {
-  height: 2.5rem;
-  width: auto;
-  object-fit: contain;
+  overflow: hidden;
+  min-height: 22rem;
+  aspect-ratio: 4 / 3;
 }
 
 .stageLabel {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
   display: flex;
   align-items: baseline;
   gap: t.$space-3;
+  padding: t.$space-5 t.$space-6;
+  background: linear-gradient(0deg, rgba(17, 17, 17, 0.6), transparent);
   font-family: var(--font-heading);
   font-size: 1.75rem;
   font-weight: 600;
+  color: #fff;
 }
 
 .stageIndex {
   font-size: t.$fs-small;
   font-weight: 500;
-  color: t.$text-secondary;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .cta {

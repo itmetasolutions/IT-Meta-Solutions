@@ -96,10 +96,7 @@
   width: 15rem;
   height: 10rem;
   border-radius: t.$radius-md;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: t.$space-4;
+  overflow: hidden;
   box-shadow: 0 30px 60px rgba(17, 17, 17, 0.12);
   will-change: transform;
 
@@ -119,19 +116,47 @@
   }
 }
 
+.cardImage {
+  object-fit: cover;
+}
+
 .cardLogo {
+  position: absolute;
+  top: t.$space-4;
+  left: t.$space-4;
   height: 28px;
   width: auto;
   object-fit: contain;
 }
 
 .cardTitle {
+  position: absolute;
+  top: t.$space-4;
+  left: t.$space-4;
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: 1.125rem;
 }
 
-.cardCategory {
-  @include m.eyebrow;
-  color: t.$text-secondary;
+.cardLabel {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: t.$space-3 t.$space-4;
+  background: linear-gradient(0deg, rgba(17, 17, 17, 0.6), transparent);
+
+  strong {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+  }
+
+  span {
+    @include m.eyebrow;
+    color: rgba(255, 255, 255, 0.8);
+  }
 }

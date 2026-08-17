@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { getProject } from "@/content/projects";
+import { ProjectVisual } from "@/components/work/ProjectVisual";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import styles from "./StickyShowcase.module.scss";
 
@@ -44,10 +44,8 @@ export function StickyShowcase() {
       <div className={styles.grid}>
         <div className={styles.sticky}>
           <span className={styles.eyebrow}>Inside a project</span>
-          <div className={styles.panel} style={{ background: project.themeColorSoft }}>
-            {project.logo && (
-              <Image src={project.logo} alt={project.client} width={200} height={56} className={styles.logo} />
-            )}
+          <div className={styles.panel}>
+            <ProjectVisual project={project} reveal={false} sizes="480px" />
             <div className={styles.stageLabel}>
               <span className={styles.stageIndex}>{String(active + 1).padStart(2, "0")}</span>
               <span>{stages[active]!.label}</span>

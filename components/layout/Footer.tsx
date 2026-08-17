@@ -30,8 +30,8 @@ export function Footer() {
           <Image
             src="/brand/itms-logo.webp"
             alt="IT Meta Solutions"
-            width={220}
-            height={55}
+            width={400}
+            height={100}
             className={styles.logo}
           />
           <div className={styles.stats}>
