@@ -1,0 +1,163 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.hero {
+  @include m.container;
+  padding-top: t.$space-9;
+  padding-bottom: t.$space-7;
+  max-width: 44rem;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-3;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h1;
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+}
+
+.overview {
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  margin-top: t.$space-5;
+  line-height: 1.55;
+}
+
+.section {
+  @include m.container;
+  padding-block: t.$space-7;
+  border-top: 1px solid t.$border-subtle;
+}
+
+.sectionLabel {
+  @include m.eyebrow;
+  color: t.$text-secondary;
+  display: block;
+  margin-bottom: t.$space-5;
+}
+
+.capabilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-3;
+
+  li {
+    font-family: var(--font-heading);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    border: 1px solid t.$border-subtle;
+    border-radius: t.$radius-full;
+    padding: t.$space-2 t.$space-4;
+  }
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-6;
+
+  @include m.bp(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.projectCard {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-3;
+}
+
+.projectVisual {
+  aspect-ratio: 4 / 3;
+  border-radius: t.$radius-md;
+  overflow: hidden;
+}
+
+.projectInfo {
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  span {
+    font-size: t.$fs-small;
+    color: t.$text-secondary;
+  }
+}
+
+.processList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-4;
+
+  @include m.bp(md) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  li {
+    display: flex;
+    align-items: baseline;
+    gap: t.$space-2;
+  }
+
+  span {
+    font-size: t.$fs-small;
+    color: t.$purple;
+    font-weight: 600;
+  }
+
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 1.0625rem;
+    font-weight: 500;
+  }
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-5;
+  max-width: 42rem;
+
+  dt {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    margin-bottom: t.$space-2;
+  }
+
+  dd {
+    font-size: t.$fs-body;
+    color: t.$text-secondary;
+    line-height: 1.5;
+  }
+}
+
+.cta {
+  @include m.container;
+  padding-block: t.$space-8;
+  border-top: 1px solid t.$border-subtle;
+  display: flex;
+  justify-content: center;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: t.$space-2;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    background: t.$text-primary;
+    color: #fff;
+    padding: t.$space-3 t.$space-6;
+    border-radius: t.$radius-full;
+  }
+}

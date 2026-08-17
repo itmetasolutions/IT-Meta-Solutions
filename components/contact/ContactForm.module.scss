@@ -1,0 +1,137 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-6;
+  max-width: 40rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-5;
+
+  @include m.bp(sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-2;
+
+  span {
+    @include m.eyebrow;
+    color: t.$text-secondary;
+  }
+
+  input,
+  textarea {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    color: t.$text-primary;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid t.$border-subtle;
+    padding-block: t.$space-2;
+    transition: border-color t.$dur-fast t.$ease-smooth;
+    resize: vertical;
+
+    &::placeholder {
+      color: t.$text-secondary;
+      opacity: 0.6;
+    }
+
+    &:focus {
+      border-color: t.$purple;
+    }
+  }
+}
+
+.pillGroup,
+.selectField {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-2;
+
+  legend {
+    @include m.eyebrow;
+    color: t.$text-secondary;
+    padding: 0;
+    margin-bottom: t.$space-1;
+  }
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-2;
+}
+
+.pill {
+  font-size: t.$fs-small;
+  font-weight: 500;
+  color: t.$text-primary;
+  border: 1px solid t.$border-subtle;
+  border-radius: t.$radius-full;
+  padding: t.$space-1 t.$space-3;
+  transition: background t.$dur-fast t.$ease-smooth, color t.$dur-fast t.$ease-smooth, border-color t.$dur-fast t.$ease-smooth;
+
+  &:hover {
+    border-color: t.$purple;
+  }
+}
+
+.pillActive {
+  background: t.$purple;
+  border-color: t.$purple;
+  color: #fff;
+}
+
+.error {
+  font-size: t.$fs-small;
+  color: #c0392b;
+}
+
+.submit {
+  align-self: flex-start;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  color: #fff;
+  background: t.$text-primary;
+  padding: t.$space-3 t.$space-6;
+  border-radius: t.$radius-full;
+  transition: background t.$dur-fast t.$ease-smooth, opacity t.$dur-fast t.$ease-smooth;
+
+  &:hover:not(:disabled) {
+    background: t.$purple;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.success {
+  max-width: 30rem;
+
+  h2 {
+    font-family: var(--font-heading);
+    font-size: t.$fs-h2;
+    font-weight: 600;
+    margin-bottom: t.$space-3;
+  }
+
+  p {
+    font-size: t.$fs-body-lg;
+    color: t.$text-secondary;
+  }
+}

@@ -1,0 +1,131 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.page {
+  @include m.container;
+  padding-top: t.$space-9;
+  padding-bottom: t.$space-9;
+}
+
+.header {
+  max-width: 42rem;
+  margin-bottom: t.$space-8;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-3;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h1;
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+}
+
+.sub {
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  margin-top: t.$space-5;
+  max-width: 36rem;
+  line-height: 1.5;
+}
+
+.section {
+  padding-block: t.$space-7;
+  border-top: 1px solid t.$border-subtle;
+}
+
+.sectionLabel {
+  @include m.eyebrow;
+  color: t.$text-secondary;
+  display: block;
+  margin-bottom: t.$space-5;
+}
+
+.processList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-5;
+
+  @include m.bp(md) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-2;
+  }
+
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: t.$fs-body;
+    color: t.$text-secondary;
+    line-height: 1.5;
+  }
+}
+
+.processIndex {
+  font-size: t.$fs-small;
+  color: t.$purple;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.marketsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-5;
+
+  @include m.bp(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: t.$space-2;
+  }
+
+  p {
+    font-size: t.$fs-body;
+    color: t.$text-secondary;
+  }
+}
+
+.teamNote {
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  max-width: 36rem;
+  line-height: 1.5;
+}
+
+.cta {
+  padding-top: t.$space-8;
+  display: flex;
+  justify-content: center;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: t.$space-2;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    background: t.$text-primary;
+    color: #fff;
+    padding: t.$space-3 t.$space-6;
+    border-radius: t.$radius-full;
+  }
+}

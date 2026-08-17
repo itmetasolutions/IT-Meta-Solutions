@@ -1,0 +1,80 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.page {
+  @include m.container;
+  padding-top: t.$space-9;
+  padding-bottom: t.$space-9;
+}
+
+.header {
+  max-width: 40rem;
+  margin-bottom: t.$space-8;
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-3;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h1;
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+}
+
+.sub {
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  margin-top: t.$space-4;
+  max-width: 32rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-8;
+
+  @include m.bp(lg) {
+    grid-template-columns: 1fr 18rem;
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-6;
+  padding-top: t.$space-2;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-1;
+  }
+
+  a,
+  p {
+    font-size: t.$fs-body;
+    color: t.$text-primary;
+  }
+
+  a span {
+    color: t.$text-secondary;
+    font-size: t.$fs-small;
+  }
+
+  p {
+    color: t.$text-secondary;
+    line-height: 1.5;
+  }
+}
+
+.detailLabel {
+  @include m.eyebrow;
+  color: t.$text-secondary;
+  margin-bottom: t.$space-1;
+}
