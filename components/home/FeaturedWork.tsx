@@ -15,8 +15,8 @@ import styles from "./FeaturedWork.module.scss";
 // vertical peek offset between stacked cards — tuned per breakpoint so the
 // interaction stays proportional on smaller screens rather than just
 // shrinking the same numbers.
-const DESKTOP = { scrollPerCard: 700, stackGap: 26 };
-const TABLET = { scrollPerCard: 480, stackGap: 16 };
+const DESKTOP = { scrollPerCard: 700, stackGap: 20 };
+const TABLET = { scrollPerCard: 480, stackGap: 14 };
 
 export function FeaturedWork() {
   const stackWrapRef = useRef<HTMLDivElement>(null);
