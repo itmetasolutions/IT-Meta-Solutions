@@ -61,13 +61,17 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 20rem;
+    // min-height, not height: card content (summary length, result count)
+    // varies slightly per project, and this must never clip it — the JS
+    // stacking math measures each card's actual rendered height rather
+    // than assuming this number, so growth here is safe.
+    min-height: 24rem;
     will-change: transform;
   }
 
   @include m.bp(lg) {
     grid-template-columns: 1.1fr 0.9fr;
-    height: 24rem;
+    min-height: 28rem;
   }
 }
 

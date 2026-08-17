@@ -57,7 +57,10 @@ export function FeaturedWork() {
 
           const header = document.querySelector("header");
           const headerOffset = (header?.getBoundingClientRect().height ?? 80) + 24;
-          const cardHeight = cards[0]!.offsetHeight;
+          // Cards use min-height, not a fixed height, so different projects'
+          // content (summary length, result count) can never get clipped —
+          // measure the tallest one actually rendered, not just the first.
+          const cardHeight = Math.max(...cards.map((c) => c.offsetHeight));
           // +24px so the frontmost card's box-shadow isn't clipped by the
           // overflow:hidden that keeps waiting cards from bleeding into view.
           const shadowBuffer = 24;
@@ -67,7 +70,14 @@ export function FeaturedWork() {
           });
           gsap.set(cards, { zIndex: (i: number) => i + 1 });
           gsap.set(cards[0]!, { y: 0 });
-          gsap.set(cards.slice(1), { y: "100%" });
+          // Hidden starting position for not-yet-revealed cards: needs to be
+          // well below the visible viewport. A card's own height (the old
+          // `y: "100%"`, which GSAP resolves against the TARGET's own size,
+          // not the viewport) is nowhere near enough — at ~450px tall that
+          // left the "hidden" card only a few hundred px below card 1, so it
+          // was already peeking into view before any scroll happened. Use
+          // the viewport height instead, which reliably clears it.
+          gsap.set(cards.slice(1), { y: window.innerHeight });
 
           const tl = gsap.timeline({
             scrollTrigger: {
@@ -88,7 +98,11 @@ export function FeaturedWork() {
 
           cards.slice(1).forEach((card, idx) => {
             const i = idx + 1;
-            tl.fromTo(card, { y: "100%" }, { y: i * stackGap, duration: 1, ease: "none" });
+            tl.fromTo(
+              card,
+              { y: window.innerHeight },
+              { y: i * stackGap, duration: 1, ease: "none" }
+            );
           });
 
           return () => {
