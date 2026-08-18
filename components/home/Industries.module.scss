@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: t.$space-5;
-  margin-bottom: t.$space-8;
+  margin-bottom: t.$space-7;
 
   @include m.bp(lg) {
     grid-template-columns: 1.1fr 0.9fr;
@@ -44,105 +44,141 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: t.$space-7;
 
   @include m.bp(lg) {
     grid-template-columns: 1.1fr 0.9fr;
-    gap: t.$space-9;
+    gap: t.$space-8;
   }
 }
 
-.sticky {
+.list {
+  border-top: 1px solid t.$border-subtle;
+
+  li {
+    border-bottom: 1px solid t.$border-subtle;
+  }
+}
+
+.itemButton {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  align-items: baseline;
+  gap: t.$space-3;
+  padding-block: t.$space-4;
+  text-align: left;
+
   @include m.bp(lg) {
+    grid-template-columns: 2.5rem 14rem 1fr;
+    align-items: center;
+    // A little scroll runway per row so the section's auto-highlight (see
+    // Industries.tsx) has room to progress through each industry in turn —
+    // nowhere near a full-viewport pinned stage, just enough to feel
+    // intentional rather than instant.
+    min-height: 14vh;
+  }
+}
+
+.itemIndex {
+  font-size: t.$fs-small;
+  color: t.$text-secondary;
+  font-variant-numeric: tabular-nums;
+}
+
+.itemTitle {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: t.$text-primary;
+  transition: color t.$dur-fast t.$ease-smooth;
+}
+
+.itemActive .itemTitle {
+  color: t.$purple;
+}
+
+.itemShort {
+  display: none;
+  font-size: t.$fs-body;
+  color: t.$text-secondary;
+
+  @include m.bp(lg) {
+    display: block;
+  }
+}
+
+.mobilePreview {
+  display: none;
+  padding-bottom: t.$space-5;
+  padding-left: calc(2.5rem + t.$space-3);
+
+  p {
+    font-size: t.$fs-body;
+    color: t.$text-secondary;
+  }
+
+  @include m.bp(lg) {
+    display: none !important;
+  }
+}
+
+.mobileImage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: t.$radius-md;
+  overflow: hidden;
+  margin-bottom: t.$space-3;
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.itemActive .mobilePreview {
+  display: block;
+}
+
+.desktopPreview {
+  display: none;
+
+  @include m.bp(lg) {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-5;
     position: sticky;
     top: 7rem;
     align-self: start;
-    height: fit-content;
   }
 }
 
-.panel {
+.previewVisual {
   position: relative;
+  aspect-ratio: 4 / 3;
   border-radius: t.$radius-md;
   overflow: hidden;
-  min-height: 22rem;
-  aspect-ratio: 4 / 3;
-  background: t.$bg-dark;
 }
 
-.panelImage {
+.previewImage {
   object-fit: cover;
-  transition: opacity t.$dur-slow t.$ease-smooth;
 }
 
-.stageLabel {
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  display: flex;
-  align-items: baseline;
-  gap: t.$space-3;
-  padding: t.$space-5 t.$space-6;
-  background: linear-gradient(0deg, rgba(17, 17, 17, 0.6), transparent);
-  font-family: var(--font-heading);
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #fff;
-}
-
-.stageIndex {
-  font-size: t.$fs-small;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.stages {
+.previewBody {
   display: flex;
   flex-direction: column;
-}
-
-// Each stage is a <button> (not a div) so clicking/tapping an industry
-// jumps straight to it, in addition to the scroll-driven activation —
-// reset to look like plain text, not a form control.
-.stage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: t.$space-3;
-  min-height: 40vh;
-  padding: 0;
-  border: none;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-  opacity: 0.35;
-  transition: opacity t.$dur-base t.$ease-smooth;
-  max-width: 34rem;
-
-  @include m.bp(lg) {
-    min-height: 60vh;
-  }
+  gap: t.$space-4;
 
   p {
-    font-family: var(--font-body);
     font-size: t.$fs-body-lg;
-    line-height: 1.55;
     color: t.$text-secondary;
+    line-height: 1.5;
   }
 }
 
-.stageActive {
-  opacity: 1;
-
-  p {
-    color: t.$text-primary;
-  }
-}
-
-.stageTitle {
+.previewLink {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
-  color: t.$text-primary;
+  font-size: 1rem;
+  width: fit-content;
+  border-bottom: 1px solid t.$text-primary;
+  padding-bottom: 2px;
 }

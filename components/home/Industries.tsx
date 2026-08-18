@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { SplitTextReveal } from "@/components/motion/SplitTextReveal";
 import styles from "./Industries.module.scss";
 
 const INDUSTRIES = [
   {
+    index: "01",
     title: "E-commerce",
     body: "Product pages, checkout flows and pricing logic built around what you actually sell — not a generic template.",
     image: {
@@ -15,6 +17,7 @@ const INDUSTRIES = [
     },
   },
   {
+    index: "02",
     title: "Real Estate",
     body: "Listings, search and lead capture built for how buyers and tenants actually browse.",
     image: {
@@ -23,6 +26,7 @@ const INDUSTRIES = [
     },
   },
   {
+    index: "03",
     title: "SaaS & Tech",
     body: "Marketing sites and product interfaces that keep pace with how fast your roadmap moves.",
     image: {
@@ -31,6 +35,7 @@ const INDUSTRIES = [
     },
   },
   {
+    index: "04",
     title: "Finance",
     body: "Clear, trustworthy interfaces for products where accuracy and compliance aren't optional.",
     image: {
@@ -39,6 +44,7 @@ const INDUSTRIES = [
     },
   },
   {
+    index: "05",
     title: "Healthcare",
     body: "Patient-facing experiences built around clarity, trust and accessibility.",
     image: {
@@ -47,6 +53,7 @@ const INDUSTRIES = [
     },
   },
   {
+    index: "06",
     title: "Professional Services",
     body: "Sites that turn expertise into inquiries — clear positioning, faster contact.",
     image: {
@@ -55,6 +62,7 @@ const INDUSTRIES = [
     },
   },
   {
+    index: "07",
     title: "Travel & Hospitality",
     body: "Booking flows and campaigns built for how people actually plan and book trips.",
     image: {
@@ -63,6 +71,7 @@ const INDUSTRIES = [
     },
   },
   {
+    index: "08",
     title: "Retail & Fashion",
     body: "Storefronts and campaigns built to make browsing feel as good as the product.",
     image: {
@@ -73,30 +82,30 @@ const INDUSTRIES = [
 ];
 
 export function Industries() {
-  const [active, setActive] = useState(0);
-  const stageRefs = useRef<HTMLButtonElement[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const itemRefs = useRef<HTMLButtonElement[]>([]);
 
+  // Scroll-driven auto-highlight, layered on top of hover/click below —
+  // whichever industry is nearest the vertical center of the viewport
+  // becomes active as the section scrolls past.
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const idx = stageRefs.current.indexOf(entry.target as HTMLButtonElement);
-            if (idx !== -1) setActive(idx);
+            const idx = itemRefs.current.indexOf(entry.target as HTMLButtonElement);
+            if (idx !== -1) setActiveIndex(idx);
           }
         });
       },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
     );
 
-    stageRefs.current.forEach((el) => el && observer.observe(el));
+    itemRefs.current.forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  const selectIndustry = (i: number) => {
-    setActive(i);
-    stageRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
+  const active = INDUSTRIES[activeIndex]!;
 
   return (
     <section className={styles.section}>
@@ -118,42 +127,52 @@ export function Industries() {
       </div>
 
       <div className={styles.grid}>
-        <div className={styles.stages}>
-          {INDUSTRIES.map((industry, i) => (
-            <button
-              key={industry.title}
-              type="button"
-              ref={(el) => {
-                if (el) stageRefs.current[i] = el;
-              }}
-              className={`${styles.stage} ${active === i ? styles.stageActive : ""}`}
-              onClick={() => selectIndustry(i)}
-              aria-pressed={active === i}
-            >
-              <span className={styles.stageTitle}>{industry.title}</span>
-              <p>{industry.body}</p>
-            </button>
-          ))}
-        </div>
+        <ul className={styles.list}>
+          {INDUSTRIES.map((industry, i) => {
+            const isActive = i === activeIndex;
+            return (
+              <li key={industry.title} className={isActive ? styles.itemActive : ""}>
+                <button
+                  type="button"
+                  ref={(el) => {
+                    if (el) itemRefs.current[i] = el;
+                  }}
+                  className={styles.itemButton}
+                  onClick={() => setActiveIndex(i)}
+                  onMouseEnter={() => setActiveIndex(i)}
+                  aria-pressed={isActive}
+                >
+                  <span className={styles.itemIndex}>{industry.index}</span>
+                  <span className={styles.itemTitle}>{industry.title}</span>
+                  <span className={styles.itemShort}>{industry.body}</span>
+                </button>
 
-        <div className={styles.sticky}>
-          <div className={styles.panel}>
-            {INDUSTRIES.map((industry, i) => (
-              <Image
-                key={industry.title}
-                src={industry.image.src}
-                alt={industry.image.alt}
-                fill
-                sizes="480px"
-                className={styles.panelImage}
-                style={{ opacity: active === i ? 1 : 0 }}
-                priority={i === 0}
-              />
-            ))}
-            <div className={styles.stageLabel}>
-              <span className={styles.stageIndex}>{String(active + 1).padStart(2, "0")}</span>
-              <span>{INDUSTRIES[active]!.title}</span>
-            </div>
+                <div className={styles.mobilePreview}>
+                  <div className={styles.mobileImage}>
+                    <Image src={industry.image.src} alt={industry.image.alt} fill sizes="90vw" />
+                  </div>
+                  <p>{industry.body}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className={styles.desktopPreview}>
+          <div className={styles.previewVisual}>
+            <Image
+              src={active.image.src}
+              alt={active.image.alt}
+              fill
+              sizes="30vw"
+              className={styles.previewImage}
+            />
+          </div>
+          <div className={styles.previewBody}>
+            <p>{active.body}</p>
+            <Link href="/contact" className={styles.previewLink}>
+              Start a {active.title.toLowerCase()} project ↗
+            </Link>
           </div>
         </div>
       </div>
