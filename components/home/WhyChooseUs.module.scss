@@ -6,6 +6,41 @@
   padding-block: t.$space-9;
 }
 
+.intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-5;
+  margin-bottom: t.$space-8;
+
+  @include m.bp(lg) {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: t.$space-8;
+    align-items: end;
+  }
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-3;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h1;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.04;
+}
+
+.introBody {
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  line-height: 1.55;
+  max-width: 30rem;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -26,19 +61,18 @@
   }
 }
 
-.eyebrow {
-  @include m.eyebrow;
-  color: t.$purple;
-  display: block;
-  margin-bottom: t.$space-4;
-}
-
 .panel {
   position: relative;
   border-radius: t.$radius-md;
   overflow: hidden;
   min-height: 22rem;
   aspect-ratio: 4 / 3;
+  background: t.$bg-dark;
+}
+
+.panelImage {
+  object-fit: cover;
+  transition: opacity t.$dur-slow t.$ease-smooth;
 }
 
 .stageLabel {
@@ -60,18 +94,6 @@
   font-size: t.$fs-small;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.75);
-}
-
-.cta {
-  margin-top: t.$space-5;
-
-  a {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 1rem;
-    border-bottom: 1px solid t.$text-primary;
-    padding-bottom: 2px;
-  }
 }
 
 .stages {

@@ -7,8 +7,16 @@
 }
 
 .intro {
-  max-width: 40rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-5;
   margin-bottom: t.$space-8;
+
+  @include m.bp(lg) {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: t.$space-8;
+    align-items: end;
+  }
 }
 
 .eyebrow {
@@ -26,9 +34,16 @@
   line-height: 1.04;
 }
 
+.introBody {
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  line-height: 1.55;
+  max-width: 30rem;
+}
+
 // Mobile: normal flowing stack, one full-width card after another — no
 // pin, no overlap. Tablet/desktop switch to absolute-positioned cards
-// whose height and stacked offsets are driven by FeaturedWork.tsx's
+// whose height and stacked offsets are driven by ServicesStack.tsx's
 // GSAP ScrollTrigger (pin + scrub), see DESKTOP/TABLET constants there.
 .stackWrap {
   position: relative;
@@ -61,13 +76,10 @@
     top: 0;
     left: 0;
     right: 0;
-    // min-height, not height: card content (summary length, result count)
-    // varies slightly per project, and this must never clip it — the JS
-    // stacking math measures each card's actual rendered height rather
-    // than assuming this number, so growth here is safe. Kept compact
-    // (with the tighter cardInfo spacing/clamped summary below) so the
-    // full stacked composition fits inside the viewport rather than
-    // running past its bottom edge.
+    // min-height, not height: description length varies slightly per
+    // service, and this must never clip it — the JS stacking math
+    // measures each card's actual rendered height rather than assuming
+    // this number, so growth here is safe.
     min-height: 17rem;
     will-change: transform;
   }
@@ -85,6 +97,10 @@
   @include m.bp(md) {
     min-height: 0;
   }
+}
+
+.cardImage {
+  object-fit: cover;
 }
 
 .cardInfo {
@@ -113,58 +129,22 @@
   letter-spacing: -0.01em;
 }
 
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: t.$space-2;
-
-  span {
-    @include m.eyebrow;
-    color: t.$text-secondary;
-    border: 1px solid t.$border-subtle;
-    border-radius: t.$radius-full;
-    padding: 4px t.$space-3;
-  }
-}
-
 .summary {
   font-family: var(--font-body);
   font-size: 1rem;
   color: t.$text-secondary;
   max-width: 30rem;
   line-height: 1.45;
-  // Clamped so summary length (which varies per project) can't push a
-  // card's natural height past what the stack was sized for.
+  // Clamped so description length (which varies per service) can't push
+  // a card's natural height past what the stack was sized for.
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   overflow: hidden;
 }
 
-.results {
-  display: flex;
-  gap: t.$space-6;
-  margin-top: 0;
-
-  > div {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-.resultValue {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-
-.resultLabel {
-  font-size: t.$fs-small;
-  color: t.$text-secondary;
-}
-
 .link {
-  margin-top: t.$space-3;
+  margin-top: t.$space-2;
 
   a {
     font-family: var(--font-heading);
