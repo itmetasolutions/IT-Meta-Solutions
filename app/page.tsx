@@ -2,7 +2,7 @@ import { Hero } from "@/components/home/Hero";
 import { ClientTicker } from "@/components/home/ClientTicker";
 import { ServicesStack } from "@/components/home/ServicesStack";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
-import { ServiceShowcase } from "@/components/home/ServiceShowcase";
+import { Industries } from "@/components/home/Industries";
 import { Process } from "@/components/home/Process";
 import { Results } from "@/components/home/Results";
 import { ProjectSlider } from "@/components/home/ProjectSlider";
@@ -17,7 +17,7 @@ export default function HomePage() {
       <ClientTicker />
       <ServicesStack />
       <WhyChooseUs />
-      <ServiceShowcase />
+      <Industries />
       <Process />
       <Results />
       <ProjectSlider />

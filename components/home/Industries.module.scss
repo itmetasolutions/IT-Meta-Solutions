@@ -1,0 +1,148 @@
+@use "@/styles/tokens" as t;
+@use "@/styles/mixins" as m;
+
+.section {
+  @include m.container;
+  padding-block: t.$space-9;
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-5;
+  margin-bottom: t.$space-8;
+
+  @include m.bp(lg) {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: t.$space-8;
+    align-items: end;
+  }
+}
+
+.eyebrow {
+  @include m.eyebrow;
+  color: t.$purple;
+  display: inline-block;
+  margin-bottom: t.$space-3;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: t.$fs-h1;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.04;
+}
+
+.introBody {
+  font-size: t.$fs-body-lg;
+  color: t.$text-secondary;
+  line-height: 1.55;
+  max-width: 30rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: t.$space-7;
+
+  @include m.bp(lg) {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: t.$space-9;
+  }
+}
+
+.sticky {
+  @include m.bp(lg) {
+    position: sticky;
+    top: 7rem;
+    align-self: start;
+    height: fit-content;
+  }
+}
+
+.panel {
+  position: relative;
+  border-radius: t.$radius-md;
+  overflow: hidden;
+  min-height: 22rem;
+  aspect-ratio: 4 / 3;
+  background: t.$bg-dark;
+}
+
+.panelImage {
+  object-fit: cover;
+  transition: opacity t.$dur-slow t.$ease-smooth;
+}
+
+.stageLabel {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  align-items: baseline;
+  gap: t.$space-3;
+  padding: t.$space-5 t.$space-6;
+  background: linear-gradient(0deg, rgba(17, 17, 17, 0.6), transparent);
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.stageIndex {
+  font-size: t.$fs-small;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.stages {
+  display: flex;
+  flex-direction: column;
+}
+
+// Each stage is a <button> (not a div) so clicking/tapping an industry
+// jumps straight to it, in addition to the scroll-driven activation —
+// reset to look like plain text, not a form control.
+.stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: t.$space-3;
+  min-height: 40vh;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  opacity: 0.35;
+  transition: opacity t.$dur-base t.$ease-smooth;
+  max-width: 34rem;
+
+  @include m.bp(lg) {
+    min-height: 60vh;
+  }
+
+  p {
+    font-family: var(--font-body);
+    font-size: t.$fs-body-lg;
+    line-height: 1.55;
+    color: t.$text-secondary;
+  }
+}
+
+.stageActive {
+  opacity: 1;
+
+  p {
+    color: t.$text-primary;
+  }
+}
+
+.stageTitle {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: t.$text-primary;
+}
