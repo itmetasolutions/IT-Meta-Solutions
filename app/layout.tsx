@@ -3,6 +3,7 @@ import { Geist, Inter } from "next/font/google";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MetaPixel } from "@/components/analytics/MetaPixel";
 import "@/styles/globals.scss";
 
 const geist = Geist({
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable} ${inter.variable}`}>
       <body>
+        <MetaPixel />
         <SmoothScroll>
           <Header />
           <main>{children}</main>
